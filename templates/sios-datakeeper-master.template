@@ -1,0 +1,639 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 Evaluation and DataKeeper replication software. This template also deploys the required AD architecture outlined in \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+	"Metadata": {
+		"AWS::CloudFormation::Interface": {
+			"ParameterGroups": [{
+				"Label": {
+					"default": "VPC Network Configuration"
+				},
+				"Parameters": [
+					"AvailabilityZones",
+					"NumberOfAZs",
+					"VPCCIDR",
+					"NATInstanceType",
+					"PrivateSubnet1ACIDR",
+					"PrivateSubnet2ACIDR",
+					"PublicSubnet1CIDR",
+					"PublicSubnet2CIDR"
+				]
+			}, {
+				"Label": {
+					"default": "Active Directory Configuration"
+				},
+				"Parameters": [
+					"FullyQualifiedDomainName",
+					"DomainNetBIOSName",
+					"DomainAdminUser",
+					"DomainAdminPassword"
+				]
+			}, {
+				"Label": {
+					"default": "AD Server Configuration"
+				},
+				"Parameters": [
+					"KeyPairName",
+					"RDGWInstanceType",
+					"AD1NetBIOSName",
+					"AD1InstanceType",
+					"AD1PrivateIp",
+					"AD2NetBIOSName",
+					"AD2InstanceType",
+					"AD2PrivateIp"
+				]
+			}, {
+				"Label": {
+					"default": "Replication Node General Configuration"
+				},
+				"Parameters": [
+					"LicenseKeyFtpURL",
+					"WSFCNode1InstanceType",
+					"WSFCNode1NetBIOSName",
+					"WSFCNode2InstanceType",
+					"WSFCNode2NetBIOSName",
+					"SQLServiceAccount",
+					"SQLServiceAccountPassword"
+				]
+			}, {
+				"Label": {
+					"default": "Replication Node Network Configuration"
+				},
+				"Parameters": [
+					"DomainMemberSGID",
+					"WSFCNode1PrivateIp",
+					"WSFCNode1ClusterPrivateIp",
+					"WSFCNode1SQLServerIp",
+					"WSFCNode2PrivateIp",
+					"WSFCNode2ClusterPrivateIp",
+					"WSFCNode2SQLServerPrivateIp"
+				]
+			}]
+		}
+	},
+	"Parameters": {
+		"AvailabilityZones": {
+			"Description": "ONLY SELECT TWO. List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved.",
+			"Type": "List<AWS::EC2::AvailabilityZone::Name>"
+		},
+		"NumberOfAZs": {
+			"AllowedValues": [
+				"2"
+			],
+			"Default": "2",
+			"Description": "Number of Availability Zones to use in the VPC. This number must match the number of your selections in the list of Availability Zones parameter. (ONLY 2 SUPPORTED CURRENTLY)",
+			"Type": "String"
+		},
+		"LicenseKeyFtpURL": {
+			"Description": "URL used to obtain license key for SIOS DataKeeper software.",
+			"Type": "String"
+		},
+		"KeyPairName": {
+			"Description": "Public/private key pairs allow you to securely connect to your instance after it launches",
+			"Type": "AWS::EC2::KeyPair::KeyName"
+		},
+		"AD1InstanceType": {
+			"Description": "Amazon EC2 instance type for the first Active Directory Instance",
+			"Type": "String",
+			"Default": "m4.large",
+			"AllowedValues": [
+				"m4.large",
+				"m4.xlarge",
+				"m4.2xlarge",
+				"m4.4xlarge"
+			]
+		},
+		"AD2InstanceType": {
+			"Description": "Amazon EC2 instance type for the second Active Directory Instance",
+			"Type": "String",
+			"Default": "m4.large",
+			"AllowedValues": [
+				"m4.large",
+				"m4.xlarge",
+				"m4.2xlarge",
+				"m4.4xlarge"
+			]
+		},
+		"NATInstanceType": {
+			"Description": "Amazon EC2 instance type for the NAT Instances (only used if required by AZ)",
+			"Type": "String",
+			"Default": "t2.small",
+			"AllowedValues": [
+				"t2.small",
+				"t2.medium"
+			]
+		},
+		"RDGWInstanceType": {
+			"Description": "Amazon EC2 instance type for the Remote Desktop Gatweway Instances",
+			"Type": "String",
+			"Default": "m4.large",
+			"AllowedValues": [
+				"m4.large",
+				"m4.xlarge",
+				"m4.2xlarge",
+				"m4.4xlarge"
+			]
+		},
+		"WSFCNode1InstanceType": {
+			"Description": "Amazon EC2 instance type for the 1st WSFC Node",
+			"Type": "String",
+			"Default": "m3.xlarge",
+			"AllowedValues": [
+				"m3.xlarge",
+				"m3.2xlarge",
+				"c3.xlarge",
+				"c3.2xlarge",
+				"c3.4xlarge",
+				"g2.2xlarge",
+				"r3.xlarge",
+				"r3.2xlarge",
+				"r3.4xlarge",
+				"x1.16xlarge",
+				"x1.32xlarge",
+				"d2.xlarge",
+				"d2.2xlarge",
+				"d2.4xlarge",
+				"d2.8xlarge",
+				"i2.xlarge",
+				"i2.2xlarge",
+				"i2.4xlarge"
+			],
+			"ConstraintDescription": "Only EBS Optimized instance types r3.xlarge, r3.2xlarge, r3.4xlarge allowed"
+		},
+		"WSFCNode2InstanceType": {
+			"Description": "Amazon EC2 instance type for the 1st WSFC Node",
+			"Type": "String",
+			"Default": "m3.xlarge",
+			"AllowedValues": [
+				"m3.xlarge",
+				"m3.2xlarge",
+				"c3.xlarge",
+				"c3.2xlarge",
+				"c3.4xlarge",
+				"g2.2xlarge",
+				"r3.xlarge",
+				"r3.2xlarge",
+				"r3.4xlarge",
+				"x1.16xlarge",
+				"x1.32xlarge",
+				"d2.xlarge",
+				"d2.2xlarge",
+				"d2.4xlarge",
+				"d2.8xlarge",
+				"i2.xlarge",
+				"i2.2xlarge",
+				"i2.4xlarge"
+			],
+			"ConstraintDescription": "Only EBS Optimized instance types r3.xlarge, r3.2xlarge, r3.4xlarge allowed"
+		},
+		"FullyQualifiedDomainName": {
+			"Description": "Fully qualified domain name (FQDN) of the forest root domain e.g. example.com",
+			"Type": "String",
+			"Default": "datakeeper.local",
+			"MinLength": "3",
+			"MaxLength": "25",
+			"AllowedPattern": "[a-zA-Z0-9]+\\..+"
+		},
+		"DomainNetBIOSName": {
+			"Description": "NetBIOS name of the domain (upto 15 characters) for users of earlier versions of Windows e.g. EXAMPLE",
+			"Type": "String",
+			"Default": "datakeeper",
+			"MinLength": "1",
+			"MaxLength": "15",
+			"AllowedPattern": "[a-zA-Z0-9]+"
+		},
+		"AD1NetBIOSName": {
+			"Description": "NetBIOS name of the 1st AD Server (upto 15 characters)",
+			"Type": "String",
+			"Default": "DC1",
+			"MinLength": "1",
+			"MaxLength": "15",
+			"AllowedPattern": "[a-zA-Z0-9]+"
+		},
+		"AD2NetBIOSName": {
+			"Description": "NetBIOS name of the 2nd AD Server (upto 15 characters)",
+			"Type": "String",
+			"Default": "DC2",
+			"MinLength": "1",
+			"MaxLength": "15",
+			"AllowedPattern": "[a-zA-Z0-9]+"
+		},
+		"WSFCNode1NetBIOSName": {
+			"Description": "NetBIOS name of the 1st WSFC Node (up to 15 characters)",
+			"Type": "String",
+			"Default": "WSFCNode1",
+			"MinLength": "1",
+			"MaxLength": "15",
+			"AllowedPattern": "[a-zA-Z0-9]+"
+		},
+		"WSFCNode2NetBIOSName": {
+			"Description": "NetBIOS name of the 2nd WSFC Node (up to 15 characters)",
+			"Type": "String",
+			"Default": "WSFCNode2",
+			"MinLength": "1",
+			"MaxLength": "15",
+			"AllowedPattern": "[a-zA-Z0-9]+"
+		},
+		"RestoreModePassword": {
+			"Description": "Password for a separate Administrator account when the domain controller is in Restore Mode. Must be at least 8 characters containing letters, numbers and symbols",
+			"Type": "String",
+			"Default": "SIOS!5105",
+			"MinLength": "8",
+			"MaxLength": "32",
+			"AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+			"NoEcho": "True"
+		},
+		"DomainAdminUser": {
+			"Description": "User name for the account that will be added as Domain Administrator. This is separate from the default \"Administrator\" account",
+			"Type": "String",
+			"Default": "siosadmin",
+			"MinLength": "5",
+			"MaxLength": "25",
+			"AllowedPattern": "[a-zA-Z0-9]*"
+		},
+		"DomainAdminPassword": {
+			"Description": "Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols",
+			"Type": "String",
+			"Default": "SIOS!5105",
+			"MinLength": "8",
+			"MaxLength": "32",
+			"AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+			"NoEcho": "true"
+		},
+		"SQLServiceAccount": {
+			"Description": "User name for the SQL Server Service Account. This Account is a Domain User.",
+			"Type": "String",
+			"Default": "sqlsa",
+			"MinLength": "5",
+			"MaxLength": "25",
+			"AllowedPattern": "[a-zA-Z0-9]*"
+		},
+		"SQLServiceAccountPassword": {
+			"Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols",
+			"Type": "String",
+			"Default": "SIOS!5105",
+			"MinLength": "8",
+			"MaxLength": "32",
+			"AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+			"NoEcho": "true"
+		},
+		"PublicSubnet1CIDR": {
+			"Description": "CIDR Block for the Public Subnet located in AZ1",
+			"Type": "String",
+			"Default": "10.0.128.0/20",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$"
+		},
+		"PublicSubnet2CIDR": {
+			"Description": "CIDR Block for the Public Subnet located in AZ2",
+			"Type": "String",
+			"Default": "10.0.144.0/20",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$"
+		},
+		"PrivateSubnet1ACIDR": {
+			"Description": "CIDR block for the AD Server tier located in AZ1.",
+			"Type": "String",
+			"Default": "10.0.0.0/19",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$"
+		},
+		"PrivateSubnet1AMask": {
+			"Description": "Subnet mask for Private Subnet located in AZ1",
+			"Type": "String",
+			"Default": "255.255.224.0",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+		},
+		"PrivateSubnet2ACIDR": {
+			"Description": "CIDR block for the AD Server tier located in AZ2.",
+			"Type": "String",
+			"Default": "10.0.32.0/19",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$"
+		},
+		"PrivateSubnet2AMask": {
+			"Description": "Subnet mask for Private Subnet located in AZ2",
+			"Type": "String",
+			"Default": "255.255.224.0",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+		},
+		"VPCCIDR": {
+			"Description": "CIDR Block for the VPC",
+			"Type": "String",
+			"Default": "10.0.0.0/16",
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$"
+		},
+		"AD1PrivateIp": {
+			"Description": "Fixed private IP for the first Active Directory server located in AZ1",
+			"Type": "String",
+			"Default": "10.0.0.10"
+		},
+		"AD2PrivateIp": {
+			"Description": "Fixed private IP for the second Active Directory serverr located in AZ2",
+			"Type": "String",
+			"Default": "10.0.32.10"
+		},
+		"WSFCNode1PrivateIp": {
+			"Description": "Primary private IP for the 1st WSFC Node located in AZ1",
+			"Type": "String",
+			"Default": "10.0.0.100"
+		},
+		"WSFCNode1ClusterIp": {
+			"Description": "Secondary private IP for WSFC cluster on 1st WSFC Node",
+			"Type": "String",
+			"Default": "10.0.0.101"
+		},
+		"WSFCNode1SQLServerIp": {
+			"Description": "Third private IP for Availability Group Listner on 1st WSFC Node",
+			"Type": "String",
+			"Default": "10.0.0.200"
+		},
+		"WSFCNode2PrivateIp": {
+			"Description": "Primary private IP for the 2nd WSFC Node located in AZ2",
+			"Type": "String",
+			"Default": "10.0.32.100"
+		},
+		"WSFCNode2ClusterIp": {
+			"Description": "Secondary private IP for WSFC cluster on 2nd WSFC Node",
+			"Type": "String",
+			"Default": "10.0.32.101"
+		},
+		"WSFCNode2SQLServerIp": {
+			"Description": "Third private IP for Availability Group Listner on 2nd WSFC Node",
+			"Type": "String",
+			"Default": "10.0.32.200"
+		},
+		"RDGWCIDR": {
+			"AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+			"ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+			"Description": "Allowed CIDR Block for external access to the Remote Desktop Gateways",
+			"Type": "String"
+		}
+	},
+	"Resources": {
+		"VPCStack": {
+			"Type": "AWS::CloudFormation::Stack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/sios-datakeeper/CloudFormation/Templates/sios-datakeeper-vpc.template",
+				"Parameters": {
+					"AvailabilityZones": {
+						"Fn::Join": [
+							",", {
+								"Ref": "AvailabilityZones"
+							}
+						]
+					},
+					"KeyPairName": {
+						"Ref": "KeyPairName"
+					},
+					"VPCCIDR": {
+						"Ref": "VPCCIDR"
+					},
+					"CreatePrivateSubnets": "true",
+					"PrivateSubnet1ACIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet2ACIDR": {
+						"Ref": "PrivateSubnet2ACIDR"
+					},
+					"PrivateSubnet3ACIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet4ACIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PublicSubnet1CIDR": {
+						"Ref": "PublicSubnet1CIDR"
+					},
+					"PublicSubnet2CIDR": {
+						"Ref": "PublicSubnet2CIDR"
+					},
+					"PublicSubnet3CIDR": {
+						"Ref": "PublicSubnet1CIDR"
+					},
+					"PublicSubnet4CIDR": {
+						"Ref": "PublicSubnet1CIDR"
+					},
+					"CreateAdditionalPrivateSubnets": "false",
+					"PrivateSubnet1BCIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet2BCIDR": {
+						"Ref": "PrivateSubnet2ACIDR"
+					},
+					"PrivateSubnet3BCIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet4BCIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					}
+				}
+			}
+		},
+		"ADStack": {
+			"Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "VPCStack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/sios-datakeeper/CloudFormation/Templates/sios-datakeeper-ad.template",
+				"Parameters": {
+					"KeyPairName": {
+						"Ref": "KeyPairName"
+					},
+					"AD1NetBIOSName": {
+						"Ref": "AD1NetBIOSName"
+					},
+					"AD1InstanceType": {
+						"Ref": "AD1InstanceType"
+					},
+					"AD1PrivateIp": {
+						"Ref": "AD1PrivateIp"
+					},
+					"AD2NetBIOSName": {
+						"Ref": "AD2NetBIOSName"
+					},
+					"AD2InstanceType": {
+						"Ref": "AD2InstanceType"
+					},
+					"AD2PrivateIp": {
+						"Ref": "AD2PrivateIp"
+					},
+					"RDGWInstanceType": {
+						"Ref": "RDGWInstanceType"
+					},
+					"PublicSubnet1ID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PublicSubnet1ID"
+						]
+					},
+					"PublicSubnet1CIDR": {
+						"Ref": "PublicSubnet1CIDR"
+					},
+					"PublicSubnet2ID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PublicSubnet2ID"
+						]
+					},
+					"PublicSubnet2CIDR": {
+						"Ref": "PublicSubnet2CIDR"
+					},
+					"DomainAdminUser": {
+						"Ref": "DomainAdminUser"
+					},
+					"DomainAdminPassword": {
+						"Ref": "DomainAdminPassword"
+					},
+					"FullyQualifiedDomainName": {
+						"Ref": "FullyQualifiedDomainName"
+					},
+					"DomainNetBIOSName": {
+						"Ref": "DomainNetBIOSName"
+					},
+					"PrivateSubnet1AID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet1AID"
+						]
+					},
+					"PrivateSubnet1ACIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet2AID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet2AID"
+						]
+					},
+					"PrivateSubnet2ACIDR": {
+						"Ref": "PrivateSubnet2ACIDR"
+					},
+					"VPCID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.VPCID"
+						]
+					},
+					"VPCCIDR": {
+						"Ref": "VPCCIDR"
+					}
+				}
+			}
+		},
+		"SIOSStack": {
+			"Type": "AWS::CloudFormation::Stack",
+			"DependsOn": "ADStack",
+			"Properties": {
+				"TemplateURL": "https://s3.amazonaws.com/sios-datakeeper/CloudFormation/Templates/sios-datakeeper.template",
+				"Parameters": {
+					"AD1PrivateIp": {
+						"Ref": "AD1PrivateIp"
+					},
+					"AD2PrivateIp": {
+						"Ref": "AD2PrivateIp"
+					},
+					"AD1NetBIOSName": {
+						"Ref": "AD1NetBIOSName"
+					},
+					"AD2NetBIOSName": {
+						"Ref": "AD2NetBIOSName"
+					},
+					"DomainAdminPassword": {
+						"Ref": "DomainAdminPassword"
+					},
+					"DomainAdminUser": {
+						"Ref": "DomainAdminUser"
+					},
+					"FullyQualifiedDomainName": {
+						"Ref": "FullyQualifiedDomainName"
+					},
+					"DomainMemberSGID": {
+						"Fn::GetAtt": [
+							"ADStack",
+							"Outputs.DomainMemberSGID"
+						]
+					},
+					"DomainNetBIOSName": {
+						"Ref": "DomainNetBIOSName"
+					},
+					"KeyPairName": {
+						"Ref": "KeyPairName"
+					},
+					"SQLServiceAccount": {
+						"Ref": "SQLServiceAccount"
+					},
+					"SQLServiceAccountPassword": {
+						"Ref": "SQLServiceAccountPassword"
+					},
+					"VPCID": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.VPCID"
+						]
+					},
+					"PrivateSubnet1ACIDR": {
+						"Ref": "PrivateSubnet1ACIDR"
+					},
+					"PrivateSubnet1AMask": {
+						"Ref": "PrivateSubnet1AMask"
+					},
+					"WSFCNode1InstanceType": {
+						"Ref": "WSFCNode1InstanceType"
+					},
+					"WSFCNode1NetBIOSName": {
+						"Ref": "WSFCNode1NetBIOSName"
+					},
+					"WSFCNode1PrivateIp": {
+						"Ref": "WSFCNode1PrivateIp"
+					},
+					"WSFCNode1ClusterIp": {
+						"Ref": "WSFCNode1ClusterIp"
+					},
+					"WSFCNode1SQLServerIp": {
+						"Ref": "WSFCNode1SQLServerIp"
+					},
+					"PrivateSubnet1AId": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet1AID"
+						]
+					},
+					"PrivateSubnet2ACIDR": {
+						"Ref": "PrivateSubnet2ACIDR"
+					},
+					"PrivateSubnet2AMask": {
+						"Ref": "PrivateSubnet2AMask"
+					},
+					"WSFCNode2InstanceType": {
+						"Ref": "WSFCNode2InstanceType"
+					},
+					"WSFCNode2NetBIOSName": {
+						"Ref": "WSFCNode2NetBIOSName"
+					},
+					"WSFCNode2PrivateIp": {
+						"Ref": "WSFCNode2PrivateIp"
+					},
+					"WSFCNode2ClusterIp": {
+						"Ref": "WSFCNode2ClusterIp"
+					},
+					"WSFCNode2SQLServerIp": {
+						"Ref": "WSFCNode2SQLServerIp"
+					},
+					"PrivateSubnet2AId": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet2AID"
+						]
+					},
+					"RDGWCIDR": {
+						"Ref": "RDGWCIDR"
+					},
+					"VPCCIDR": {
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.VPCCIDR"
+						]
+					},
+					"LicenseKeyFtpURL": {
+						"Ref": "LicenseKeyFtpURL"
+					}
+				}
+			}
+		}
+	}
+}
