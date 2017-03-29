@@ -148,6 +148,21 @@
 				"QSS3KeyPrefix": {
 					"default": "Quick Start S3 Key Prefix"
 				},
+                "SQLServiceAccount": {
+					"default": "Service Account Name"
+				},
+				"SQLServiceAccountPassword": {
+					"default": "Service Account Password"
+				},
+				"Volume1Iops": {
+					"default": "Data Volume IOPS"
+				},
+				"Volume1Size": {
+					"default": "Data Volume Size (GiB)"
+				},
+				"Volume1Type": {
+					"default": "Data Volume Type"
+				},
 				"RDGW1InstanceType": {
 					"default": "Remote Desktop Gateway 1 Instance Type"
 				},
@@ -174,6 +189,39 @@
 				},
 				"VPCCIDR": {
 					"default": "VPC CIDR"
+				},
+                "WSFCNode1InstanceType": {
+					"default": "Instance Type for Cluster Node 1"
+				},
+				"WSFCNode1NetBIOSName": {
+					"default": "Cluster Node 1 NetBIOS Name"
+				},
+				"WSFCNode1PrivateIP1": {
+					"default": "Cluster Node 1 Private IP Address 1"
+				},
+				"WSFCNode1PrivateIP2": {
+					"default": "Cluster Node 1 Private IP Address 2"
+				},
+				"WSFCNode1PrivateIP3": {
+					"default": "Cluster Node 1 Private IP Address 3"
+				},
+				"WSFCNode2InstanceType": {
+					"default": "Instance Type for Cluster Node 2"
+				},
+				"WSFCNode2NetBIOSName": {
+					"default": "Cluster Node 2 NetBIOS Name"
+				},
+				"WSFCNode2PrivateIP1": {
+					"default": "Cluster Node 2 Private IP Address 1"
+				},
+				"WSFCNode2PrivateIP2": {
+					"default": "Cluster Node 2 Private IP Address 2"
+				},
+				"WSFCNode2PrivateIP3": {
+					"default": "Cluster Node 2 Private IP Address 3"
+				},
+				"SIOSLicenseKeyFtpURL": {
+					"default": "URL used to obtain license key for SIOS DataKeeper software."
 				}
 			}
 		}
@@ -723,7 +771,10 @@
 						"Ref": "KeyPairName"
 					},
 					"PrivateSubnet1CIDR": {
-						"Ref": "PrivateSubnet1CIDR"
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet1ACIDR"
+						]
 					},
 					"PrivateSubnet1ID": {
 						"Fn::GetAtt": [
@@ -732,7 +783,10 @@
 						]
 					},
 					"PrivateSubnet2CIDR": {
-						"Ref": "PrivateSubnet2CIDR"
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet2ACIDR"
+						]
 					},
 					"PrivateSubnet2ID": {
 						"Fn::GetAtt": [
@@ -940,6 +994,15 @@
 					"SQLServiceAccountPassword": {
 						"Ref": "SQLServiceAccountPassword"
 					},
+                    "Volume1Iops": {
+                        "Ref": "Volume1Iops"
+                    },
+                    "Volume1Size": {
+                        "Ref": "Volume1Size"
+                    },
+                    "Volume1Type": {
+                        "Ref": "Volume1Type"
+                    },
 					"VPCID": {
 						"Fn::GetAtt": [
 							"VPCStack",
@@ -947,7 +1010,10 @@
 						]
 					},
 					"PrivateSubnet1CIDR": {
-						"Ref": "PrivateSubnet1CIDR"
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet1ACIDR"
+						]
 					},
 					"WSFCNode1InstanceType": {
 						"Ref": "WSFCNode1InstanceType"
@@ -964,14 +1030,17 @@
 					"WSFCNode1PrivateIP3": {
 						"Ref": "WSFCNode1PrivateIP3"
 					},
-					"PrivateSubnet1AId": {
+					"PrivateSubnet1ID": {
 						"Fn::GetAtt": [
 							"VPCStack",
 							"Outputs.PrivateSubnet1AID"
 						]
 					},
 					"PrivateSubnet2CIDR": {
-						"Ref": "PrivateSubnet2CIDR"
+						"Fn::GetAtt": [
+							"VPCStack",
+							"Outputs.PrivateSubnet2ACIDR"
+						]
 					},
 					"WSFCNode2InstanceType": {
 						"Ref": "WSFCNode2InstanceType"
@@ -988,16 +1057,10 @@
 					"WSFCNode2PrivateIP3": {
 						"Ref": "WSFCNode2PrivateIP3"
 					},
-					"PrivateSubnet2AId": {
+					"PrivateSubnet2ID": {
 						"Fn::GetAtt": [
 							"VPCStack",
 							"Outputs.PrivateSubnet2AID"
-						]
-					},
-					"VPCCIDR": {
-						"Fn::GetAtt": [
-							"VPCStack",
-							"Outputs.VPCCIDR"
 						]
 					},
 					"SIOSLicenseKeyFtpURL": {
