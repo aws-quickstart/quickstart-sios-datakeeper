@@ -513,7 +513,7 @@
         "WSFCNode1InstanceType": {
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String",
-            "Default": "m3.xlarge",
+            "Default": "r4.xlarge",
             "AllowedValues": [
                 "m3.xlarge",
                 "m3.2xlarge",
@@ -524,6 +524,9 @@
                 "r3.xlarge",
                 "r3.2xlarge",
                 "r3.4xlarge",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
                 "x1.16xlarge",
                 "x1.32xlarge",
                 "d2.xlarge",
@@ -534,12 +537,12 @@
                 "i2.2xlarge",
                 "i2.4xlarge"
             ],
-            "ConstraintDescription": "Only EBS Optimized instance types r3.xlarge, r3.2xlarge, r3.4xlarge allowed"
+            "ConstraintDescription": "Only EBS Optimized instance types allowed"
         },
         "WSFCNode2InstanceType": {
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String",
-            "Default": "m3.xlarge",
+            "Default": "r4.xlarge",
             "AllowedValues": [
                 "m3.xlarge",
                 "m3.2xlarge",
@@ -550,6 +553,9 @@
                 "r3.xlarge",
                 "r3.2xlarge",
                 "r3.4xlarge",
+                "r4.xlarge",
+                "r4.2xlarge",
+                "r4.4xlarge",
                 "x1.16xlarge",
                 "x1.32xlarge",
                 "d2.xlarge",
@@ -560,7 +566,7 @@
                 "i2.2xlarge",
                 "i2.4xlarge"
             ],
-            "ConstraintDescription": "Only EBS Optimized instance types r3.xlarge, r3.2xlarge, r3.4xlarge allowed"
+            "ConstraintDescription": "Only EBS Optimized instance types allowed"
         },
         "WSFCNode1NetBIOSName": {
             "Description": "NetBIOS name of the 1st WSFC Node (up to 15 characters)",
