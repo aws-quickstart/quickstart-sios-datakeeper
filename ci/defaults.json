@@ -48,10 +48,6 @@
         "ParameterValue": "$[alfred_getkeypair]"
     },
     {
-        "ParameterKey": "NATInstanceType",
-        "ParameterValue": "t2.nano"
-    },
-    {
         "ParameterKey": "PrivateSubnet1CIDR",
         "ParameterValue": "10.0.0.0/19"
     },
