@@ -494,7 +494,7 @@
         "WSFCNode1InstanceType": {
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String",
-            "Default": "r4.xlarge",
+            "Default": "r3.xlarge",
             "AllowedValues": [
                 "m3.xlarge",
                 "m3.2xlarge",
@@ -505,9 +505,6 @@
                 "r3.xlarge",
                 "r3.2xlarge",
                 "r3.4xlarge",
-                "r4.xlarge",
-                "r4.2xlarge",
-                "r4.4xlarge",
                 "x1.16xlarge",
                 "x1.32xlarge",
                 "d2.xlarge",
@@ -523,7 +520,7 @@
         "WSFCNode2InstanceType": {
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String",
-            "Default": "r4.xlarge",
+            "Default": "r3.xlarge",
             "AllowedValues": [
                 "m3.xlarge",
                 "m3.2xlarge",
@@ -534,9 +531,6 @@
                 "r3.xlarge",
                 "r3.2xlarge",
                 "r3.4xlarge",
-                "r4.xlarge",
-                "r4.2xlarge",
-                "r4.4xlarge",
                 "x1.16xlarge",
                 "x1.32xlarge",
                 "d2.xlarge",
