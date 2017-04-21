@@ -898,15 +898,7 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Join": [
-                            "/",
-                            [
-                                {
-                                    "Ref": "QSS3KeyPrefix"
-                                },
-                                "submodules/quickstart-microsoft-rdgateway"
-                            ]
-                        ]
+                        "Ref": "QSS3KeyPrefix"
                     },
                     "RDGW1InstanceType": {
                         "Ref": "RDGW1InstanceType"
