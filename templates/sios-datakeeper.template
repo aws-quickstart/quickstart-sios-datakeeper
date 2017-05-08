@@ -471,7 +471,7 @@
 	"Mappings": {
 		"AWSAMIRegionMap": {
 			"AMI": {
-				"SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11"
+				"SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5.0 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11"
 			},
 			"us-east-1": {
 				"SIOS2012R2": "ami-a4ea2cb2"
@@ -600,9 +600,9 @@
 							"C:\\cfn\\scripts\\Unzip-Archive.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -616,9 +616,9 @@
 							"C:\\cfn\\modules\\AWSQuickStart.zip": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -673,9 +673,9 @@
 							"C:\\cfn\\scripts\\Set-Dns.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -689,9 +689,9 @@
 							"C:\\cfn\\scripts\\Join-Domain.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Join-Domain.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Join-Domain.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -705,9 +705,9 @@
 							"C:\\cfn\\scripts\\Rename-Computer.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Rename-Computer.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Rename-Computer.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -721,9 +721,9 @@
 							"C:\\cfn\\scripts\\Install-WindowsFailoverClustering.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Install-WindowsFailoverClustering.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Install-WindowsFailoverClustering.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -737,9 +737,9 @@
 							"C:\\cfn\\scripts\\Install-NETFrameworkCore.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Install-NETFrameworkCore.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Install-NETFrameworkCore.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -753,9 +753,9 @@
 							"C:\\cfn\\scripts\\OpenWSFCPorts.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/OpenWSFCPorts.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/OpenWSFCPorts.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -769,9 +769,9 @@
 							"C:\\cfn\\scripts\\EnableCredSsp.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -780,15 +780,14 @@
 											}
 										}
 									]
-
 								}
 							},
 							"C:\\cfn\\scripts\\Create-ADServiceAccount.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Create-ADServiceAccount.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Create-ADServiceAccount.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -802,9 +801,9 @@
 							"C:\\cfn\\scripts\\AddUserToGroup.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/AddUserToGroup.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/AddUserToGroup.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -818,9 +817,9 @@
 							"C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1051,70 +1050,49 @@
 						"files": {
 							"C:\\cfn\\scripts\\DownloadDKCELicense.ps1": {
 								"source": {
-									"Fn::Join": [
-										"/", [{
-												"Fn::FindInMap": [
-													"AWSInfoRegionMap",
-													{
-														"Ref": "AWS::Region"
-													},
-													"QuickStartS3URL"
+									"Fn::Sub": [
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/DownloadDKCELicense.ps1",
+										{
+											"QSS3Region": {
+												"Fn::If": [
+													"GovCloudCondition",
+													"s3-us-gov-west-1",
+													"s3"
 												]
-											},
-											{
-												"Ref": "QSS3BucketName"
-											},
-											{
-												"Ref": "QSS3KeyPrefix"
-											},
-											"scripts/DownloadDKCELicense.ps1"
-										]
+											}
+										}
 									]
 								}
 							},
 							"C:\\cfn\\scripts\\CreateJob.ps1": {
 								"source": {
-									"Fn::Join": [
-										"/", [{
-												"Fn::FindInMap": [
-													"AWSInfoRegionMap",
-													{
-														"Ref": "AWS::Region"
-													},
-													"QuickStartS3URL"
+									"Fn::Sub": [
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/CreateJob.ps1",
+										{
+											"QSS3Region": {
+												"Fn::If": [
+													"GovCloudCondition",
+													"s3-us-gov-west-1",
+													"s3"
 												]
-											},
-											{
-												"Ref": "QSS3BucketName"
-											},
-											{
-												"Ref": "QSS3KeyPrefix"
-											},
-											"scripts/CreateJob.ps1"
-										]
+											}
+										}
 									]
 								}
 							},
 							"C:\\cfn\\scripts\\CreateMirror.ps1": {
 								"source": {
-									"Fn::Join": [
-										"/", [{
-												"Fn::FindInMap": [
-													"AWSInfoRegionMap",
-													{
-														"Ref": "AWS::Region"
-													},
-													"QuickStartS3URL"
+									"Fn::Sub": [
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/CreateMirror.ps1",
+										{
+											"QSS3Region": {
+												"Fn::If": [
+													"GovCloudCondition",
+													"s3-us-gov-west-1",
+													"s3"
 												]
-											},
-											{
-												"Ref": "QSS3BucketName"
-											},
-											{
-												"Ref": "QSS3KeyPrefix"
-											},
-											"scripts/CreateMirror.ps1"
-										]
+											}
+										}
 									]
 								}
 							}
@@ -1195,9 +1173,9 @@
 							"C:\\cfn\\scripts\\WaitForCluster.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/WaitForCluster.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/WaitForCluster.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1211,9 +1189,9 @@
 							"C:\\cfn\\scripts\\RegisterClusterVolume.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/RegisterClusterVolume.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/RegisterClusterVolume.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1227,9 +1205,9 @@
 							"C:\\cfn\\scripts\\InstallSQLEE.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/InstallSQLEE.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/InstallSQLEE.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1370,9 +1348,9 @@
 							"C:\\cfn\\scripts\\DisableCredSsp.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1560,9 +1538,9 @@
 							"C:\\cfn\\scripts\\Unzip-Archive.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1576,9 +1554,9 @@
 							"C:\\cfn\\modules\\AWSQuickStart.zip": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1633,9 +1611,9 @@
 							"C:\\cfn\\scripts\\Set-Dns.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1649,9 +1627,9 @@
 							"C:\\cfn\\scripts\\Join-Domain.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Join-Domain.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Join-Domain.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1665,9 +1643,9 @@
 							"C:\\cfn\\scripts\\Rename-Computer.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Rename-Computer.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Rename-Computer.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1681,9 +1659,9 @@
 							"C:\\cfn\\scripts\\Install-WindowsFailoverClustering.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Install-WindowsFailoverClustering.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Install-WindowsFailoverClustering.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1697,9 +1675,9 @@
 							"C:\\cfn\\scripts\\Install-NETFrameworkCore.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Install-NETFrameworkCore.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Install-NETFrameworkCore.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1713,9 +1691,9 @@
 							"C:\\cfn\\scripts\\OpenWSFCPorts.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/OpenWSFCPorts.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/OpenWSFCPorts.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1729,9 +1707,9 @@
 							"C:\\cfn\\scripts\\EnableCredSsp.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1745,9 +1723,9 @@
 							"C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1886,14 +1864,14 @@
 							}
 						}
 					},
-					"InstallDKCELicense": {
+					"ConfigureDKCE": {
 						"files": {
 							"C:\\cfn\\scripts\\DownloadDKCELicense.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/DownloadDKCELicense.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/DownloadDKCELicense.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1927,9 +1905,9 @@
 							"C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1943,9 +1921,9 @@
 							"C:\\cfn\\scripts\\Create-Share.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Create-Share.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/Create-Share.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1959,9 +1937,9 @@
 							"C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Set-Folder-Permissions.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Set-Folder-Permissions.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1975,9 +1953,9 @@
 							"C:\\cfn\\scripts\\Configure-WSFC.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Configure-WSFC.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Configure-WSFC.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -1991,9 +1969,9 @@
 							"C:\\cfn\\scripts\\Set-ClusterQuorum.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/Set-ClusterQuorum.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/Set-ClusterQuorum.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -2226,9 +2204,9 @@
 							"C:\\cfn\\scripts\\WaitForClusterGroup.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/WaitForClusterGroup.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/WaitForClusterGroup.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -2242,9 +2220,9 @@
 							"C:\\cfn\\scripts\\InstallSQLEE-AddNode.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/scripts/InstallSQLEE-AddNode.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/scripts/InstallSQLEE-AddNode.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",
@@ -2386,9 +2364,9 @@
 							"C:\\cfn\\scripts\\DisableCredSsp.ps1": {
 								"source": {
 									"Fn::Sub": [
-										"https://${S3Region}.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1",
+										"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1",
 										{
-											"S3Region": {
+											"QSS3Region": {
 												"Fn::If": [
 													"GovCloudCondition",
 													"s3-us-gov-west-1",

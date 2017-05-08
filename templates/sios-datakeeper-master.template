@@ -604,7 +604,7 @@
 			"Properties": {
 				"TemplateURL": {
 					"Fn::Sub": [
-						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-aws-vpc/templates/aws-vpc.template",
 						{
 							"QSS3Region": {
 								"Fn::If": [
@@ -653,7 +653,7 @@
 			"Properties": {
 				"TemplateURL": {
 					"Fn::Sub": [
-						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/ad-2012r2-1.template",
+						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-activedirectory/templates/ad-2012r2-1.template",
 						{
 							"QSS3Region": {
 								"Fn::If": [
@@ -733,13 +733,7 @@
 						"Ref": "QSS3BucketName"
 					},
 					"QSS3KeyPrefix": {
-						"Fn::Join": [
-							"/", [{
-									"Ref": "QSS3KeyPrefix"
-								},
-								"submodules/quickstart-microsoft-activedirectory"
-							]
-						]
+						"Fn::Sub": "${QSS3KeyPrefix}/submodules/quickstart-microsoft-activedirectory"
 					},
 					"RestoreModePassword": {
 						"Ref": "RestoreModePassword"
@@ -762,7 +756,7 @@
 			"Properties": {
 				"TemplateURL": {
 					"Fn::Sub": [
-						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/templates/rdgw-domain.template",
+						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/submodules/quickstart-microsoft-rdgateway/templates/rdgw-domain.template",
 						{
 							"QSS3Region": {
 								"Fn::If": [
@@ -818,13 +812,7 @@
 						"Ref": "QSS3BucketName"
 					},
 					"QSS3KeyPrefix": {
-						"Fn::Join": [
-							"/", [{
-									"Ref": "QSS3KeyPrefix"
-								},
-								"submodules/quickstart-microsoft-rdgateway"
-							]
-						]
+						"Fn::Sub": "${QSS3KeyPrefix}/submodules/quickstart-microsoft-rdgateway"
 					},
 					"RDGW1InstanceType": {
 						"Ref": "RDGW1InstanceType"
@@ -862,7 +850,7 @@
 			"Properties": {
 				"TemplateURL": {
 					"Fn::Sub": [
-						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/sios-datakeeper.template",
+						"https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}/templates/sios-datakeeper.template",
 						{
 							"QSS3Region": {
 								"Fn::If": [
