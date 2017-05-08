@@ -1116,7 +1116,7 @@
 								"command": {
 									"Fn::Join": [
 										"", [
-											"powershell.exe -Command \"C:\\cfn\\scripts\\CreateJob.ps1 -JobName vol.F -JobDesc 'SQL Volume Protection' -SourceName ",
+											"powershell.exe -Command \"C:\\cfn\\scripts\\CreateJob.ps1 -JobName vol.D -JobDesc 'SQL Volume Protection' -SourceName ",
 											{
 												"Ref": "WSFCNode1NetBIOSName"
 											},
