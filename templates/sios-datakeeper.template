@@ -1187,7 +1187,8 @@
                         }
                     },
                     "InstallSQL": {
-                        "C:\\cfn\\scripts\\WaitForCluster.ps1": {
+                        "files": {
+                            "C:\\cfn\\scripts\\WaitForCluster.ps1": {
                                 "source": {
                                     "Fn::Sub": [
                                         "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/WaitForCluster.ps1",
