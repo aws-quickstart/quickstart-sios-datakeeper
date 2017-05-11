@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 Evaluation and DataKeeper replication software. This template also deploys the required AD architecture outlined in \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 and DataKeeper replication software. This template also deploys the required AD architecture outlined in \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -225,7 +225,7 @@
                     "default": "Cluster Node 2 Private IP Address 3"
                 },
                 "SIOSLicenseKeyFtpURL": {
-                    "default": "URL used to obtain license key for SIOS DataKeeper software."
+                    "default": "SIOS License Key FTP URL"
                 }
             }
         }

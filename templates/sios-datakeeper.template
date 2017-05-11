@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) and SQL Server AlwaysOn Availability Group nodes. This template is intended to be installed into an existing VPC that was built using the sample reference architecture titled: \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(5033)",
+    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 and DataKeeper replication software. This template is intended to be installed into an existing VPC that was built using the sample reference architecture titled: \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template. QS(5033)",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -178,7 +178,7 @@
                     "default": "Cluster Node 2 Private IP Address 3"
                 },
                 "SIOSLicenseKeyFtpURL": {
-                    "default": "URL used to obtain license key for SIOS DataKeeper software."
+                    "default": "SIOS License Key FTP URL"
                 }
             }
         }
@@ -187,7 +187,7 @@
         "SIOSLicenseKeyFtpURL": {
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String",
-            "Default": "http://ftp.us.sios.com/pickup/EVAL_Joe_User_JoeUser_2017-03-26_DKCE/"
+            "Default": ""
         },
         "ADServer1NetBIOSName": {
             "AllowedPattern": "[a-zA-Z0-9]+",
@@ -475,7 +475,7 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5.0 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11"
+                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11"
             },
             "us-east-1": {
                 "SIOS2012R2": "ami-a4ea2cb2"
