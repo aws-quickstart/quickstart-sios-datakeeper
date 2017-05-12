@@ -734,7 +734,7 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory"
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/"
                     },
                     "RestoreModePassword": {
                         "Ref": "RestoreModePassword"
@@ -770,12 +770,6 @@
                     ]
                 },
                 "Parameters": {
-                    "ADServer1PrivateIP": {
-                        "Ref": "ADServer1PrivateIP"
-                    },
-                    "ADServer2PrivateIP": {
-                        "Ref": "ADServer2PrivateIP"
-                    },
                     "DomainAdminPassword": {
                         "Ref": "DomainAdminPassword"
                     },
@@ -813,25 +807,10 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway"
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/"
                     },
-                    "RDGW1InstanceType": {
+                    "RDGWInstanceType": {
                         "Ref": "RDGW1InstanceType"
-                    },
-                    "RDGW1NetBIOSName": {
-                        "Ref": "RDGW1NetBIOSName"
-                    },
-                    "RDGW1PrivateIP": {
-                        "Ref": "RDGW1PrivateIP"
-                    },
-                    "RDGW2InstanceType": {
-                        "Ref": "RDGW2InstanceType"
-                    },
-                    "RDGW2NetBIOSName": {
-                        "Ref": "RDGW2NetBIOSName"
-                    },
-                    "RDGW2PrivateIP": {
-                        "Ref": "RDGW2PrivateIP"
                     },
                     "RDGWCIDR": {
                         "Ref": "RDGWCIDR"
