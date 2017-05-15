@@ -1,6 +1,6 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 Evaluation and DataKeeper replication software. This template also deploys the required AD architecture outlined in \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Description": "This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL Server 2014 and DataKeeper replication software. This template also deploys the required AD architecture outlined in \"Implementing Active Directory Domain Services in the AWS Cloud\" **WARNING** This template creates Amazon EC2 Windows instance and related resources. You will be billed for the AWS resources used if you create a stack from this template.",
     "Metadata": {
         "AWS::CloudFormation::Interface": {
             "ParameterGroups": [
@@ -49,12 +49,7 @@
                     },
                     "Parameters": [
                         "RDGWCIDR",
-                        "RDGW1InstanceType",
-                        "RDGW1NetBIOSName",
-                        "RDGW1PrivateIP",
-                        "RDGW2InstanceType",
-                        "RDGW2NetBIOSName",
-                        "RDGW2PrivateIP"
+                        "RDGWInstanceType"
                     ]
                 },
                 {
@@ -167,23 +162,8 @@
                 "Volume1Type": {
                     "default": "Data Volume Type"
                 },
-                "RDGW1InstanceType": {
-                    "default": "Remote Desktop Gateway 1 Instance Type"
-                },
-                "RDGW1NetBIOSName": {
-                    "default": "Remote Desktop Gateway 1 NetBIOS Name"
-                },
-                "RDGW1PrivateIP": {
-                    "default": "Remote Desktop Gateway 1 Private IP Address"
-                },
-                "RDGW2InstanceType": {
-                    "default": "Remote Desktop Gateway 2 Instance Type"
-                },
-                "RDGW2NetBIOSName": {
-                    "default": "Remote Desktop Gateway 2 NetBIOS Name"
-                },
-                "RDGW2PrivateIP": {
-                    "default": "Remote Desktop Gateway 2 Private IP Address"
+                "RDGWInstanceType": {
+                    "default": "Remote Desktop Gateway Instance Type"
                 },
                 "RDGWCIDR": {
                     "default": "Allowed Remote Desktop Gateway External Access CIDR"
@@ -225,7 +205,7 @@
                     "default": "Cluster Node 2 Private IP Address 3"
                 },
                 "SIOSLicenseKeyFtpURL": {
-                    "default": "URL used to obtain license key for SIOS DataKeeper software."
+                    "default": "SIOS License Key FTP URL"
                 }
             }
         }
@@ -369,14 +349,14 @@
             "Type": "String"
         },
         "QSS3KeyPrefix": {
-            "AllowedPattern": "^[0-9a-zA-Z-]+(/[0-9a-zA-Z-]+)*$",
-            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
-            "Default": "sios/datakeeper/latest",
-            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/). It cannot start or end with forward slash (/) because they are automatically appended.",
+            "AllowedPattern": "^[0-9a-zA-Z-/]*$",
+            "ConstraintDescription": "Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
+            "Default": "sios/datakeeper/latest/",
+            "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
-        "RDGW1InstanceType": {
-            "Description": "Amazon EC2 instance type for the first Remote Desktop Gateway instance",
+        "RDGWInstanceType": {
+            "Description": "Amazon EC2 instance type for the Remote Desktop Gateway instance",
             "Type": "String",
             "Default": "t2.large",
             "AllowedValues": [
@@ -389,52 +369,11 @@
                 "m4.2xlarge",
                 "m4.4xlarge"
             ]
-        },
-        "RDGW1NetBIOSName": {
-            "Description": "NetBIOS name of the first Remote Desktop Gateway (up to 15 characters)",
-            "Type": "String",
-            "Default": "RDGW1",
-            "MinLength": "1",
-            "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
-        },
-        "RDGW1PrivateIP": {
-            "Description": "Fixed private IP for the first Remote Desktop Gateway located in Availability Zone 1",
-            "Type": "String",
-            "Default": "10.0.128.11"
-        },
-        "RDGW2InstanceType": {
-            "Description": "Amazon EC2 instance type for the second Remote Desktop Gateway instance",
-            "Type": "String",
-            "Default": "t2.large",
-            "AllowedValues": [
-                "t2.large",
-                "m3.large",
-                "m3.xlarge",
-                "m3.2xlarge",
-                "m4.large",
-                "m4.xlarge",
-                "m4.2xlarge",
-                "m4.4xlarge"
-            ]
-        },
-        "RDGW2NetBIOSName": {
-            "Description": "NetBIOS name of the second Remote Desktop Gateway (up to 15 characters)",
-            "Type": "String",
-            "Default": "RDGW2",
-            "MinLength": "1",
-            "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
-        },
-        "RDGW2PrivateIP": {
-            "Description": "Fixed private IP for the second Remote Desktop Gateway located in Availability Zone 2",
-            "Type": "String",
-            "Default": "10.0.144.11"
         },
         "RDGWCIDR": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
             "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
-            "Description": "Allowed CIDR Block for external access to the Remote Desktop Gateways",
+            "Description": "Allowed CIDR Block for external access to the Remote Desktop Gateway",
             "Type": "String"
         },
         "RestoreModePassword": {
@@ -590,60 +529,13 @@
             "Default": "10.0.32.200"
         }
     },
-    "Mappings": {
-        "AWSInfoRegionMap": {
-            "ap-northeast-2": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "ap-south-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "ap-southeast-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "ap-southeast-2": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "ca-central-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "eu-central-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "eu-west-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "eu-west-2": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "sa-east-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "us-east-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "us-east-2": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "us-west-1": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            },
-            "us-west-2": {
-                "Partition": "aws",
-                "QuickStartS3URL": "https://s3.amazonaws.com"
-            }
+    "Conditions": {
+        "GovCloudCondition": {
+            "Fn::Equals": [{
+                    "Ref": "AWS::Region"
+                },
+                "us-gov-west-1"
+            ]
         }
     },
     "Resources": {
@@ -651,27 +543,17 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+                        {
+                            "QSS3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "submodules/quickstart-aws-vpc",
-                            "templates/aws-vpc.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
@@ -710,27 +592,17 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/ad-2012r2-1.template",
+                        {
+                            "QSS3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "submodules/quickstart-microsoft-activedirectory",
-                            "templates/ad-2012r2-1.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
@@ -801,15 +673,7 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Join": [
-                            "/",
-                            [
-                                {
-                                    "Ref": "QSS3KeyPrefix"
-                                },
-                                "submodules/quickstart-microsoft-activedirectory"
-                            ]
-                        ]
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/"
                     },
                     "RestoreModePassword": {
                         "Ref": "RestoreModePassword"
@@ -831,36 +695,20 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/templates/rdgw-domain.template",
+                        {
+                            "QSS3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "submodules/quickstart-microsoft-rdgateway",
-                            "templates/rdgw-domain.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
-                    "ADServer1PrivateIP": {
-                        "Ref": "ADServer1PrivateIP"
-                    },
-                    "ADServer2PrivateIP": {
-                        "Ref": "ADServer2PrivateIP"
-                    },
                     "DomainAdminPassword": {
                         "Ref": "DomainAdminPassword"
                     },
@@ -898,33 +746,10 @@
                         "Ref": "QSS3BucketName"
                     },
                     "QSS3KeyPrefix": {
-                        "Fn::Join": [
-                          	"/",
-                           [
-                             	{
-                                	"Ref": "QSS3KeyPrefix"
-                             	},
-                              	"submodules/quickstart-microsoft-rdgateway"
-                           ]
-                        ]
+                        "Fn::Sub": "${QSS3KeyPrefix}submodules/quickstart-microsoft-rdgateway/"
                     },
-                    "RDGW1InstanceType": {
-                        "Ref": "RDGW1InstanceType"
-                    },
-                    "RDGW1NetBIOSName": {
-                        "Ref": "RDGW1NetBIOSName"
-                    },
-                    "RDGW1PrivateIP": {
-                        "Ref": "RDGW1PrivateIP"
-                    },
-                    "RDGW2InstanceType": {
-                        "Ref": "RDGW2InstanceType"
-                    },
-                    "RDGW2NetBIOSName": {
-                        "Ref": "RDGW2NetBIOSName"
-                    },
-                    "RDGW2PrivateIP": {
-                        "Ref": "RDGW2PrivateIP"
+                    "RDGWInstanceType": {
+                        "Ref": "RDGWInstanceType"
                     },
                     "RDGWCIDR": {
                         "Ref": "RDGWCIDR"
@@ -943,26 +768,17 @@
             "DependsOn": "ADStack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Join": [
-                        "/",
-                        [
-                            {
-                                "Fn::FindInMap": [
-                                    "AWSInfoRegionMap",
-                                    {
-                                        "Ref": "AWS::Region"
-                                    },
-                                    "QuickStartS3URL"
+                    "Fn::Sub": [
+                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/sios-datakeeper.template",
+                        {
+                            "QSS3Region": {
+                                "Fn::If": [
+                                    "GovCloudCondition",
+                                    "s3-us-gov-west-1",
+                                    "s3"
                                 ]
-                            },
-                            {
-                                "Ref": "QSS3BucketName"
-                            },
-                            {
-                                "Ref": "QSS3KeyPrefix"
-                            },
-                            "templates/sios-datakeeper.template"
-                        ]
+                            }
+                        }
                     ]
                 },
                 "Parameters": {
