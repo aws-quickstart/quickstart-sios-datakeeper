@@ -97,7 +97,7 @@
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_AWS_Quickstart_2017-04-20_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_QuickStart_Templates_2017-05-15_DKCE/"
     },
     {
         "ParameterKey": "SQLServiceAccount",
