@@ -522,7 +522,7 @@
             "Default": "10.0.0.101"
         },
         "WSFCNode1PrivateIP3": {
-            "Description": "Third private IP for Availability Group Listner on 1st WSFC Node",
+            "Description": "Third private IP for SQL Server Network Name on 1st WSFC Node",
             "Type": "String",
             "Default": "10.0.0.200"
         },
@@ -537,7 +537,7 @@
             "Default": "10.0.32.101"
         },
         "WSFCNode2PrivateIP3": {
-            "Description": "Third private IP for Availability Group Listner on 2nd WSFC Node",
+            "Description": "Third private IP for SQL Server Network Name on 2nd WSFC Node",
             "Type": "String",
             "Default": "10.0.32.200"
         }
