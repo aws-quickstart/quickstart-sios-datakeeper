@@ -589,7 +589,13 @@
                         "config": [
                             "QuickStartSetup",
                             "Prep",
-                            "ConfigureDKCE",
+                            {
+                                "Fn::If": [
+                                    "ByolAmi",
+                                    "DownloadDKCELicenseAndConfigure",
+                                    "ConfigureDKCE"
+                                ]
+                            },
                             "InstallSQL",
                             "Cleanup",
                             "Finalize"
@@ -1097,7 +1103,7 @@
                             }
                         }
                     },
-                    "ConfigureDKCE": {
+                    "DownloadDKCELicenseAndConfigure": {
                         "files": {
                             "C:\\cfn\\scripts\\DownloadDKCELicense.ps1": {
                                 "source": {
@@ -1201,6 +1207,100 @@
                                 "waitAfterCompletion": "0"
                             },
                             "c-create-mirror": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\CreateMirror.ps1 -SourceIP ",
+                                            {
+                                                "Ref": "WSFCNode1PrivateIP1"
+                                            },
+                                            " -Volume D -TargetIP ",
+                                            {
+                                                "Ref": "WSFCNode2PrivateIP1"
+                                            },
+                                            " -SyncType S",
+                                            "\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
+                    "ConfigureDKCE": {
+                        "files": {
+                            "C:\\cfn\\scripts\\CreateJob.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/CreateJob.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\CreateMirror.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/CreateMirror.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "commands": {
+                            "a-create-job": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\CreateJob.ps1 -JobName vol.D -JobDesc 'SQL Volume Protection' -SourceName ",
+                                            {
+                                                "Ref": "WSFCNode1NetBIOSName"
+                                            },
+                                            ".",
+                                            {
+                                                "Ref": "DomainDNSName"
+                                            },
+                                            " -SourceIP ",
+                                            {
+                                                "Ref": "WSFCNode1PrivateIP1"
+                                            },
+                                            " -SourceVol D -TargetName ",
+                                            {
+                                                "Ref": "WSFCNode2NetBIOSName"
+                                            },
+                                            ".",
+                                            {
+                                                "Ref": "DomainDNSName"
+                                            },
+                                            " -TargetIP ",
+                                            {
+                                                "Ref": "WSFCNode2PrivateIP1"
+                                            },
+                                            " -TargetVol D -SyncType S",
+                                            "\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-create-mirror": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1567,8 +1667,13 @@
                         "config": [
                             "QuickStartSetup",
                             "Prep",
-                            "ConfigureDKCE",
-                            "ConfigureWSFC",
+                            {
+                                "Fn::If": [
+                                    "ByolAmi",
+                                    "DownloadDKCELicenseAndConfigureWSFC",
+                                    "ConfigureWSFC"
+                                ]
+                            },
                             "InstallSQL",
                             "Cleanup",
                             "Finalize"
@@ -1953,7 +2058,7 @@
                             }
                         }
                     },
-                    "ConfigureDKCE": {
+                    "DownloadDKCELicenseAndConfigureWSFC": {
                         "files": {
                             "C:\\cfn\\scripts\\DownloadDKCELicense.ps1": {
                                 "source": {
@@ -1970,28 +2075,7 @@
                                         }
                                     ]
                                 }
-                            }
-                        },
-                        "commands": {
-                            "a-download-dkce-license": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command \"C:\\cfn\\scripts\\DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL '",
-                                            {
-                                                "Ref": "SIOSLicenseKeyFtpURL"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            }
-                        }
-                    },
-                    "ConfigureWSFC": {
-                        "files": {
+                            },
                             "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
                                 "source": {
                                     "Fn::Sub": [
@@ -2074,6 +2158,21 @@
                             }
                         },
                         "commands": {
+                            "a-download-dkce-license": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL '",
+                                            {
+                                                "Ref": "SIOSLicenseKeyFtpURL"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
                             "b-configure-WSFC": {
                                 "command": {
                                     "Fn::Join": [
@@ -2263,6 +2362,312 @@
                                 "waitAfterCompletion": "0"
                             },
                             "i-Set-ClusterQuorum": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\Set-ClusterQuorum.ps1",
+                                            " -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -WSFCNode2NetBIOSName '",
+                                            {
+                                                "Ref": "WSFCNode2NetBIOSName"
+                                            },
+                                            "' -FileServerNetBIOSName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
+                    "ConfigureWSFC": {
+                        "files": {
+                            "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\Create-Share.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Create-Share.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Set-Folder-Permissions.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\Configure-WSFC.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Configure-WSFC.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\Set-ClusterQuorum.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Set-ClusterQuorum.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        "commands": {
+                            "a-configure-WSFC": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -ExecutionPolicy RemoteSigned -Command \"C:\\cfn\\scripts\\Configure-WSFC.ps1",
+                                            " -WSFCNode1PrivateIP2 ",
+                                            {
+                                                "Ref": "WSFCNode1PrivateIP2"
+                                            },
+                                            " -WSFCNode2PrivateIP2 ",
+                                            {
+                                                "Ref": "WSFCNode2PrivateIP2"
+                                            },
+                                            " -WSFCNode1NetBIOSName ",
+                                            {
+                                                "Ref": "WSFCNode1NetBIOSName"
+                                            },
+                                            " -WSFCNode2NetBIOSName ",
+                                            {
+                                                "Ref": "WSFCNode2NetBIOSName"
+                                            },
+                                            " -DomainNetBIOSName ",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            " -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -NetBIOSName '",
+                                            {
+                                                "Ref": "WSFCNode2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-create-witness-share": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Create-Share.ps1",
+                                            " -Path 'c:\\witness'",
+                                            " -ShareName 'witness'",
+                                            " -FolderPath 'c:\\'",
+                                            " -FolderName 'witness'",
+                                            " -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -ServerName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-create-Replica-share": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Create-Share.ps1",
+                                            " -Path 'c:\\replica'",
+                                            " -ShareName 'replica'",
+                                            " -FolderPath 'c:\\'",
+                                            " -FolderName 'replica'",
+                                            " -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -ServerName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "d-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "e-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "f-Set-Folder-Permissions": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\Set-Folder-Permissions.ps1",
+                                            " -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -SQLServiceAccount '",
+                                            {
+                                                "Ref": "SQLServiceAccount"
+                                            },
+                                            "' -FileServerNetBIOSName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "g-Set-ClusterQuorum": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
