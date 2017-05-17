@@ -57,6 +57,7 @@
                         "default": "Replication Configuration"
                     },
                     "Parameters": [
+                        "AMIType",
                         "SIOSLicenseKeyFtpURL",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
@@ -204,6 +205,9 @@
                 "WSFCNode2PrivateIP3": {
                     "default": "Cluster Node 2 Private IP Address 3"
                 },
+                "AMIType": {
+                    "default": "SIOS AMI Version"
+                },
                 "SIOSLicenseKeyFtpURL": {
                     "default": "SIOS License Key FTP URL"
                 }
@@ -211,6 +215,15 @@
         }
     },
     "Parameters": {
+        "AMIType": {
+            "AllowedValues": [
+                "PAYG",
+                "BYOL"
+            ],
+            "Default": "PAYG",
+            "Description": "AMI type for SIOS license purposes.",
+            "Type": "String"
+        },
         "SIOSLicenseKeyFtpURL": {
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String"
@@ -889,6 +902,9 @@
                             "VPCStack",
                             "Outputs.PrivateSubnet2AID"
                         ]
+                    },
+                    "AMIType": {
+                        "Ref": "AMIType"
                     },
                     "SIOSLicenseKeyFtpURL": {
                         "Ref": "SIOSLicenseKeyFtpURL"
