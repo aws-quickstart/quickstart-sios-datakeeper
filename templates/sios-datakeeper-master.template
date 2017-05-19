@@ -148,6 +148,9 @@
                 "QSS3KeyPrefix": {
                     "default": "Quick Start S3 Key Prefix"
                 },
+                "SIOSLicenseKeyFtpURL": {
+                    "default": "SIOS License Key FTP URL"
+                },
                 "SQLServiceAccount": {
                     "default": "Service Account Name"
                 },
@@ -207,9 +210,6 @@
                 },
                 "AMIType": {
                     "default": "SIOS AMI Version"
-                },
-                "SIOSLicenseKeyFtpURL": {
-                    "default": "SIOS License Key FTP URL"
                 }
             }
         }
@@ -222,10 +222,6 @@
             ],
             "Default": "PAYG",
             "Description": "AMI type for SIOS license purposes.",
-            "Type": "String"
-        },
-        "SIOSLicenseKeyFtpURL": {
-            "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String"
         },
         "ADServer1InstanceType": {
@@ -316,7 +312,7 @@
         },
         "DomainNetBIOSName": {
             "AllowedPattern": "[a-zA-Z0-9]+",
-            "Default": "datakeeper",
+            "Default": "DATAKEEPER",
             "Description": "NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE",
             "MaxLength": "15",
             "MinLength": "1",
@@ -368,10 +364,13 @@
             "Description": "S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).",
             "Type": "String"
         },
+        "RDGWCIDR": {
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
+            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
+            "Description": "Allowed CIDR Block for external access to the Remote Desktop Gateway",
+            "Type": "String"
+        },
         "RDGWInstanceType": {
-            "Description": "Amazon EC2 instance type for the Remote Desktop Gateway instance",
-            "Type": "String",
-            "Default": "t2.large",
             "AllowedValues": [
                 "t2.large",
                 "m3.large",
@@ -381,12 +380,9 @@
                 "m4.xlarge",
                 "m4.2xlarge",
                 "m4.4xlarge"
-            ]
-        },
-        "RDGWCIDR": {
-            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))$",
-            "ConstraintDescription": "CIDR block parameter must be in the form x.x.x.x/x",
-            "Description": "Allowed CIDR Block for external access to the Remote Desktop Gateway",
+            ],
+            "Default": "t2.large",
+            "Description": "Amazon EC2 instance type for the Remote Desktop Gateway instance",
             "Type": "String"
         },
         "RestoreModePassword": {
@@ -395,6 +391,27 @@
             "MaxLength": "32",
             "MinLength": "8",
             "NoEcho": "True",
+            "Type": "String"
+        },
+        "SIOSLicenseKeyFtpURL": {
+            "Default": "",
+            "Description": "URL used to obtain license key for SIOS DataKeeper software.",
+            "Type": "String"
+        },
+        "SQLServiceAccount": {
+            "AllowedPattern": "[a-zA-Z0-9]*",
+            "Default": "sqlsa",
+            "Description": "User name for the SQL Server Service Account. This Account is a Domain User.",
+            "MaxLength": "25",
+            "MinLength": "5",
+            "Type": "String"
+        },
+        "SQLServiceAccountPassword": {
+            "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols",
+            "MaxLength": "32",
+            "MinLength": "8",
+            "NoEcho": "true",
             "Type": "String"
         },
         "VPCCIDR": {
@@ -427,26 +444,7 @@
             "Description": "Volume type for the SQL Data drive",
             "Type": "String"
         },
-        "SQLServiceAccount": {
-            "Description": "User name for the SQL Server Service Account. This Account is a Domain User.",
-            "Type": "String",
-            "Default": "sqlsa",
-            "MinLength": "5",
-            "MaxLength": "25",
-            "AllowedPattern": "[a-zA-Z0-9]*"
-        },
-        "SQLServiceAccountPassword": {
-            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols",
-            "Type": "String",
-            "MinLength": "8",
-            "MaxLength": "32",
-            "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "NoEcho": "true"
-        },
         "WSFCNode1InstanceType": {
-            "Description": "Amazon EC2 instance type for the 1st WSFC Node",
-            "Type": "String",
-            "Default": "r3.xlarge",
             "AllowedValues": [
                 "m3.xlarge",
                 "m3.2xlarge",
@@ -467,79 +465,88 @@
                 "i2.2xlarge",
                 "i2.4xlarge"
             ],
-            "ConstraintDescription": "Only EBS Optimized instance types allowed"
-        },
-        "WSFCNode2InstanceType": {
-            "Description": "Amazon EC2 instance type for the 1st WSFC Node",
-            "Type": "String",
+            "ConstraintDescription": "Only EBS Optimized instance types allowed",
             "Default": "r3.xlarge",
-            "AllowedValues": [
-                "m3.xlarge",
-                "m3.2xlarge",
-                "c3.xlarge",
-                "c3.2xlarge",
-                "c3.4xlarge",
-                "g2.2xlarge",
-                "r3.xlarge",
-                "r3.2xlarge",
-                "r3.4xlarge",
-                "x1.16xlarge",
-                "x1.32xlarge",
-                "d2.xlarge",
-                "d2.2xlarge",
-                "d2.4xlarge",
-                "d2.8xlarge",
-                "i2.xlarge",
-                "i2.2xlarge",
-                "i2.4xlarge"
-            ],
-            "ConstraintDescription": "Only EBS Optimized instance types allowed"
+            "Description": "Amazon EC2 instance type for the 1st WSFC Node",
+            "Type": "String"
         },
         "WSFCNode1NetBIOSName": {
-            "Description": "NetBIOS name of the 1st WSFC Node (up to 15 characters)",
-            "Type": "String",
+            "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "WSFCNode1",
-            "MinLength": "1",
+            "Description": "NetBIOS name of the first WSFC Node (up to 15 characters)",
             "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
-        },
-        "WSFCNode2NetBIOSName": {
-            "Description": "NetBIOS name of the 2nd WSFC Node (up to 15 characters)",
-            "Type": "String",
-            "Default": "WSFCNode2",
             "MinLength": "1",
-            "MaxLength": "15",
-            "AllowedPattern": "[a-zA-Z0-9]+"
+            "Type": "String"
         },
         "WSFCNode1PrivateIP1": {
-            "Description": "Primary private IP for the 1st WSFC Node located in AZ1",
-            "Type": "String",
-            "Default": "10.0.0.100"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.0.100",
+            "Description": "Primary private IP for the first WSFC Node located in Availability Zone 1",
+            "Type": "String"
         },
         "WSFCNode1PrivateIP2": {
-            "Description": "Secondary private IP for WSFC cluster on 1st WSFC Node",
-            "Type": "String",
-            "Default": "10.0.0.101"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.0.101",
+            "Description": "Secondary private IP for WSFC cluster on first WSFC Node",
+            "Type": "String"
         },
         "WSFCNode1PrivateIP3": {
-            "Description": "Third private IP for SQL Server Network Name on 1st WSFC Node",
-            "Type": "String",
-            "Default": "10.0.0.200"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.0.102",
+            "Description": "Third private IP for Availability Group Listener on first WSFC Node",
+            "Type": "String"
+        },
+        "WSFCNode2InstanceType": {
+            "AllowedValues": [
+                "m3.xlarge",
+                "m3.2xlarge",
+                "c3.xlarge",
+                "c3.2xlarge",
+                "c3.4xlarge",
+                "g2.2xlarge",
+                "r3.xlarge",
+                "r3.2xlarge",
+                "r3.4xlarge",
+                "x1.16xlarge",
+                "x1.32xlarge",
+                "d2.xlarge",
+                "d2.2xlarge",
+                "d2.4xlarge",
+                "d2.8xlarge",
+                "i2.xlarge",
+                "i2.2xlarge",
+                "i2.4xlarge"
+            ],
+            "ConstraintDescription": "Only EBS Optimized instance types allowed",
+            "Default": "r3.xlarge",
+            "Description": "Amazon EC2 instance type for the 1st WSFC Node",
+            "Type": "String"
+        },
+        "WSFCNode2NetBIOSName": {
+            "AllowedPattern": "[a-zA-Z0-9]+",
+            "Default": "WSFCNode2",
+            "Description": "NetBIOS name of the second WSFC Node (up to 15 characters)",
+            "MaxLength": "15",
+            "MinLength": "1",
+            "Type": "String"
         },
         "WSFCNode2PrivateIP1": {
-            "Description": "Primary private IP for the 2nd WSFC Node located in AZ2",
-            "Type": "String",
-            "Default": "10.0.32.100"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.32.100",
+            "Description": "Primary private IP for the second WSFC Node located in Availability Zone 2",
+            "Type": "String"
         },
         "WSFCNode2PrivateIP2": {
-            "Description": "Secondary private IP for WSFC cluster on 2nd WSFC Node",
-            "Type": "String",
-            "Default": "10.0.32.101"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.32.101",
+            "Description": "Secondary private IP for WSFC cluster on second WSFC Node",
+            "Type": "String"
         },
         "WSFCNode2PrivateIP3": {
             "Description": "Third private IP for SQL Server Network Name on 2nd WSFC Node",
-            "Type": "String",
-            "Default": "10.0.32.200"
+            "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
+            "Default": "10.0.32.102",
+            "Type": "String"
         }
     },
     "Conditions": {
