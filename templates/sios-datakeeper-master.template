@@ -381,6 +381,7 @@
             "Type": "String"
         },
         "SIOSLicenseKeyFtpURL": {
+            "Default": "",
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String"
         },
