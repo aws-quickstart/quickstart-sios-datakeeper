@@ -28,7 +28,7 @@ try {
     $DomainAdminCreds = New-Object System.Management.Automation.PSCredential($DomainAdminFullUser, $DomainAdminSecurePassword)
 
     $WaitForSQLClusterGroup={
-        "`nWaiting on 'SQL Server (MSSQLSERVER)' cluster group to come online...`n"
+        "`nWaiting on 'SQL Server (SIOSSQLSERVER)' cluster group to come online...`n"
         $tries = 240
         $retryIntervalSec = 30
 		
@@ -40,7 +40,7 @@ try {
                 Start-Sleep $retryIntervalSec
                 $tries--
 
-                $clustergroup = Get-ClusterGroup -Name "SQL Server (MSSQLSERVER)"
+                $clustergroup = Get-ClusterGroup -Name "SQL Server (SIOSSQLSERVER)"
                 if ($clustergroup -ne $null)
                 {
                     $state = $clustergroup.State
