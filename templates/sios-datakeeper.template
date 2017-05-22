@@ -45,6 +45,7 @@
                         "default": "Replication Configuration"
                     },
                     "Parameters": [
+                        "AMIType",
                         "SIOSLicenseKeyFtpURL",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
@@ -179,11 +180,23 @@
                 },
                 "WSFCNode2PrivateIP3": {
                     "default": "Cluster Node 2 Private IP Address 3"
+                },
+                "AMIType": {
+                    "default": "SIOS AMI Version"
                 }
             }
         }
     },
     "Parameters": {
+        "AMIType": {
+            "AllowedValues": [
+                "PAYG",
+                "BYOL"
+            ],
+            "Default": "PAYG",
+            "Description": "AMI type for SIOS license purposes.",
+            "Type": "String"
+        },
         "ADServer1NetBIOSName": {
             "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "DC1",
