@@ -461,6 +461,15 @@
                 },
                 "us-gov-west-1"
             ]
+        },
+        "ByolAmi": {
+            "Fn::Not": [{
+                "Fn::Equals": [{
+                        "Ref": "AMIType"
+                    },
+                    "PAYG"
+                ]
+            }]
         }
     },
     "Rules": {
@@ -1497,12 +1506,26 @@
             },
             "Properties": {
                 "ImageId": {
-                    "Fn::FindInMap": [
-                        "AWSAMIRegionMap",
+                    "Fn::If": [
+                        "ByolAmi",
                         {
-                            "Ref": "AWS::Region"
+                            "Fn::FindInMap": [
+                                "AWSAMIRegionMap",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "SIOS2012R2"
+                            ]
                         },
-                        "SIOS2012R2"
+                        {
+                            "Fn::FindInMap": [
+                                "AWSAMIRegionMap",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "SIOS2012R2SQL2014STD"
+                            ]
+                        }
                     ]
                 },
                 "IamInstanceProfile": {
@@ -2544,12 +2567,26 @@
             },
             "Properties": {
                 "ImageId": {
-                    "Fn::FindInMap": [
-                        "AWSAMIRegionMap",
+                    "Fn::If": [
+                        "ByolAmi",
                         {
-                            "Ref": "AWS::Region"
+                            "Fn::FindInMap": [
+                                "AWSAMIRegionMap",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "SIOS2012R2"
+                            ]
                         },
-                        "SIOS2012R2"
+                        {
+                            "Fn::FindInMap": [
+                                "AWSAMIRegionMap",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "SIOS2012R2SQL2014STD"
+                            ]
+                        }
                     ]
                 },
                 "IamInstanceProfile": {
