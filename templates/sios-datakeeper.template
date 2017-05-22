@@ -488,46 +488,60 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11"
+                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
+                "SIOS2012R2SQL2014STD": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-SQL_2014_SP1_Standard-2017.04.12"
             },
             "us-east-1": {
-                "SIOS2012R2": "ami-a4ea2cb2"
+                "SIOS2012R2": "ami-a4ea2cb2",
+                "SIOS2012R2SQL2014STD": "ami-61940b77"
             },
             "us-east-2": {
-                "SIOS2012R2": "ami-96e7c2f3"
+                "SIOS2012R2": "ami-96e7c2f3",
+                "SIOS2012R2SQL2014STD": "ami-0b7e596e"
             },
             "us-west-1": {
-                "SIOS2012R2": "ami-af2874cf"
+                "SIOS2012R2": "ami-af2874cf",
+                "SIOS2012R2SQL2014STD": "ami-ba1d39da"
             },
             "us-west-2": {
-                "SIOS2012R2": "ami-699f1a09"
+                "SIOS2012R2": "ami-699f1a09",
+                "SIOS2012R2SQL2014STD": "ami-8d71eded"
             },
             "ca-central-1": {
-                "SIOS2012R2": "ami-29a5184d"
+                "SIOS2012R2": "ami-29a5184d",
+                "SIOS2012R2SQL2014STD": "ami-80c77be4"
             },
             "ap-south-1": {
-                "SIOS2012R2": "ami-8e4c3de1"
+                "SIOS2012R2": "ami-8e4c3de1",
+                "SIOS2012R2SQL2014STD": "ami-00186a6f"
             },
             "ap-northeast-2": {
-                "SIOS2012R2": "ami-1562b37b"
+                "SIOS2012R2": "ami-1562b37b",
+                "SIOS2012R2SQL2014STD": "ami-6e24f600"
             },
             "ap-southeast-1": {
-                "SIOS2012R2": "ami-061baf65"
+                "SIOS2012R2": "ami-061baf65",
+                "SIOS2012R2SQL2014STD": "ami-9d7ec6fe"
             },
             "ap-southeast-2": {
-                "SIOS2012R2": "ami-57434234"
+                "SIOS2012R2": "ami-57434234",
+                "SIOS2012R2SQL2014STD": "ami-da4941b9"
             },
             "eu-central-1": {
-                "SIOS2012R2": "ami-a9d41cc6"
+                "SIOS2012R2": "ami-a9d41cc6",
+                "SIOS2012R2SQL2014STD": "ami-35568b5a"
             },
             "eu-west-1": {
-                "SIOS2012R2": "ami-ef88ad89"
+                "SIOS2012R2": "ami-ef88ad89",
+                "SIOS2012R2SQL2014STD": "ami-7e333518"
             },
             "eu-west-2": {
-                "SIOS2012R2": "ami-d76d78b3"
+                "SIOS2012R2": "ami-d76d78b3",
+                "SIOS2012R2SQL2014STD": "ami-9afde9fe"
             },
             "sa-east-1": {
-                "SIOS2012R2": "ami-8ad7b3e6"
+                "SIOS2012R2": "ami-8ad7b3e6",
+                "SIOS2012R2SQL2014STD": "ami-3249245e"
             }
         }
     },
