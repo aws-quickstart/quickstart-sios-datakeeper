@@ -1509,6 +1509,10 @@
                                             {
                                                 "Ref": "WSFCNode1PrivateIP3"
                                             },
+                                            "' -ClusterSubnetCidr '",
+                                            {
+                                                "Ref": "PrivateSubnet1CIDR"
+                                            },
                                             "'\""
                                         ]
                                     ]
