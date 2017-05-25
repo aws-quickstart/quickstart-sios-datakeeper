@@ -456,20 +456,24 @@
     },
     "Conditions": {
         "GovCloudCondition": {
-            "Fn::Equals": [{
+            "Fn::Equals": [
+                {
                     "Ref": "AWS::Region"
                 },
                 "us-gov-west-1"
             ]
         },
         "ByolAmi": {
-            "Fn::Not": [{
-                "Fn::Equals": [{
-                        "Ref": "AMIType"
-                    },
-                    "PAYG"
-                ]
-            }]
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        {
+                            "Ref": "AMIType"
+                        },
+                        "PAYG"
+                    ]
+                }
+            ]
         }
     },
     "Rules": {
@@ -647,12 +651,25 @@
         "WSFCNode1": {
             "Type": "AWS::EC2::Instance",
             "Metadata": {
+                "AWS::CloudFormation::Authentication": {
+                    "S3AccessCreds": {
+                        "type": "S3",
+                        "roleName": {
+                            "Ref": "WSFCRole"
+                        },
+                        "buckets": [
+                            {
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
+                    }
+                },
                 "AWS::CloudFormation::Init": {
                     "configSets": {
                         "config": [
                             "QuickStartSetup",
                             "Prep",
-{
+                            {
                                 "Fn::If": [
                                     "ByolAmi",
                                     "DownloadDKCELicenseAndConfigure",
@@ -722,7 +739,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\modules\\AWSQuickStart.zip": {
                                 "source": {
@@ -738,7 +756,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -796,7 +815,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Join-Domain.ps1": {
                                 "source": {
@@ -812,7 +832,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Rename-Computer.ps1": {
                                 "source": {
@@ -828,7 +849,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Install-WindowsFailoverClustering.ps1": {
                                 "source": {
@@ -844,7 +866,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Install-NETFrameworkCore.ps1": {
                                 "source": {
@@ -860,7 +883,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\OpenWSFCPorts.ps1": {
                                 "source": {
@@ -876,7 +900,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\EnableCredSsp.ps1": {
                                 "source": {
@@ -892,7 +917,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Create-ADServiceAccount.ps1": {
                                 "source": {
@@ -908,7 +934,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\AddUserToGroup.ps1": {
                                 "source": {
@@ -924,7 +951,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
                                 "source": {
@@ -940,7 +968,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1182,7 +1211,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\CreateJob.ps1": {
                                 "source": {
@@ -1198,7 +1228,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\CreateMirror.ps1": {
                                 "source": {
@@ -1214,7 +1245,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1307,7 +1339,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\CreateMirror.ps1": {
                                 "source": {
@@ -1323,7 +1356,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1401,7 +1435,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\RegisterClusterVolume.ps1": {
                                 "source": {
@@ -1417,7 +1452,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\InstallSQLEE.ps1": {
                                 "source": {
@@ -1433,7 +1469,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1585,7 +1622,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1732,6 +1770,19 @@
         "WSFCNode2": {
             "Type": "AWS::EC2::Instance",
             "Metadata": {
+                "AWS::CloudFormation::Authentication": {
+                    "S3AccessCreds": {
+                        "type": "S3",
+                        "roleName": {
+                            "Ref": "WSFCRole"
+                        },
+                        "buckets": [
+                            {
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
+                    }
+                },
                 "AWS::CloudFormation::Init": {
                     "configSets": {
                         "config": [
@@ -1807,7 +1858,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\modules\\AWSQuickStart.zip": {
                                 "source": {
@@ -1823,7 +1875,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -1881,7 +1934,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Join-Domain.ps1": {
                                 "source": {
@@ -1897,7 +1951,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Rename-Computer.ps1": {
                                 "source": {
@@ -1913,7 +1968,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Install-WindowsFailoverClustering.ps1": {
                                 "source": {
@@ -1929,7 +1985,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Install-NETFrameworkCore.ps1": {
                                 "source": {
@@ -1945,7 +2002,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\OpenWSFCPorts.ps1": {
                                 "source": {
@@ -1961,7 +2019,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\EnableCredSsp.ps1": {
                                 "source": {
@@ -1977,7 +2036,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
                                 "source": {
@@ -1993,7 +2053,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -2144,7 +2205,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
                                 "source": {
@@ -2160,7 +2222,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Create-Share.ps1": {
                                 "source": {
@@ -2176,7 +2239,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
                                 "source": {
@@ -2192,7 +2256,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Configure-WSFC.ps1": {
                                 "source": {
@@ -2208,7 +2273,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Set-ClusterQuorum.ps1": {
                                 "source": {
@@ -2224,7 +2290,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -2481,7 +2548,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Create-Share.ps1": {
                                 "source": {
@@ -2497,7 +2565,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
                                 "source": {
@@ -2513,7 +2582,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Configure-WSFC.ps1": {
                                 "source": {
@@ -2529,7 +2599,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\Set-ClusterQuorum.ps1": {
                                 "source": {
@@ -2545,7 +2616,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -2787,7 +2859,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             },
                             "C:\\cfn\\scripts\\InstallSQLEE-AddNode.ps1": {
                                 "source": {
@@ -2803,7 +2876,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
@@ -2951,7 +3025,8 @@
                                             }
                                         }
                                     ]
-                                }
+                                },
+                                "authentication": "S3AccessCreds"
                             }
                         },
                         "commands": {
