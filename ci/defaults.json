@@ -1,5 +1,9 @@
 [
     {
+        "ParameterKey": "AMIType",
+        "ParameterValue": "BYOL"
+    },
+    {
         "ParameterKey": "ADServer1InstanceType",
         "ParameterValue": "t2.large"
     },
@@ -77,7 +81,7 @@
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_QuickStart_Templates_2017-05-15_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_QuickStart_Templates_2017-05-25_DKCE/"
     },
     {
         "ParameterKey": "SQLServiceAccount",

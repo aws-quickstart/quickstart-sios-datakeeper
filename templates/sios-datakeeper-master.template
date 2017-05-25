@@ -57,6 +57,7 @@
                         "default": "Replication Configuration"
                     },
                     "Parameters": [
+                        "AMIType",
                         "SIOSLicenseKeyFtpURL",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
@@ -206,11 +207,23 @@
                 },
                 "WSFCNode2PrivateIP3": {
                     "default": "Cluster Node 2 Private IP Address 3"
+                },
+                "AMIType": {
+                    "default": "SIOS AMI Version"
                 }
             }
         }
     },
     "Parameters": {
+        "AMIType": {
+            "AllowedValues": [
+                "PAYG",
+                "BYOL"
+            ],
+            "Default": "PAYG",
+            "Description": "AMI type for SIOS license purposes.",
+            "Type": "String"
+        },
         "ADServer1InstanceType": {
             "AllowedValues": [
                 "t2.large",
@@ -480,7 +493,7 @@
         "WSFCNode1PrivateIP3": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
             "Default": "10.0.0.102",
-            "Description": "Third private IP for Availability Group Listener on first WSFC Node",
+            "Description": "Third private IP for SQL Server Network Name on first WSFC Node",
             "Type": "String"
         },
         "WSFCNode2InstanceType": {
@@ -532,7 +545,7 @@
         "WSFCNode2PrivateIP3": {
             "AllowedPattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$",
             "Default": "10.0.32.102",
-            "Description": "Third private IP for Availability Group Listener on second WSFC Node",
+            "Description": "Third private IP for SQL Server Network Name on second WSFC Node",
             "Type": "String"
         }
     },
@@ -896,6 +909,9 @@
                             "VPCStack",
                             "Outputs.PrivateSubnet2AID"
                         ]
+                    },
+                    "AMIType": {
+                        "Ref": "AMIType"
                     },
                     "SIOSLicenseKeyFtpURL": {
                         "Ref": "SIOSLicenseKeyFtpURL"
