@@ -59,6 +59,7 @@
                     "Parameters": [
                         "AMIType",
                         "SIOSLicenseKeyFtpURL",
+                        "SQLServerVersion",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
                         "Volume1Size",
@@ -150,6 +151,9 @@
                 },
                 "SIOSLicenseKeyFtpURL": {
                     "default": "SIOS License Key FTP URL"
+                },
+                "SQLServerVersion": {
+                    "default": "SQL Server Version"
                 },
                 "SQLServiceAccount": {
                     "default": "Service Account Name"
@@ -396,6 +400,15 @@
         "SIOSLicenseKeyFtpURL": {
             "Default": "",
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
+            "Type": "String"
+        },
+        "SQLServerVersion": {
+            "AllowedValues": [
+                "None",
+                "2014SP1"
+            ],
+            "Default": "2014SP1",
+            "Description": "Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.",
             "Type": "String"
         },
         "SQLServiceAccount": {
@@ -835,6 +848,9 @@
                     },
                     "KeyPairName": {
                         "Ref": "KeyPairName"
+                    },
+                    "SQLServerVersion": {
+                        "Ref": "SQLServerVersion"
                     },
                     "SQLServiceAccount": {
                         "Ref": "SQLServiceAccount"

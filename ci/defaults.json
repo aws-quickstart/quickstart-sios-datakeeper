@@ -84,6 +84,10 @@
         "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_AWS_Template_Deployment_2017-06-19_DKCE/"
     },
     {
+        "ParameterKey": "SQLServerVersion",
+        "ParameterValue": "2014SP1"
+    },
+    {
         "ParameterKey": "SQLServiceAccount",
         "ParameterValue": "sqlsa"
     },
