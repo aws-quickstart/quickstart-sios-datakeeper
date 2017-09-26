@@ -487,6 +487,18 @@
                     ]
                 }
             ]
+        },
+        "SQLInstallCondition": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        {
+                            "Ref": "SQLServerVersion"
+                        },
+                        "None"
+                    ]
+                }
+            ]
         }
     },
     "Rules": {
