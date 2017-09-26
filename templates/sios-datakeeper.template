@@ -476,7 +476,7 @@
                 "us-gov-west-1"
             ]
         },
-        "ByolAmi": {
+        "ByolAmiCondition": {
             "Fn::Not": [
                 {
                     "Fn::Equals": [
@@ -684,7 +684,7 @@
                             "Prep",
                             {
                                 "Fn::If": [
-                                    "ByolAmi",
+                                    "ByolAmiCondition",
                                     "DownloadDKCELicenseAndConfigure",
                                     "ConfigureDKCE"
                                 ]
@@ -1662,7 +1662,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
-                        "ByolAmi",
+                        "ByolAmiCondition",
                         {
                             "Fn::FindInMap": [
                                 "AWSAMIRegionMap",
@@ -1803,7 +1803,7 @@
                             "Prep",
                             {
                                 "Fn::If": [
-                                    "ByolAmi",
+                                    "ByolAmiCondition",
                                     "DownloadDKCELicenseAndConfigureWSFC",
                                     "ConfigureWSFC"
                                 ]
@@ -3065,7 +3065,7 @@
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
-                        "ByolAmi",
+                        "ByolAmiCondition",
                         {
                             "Fn::FindInMap": [
                                 "AWSAMIRegionMap",
