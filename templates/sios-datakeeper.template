@@ -526,59 +526,59 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
+                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
                 "SIOS2012R2SQL2014STD": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-SQL_2014_SP1_Standard-2017.04.12"
             },
             "us-east-1": {
-                "SIOS2012R2": "ami-a29ec1b4",
+                "SIOS2012R2BYOL": "ami-a29ec1b4",
                 "SIOS2012R2SQL2014STD": "ami-c2653ad4"
             },
             "us-east-2": {
-                "SIOS2012R2": "ami-68c6e00d",
+                "SIOS2012R2BYOL": "ami-68c6e00d",
                 "SIOS2012R2SQL2014STD": "ami-02f9df67"
             },
             "us-west-1": {
-                "SIOS2012R2": "ami-36270556",
+                "SIOS2012R2BYOL": "ami-36270556",
                 "SIOS2012R2SQL2014STD": "ami-12210372"
             },
             "us-west-2": {
-                "SIOS2012R2": "ami-319b9548",
+                "SIOS2012R2BYOL": "ami-319b9548",
                 "SIOS2012R2SQL2014STD": "ami-109b9569"
             },
             "ca-central-1": {
-                "SIOS2012R2": "ami-ea00bc8e",
+                "SIOS2012R2BYOL": "ami-ea00bc8e",
                 "SIOS2012R2SQL2014STD": "ami-e804b88c"
             },
             "ap-south-1": {
-                "SIOS2012R2": "ami-a4255acb",
+                "SIOS2012R2BYOL": "ami-a4255acb",
                 "SIOS2012R2SQL2014STD": "ami-31235c5e"
             },
             "ap-northeast-2": {
-                "SIOS2012R2": "ami-f7518d99",
+                "SIOS2012R2BYOL": "ami-f7518d99",
                 "SIOS2012R2SQL2014STD": "ami-43528e2d"
             },
             "ap-southeast-1": {
-                "SIOS2012R2": "ami-ee84078d",
+                "SIOS2012R2BYOL": "ami-ee84078d",
                 "SIOS2012R2SQL2014STD": "ami-dd8605be"
             },
             "ap-southeast-2": {
-                "SIOS2012R2": "ami-a2daccc1",
+                "SIOS2012R2BYOL": "ami-a2daccc1",
                 "SIOS2012R2SQL2014STD": "ami-93d8cef0"
             },
             "eu-central-1": {
-                "SIOS2012R2": "ami-c954f1a6",
+                "SIOS2012R2BYOL": "ami-c954f1a6",
                 "SIOS2012R2SQL2014STD": "ami-8755f0e8"
             },
             "eu-west-1": {
-                "SIOS2012R2": "ami-54657832",
+                "SIOS2012R2BYOL": "ami-54657832",
                 "SIOS2012R2SQL2014STD": "ami-40687526"
             },
             "eu-west-2": {
-                "SIOS2012R2": "ami-688c9b0c",
+                "SIOS2012R2BYOL": "ami-688c9b0c",
                 "SIOS2012R2SQL2014STD": "ami-d88a9dbc"
             },
             "sa-east-1": {
-                "SIOS2012R2": "ami-e34f278f",
+                "SIOS2012R2BYOL": "ami-e34f278f",
                 "SIOS2012R2SQL2014STD": "ami-9f4e26f3"
             }
         }
@@ -1681,7 +1681,7 @@
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "SIOS2012R2"
+                                "SIOS2012R2BYOL"
                             ]
                         },
                         {
@@ -3084,7 +3084,7 @@
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "SIOS2012R2"
+                                "SIOS2012R2BYOL"
                             ]
                         },
                         {
