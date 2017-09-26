@@ -729,7 +729,13 @@
                                     "ConfigureDKCE"
                                 ]
                             },
-                            "InstallSQL",
+                            {
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "InstallSQL",
+                                    "DontInstallSQL"
+                                ]
+                            },
                             "Cleanup",
                             "Finalize"
                         ]
@@ -1659,6 +1665,106 @@
                             }
                         }
                     },
+                    "DontInstallSQL": {
+                        "files": {
+                            "C:\\cfn\\scripts\\WaitForCluster.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/WaitForCluster.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\scripts\\RegisterClusterVolume.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/RegisterClusterVolume.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "a-register-cluster-volume": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\RegisterClusterVolume.ps1 -Volume D ",
+                                            "\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "60"
+                            },
+                            "b-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
                     "Cleanup": {
                         "files": {
                             "C:\\cfn\\scripts\\DisableCredSsp.ps1": {
@@ -1713,12 +1819,26 @@
                             ]
                         },
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
+                            "Fn::If": [
+                                "SQLInstallCondition",
                                 {
-                                    "Ref": "AWS::Region"
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2SQL2014STD"
+                                    ]
                                 },
-                                "SIOS2012R2SQL2014STD"
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2"
+                                    ]
+                                }
                             ]
                         }
                     ]
@@ -1848,7 +1968,13 @@
                                     "ConfigureWSFC"
                                 ]
                             },
-                            "InstallSQL",
+                            {
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "InstallSQL",
+                                    "DontInstallSQL"
+                                ]
+                            },
                             "Cleanup",
                             "Finalize"
                         ]
@@ -3062,6 +3188,58 @@
                             }
                         }
                     },
+                    "DontInstallSQL": {
+                        "commands": {
+                            "a-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
                     "Cleanup": {
                         "files": {
                             "C:\\cfn\\scripts\\DisableCredSsp.ps1": {
@@ -3116,12 +3294,26 @@
                             ]
                         },
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
+                            "Fn::If": [
+                                "SQLInstallCondition",
                                 {
-                                    "Ref": "AWS::Region"
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2SQL2014STD"
+                                    ]
                                 },
-                                "SIOS2012R2SQL2014STD"
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2"
+                                    ]
+                                }
                             ]
                         }
                     ]
