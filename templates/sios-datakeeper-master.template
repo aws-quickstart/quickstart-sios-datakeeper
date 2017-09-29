@@ -59,6 +59,7 @@
                     "Parameters": [
                         "AMIType",
                         "SIOSLicenseKeyFtpURL",
+                        "SQLServerVersion",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
                         "Volume1Size",
@@ -150,6 +151,9 @@
                 },
                 "SIOSLicenseKeyFtpURL": {
                     "default": "SIOS License Key FTP URL"
+                },
+                "SQLServerVersion": {
+                    "default": "SQL Server Version"
                 },
                 "SQLServiceAccount": {
                     "default": "Service Account Name"
@@ -398,6 +402,15 @@
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String"
         },
+        "SQLServerVersion": {
+            "AllowedValues": [
+                "None",
+                "2014SP1"
+            ],
+            "Default": "2014SP1",
+            "Description": "Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.",
+            "Type": "String"
+        },
         "SQLServiceAccount": {
             "AllowedPattern": "[a-zA-Z0-9]*",
             "Default": "sqlsa",
@@ -407,10 +420,10 @@
             "Type": "String"
         },
         "SQLServiceAccountPassword": {
-            "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols",
+            "AllowedPattern": "(?=^(?![\\s\\S]))|(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.",
             "MaxLength": "32",
-            "MinLength": "8",
+            "MinLength": "0",
             "NoEcho": "true",
             "Type": "String"
         },
@@ -835,6 +848,9 @@
                     },
                     "KeyPairName": {
                         "Ref": "KeyPairName"
+                    },
+                    "SQLServerVersion": {
+                        "Ref": "SQLServerVersion"
                     },
                     "SQLServiceAccount": {
                         "Ref": "SQLServiceAccount"

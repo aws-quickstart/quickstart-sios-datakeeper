@@ -47,6 +47,7 @@
                     "Parameters": [
                         "AMIType",
                         "SIOSLicenseKeyFtpURL",
+                        "SQLServerVersion",
                         "SQLServiceAccount",
                         "SQLServiceAccountPassword",
                         "Volume1Size",
@@ -132,6 +133,9 @@
                 },
                 "SIOSLicenseKeyFtpURL": {
                     "default": "SIOS License Key FTP URL"
+                },
+                "SQLServerVersion": {
+                    "default": "SQL Server Version"
                 },
                 "SQLServiceAccount": {
                     "default": "Service Account Name"
@@ -306,6 +310,15 @@
             "Description": "URL used to obtain license key for SIOS DataKeeper software.",
             "Type": "String"
         },
+        "SQLServerVersion": {
+            "AllowedValues": [
+                "None",
+                "2014SP1"
+            ],
+            "Default": "2014SP1",
+            "Description": "Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.",
+            "Type": "String"
+        },
         "SQLServiceAccount": {
             "AllowedPattern": "[a-zA-Z0-9]*",
             "Default": "sqlsa",
@@ -315,10 +328,10 @@
             "Type": "String"
         },
         "SQLServiceAccountPassword": {
-            "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols",
+            "AllowedPattern": "(?=^(?![\\s\\S]))|(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
+            "Description": "Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.",
             "MaxLength": "32",
-            "MinLength": "8",
+            "MinLength": "0",
             "NoEcho": "true",
             "Type": "String"
         },
@@ -463,7 +476,7 @@
                 "us-gov-west-1"
             ]
         },
-        "ByolAmi": {
+        "ByolAmiCondition": {
             "Fn::Not": [
                 {
                     "Fn::Equals": [
@@ -471,6 +484,18 @@
                             "Ref": "AMIType"
                         },
                         "PAYG"
+                    ]
+                }
+            ]
+        },
+        "SQLInstallCondition": {
+            "Fn::Not": [
+                {
+                    "Fn::Equals": [
+                        {
+                            "Ref": "SQLServerVersion"
+                        },
+                        "None"
                     ]
                 }
             ]
@@ -501,60 +526,88 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
-                "SIOS2012R2SQL2014STD": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-SQL_2014_SP1_Standard-2017.04.12"
+                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5.3 on Windows_Server-2016-English-Full-Base-2017.07.13",
+                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
+                "SIOS2012R2SQL2014STD": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-SQL_2014_SP1_Standard-2017.04.12",
+                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.5.3 on Windows_Server-2016-English-Full-Base-2017.07.13"
             },
             "us-east-1": {
-                "SIOS2012R2": "ami-a29ec1b4",
-                "SIOS2012R2SQL2014STD": "ami-c2653ad4"
+                "SIOS2012R2": "ami-befdd3a8",
+                "SIOS2012R2BYOL": "ami-a29ec1b4",
+                "SIOS2012R2SQL2014STD": "ami-c2653ad4",
+                "SIOS2016": "ami-475e7551"
             },
             "us-east-2": {
-                "SIOS2012R2": "ami-68c6e00d",
-                "SIOS2012R2SQL2014STD": "ami-02f9df67"
+                "SIOS2012R2": "ami-2d99bf48",
+                "SIOS2012R2BYOL": "ami-68c6e00d",
+                "SIOS2012R2SQL2014STD": "ami-02f9df67",
+                "SIOS2016": "ami-65705100"
             },
             "us-west-1": {
-                "SIOS2012R2": "ami-36270556",
-                "SIOS2012R2SQL2014STD": "ami-12210372"
+                "SIOS2012R2": "ami-dbd5f8bb",
+                "SIOS2012R2BYOL": "ami-36270556",
+                "SIOS2012R2SQL2014STD": "ami-12210372",
+                "SIOS2016": "ami-309fb250"
             },
             "us-west-2": {
-                "SIOS2012R2": "ami-319b9548",
-                "SIOS2012R2SQL2014STD": "ami-109b9569"
+                "SIOS2012R2": "ami-382d3841",
+                "SIOS2012R2BYOL": "ami-319b9548",
+                "SIOS2012R2SQL2014STD": "ami-109b9569",
+                "SIOS2016": "ami-956e7aec"
             },
             "ca-central-1": {
-                "SIOS2012R2": "ami-ea00bc8e",
-                "SIOS2012R2SQL2014STD": "ami-e804b88c"
+                "SIOS2012R2": "ami-38d06f5c",
+                "SIOS2012R2BYOL": "ami-ea00bc8e",
+                "SIOS2012R2SQL2014STD": "ami-e804b88c",
+                "SIOS2016": "ami-abcc73cf"
             },
             "ap-south-1": {
-                "SIOS2012R2": "ami-a4255acb",
-                "SIOS2012R2SQL2014STD": "ami-31235c5e"
+                "SIOS2012R2": "ami-a7d5aac8",
+                "SIOS2012R2BYOL": "ami-a4255acb",
+                "SIOS2012R2SQL2014STD": "ami-31235c5e",
+                "SIOS2016": "ami-bc334dd3"
             },
             "ap-northeast-2": {
-                "SIOS2012R2": "ami-f7518d99",
-                "SIOS2012R2SQL2014STD": "ami-43528e2d"
+                "SIOS2012R2": "ami-dfff20b1",
+                "SIOS2012R2BYOL": "ami-f7518d99",
+                "SIOS2012R2SQL2014STD": "ami-43528e2d",
+                "SIOS2016": "ami-25e9364b"
             },
             "ap-southeast-1": {
-                "SIOS2012R2": "ami-ee84078d",
-                "SIOS2012R2SQL2014STD": "ami-dd8605be"
+                "SIOS2012R2": "ami-5dec603e",
+                "SIOS2012R2BYOL": "ami-ee84078d",
+                "SIOS2012R2SQL2014STD": "ami-dd8605be",
+                "SIOS2016": "ami-9526aaf6"
             },
             "ap-southeast-2": {
-                "SIOS2012R2": "ami-a2daccc1",
-                "SIOS2012R2SQL2014STD": "ami-93d8cef0"
+                "SIOS2012R2": "ami-ac1d0dcf",
+                "SIOS2012R2BYOL": "ami-a2daccc1",
+                "SIOS2012R2SQL2014STD": "ami-93d8cef0",
+                "SIOS2016": "ami-19c6d67a"
             },
             "eu-central-1": {
-                "SIOS2012R2": "ami-c954f1a6",
-                "SIOS2012R2SQL2014STD": "ami-8755f0e8"
+                "SIOS2012R2": "ami-d2298ebd",
+                "SIOS2012R2BYOL": "ami-c954f1a6",
+                "SIOS2012R2SQL2014STD": "ami-8755f0e8",
+                "SIOS2016": "ami-ccc264a3"
             },
             "eu-west-1": {
-                "SIOS2012R2": "ami-54657832",
-                "SIOS2012R2SQL2014STD": "ami-40687526"
+                "SIOS2012R2": "ami-cfdbc3a9",
+                "SIOS2012R2BYOL": "ami-54657832",
+                "SIOS2012R2SQL2014STD": "ami-40687526",
+                "SIOS2016": "ami-20051e46"
             },
             "eu-west-2": {
-                "SIOS2012R2": "ami-688c9b0c",
-                "SIOS2012R2SQL2014STD": "ami-d88a9dbc"
+                "SIOS2012R2": "ami-81786ee5",
+                "SIOS2012R2BYOL": "ami-688c9b0c",
+                "SIOS2012R2SQL2014STD": "ami-d88a9dbc",
+                "SIOS2016": "ami-e9687e8d"
             },
             "sa-east-1": {
-                "SIOS2012R2": "ami-e34f278f",
-                "SIOS2012R2SQL2014STD": "ami-9f4e26f3"
+                "SIOS2012R2": "ami-698fe405",
+                "SIOS2012R2BYOL": "ami-e34f278f",
+                "SIOS2012R2SQL2014STD": "ami-9f4e26f3",
+                "SIOS2016": "ami-befd96d2"
             }
         }
     },
@@ -671,12 +724,18 @@
                             "Prep",
                             {
                                 "Fn::If": [
-                                    "ByolAmi",
+                                    "ByolAmiCondition",
                                     "DownloadDKCELicenseAndConfigure",
                                     "ConfigureDKCE"
                                 ]
                             },
-                            "InstallSQL",
+                            {
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "InstallSQL",
+                                    "DontInstallSQL"
+                                ]
+                            },
                             "Cleanup",
                             "Finalize"
                         ]
@@ -1606,6 +1665,106 @@
                             }
                         }
                     },
+                    "DontInstallSQL": {
+                        "files": {
+                            "C:\\cfn\\scripts\\WaitForCluster.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/WaitForCluster.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\scripts\\RegisterClusterVolume.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/RegisterClusterVolume.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "a-register-cluster-volume": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\RegisterClusterVolume.ps1 -Volume D ",
+                                            "\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "60"
+                            },
+                            "b-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
                     "Cleanup": {
                         "files": {
                             "C:\\cfn\\scripts\\DisableCredSsp.ps1": {
@@ -1649,23 +1808,37 @@
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
-                        "ByolAmi",
+                        "ByolAmiCondition",
                         {
                             "Fn::FindInMap": [
                                 "AWSAMIRegionMap",
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "SIOS2012R2"
+                                "SIOS2012R2BYOL"
                             ]
                         },
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
+                            "Fn::If": [
+                                "SQLInstallCondition",
                                 {
-                                    "Ref": "AWS::Region"
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2SQL2014STD"
+                                    ]
                                 },
-                                "SIOS2012R2SQL2014STD"
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2"
+                                    ]
+                                }
                             ]
                         }
                     ]
@@ -1790,12 +1963,18 @@
                             "Prep",
                             {
                                 "Fn::If": [
-                                    "ByolAmi",
+                                    "ByolAmiCondition",
                                     "DownloadDKCELicenseAndConfigureWSFC",
                                     "ConfigureWSFC"
                                 ]
                             },
-                            "InstallSQL",
+                            {
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "InstallSQL",
+                                    "DontInstallSQL"
+                                ]
+                            },
                             "Cleanup",
                             "Finalize"
                         ]
@@ -3009,6 +3188,58 @@
                             }
                         }
                     },
+                    "DontInstallSQL": {
+                        "commands": {
+                            "a-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
                     "Cleanup": {
                         "files": {
                             "C:\\cfn\\scripts\\DisableCredSsp.ps1": {
@@ -3052,23 +3283,37 @@
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
-                        "ByolAmi",
+                        "ByolAmiCondition",
                         {
                             "Fn::FindInMap": [
                                 "AWSAMIRegionMap",
                                 {
                                     "Ref": "AWS::Region"
                                 },
-                                "SIOS2012R2"
+                                "SIOS2012R2BYOL"
                             ]
                         },
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
+                            "Fn::If": [
+                                "SQLInstallCondition",
                                 {
-                                    "Ref": "AWS::Region"
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2SQL2014STD"
+                                    ]
                                 },
-                                "SIOS2012R2SQL2014STD"
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2"
+                                    ]
+                                }
                             ]
                         }
                     ]
