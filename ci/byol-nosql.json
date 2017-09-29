@@ -1,0 +1,154 @@
+[
+    {
+        "ParameterKey": "AMIType",
+        "ParameterValue": "BYOL"
+    },
+    {
+        "ParameterKey": "ADServer1InstanceType",
+        "ParameterValue": "t2.large"
+    },
+    {
+        "ParameterKey": "ADServer1NetBIOSName",
+        "ParameterValue": "DC1"
+    },
+    {
+        "ParameterKey": "ADServer1PrivateIP",
+        "ParameterValue": "10.0.0.10"
+    },
+    {
+        "ParameterKey": "ADServer2InstanceType",
+        "ParameterValue": "t2.large"
+    },
+    {
+        "ParameterKey": "ADServer2NetBIOSName",
+        "ParameterValue": "DC2"
+    },
+    {
+        "ParameterKey": "ADServer2PrivateIP",
+        "ParameterValue": "10.0.32.10"
+    },
+    {
+        "ParameterKey": "AvailabilityZones",
+        "ParameterValue": "$[alfred_getaz_2]"
+    },
+    {
+        "ParameterKey": "DomainAdminPassword",
+        "ParameterValue": "$[alfred_genpass_16]"
+    },
+    {
+        "ParameterKey": "DomainAdminUser",
+        "ParameterValue": "siosadmin"
+    },
+    {
+        "ParameterKey": "DomainDNSName",
+        "ParameterValue": "datakeeper.local"
+    },
+    {
+        "ParameterKey": "DomainNetBIOSName",
+        "ParameterValue": "datakeeper"
+    },
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "$[alfred_getkeypair]"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1CIDR",
+        "ParameterValue": "10.0.0.0/19"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2CIDR",
+        "ParameterValue": "10.0.32.0/19"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CIDR",
+        "ParameterValue": "10.0.128.0/20"
+    },
+    {
+        "ParameterKey": "PublicSubnet2CIDR",
+        "ParameterValue": "10.0.144.0/20"
+    },
+    {
+        "ParameterKey": "RDGWInstanceType",
+        "ParameterValue": "t2.large"
+    },
+    {
+        "ParameterKey": "RDGWCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "RestoreModePassword",
+        "ParameterValue": "$[alfred_genpass_16]"
+    },
+    {
+        "ParameterKey": "SIOSLicenseKeyFtpURL",
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_Sancard_2017-09-28_DKCE/"
+    },
+    {
+        "ParameterKey": "SQLServerVersion",
+        "ParameterValue": "None"
+    },
+    {
+        "ParameterKey": "SQLServiceAccount",
+        "ParameterValue": "sqlsa"
+    },
+    {
+        "ParameterKey": "SQLServiceAccountPassword",
+        "ParameterValue": "$[alfred_genpass_16]"
+    },
+    {
+        "ParameterKey": "VPCCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "Volume1Iops",
+        "ParameterValue": "1000"
+    },
+    {
+        "ParameterKey": "Volume1Size",
+        "ParameterValue": "100"
+    },
+    {
+        "ParameterKey": "Volume1Type",
+        "ParameterValue": "gp2"
+    },
+    {
+        "ParameterKey": "WSFCNode1InstanceType",
+        "ParameterValue": "r3.xlarge"
+    },
+    {
+        "ParameterKey": "WSFCNode1NetBIOSName",
+        "ParameterValue": "WSFCNode1"
+    },
+    {
+        "ParameterKey": "WSFCNode1PrivateIP1",
+        "ParameterValue": "10.0.0.100"
+    },
+    {
+        "ParameterKey": "WSFCNode1PrivateIP2",
+        "ParameterValue": "10.0.0.101"
+    },
+    {
+        "ParameterKey": "WSFCNode1PrivateIP3",
+        "ParameterValue": "10.0.0.200"
+    },
+    {
+        "ParameterKey": "WSFCNode2InstanceType",
+        "ParameterValue": "r3.xlarge"
+    },
+    {
+        "ParameterKey": "WSFCNode2NetBIOSName",
+        "ParameterValue": "WSFCNode2"
+    },
+    {
+        "ParameterKey": "WSFCNode2PrivateIP1",
+        "ParameterValue": "10.0.32.100"
+    },
+    {
+        "ParameterKey": "WSFCNode2PrivateIP2",
+        "ParameterValue": "10.0.32.101"
+    },
+    {
+        "ParameterKey": "WSFCNode2PrivateIP3",
+        "ParameterValue": "10.0.32.200"
+    }
+]
