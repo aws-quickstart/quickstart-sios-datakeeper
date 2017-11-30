@@ -81,7 +81,7 @@
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_Sancard_2017-09-28_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_Sancard_2017-11-27_DKCE/"
     },
     {
         "ParameterKey": "SQLServerVersion",
