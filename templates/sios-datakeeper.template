@@ -636,10 +636,10 @@
                 "SIOS2016": "ami-e9687e8d"
             },
             "eu-west-3": {
-                "SIOS2012R2": "ami-",
-                "SIOS2012R2BYOL": "ami-",
-                "SIOS2012R2SQL2014STD": "ami-",
-                "SIOS2016": "ami-"
+                "SIOS2012R2": "ami-bc8432c1",
+                "SIOS2012R2BYOL": "ami-39bc0a44",
+                "SIOS2012R2SQL2014STD": "ami-e6bf099b",
+                "SIOS2016": "ami-6687311b"
             },
             "sa-east-1": {
                 "SIOS2012R2": "ami-698fe405",
