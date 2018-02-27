@@ -113,7 +113,7 @@
     },
     {
         "ParameterKey": "WSFCNode1InstanceType",
-        "ParameterValue": "r3.xlarge"
+        "ParameterValue": "i3.xlarge"
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
@@ -133,7 +133,7 @@
     },
     {
         "ParameterKey": "WSFCNode2InstanceType",
-        "ParameterValue": "r3.xlarge"
+        "ParameterValue": "i3.xlarge"
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",

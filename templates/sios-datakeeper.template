@@ -400,7 +400,7 @@
                 "x1e.32xlarge"
             ],
             "ConstraintDescription": "Only EBS Optimized instance types allowed",
-            "Default": "r3.xlarge",
+            "Default": "i3.xlarge",
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String"
         },
@@ -468,7 +468,7 @@
                 "x1e.32xlarge"
             ],
             "ConstraintDescription": "Only EBS Optimized instance types allowed",
-            "Default": "r3.xlarge",
+            "Default": "i3.xlarge",
             "Description": "Amazon EC2 instance type for the 1st WSFC Node",
             "Type": "String"
         },
