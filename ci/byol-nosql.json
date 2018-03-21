@@ -81,7 +81,7 @@
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_Sancard_2017-11-27_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_sancard_2018-02-27_DKCE/"
     },
     {
         "ParameterKey": "SQLServerVersion",
@@ -113,7 +113,7 @@
     },
     {
         "ParameterKey": "WSFCNode1InstanceType",
-        "ParameterValue": "r3.xlarge"
+        "ParameterValue": "i3.xlarge"
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
@@ -133,7 +133,7 @@
     },
     {
         "ParameterKey": "WSFCNode2InstanceType",
-        "ParameterValue": "r3.xlarge"
+        "ParameterValue": "i3.xlarge"
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
