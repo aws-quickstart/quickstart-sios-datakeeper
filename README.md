@@ -9,4 +9,4 @@ This Quick Start uses AWS CloudFormation templates to deploy SIOS DataKeeper Clu
 
 ![Quick Start architecture for SIOS DataKeeper on AWS](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/sios-datakeeper-on-aws-architecture.png)
 
-For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://s3.amazonaws.com/quickstart-reference/sios/datakeeper/latest/doc/sios-datakeeper-on-the-aws-cloud.pdf)
+For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://fwd.aws/RaPKr)
