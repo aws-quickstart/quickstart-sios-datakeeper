@@ -9,4 +9,7 @@ This Quick Start uses AWS CloudFormation templates to deploy SIOS DataKeeper Clu
 
 ![Quick Start architecture for SIOS DataKeeper on AWS](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/sios-datakeeper-on-aws-architecture.png)
 
-For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://fwd.aws/RaPKr)
+For architectural details, best practices, step-by-step instructions, and customization options, see the [deployment guide](https://fwd.aws/RaPKr).
+
+To post feedback, submit feature ideas, or report bugs, use the **Issues** section of this GitHub repo.
+If you'd like to submit code for this Quick Start, please review the [AWS Quick Start Contributor's Kit](https://aws-quickstart.github.io/). 
