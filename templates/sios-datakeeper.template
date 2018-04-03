@@ -558,94 +558,94 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.5.3 on Windows_Server-2016-English-Full-Base-2017.07.13",
-                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.01.11",
-                "SIOS2012R2SQL2014STD": "SIOS DataKeeper Cluster Edition v8.5 on Windows_Server-2012-R2_RTM-English-64Bit-SQL_2014_SP1_Standard-2017.04.12",
-                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.5.3 on Windows_Server-2016-English-Full-Base-2017.07.13"
+                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18",
+                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.03.16",
+                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18"
+                "SIOS2016BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.21"
             },
             "us-east-1": {
                 "SIOS2012R2": "ami-befdd3a8",
                 "SIOS2012R2BYOL": "ami-a29ec1b4",
-                "SIOS2012R2SQL2014STD": "ami-c2653ad4",
-                "SIOS2016": "ami-475e7551"
+                "SIOS2016": "ami-475e7551",
+                "SIOS2016BYOL": "ami-"
             },
             "us-east-2": {
                 "SIOS2012R2": "ami-2d99bf48",
                 "SIOS2012R2BYOL": "ami-68c6e00d",
-                "SIOS2012R2SQL2014STD": "ami-02f9df67",
-                "SIOS2016": "ami-65705100"
+                "SIOS2016": "ami-65705100",
+                "SIOS2016BYOL": "ami-"
             },
             "us-west-1": {
                 "SIOS2012R2": "ami-dbd5f8bb",
                 "SIOS2012R2BYOL": "ami-36270556",
-                "SIOS2012R2SQL2014STD": "ami-12210372",
-                "SIOS2016": "ami-309fb250"
+                "SIOS2016": "ami-309fb250",
+                "SIOS2016BYOL": "ami-"
             },
             "us-west-2": {
                 "SIOS2012R2": "ami-382d3841",
                 "SIOS2012R2BYOL": "ami-319b9548",
-                "SIOS2012R2SQL2014STD": "ami-109b9569",
-                "SIOS2016": "ami-956e7aec"
+                "SIOS2016": "ami-956e7aec",
+                "SIOS2016BYOL": "ami-"
             },
             "ca-central-1": {
                 "SIOS2012R2": "ami-38d06f5c",
                 "SIOS2012R2BYOL": "ami-ea00bc8e",
-                "SIOS2012R2SQL2014STD": "ami-e804b88c",
-                "SIOS2016": "ami-abcc73cf"
+                "SIOS2016": "ami-abcc73cf",
+                "SIOS2016BYOL": "ami-"
             },
             "ap-south-1": {
                 "SIOS2012R2": "ami-a7d5aac8",
                 "SIOS2012R2BYOL": "ami-a4255acb",
-                "SIOS2012R2SQL2014STD": "ami-31235c5e",
-                "SIOS2016": "ami-bc334dd3"
+                "SIOS2016": "ami-bc334dd3",
+                "SIOS2016BYOL": "ami-"
             },
             "ap-northeast-2": {
                 "SIOS2012R2": "ami-dfff20b1",
                 "SIOS2012R2BYOL": "ami-f7518d99",
-                "SIOS2012R2SQL2014STD": "ami-43528e2d",
-                "SIOS2016": "ami-25e9364b"
+                "SIOS2016": "ami-25e9364b",
+                "SIOS2016BYOL": "ami-"
             },
             "ap-southeast-1": {
                 "SIOS2012R2": "ami-5dec603e",
                 "SIOS2012R2BYOL": "ami-ee84078d",
-                "SIOS2012R2SQL2014STD": "ami-dd8605be",
-                "SIOS2016": "ami-9526aaf6"
+                "SIOS2016": "ami-9526aaf6",
+                "SIOS2016BYOL": "ami-"
             },
             "ap-southeast-2": {
                 "SIOS2012R2": "ami-ac1d0dcf",
                 "SIOS2012R2BYOL": "ami-a2daccc1",
-                "SIOS2012R2SQL2014STD": "ami-93d8cef0",
-                "SIOS2016": "ami-19c6d67a"
+                "SIOS2016": "ami-19c6d67a",
+                "SIOS2016BYOL": "ami-"
             },
             "eu-central-1": {
                 "SIOS2012R2": "ami-d2298ebd",
                 "SIOS2012R2BYOL": "ami-c954f1a6",
-                "SIOS2012R2SQL2014STD": "ami-8755f0e8",
-                "SIOS2016": "ami-ccc264a3"
+                "SIOS2016": "ami-ccc264a3",
+                "SIOS2016BYOL": "ami-"
             },
             "eu-west-1": {
                 "SIOS2012R2": "ami-cfdbc3a9",
                 "SIOS2012R2BYOL": "ami-54657832",
-                "SIOS2012R2SQL2014STD": "ami-40687526",
-                "SIOS2016": "ami-20051e46"
+                "SIOS2016": "ami-20051e46",
+                "SIOS2016BYOL": "ami-"
             },
             "eu-west-2": {
                 "SIOS2012R2": "ami-81786ee5",
                 "SIOS2012R2BYOL": "ami-688c9b0c",
-                "SIOS2012R2SQL2014STD": "ami-d88a9dbc",
-                "SIOS2016": "ami-e9687e8d"
+                "SIOS2016": "ami-e9687e8d",
+                "SIOS2016BYOL": "ami-"
             },
             "eu-west-3": {
                 "SIOS2012R2": "ami-bc8432c1",
                 "SIOS2012R2BYOL": "ami-39bc0a44",
-                "SIOS2012R2SQL2014STD": "ami-e6bf099b",
-                "SIOS2016": "ami-6687311b"
+                "SIOS2016": "ami-6687311b",
+                "SIOS2016BYOL": "ami-"
             },
             "sa-east-1": {
                 "SIOS2012R2": "ami-698fe405",
                 "SIOS2012R2BYOL": "ami-e34f278f",
-                "SIOS2012R2SQL2014STD": "ami-9f4e26f3",
-                "SIOS2016": "ami-befd96d2"
+                "SIOS2016": "ami-befd96d2",
+                "SIOS2016BYOL": "ami-"
             }
         }
     },
