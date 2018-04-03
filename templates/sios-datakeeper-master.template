@@ -73,6 +73,7 @@
                         "default": "Failover Cluster Configuration"
                     },
                     "Parameters": [
+                        "ClusterNodeOSServerVersion",
                         "WSFCNode1InstanceType",
                         "WSFCNode1NetBIOSName",
                         "WSFCNode1PrivateIP1",
@@ -185,6 +186,9 @@
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
+                },
+                "ClusterNodeOSServerVersion": {
+                    "default": "Windows Server OS Version for Cluster Nodes"
                 },
                 "WSFCNode1InstanceType": {
                     "default": "Instance Type for Cluster Node 1"
@@ -476,6 +480,15 @@
             ],
             "Default": "gp2",
             "Description": "Volume type for the SQL Data drive",
+            "Type": "String"
+        },
+        "ClusterNodeOSServerVersion": {
+            "AllowedValues": [
+                "2012R2",
+                "2016"
+            ],
+            "Default": "2012R2",
+            "Description": "Windows Server OS Version for Cluster Nodes",
             "Type": "String"
         },
         "WSFCNode1InstanceType": {
@@ -896,6 +909,9 @@
                     ]
                 },
                 "Parameters": {
+                    "OSVersion": {
+                        "Ref": "ClusterNodeOSServerVersion"
+                    },
                     "ADServer1PrivateIP": {
                         "Ref": "ADServer1PrivateIP"
                     },
