@@ -687,23 +687,36 @@
             "Type": "AWS::CloudFormation::Stack",
             "Properties": {
                 "TemplateURL": {
-                    "Fn::Sub": [
+                    "Fn::If": [
+                        "OSVersionCondition",
                         {
-                            "Fn::If": [
-                                "OSVersionCondition",
+                            "Fn::Sub": [
                                 "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/ad-1.template",
-                                "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/ad-2012r2-1.template"
+                                {
+                                    "QSS3Region": {
+                                        "Fn::If": [
+                                            "GovCloudCondition",
+                                            "s3-us-gov-west-1",
+                                            "s3"
+                                        ]
+                                    }
+                                }
                             ]
                         },
                         {
-                            "QSS3Region": {
-                                "Fn::If": [
-                                    "GovCloudCondition",
-                                    "s3-us-gov-west-1",
-                                    "s3"
-                                ]
-                            }
-                        }
+                            "Fn::Sub": [
+                                "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/ad-2012r2-1.template",
+                                {
+                                    "QSS3Region": {
+                                        "Fn::If": [
+                                            "GovCloudCondition",
+                                            "s3-us-gov-west-1",
+                                            "s3"
+                                        ]
+                                    }
+                                }
+                            ]
+                        } 
                     ]
                 },
                 "Parameters": {
