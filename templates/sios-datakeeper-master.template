@@ -30,6 +30,7 @@
                         "default": "Microsoft Active Directory Configuration"
                     },
                     "Parameters": [
+                        "ADServerOSVersion",
                         "ADServer1InstanceType",
                         "ADServer1NetBIOSName",
                         "ADServer1PrivateIP",
@@ -95,6 +96,9 @@
                 }
             ],
             "ParameterLabels": {
+                "ADServerOSVersion": {
+                    "default": "Active Directory Server OS Version"
+                },
                 "ADServer1InstanceType": {
                     "default": "Domain Controller 1 Instance Type"
                 },
@@ -226,6 +230,15 @@
             ],
             "Default": "PAYG",
             "Description": "AMI type for SIOS license purposes.",
+            "Type": "String"
+        },
+        "ADServerOSVersion": {
+            "AllowedValues":[
+                "2012R2",
+                "2016"
+            ],
+            "Default": "2012R2",
+            "Description": "Version of Windows Server to use for Active Directory Domain Controller nodes.",
             "Type": "String"
         },
         "ADServer1InstanceType": {
@@ -610,6 +623,14 @@
                 },
                 "us-gov-west-1"
             ]
+        },
+        "OSVersionCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "ADServerOSVersion"
+                },
+                "2016"
+            ]
         }
     },
     "Resources": {
@@ -618,7 +639,11 @@
             "Properties": {
                 "TemplateURL": {
                     "Fn::Sub": [
-                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template",
+                        "Fn::If": [
+                            "OSVersionCondition",
+                            "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/ad-1.template",,
+                            "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+                        ],                        
                         {
                             "QSS3Region": {
                                 "Fn::If": [
