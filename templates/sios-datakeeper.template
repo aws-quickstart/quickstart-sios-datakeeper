@@ -60,6 +60,7 @@
                         "default": "Failover Cluster Configuration"
                     },
                     "Parameters": [
+                        "OSVersion",
                         "WSFCNode1InstanceType",
                         "WSFCNode1NetBIOSName",
                         "WSFCNode1PrivateIP1",
@@ -83,6 +84,9 @@
                 }
             ],
             "ParameterLabels": {
+                "OSVersion": {
+                    "default": "Cluster Node OS Version"
+                },
                 "ADServer1NetBIOSName": {
                     "default": "Domain Controller 1 NetBIOS Name"
                 },
@@ -199,6 +203,15 @@
             ],
             "Default": "PAYG",
             "Description": "AMI type for SIOS license purposes.",
+            "Type": "String"
+        },
+        "OSVersion": {
+            "AllowedValues": [
+                "2012R2",
+                "2016"
+            ],
+            "Default": "2012R2",
+            "Description": "Windows Server OS version to use for cluster nodes.",
             "Type": "String"
         },
         "ADServer1NetBIOSName": {
@@ -531,6 +544,14 @@
                     ]
                 }
             ]
+        },
+        "OSVersionCondition": {
+            "Fn::Equals": [
+                {
+                    "Ref": "OSVersion"
+                },
+                "2016"
+            ]
         }
     },
     "Rules": {
@@ -560,7 +581,7 @@
             "AMI": {
                 "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18",
                 "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.03.16",
-                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18"
+                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18",
                 "SIOS2016BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.21"
             },
             "us-east-1": {
@@ -1017,44 +1038,10 @@
                                 },
                                 "authentication": "S3AccessCreds"
                             },
-                            "C:\\cfn\\scripts\\Create-ADServiceAccount.ps1": {
-                                "source": {
-                                    "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Create-ADServiceAccount.ps1",
-                                        {
-                                            "QSS3Region": {
-                                                "Fn::If": [
-                                                    "GovCloudCondition",
-                                                    "s3-us-gov-west-1",
-                                                    "s3"
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                },
-                                "authentication": "S3AccessCreds"
-                            },
                             "C:\\cfn\\scripts\\AddUserToGroup.ps1": {
                                 "source": {
                                     "Fn::Sub": [
                                         "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/AddUserToGroup.ps1",
-                                        {
-                                            "QSS3Region": {
-                                                "Fn::If": [
-                                                    "GovCloudCondition",
-                                                    "s3-us-gov-west-1",
-                                                    "s3"
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                },
-                                "authentication": "S3AccessCreds"
-                            },
-                            "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
-                                "source": {
-                                    "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
                                         {
                                             "QSS3Region": {
                                                 "Fn::If": [
@@ -1151,94 +1138,7 @@
                                 "command": "powershell.exe -ExecutionPolicy RemoteSigned -Command \"C:\\cfn\\scripts\\OpenWSFCPorts.ps1\"",
                                 "waitAfterCompletion": "0"
                             },
-                            "i-create-sql-account": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Create-ADServiceAccount.ps1 -DomainDNSName '",
-                                            {
-                                                "Ref": "DomainDNSName"
-                                            },
-                                            "' -DomainNetBIOSName '",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "' -DomainAdminUser '",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            "' -DomainAdminPassword '",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "' -ServiceAccountUser '",
-                                            {
-                                                "Ref": "SQLServiceAccount"
-                                            },
-                                            "' -ServiceAccountPassword '",
-                                            {
-                                                "Ref": "SQLServiceAccountPassword"
-                                            },
-                                            "' -ADServerNetBIOSName '",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            },
-                            "j-Invoke-ADReplication-DC1": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
-                                            " -UserName '",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            "' -Password '",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "' -DomainController '",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            },
-                            "k-Invoke-ADReplication-DC2": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
-                                            " -UserName '",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            "' -Password '",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "' -DomainController '",
-                                            {
-                                                "Ref": "ADServer2NetBIOSName"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "15"
-                            },
-                            "l-add-domadmin-user-to-group": {
+                            "i-add-domadmin-user-to-group": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1249,32 +1149,6 @@
                                             " C:\\cfn\\scripts\\AddUserToGroup.ps1 -UserName '",
                                             {
                                                 "Ref": "DomainAdminUser"
-                                            },
-                                            "' -ServerName '",
-                                            {
-                                                "Ref": "WSFCNode1NetBIOSName"
-                                            },
-                                            "' -DomainNetBIOSName '",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "' -GroupName 'Administrators'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            },
-                            "m-add-sqlservice-user-to-group": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe ",
-                                            "-ExecutionPolicy RemoteSigned ",
-                                            "-Command \"",
-                                            "C:\\cfn\\scripts\\AddUserToGroup.ps1 -UserName '",
-                                            {
-                                                "Ref": "SQLServiceAccount"
                                             },
                                             "' -ServerName '",
                                             {
@@ -1518,6 +1392,57 @@
                     },
                     "InstallSQL": {
                         "files": {
+                            "C:\\cfn\\scripts\\Create-ADServiceAccount.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Create-ADServiceAccount.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\scripts\\AddUserToGroup.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/AddUserToGroup.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\scripts\\Invoke-ADReplication.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Invoke-ADReplication.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
                             "C:\\cfn\\scripts\\WaitForCluster.ps1": {
                                 "source": {
                                     "Fn::Sub": [
@@ -1571,7 +1496,120 @@
                             }
                         },
                         "commands": {
-                            "a-configure-sql": {
+                            "a-create-sql-account": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Create-ADServiceAccount.ps1 -DomainDNSName '",
+                                            {
+                                                "Ref": "DomainDNSName"
+                                            },
+                                            "' -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -ServiceAccountUser '",
+                                            {
+                                                "Ref": "SQLServiceAccount"
+                                            },
+                                            "' -ServiceAccountPassword '",
+                                            {
+                                                "Ref": "SQLServiceAccountPassword"
+                                            },
+                                            "' -ADServerNetBIOSName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "15"
+                            },
+                            "d-add-sqlservice-user-to-group": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe ",
+                                            "-ExecutionPolicy RemoteSigned ",
+                                            "-Command \"",
+                                            "C:\\cfn\\scripts\\AddUserToGroup.ps1 -UserName '",
+                                            {
+                                                "Ref": "SQLServiceAccount"
+                                            },
+                                            "' -ServerName '",
+                                            {
+                                                "Ref": "WSFCNode1NetBIOSName"
+                                            },
+                                            "' -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -GroupName 'Administrators'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "e-configure-sql": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1598,7 +1636,7 @@
                                 },
                                 "waitAfterCompletion": "60"
                             },
-                            "b-register-cluster-volume": {
+                            "f-register-cluster-volume": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1610,7 +1648,7 @@
                                 },
                                 "waitAfterCompletion": "60"
                             },
-                            "c-install-sql": {
+                            "g-install-sql": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1653,7 +1691,7 @@
                                 },
                                 "waitAfterCompletion": "60"
                             },
-                            "d-Invoke-ADReplication-DC1": {
+                            "h-Invoke-ADReplication-DC1": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1677,7 +1715,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "e-Invoke-ADReplication-DC2": {
+                            "i-Invoke-ADReplication-DC2": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -1848,24 +1886,38 @@
                     "Fn::If": [
                         "ByolAmiCondition",
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                "SIOS2012R2BYOL"
-                            ]
-                        },
-                        {
                             "Fn::If": [
-                                "SQLInstallCondition",
+                                "OSVersionCondition",
                                 {
                                     "Fn::FindInMap": [
                                         "AWSAMIRegionMap",
                                         {
                                             "Ref": "AWS::Region"
                                         },
-                                        "SIOS2012R2SQL2014STD"
+                                        "SIOS2016BYOL"
+                                    ]
+                                },
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2BYOL"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Fn::If": [
+                                "OSVersionCondition",
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2016"
                                     ]
                                 },
                                 {
@@ -3323,24 +3375,38 @@
                     "Fn::If": [
                         "ByolAmiCondition",
                         {
-                            "Fn::FindInMap": [
-                                "AWSAMIRegionMap",
-                                {
-                                    "Ref": "AWS::Region"
-                                },
-                                "SIOS2012R2BYOL"
-                            ]
-                        },
-                        {
                             "Fn::If": [
-                                "SQLInstallCondition",
+                                "OSVersionCondition",
                                 {
                                     "Fn::FindInMap": [
                                         "AWSAMIRegionMap",
                                         {
                                             "Ref": "AWS::Region"
                                         },
-                                        "SIOS2012R2SQL2014STD"
+                                        "SIOS2016BYOL"
+                                    ]
+                                },
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2012R2BYOL"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "Fn::If": [
+                                "OSVersionCondition",
+                                {
+                                    "Fn::FindInMap": [
+                                        "AWSAMIRegionMap",
+                                        {
+                                            "Ref": "AWS::Region"
+                                        },
+                                        "SIOS2016"
                                     ]
                                 },
                                 {
