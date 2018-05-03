@@ -1473,7 +1473,7 @@
                             }
                         }
                     },
-                    "PrepNOSQL": {
+                    "PrepNoSQL": {
                         "files": {
                             "C:\\cfn\\scripts\\Set-Dns.ps1": {
                                 "source": {
