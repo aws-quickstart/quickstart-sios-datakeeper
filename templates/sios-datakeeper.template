@@ -3153,23 +3153,6 @@
                                 },
                                 "authentication": "S3AccessCreds"
                             },
-                            "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
-                                "source": {
-                                    "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Set-Folder-Permissions.ps1",
-                                        {
-                                            "QSS3Region": {
-                                                "Fn::If": [
-                                                    "GovCloudCondition",
-                                                    "s3-us-gov-west-1",
-                                                    "s3"
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                },
-                                "authentication": "S3AccessCreds"
-                            },
                             "C:\\cfn\\scripts\\Configure-WSFC.ps1": {
                                 "source": {
                                     "Fn::Sub": [
@@ -3370,38 +3353,6 @@
                                             "' -DomainController '",
                                             {
                                                 "Ref": "ADServer2NetBIOSName"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            },
-                            "g-Set-Folder-Permissions": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\Set-Folder-Permissions.ps1",
-                                            " -DomainNetBIOSName '",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "' -DomainAdminUser '",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            "' -DomainAdminPassword '",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "' -SQLServiceAccount '",
-                                            {
-                                                "Ref": "SQLServiceAccount"
-                                            },
-                                            "' -FileServerNetBIOSName '",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
                                             },
                                             "'\""
                                         ]
