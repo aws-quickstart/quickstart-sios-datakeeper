@@ -3479,23 +3479,6 @@
                                 },
                                 "authentication": "S3AccessCreds"
                             },
-                            "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
-                                "source": {
-                                    "Fn::Sub": [
-                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Set-Folder-Permissions.ps1",
-                                        {
-                                            "QSS3Region": {
-                                                "Fn::If": [
-                                                    "GovCloudCondition",
-                                                    "s3-us-gov-west-1",
-                                                    "s3"
-                                                ]
-                                            }
-                                        }
-                                    ]
-                                },
-                                "authentication": "S3AccessCreds"
-                            },
                             "C:\\cfn\\scripts\\Configure-WSFC.ps1": {
                                 "source": {
                                     "Fn::Sub": [
@@ -3688,39 +3671,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "f-Set-Folder-Permissions": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\Set-Folder-Permissions.ps1",
-                                            " -DomainNetBIOSName '",
-                                            {
-                                                "Ref": "DomainNetBIOSName"
-                                            },
-                                            "' -DomainAdminUser '",
-                                            {
-                                                "Ref": "DomainAdminUser"
-                                            },
-                                            "' -DomainAdminPassword '",
-                                            {
-                                                "Ref": "DomainAdminPassword"
-                                            },
-                                            "' -SQLServiceAccount '",
-                                            {
-                                                "Ref": "SQLServiceAccount"
-                                            },
-                                            "' -FileServerNetBIOSName '",
-                                            {
-                                                "Ref": "ADServer1NetBIOSName"
-                                            },
-                                            "'\""
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
-                            },
-                            "g-Set-ClusterQuorum": {
+                            "f-Set-ClusterQuorum": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3756,6 +3707,23 @@
                     },
                     "InstallSQL": {
                         "files": {
+                            "C:\\cfn\\scripts\\Set-Folder-Permissions.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/Set-Folder-Permissions.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
                             "C:\\cfn\\scripts\\WaitForClusterGroup.ps1": {
                                 "source": {
                                     "Fn::Sub": [
@@ -3792,7 +3760,39 @@
                             }
                         },
                         "commands": {
-                            "a-wait-for-clustergroup": {
+                            "a-Set-Folder-Permissions": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\Set-Folder-Permissions.ps1",
+                                            " -DomainNetBIOSName '",
+                                            {
+                                                "Ref": "DomainNetBIOSName"
+                                            },
+                                            "' -DomainAdminUser '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -DomainAdminPassword '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -SQLServiceAccount '",
+                                            {
+                                                "Ref": "SQLServiceAccount"
+                                            },
+                                            "' -FileServerNetBIOSName '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-wait-for-clustergroup": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3819,7 +3819,7 @@
                                 },
                                 "waitAfterCompletion": "600"
                             },
-                            "b-install-sql": {
+                            "c-install-sql": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3870,7 +3870,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "c-Invoke-ADReplication-DC1": {
+                            "d-Invoke-ADReplication-DC1": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3894,7 +3894,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "d-Invoke-ADReplication-DC2": {
+                            "e-Invoke-ADReplication-DC2": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
