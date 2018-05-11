@@ -725,6 +725,7 @@
         },
         "WSFCProfile": {
             "Type": "AWS::IAM::InstanceProfile",
+            "DependsOn": "WSFCRole",
             "Properties": {
                 "Roles": [
                     {
@@ -1326,7 +1327,8 @@
                                 "waitAfterCompletion": "0"
                             },
                             "g-reboot": {
-                                "command": "powershell.exe -Command \"Restart-Computer -Force\""
+                                "command": "powershell.exe -Command \"Restart-Computer -Force\"",
+                                "waitAfterCompletion": "forever"
                             },
                             "h-open-WSFC-ports": {
                                 "command": "powershell.exe -ExecutionPolicy RemoteSigned -Command \"C:\\cfn\\scripts\\OpenWSFCPorts.ps1\"",
@@ -1801,20 +1803,6 @@
                                     ]
                                 },
                                 "waitAfterCompletion": "5"
-                            },
-                            "l-initialize-disks": {
-                                "command": {
-                                    "Fn::Join": [
-                                        "",
-                                        [
-                                            "powershell.exe ",
-                                            "-ExecutionPolicy RemoteSigned ",
-                                            "-Command \"",
-                                            "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Scripts\\InitializeDisks.ps1"
-                                        ]
-                                    ]
-                                },
-                                "waitAfterCompletion": "0"
                             }
                         }
                     },
@@ -3711,7 +3699,55 @@
                             }
                         },
                         "commands": {
-                            "a-Set-Folder-Permissions": {
+                            "a-Invoke-ADReplication-DC1": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer1NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-Invoke-ADReplication-DC2": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"C:\\cfn\\scripts\\Invoke-ADReplication.ps1",
+                                            " -UserName '",
+                                            {
+                                                "Ref": "DomainAdminUser"
+                                            },
+                                            "' -Password '",
+                                            {
+                                                "Ref": "DomainAdminPassword"
+                                            },
+                                            "' -DomainController '",
+                                            {
+                                                "Ref": "ADServer2NetBIOSName"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "15"
+                            },
+                            "c-Set-Folder-Permissions": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3743,7 +3779,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "b-wait-for-clustergroup": {
+                            "d-wait-for-clustergroup": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3770,7 +3806,7 @@
                                 },
                                 "waitAfterCompletion": "600"
                             },
-                            "c-install-sql": {
+                            "e-install-sql": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3821,7 +3857,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "d-Invoke-ADReplication-DC1": {
+                            "f-Invoke-ADReplication-DC1": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
@@ -3845,7 +3881,7 @@
                                 },
                                 "waitAfterCompletion": "0"
                             },
-                            "e-Invoke-ADReplication-DC2": {
+                            "g-Invoke-ADReplication-DC2": {
                                 "command": {
                                     "Fn::Join": [
                                         "",
