@@ -1,0 +1,12 @@
+{
+  "driveLetterMapping": [
+    {
+      "volumeName": "Temporary Storage 0",
+      "driveLetter": "Z"
+    },
+    {
+      "volumeName": "Data",
+      "driveLetter": "D"
+    }
+  ]
+}
