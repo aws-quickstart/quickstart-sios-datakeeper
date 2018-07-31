@@ -37,11 +37,11 @@
     },
     {
         "ParameterKey": "AvailabilityZones",
-        "ParameterValue": "$[alfred_getaz_2]"
+        "ParameterValue": "$[taskcat_getaz_2]"
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "DomainAdminUser",
@@ -57,7 +57,7 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "$[alfred_getkeypair]"
+        "ParameterValue": "$[taskcat_getkeypair]"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
@@ -85,7 +85,7 @@
     },
     {
         "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
@@ -101,7 +101,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "VPCCIDR",
