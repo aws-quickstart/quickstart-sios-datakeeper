@@ -60,6 +60,10 @@
         "ParameterValue": "$[taskcat_getkeypair]"
     },
     {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue":"$[taskcat_autobucket]"
+    },
+    {
         "ParameterKey": "PrivateSubnet1CIDR",
         "ParameterValue": "10.0.0.0/19"
     },
