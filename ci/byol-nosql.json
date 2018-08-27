@@ -4,6 +4,14 @@
         "ParameterValue": "BYOL"
     },
     {
+        "ParameterKey": "ADServerOSVersion",
+        "ParameterValue": "2016"
+    },
+    {
+        "ParameterKey": "ClusterNodeOSServerVersion",
+        "ParameterValue": "2016"
+    },
+    {
         "ParameterKey": "ADServer1InstanceType",
         "ParameterValue": "t2.large"
     },
@@ -29,11 +37,11 @@
     },
     {
         "ParameterKey": "AvailabilityZones",
-        "ParameterValue": "$[alfred_getaz_2]"
+        "ParameterValue": "$[taskcat_getaz_2]"
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "DomainAdminUser",
@@ -49,7 +57,11 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "$[alfred_getkeypair]"
+        "ParameterValue": "$[taskcat_getkeypair]"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue":"$[taskcat_autobucket]"
     },
     {
         "ParameterKey": "PrivateSubnet1CIDR",
@@ -77,11 +89,11 @@
     },
     {
         "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Santiago_Cardenas_sancard_2018-03-22_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_AWS_QuickStart_awsqs_2018-05-14_DKCE/"
     },
     {
         "ParameterKey": "SQLServerVersion",
@@ -93,7 +105,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[alfred_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "VPCCIDR",
