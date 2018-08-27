@@ -579,94 +579,94 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SIOS2012R2": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18",
-                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.03.16",
-                "SIOS2016": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.18",
-                "SIOS2016BYOL": "SIOS DataKeeper Cluster Edition v8.6.1 on Windows_Server-2016-English-Full-Base-2018.03.21"
+                "SIOS2012R2":     "SIOS DataKeeper Cluster Edition v8.6.2 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.08.15",
+                "SIOS2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.6.2 on Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.08.15",
+                "SIOS2016":       "SIOS DataKeeper Cluster Edition v8.6.2 on Windows_Server-2016-English-Full-Base-2018.08.15",
+                "SIOS2016BYOL":   "SIOS DataKeeper Cluster Edition v8.6.2 on Windows_Server-2016-English-Full-Base-2018.08.15"
             },
             "us-east-1": {
-                "SIOS2012R2":     "ami-4722f53a",
-                "SIOS2012R2BYOL": "ami-8008dffd",
-                "SIOS2016":       "ami-5006d02d",
-                "SIOS2016BYOL":   "ami-65f02c18"
+                "SIOS2012R2":     "ami-02e6f621da0bae08b",
+                "SIOS2012R2BYOL": "ami-0914063ea217774c4",
+                "SIOS2016":       "ami-04b1b600d091c2bed",
+                "SIOS2016BYOL":   "ami-075267ad02646087b"
             },
             "us-east-2": {
-                "SIOS2012R2":     "ami-f847769d",
-                "SIOS2012R2BYOL": "ami-b84776dd",
-                "SIOS2016":       "ami-9a4e7fff",
-                "SIOS2016BYOL":   "ami-60908f8c"
+                "SIOS2012R2":     "ami-07fada8a4ba435e66",
+                "SIOS2012R2BYOL": "ami-0811d69dc832ac67f",
+                "SIOS2016":       "ami-0173dad24bd812836",
+                "SIOS2016BYOL":   "ami-0ce966417e91a6572"
             },
             "us-west-1": {
-                "SIOS2012R2":     "ami-c79f88a7",
-                "SIOS2012R2BYOL": "ami-65918605",
-                "SIOS2016":       "ami-84b7a0e4",
-                "SIOS2016BYOL":   "ami-74d1c714"
+                "SIOS2012R2":     "ami-01eaee550dad00f9f",
+                "SIOS2012R2BYOL": "ami-092a0d7a41e0b85ca",
+                "SIOS2016":       "ami-0582455f51a2fb623",
+                "SIOS2016BYOL":   "ami-028c36bee21047fd5"
             },
             "us-west-2": {
-                "SIOS2012R2":     "ami-85ca55fd",
-                "SIOS2012R2BYOL": "ami-96d54aee",
-                "SIOS2016":       "ami-aa801fd2",
-                "SIOS2016BYOL":   "ami-40a13838"
+                "SIOS2012R2":     "ami-039e7197f37142c8b",
+                "SIOS2012R2BYOL": "ami-0b829f4c829198efd",
+                "SIOS2016":       "ami-02238923c9bf365b2",
+                "SIOS2016BYOL":   "ami-09a67d20ba33605e5"
             },
             "ca-central-1": {
-                "SIOS2012R2":     "ami-19e5637d",
-                "SIOS2012R2BYOL": "ami-a2e462c6",
-                "SIOS2016":       "ami-72e26416",
-                "SIOS2016BYOL":   "ami-058d0b61"
+                "SIOS2012R2":     "ami-0ed1d4b9642bd31df",
+                "SIOS2012R2BYOL": "ami-02013396fb9ec711b",
+                "SIOS2016":       "ami-094d2039fb19715e8",
+                "SIOS2016BYOL":   "ami-023f85b66716cadf1"
             },
             "ap-south-1": {
-                "SIOS2012R2":     "ami-5433683b",
-                "SIOS2012R2BYOL": "ami-d43c67bb",
-                "SIOS2016":       "ami-402d762f",
-                "SIOS2016BYOL":   "ami-71c19a1e"
+                "SIOS2012R2":     "ami-071098e38548bfef3",
+                "SIOS2012R2BYOL": "ami-02a3788a25b232905",
+                "SIOS2016":       "ami-06506cc16f050c488",
+                "SIOS2016BYOL":   "ami-09085cae2727f52e1"
             },
             "ap-northeast-2": {
-                "SIOS2012R2":     "ami-bb08a4d5",
-                "SIOS2012R2BYOL": "ami-990ea2f7",
-                "SIOS2016":       "ami-6606aa08",
-                "SIOS2016BYOL":   "ami-b3cd62dd"
+                "SIOS2012R2":     "ami-0bdcb36e4cd91c241",
+                "SIOS2012R2BYOL": "ami-0fb10d2f276a30af9",
+                "SIOS2016":       "ami-065b8c2ab615e96a1",
+                "SIOS2016BYOL":   "ami-08d20dec9a3e2209f"
             },
             "ap-southeast-1": {
-                "SIOS2012R2":     "ami-c5075bb9",
-                "SIOS2012R2BYOL": "ami-1f085463",
-                "SIOS2016":       "ami-4a5a0636",
-                "SIOS2016BYOL":   "ami-dc2a74a0"
+                "SIOS2012R2":     "ami-0f04e24cff37e5213",
+                "SIOS2012R2BYOL": "ami-06f53888d262c01fb",
+                "SIOS2016":       "ami-04ef73833d4250610",
+                "SIOS2016BYOL":   "ami-06bf6e7a527572328"
             },
             "ap-southeast-2": {
-                "SIOS2012R2":     "ami-29d21f4b",
-                "SIOS2012R2BYOL": "ami-c0d01da2",
-                "SIOS2016":       "ami-a4fe33c6",
-                "SIOS2016BYOL":   "ami-88ca06ea"
+                "SIOS2012R2":     "ami-054d9a0eb01b6091f",
+                "SIOS2012R2BYOL": "ami-07be2331dc2be93bf",
+                "SIOS2016":       "ami-0a32084cbe99ceba0",
+                "SIOS2016BYOL":   "ami-0cabc3f0d13102905"
             },
             "eu-central-1": {
-                "SIOS2012R2":     "ami-81dc8c6a",
-                "SIOS2012R2BYOL": "ami-05d181ee",
-                "SIOS2016":       "ami-3be2b2d0",
-                "SIOS2016BYOL":   "ami-bb411350"
+                "SIOS2012R2":     "ami-0ba6f5bed834a46fb",
+                "SIOS2012R2BYOL": "ami-04d03eabc3a76520f",
+                "SIOS2016":       "ami-0f957bc4e8c343781",
+                "SIOS2016BYOL":   "ami-096dbd8893c033fe5"
             },
             "eu-west-1": {
-                "SIOS2012R2":     "ami-3f164146",
-                "SIOS2012R2BYOL": "ami-a8e7b3d1",
-                "SIOS2016":       "ami-71451208",
-                "SIOS2016BYOL":   "ami-6fe2b316"
+                "SIOS2012R2":     "ami-061c5ef1cc16b0f44",
+                "SIOS2012R2BYOL": "ami-04d87d67c319c92b4",
+                "SIOS2016":       "ami-0bb556c0f1c5b1f60",
+                "SIOS2016BYOL":   "ami-0fca63068ed3be059"
             },
             "eu-west-2": {
-                "SIOS2012R2":     "ami-0832d46f",
-                "SIOS2012R2BYOL": "ami-e237d185",
-                "SIOS2016":       "ami-433bdd24",
-                "SIOS2016BYOL":   "ami-5c4dab3b"
+                "SIOS2012R2":     "ami-03f4fbc40d266cd87",
+                "SIOS2012R2BYOL": "ami-07949f0ac4a4b483f",
+                "SIOS2016":       "ami-0412943a6e835e3bf",
+                "SIOS2016BYOL":   "ami-021470cbc21f0dac5"
             },
             "eu-west-3": {
-                "SIOS2012R2":     "ami-a93b8dd4",
-                "SIOS2012R2BYOL": "ami-673b8d1a",
-                "SIOS2016":       "ami-ee3d8b93",
-                "SIOS2016BYOL":   "ami-f123958c"
+                "SIOS2012R2":     "ami-05251e98a1fdc681a",
+                "SIOS2012R2BYOL": "ami-05f88ef5b14d7a2f1",
+                "SIOS2016":       "ami-091516f8d824007dc",
+                "SIOS2016BYOL":   "ami-0eadca7420da9632c"
             },
             "sa-east-1": {
-                "SIOS2012R2":     "ami-3f4b1f53",
-                "SIOS2012R2BYOL": "ami-a4481cc8",
-                "SIOS2016":       "ami-35663259",
-                "SIOS2016BYOL":   "ami-d3e8bcbf"
+                "SIOS2012R2":     "ami-085871be65e1563ff",
+                "SIOS2012R2BYOL": "ami-0c51f3830fd394b07",
+                "SIOS2016":       "ami-0e02c9ac6f048656e",
+                "SIOS2016BYOL":   "ami-0aa4187e9fc055de0"
             }
         }
     },
