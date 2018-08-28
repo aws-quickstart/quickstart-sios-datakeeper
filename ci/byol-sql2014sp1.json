@@ -93,7 +93,7 @@
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_AWS_QuickStart_awsqs_2018-05-14_DKCE/"
+        "ParameterValue": "override"
     },
     {
         "ParameterKey": "SQLServerVersion",
