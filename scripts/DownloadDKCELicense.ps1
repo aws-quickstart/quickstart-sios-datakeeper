@@ -8,7 +8,7 @@ param(
 try {
     $logfile = "C:\cfn\log\DownloadDKCELicense.ps1.txt"
     Start-Transcript -Path $logfile -Append
-    "Downloading DKCE license from '$SIOSLicenseKeyFtpURL'"
+    Write-Host "Downloading DKCE license from '$SIOSLicenseKeyFtpURL'`n" | % { $_ -replace ' +$','' }
     
     $ErrorActionPreference = "Continue"
     
@@ -22,40 +22,70 @@ try {
     $licFile = ""
     $source = ""
     if($SIOSLicenseKeyFtpURL.EndsWith(".lic")) {
-        $licFile = $SIOSLicenseKeyFtpURL.Substring($SIOSLicenseKeyFtpURL.LastIndexOf("/"))
+        $licFile = $SIOSLicenseKeyFtpURL.Substring($SIOSLicenseKeyFtpURL.LastIndexOf("/") + 1)
         $source = $SIOSLicenseKeyFtpURL
-    } else { # otherwise use the standard file name
-        $licFile = "/DK-W-Cluster.lic"
-        $source = $SIOSLicenseKeyFtpURL+$licFile
+    } elseif($SIOSLicenseKeyFtpURL.EndsWith("/")) {
+        $licFile = "DK-W-Cluster.lic"
+        $source = "$SIOSLicenseKeyFtpURL$licFile"
+    } else {
+        $licFile = "DK-W-Cluster.lic"
+        $source = "$SIOSLicenseKeyFtpURL/$licFile"
+    }
+    
+    # user passed in an s3 uri, so we're going to need the aws cli installed
+    if($source -Like "s3://*") {
+        Start-BitsTransfer -Source "https://s3.amazonaws.com/aws-cli/AWSCLI64.msi" -Destination "$env:SystemDrive\AWSCLI64.msi" -ErrorAction Stop 
+        msiexec.exe /i "$env:SystemDrive\AWSCLI64.msi" /qn
+        
+        $awscmd = "$env:ProgramW6432\Amazon\AWSCLI\aws.exe"
+        # wait on the aws cli installer
+        $tries = 30
+        $retryIntervalSec = 10
+        While ( $tries -ge 1 -And -Not (Test-Path -Path $awscmd)) {
+            Start-Sleep $retryIntervalSec
+            $tries--
+        }
     }
     
     $tries = 120
     $retryIntervalSec = 30
-	$extmirrsvc = $NULL
+    $extmirrsvc = $NULL
     while ($tries -ge 1) {
         try {
-			Start-Sleep $retryIntervalSec
-			$tries--
+            Write-Host "Downloading the license file from $source to $DestPath\$licFile"
+            if($source -Like "s3://*") {
+                $results = & "$awscmd" s3 cp $source "$DestPath\$licFile"
+                Write-Host $results
+            } else {
+                Start-BitsTransfer -Source $source -Destination "$DestPath" -ErrorAction Stop
+            }
             
-			Start-BitsTransfer -Source $source -Destination "$DestPath" -ErrorAction Stop
             Start-Service ExtMirrSvc
-			
-			$extmirrsvc = Get-Service ExtMirrSvc
-			if(($extmirrsvc -ne $NULL) -And ($extmirrsvc.Status -eq "Running")) {
-				"ExtMirrSvc is RUNNING"
-				break
-			}
+            
+            $extmirrsvc = Get-Service ExtMirrSvc
+            if(($extmirrsvc -ne $NULL) -And ($extmirrsvc.Status -eq "Running")) {
+                "ExtMirrSvc is RUNNING"
+                break
+            }
+            Start-Sleep $retryIntervalSec
+            $tries--
         }
-        catch {}
+        catch {
+            Stop-Transcript
+        }
     }
-	
-	$ErrorActionPreference = "Stop"
-	if($extmirrsvc -eq $NULL) {
-		"ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
-		throw "ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
-	}
+    
+    $ErrorActionPreference = "Stop"
+    if($extmirrsvc -eq $NULL) {
+        Write-Host "ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
+        Stop-Transcript
+        throw "ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
+    } else {
+        Stop-Transcript
+    }
 }
 catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
+    Stop-Transcript
     $_ | Write-AWSQuickStartException
 }

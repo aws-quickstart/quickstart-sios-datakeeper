@@ -681,22 +681,16 @@
                             "Statement": [
                                 {
                                     "Action": [
+                                        "s3:ListBucket"
+                                    ],
+                                    "Resource": "*",
+                                    "Effect": "Allow"
+                                },
+                                {
+                                    "Action": [
                                         "s3:GetObject"
                                     ],
-                                    "Resource": {
-                                        "Fn::Sub": [
-                                            "arn:${Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*",
-                                            {
-                                                "Partition": {
-                                                    "Fn::If": [
-                                                        "GovCloudCondition",
-                                                        "aws-us-gov",
-                                                        "aws"
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    },
+                                    "Resource": "*",
                                     "Effect": "Allow"
                                 }
                             ]
