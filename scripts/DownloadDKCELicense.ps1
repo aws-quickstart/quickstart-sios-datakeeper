@@ -70,16 +70,22 @@ try {
             Start-Sleep $retryIntervalSec
             $tries--
         }
-        catch {}
+        catch {
+            Stop-Transcript
+        }
     }
     
     $ErrorActionPreference = "Stop"
     if($extmirrsvc -eq $NULL) {
         Write-Host "ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
+        Stop-Transcript
         throw "ExtMirrSvc could not start after 120 attempts.`nEither the license file was not found at $SIOSLicenseKeyFtpURL, or it is invalid."
+    } else {
+        Stop-Transcript
     }
 }
 catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
+    Stop-Transcript
     $_ | Write-AWSQuickStartException
 }
