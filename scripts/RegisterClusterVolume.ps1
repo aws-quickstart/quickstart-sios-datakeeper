@@ -25,7 +25,7 @@ try {
             } else {
                 "Cluster volume registration failed with code $LastExitCode"
                 "Retrying in $retryIntervalSec seconds ..."
-                Start-Sleep -Seconds retryIntervalSec
+                Start-Sleep -Seconds $retryIntervalSec
             }
         }
         catch {
@@ -43,11 +43,13 @@ try {
     }
     
     if($results -eq $NULL) {
-		"Failed Registering cluster volume after $tries attmpts."
-		throw "Failed Registering cluster volume after $tries attmpts."
+		"Failed Registering cluster volume after $tries attempts."
+		throw "Failed Registering cluster volume after $tries attempts."
 	}
+    Stop-Transcript
 }
 catch {
     Write-Verbose "$($_.exception.message)@ $(Get-Date)"
     $_ | Write-AWSQuickStartException
+    Stop-Transcript
 }
