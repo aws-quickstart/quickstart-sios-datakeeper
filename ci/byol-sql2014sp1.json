@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[taskcat_genpass_16A]"
+        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
