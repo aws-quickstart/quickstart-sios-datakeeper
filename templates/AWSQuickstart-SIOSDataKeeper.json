@@ -1,0 +1,27 @@
+{
+  "description": "Automation Document Example JSON Template",
+  "schemaVersion": "0.3",
+  "assumeRole": "{{ AutomationAssumeRole }}",
+  "parameters": {
+    "AMIType": {
+      "default": "PAYG",
+      "description": "AMI type for SIOS license purposes.",
+      "type": "String",
+    },
+    "AutomationAssumeRole": {
+        "type": "String",
+        "description": "(Optional) The ARN of the role that allows Automation to perform the actions on your behalf.",
+        "default": ""
+      },
+  },
+  "mainSteps": [
+    {
+      "name": "startInstances",
+      "action": "aws:changeInstanceState",
+      "inputs": {
+        "InstanceIds": "{{ InstanceId }}",
+        "DesiredState": "running"
+      }
+    }
+  ]
+}
