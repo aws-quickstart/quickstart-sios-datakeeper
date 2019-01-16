@@ -39,7 +39,6 @@
                         "ADServer2PrivateIP",
                         "DomainDNSName",
                         "DomainNetBIOSName",
-                        "RestoreModePassword",
                         "DomainAdminUser",
                         "DomainAdminPassword"
                     ]
@@ -180,9 +179,6 @@
                 },
                 "RDGWCIDR": {
                     "default": "Allowed Remote Desktop Gateway External Access CIDR"
-                },
-                "RestoreModePassword": {
-                    "default": "Restore Mode Password"
                 },
                 "VPCCIDR": {
                     "default": "VPC CIDR"
@@ -412,14 +408,6 @@
             ],
             "Default": "t2.large",
             "Description": "Amazon EC2 instance type for the Remote Desktop Gateway instance",
-            "Type": "String"
-        },
-        "RestoreModePassword": {
-            "AllowedPattern": "(?=^.{6,255}$)((?=.*\\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*",
-            "Description": "Password for a separate Administrator account when the domain controller is in Restore Mode. Must be at least 8 characters containing letters, numbers and symbols",
-            "MaxLength": "32",
-            "MinLength": "8",
-            "NoEcho": "True",
             "Type": "String"
         },
         "SIOSLicenseKeyFtpURL": {

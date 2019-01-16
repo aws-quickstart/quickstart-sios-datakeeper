@@ -88,10 +88,6 @@
         "ParameterValue": "10.0.0.0/16"
     },
     {
-        "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[taskcat_genpass_16]"
-    },
-    {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
         "ParameterValue": "override"
     },
