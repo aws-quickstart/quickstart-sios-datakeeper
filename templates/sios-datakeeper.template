@@ -579,94 +579,94 @@
     "Mappings": {
         "AWSAMIRegionMap": {
             "AMI": {
-                "SDKCEWIN2012R2":     "SIOS DataKeeper Cluster Edition v8.6.2 on 2012R2",
-                "SDKCEWIN2012R2BYOL": "SIOS DataKeeper Cluster Edition v8.6.2 on 2012R2 BYOL",
-                "SDKCEWIN2016":       "SIOS DataKeeper Cluster Edition v8.6.2 on 2016",
-                "SDKCEWIN2016BYOL":   "SIOS DataKeeper Cluster Edition v8.6.2 on 2016 BYOL"
-            },
-            "us-east-1": {
-                "SDKCEWIN2012R2":     "ami-02e6f621da0bae08b",
-                "SDKCEWIN2012R2BYOL": "ami-0914063ea217774c4",
-                "SDKCEWIN2016":       "ami-04b1b600d091c2bed",
-                "SDKCEWIN2016BYOL":   "ami-075267ad02646087b"
-            },
-            "us-east-2": {
-                "SDKCEWIN2012R2":     "ami-07fada8a4ba435e66",
-                "SDKCEWIN2012R2BYOL": "ami-0811d69dc832ac67f",
-                "SDKCEWIN2016":       "ami-0173dad24bd812836",
-                "SDKCEWIN2016BYOL":   "ami-0ce966417e91a6572"
-            },
-            "us-west-1": {
-                "SDKCEWIN2012R2":     "ami-01eaee550dad00f9f",
-                "SDKCEWIN2012R2BYOL": "ami-092a0d7a41e0b85ca",
-                "SDKCEWIN2016":       "ami-0582455f51a2fb623",
-                "SDKCEWIN2016BYOL":   "ami-028c36bee21047fd5"
-            },
-            "us-west-2": {
-                "SDKCEWIN2012R2":     "ami-039e7197f37142c8b",
-                "SDKCEWIN2012R2BYOL": "ami-0b829f4c829198efd",
-                "SDKCEWIN2016":       "ami-02238923c9bf365b2",
-                "SDKCEWIN2016BYOL":   "ami-09a67d20ba33605e5"
-            },
-            "ca-central-1": {
-                "SDKCEWIN2012R2":     "ami-0ed1d4b9642bd31df",
-                "SDKCEWIN2012R2BYOL": "ami-02013396fb9ec711b",
-                "SDKCEWIN2016":       "ami-094d2039fb19715e8",
-                "SDKCEWIN2016BYOL":   "ami-023f85b66716cadf1"
-            },
-            "ap-south-1": {
-                "SDKCEWIN2012R2":     "ami-071098e38548bfef3",
-                "SDKCEWIN2012R2BYOL": "ami-02a3788a25b232905",
-                "SDKCEWIN2016":       "ami-06506cc16f050c488",
-                "SDKCEWIN2016BYOL":   "ami-09085cae2727f52e1"
+                "SDKCEWIN2012R2": "SIOS DataKeeper v8.6.3 on 2012R2 BYOL-131676ee-31be-464b-8ae0-ba2495e88b22-ami-0a56ec950b97908aa.4",
+                "SDKCEWIN2012R2BYOL": "SIOS DataKeeper v8.6.3 on 2012R2 BYOL-131676ee-31be-464b-8ae0-ba2495e88b22-ami-0a56ec950b97908aa.4",
+                "SDKCEWIN2016": "SIOS DataKeeper v8.6.3 on 2016 BYOL-9a7d70de-0121-4ecf-b190-10e31dd8ad5a-ami-055dba3db82e8fe46.4",
+                "SDKCEWIN2016BYOL": "SIOS DataKeeper v8.6.3 on 2016 BYOL-9a7d70de-0121-4ecf-b190-10e31dd8ad5a-ami-055dba3db82e8fe46.4"
             },
             "ap-northeast-2": {
-                "SDKCEWIN2012R2":     "ami-0bdcb36e4cd91c241",
-                "SDKCEWIN2012R2BYOL": "ami-0fb10d2f276a30af9",
-                "SDKCEWIN2016":       "ami-065b8c2ab615e96a1",
-                "SDKCEWIN2016BYOL":   "ami-08d20dec9a3e2209f"
+                "SDKCEWIN2012R2": "ami-084867de574844f84",
+                "SDKCEWIN2012R2BYOL": "ami-084867de574844f84",
+                "SDKCEWIN2016": "ami-0ae004a6a351d433e",
+                "SDKCEWIN2016BYOL": "ami-0ae004a6a351d433e"
+            },
+            "ap-south-1": {
+                "SDKCEWIN2012R2": "ami-0028c5bd9f04c8b8b",
+                "SDKCEWIN2012R2BYOL": "ami-0028c5bd9f04c8b8b",
+                "SDKCEWIN2016": "ami-03972ae021a152d63",
+                "SDKCEWIN2016BYOL": "ami-03972ae021a152d63"
             },
             "ap-southeast-1": {
-                "SDKCEWIN2012R2":     "ami-0f04e24cff37e5213",
-                "SDKCEWIN2012R2BYOL": "ami-06f53888d262c01fb",
-                "SDKCEWIN2016":       "ami-04ef73833d4250610",
-                "SDKCEWIN2016BYOL":   "ami-06bf6e7a527572328"
+                "SDKCEWIN2012R2": "ami-05aa3039254bdff3d",
+                "SDKCEWIN2012R2BYOL": "ami-05aa3039254bdff3d",
+                "SDKCEWIN2016": "ami-0fef93480eff5ad60",
+                "SDKCEWIN2016BYOL": "ami-0fef93480eff5ad60"
             },
             "ap-southeast-2": {
-                "SDKCEWIN2012R2":     "ami-054d9a0eb01b6091f",
-                "SDKCEWIN2012R2BYOL": "ami-07be2331dc2be93bf",
-                "SDKCEWIN2016":       "ami-0a32084cbe99ceba0",
-                "SDKCEWIN2016BYOL":   "ami-0cabc3f0d13102905"
+                "SDKCEWIN2012R2": "ami-0978c3bffe4934975",
+                "SDKCEWIN2012R2BYOL": "ami-0978c3bffe4934975",
+                "SDKCEWIN2016": "ami-07bc25fe70c92737d",
+                "SDKCEWIN2016BYOL": "ami-07bc25fe70c92737d"
+            },
+            "ca-central-1": {
+                "SDKCEWIN2012R2": "ami-0799852f76dd9ecf2",
+                "SDKCEWIN2012R2BYOL": "ami-0799852f76dd9ecf2",
+                "SDKCEWIN2016": "ami-025cea949cb7b6239",
+                "SDKCEWIN2016BYOL": "ami-025cea949cb7b6239"
             },
             "eu-central-1": {
-                "SDKCEWIN2012R2":     "ami-0ba6f5bed834a46fb",
-                "SDKCEWIN2012R2BYOL": "ami-04d03eabc3a76520f",
-                "SDKCEWIN2016":       "ami-0f957bc4e8c343781",
-                "SDKCEWIN2016BYOL":   "ami-096dbd8893c033fe5"
+                "SDKCEWIN2012R2": "ami-01aa11f8119a0747c",
+                "SDKCEWIN2012R2BYOL": "ami-01aa11f8119a0747c",
+                "SDKCEWIN2016": "ami-08dabff0ef4937f69",
+                "SDKCEWIN2016BYOL": "ami-08dabff0ef4937f69"
             },
             "eu-west-1": {
-                "SDKCEWIN2012R2":     "ami-061c5ef1cc16b0f44",
-                "SDKCEWIN2012R2BYOL": "ami-04d87d67c319c92b4",
-                "SDKCEWIN2016":       "ami-0bb556c0f1c5b1f60",
-                "SDKCEWIN2016BYOL":   "ami-0fca63068ed3be059"
+                "SDKCEWIN2012R2": "ami-044602264f3c3a4b6",
+                "SDKCEWIN2012R2BYOL": "ami-044602264f3c3a4b6",
+                "SDKCEWIN2016": "ami-0ead6a9c136fa9ad8",
+                "SDKCEWIN2016BYOL": "ami-0ead6a9c136fa9ad8"
             },
             "eu-west-2": {
-                "SDKCEWIN2012R2":     "ami-03f4fbc40d266cd87",
-                "SDKCEWIN2012R2BYOL": "ami-07949f0ac4a4b483f",
-                "SDKCEWIN2016":       "ami-0412943a6e835e3bf",
-                "SDKCEWIN2016BYOL":   "ami-021470cbc21f0dac5"
+                "SDKCEWIN2012R2": "ami-00d0e2c7f05adfc81",
+                "SDKCEWIN2012R2BYOL": "ami-00d0e2c7f05adfc81",
+                "SDKCEWIN2016": "ami-04e7a278b6c036807",
+                "SDKCEWIN2016BYOL": "ami-04e7a278b6c036807"
             },
             "eu-west-3": {
-                "SDKCEWIN2012R2":     "ami-05251e98a1fdc681a",
-                "SDKCEWIN2012R2BYOL": "ami-05f88ef5b14d7a2f1",
-                "SDKCEWIN2016":       "ami-091516f8d824007dc",
-                "SDKCEWIN2016BYOL":   "ami-0eadca7420da9632c"
+                "SDKCEWIN2012R2": "ami-081d5927ea3ea96ac",
+                "SDKCEWIN2012R2BYOL": "ami-081d5927ea3ea96ac",
+                "SDKCEWIN2016": "ami-052e6b719de852432",
+                "SDKCEWIN2016BYOL": "ami-052e6b719de852432"
             },
             "sa-east-1": {
-                "SDKCEWIN2012R2":     "ami-085871be65e1563ff",
-                "SDKCEWIN2012R2BYOL": "ami-0c51f3830fd394b07",
-                "SDKCEWIN2016":       "ami-0e02c9ac6f048656e",
-                "SDKCEWIN2016BYOL":   "ami-0aa4187e9fc055de0"
+                "SDKCEWIN2012R2": "ami-03cf316eab12b7f4a",
+                "SDKCEWIN2012R2BYOL": "ami-03cf316eab12b7f4a",
+                "SDKCEWIN2016": "ami-0850945f42a6a2e4b",
+                "SDKCEWIN2016BYOL": "ami-0850945f42a6a2e4b"
+            },
+            "us-east-1": {
+                "SDKCEWIN2012R2": "ami-0d799a5b21ecfd370",
+                "SDKCEWIN2012R2BYOL": "ami-0d799a5b21ecfd370",
+                "SDKCEWIN2016": "ami-07eb5b905b4f54315",
+                "SDKCEWIN2016BYOL": "ami-07eb5b905b4f54315"
+            },
+            "us-east-2": {
+                "SDKCEWIN2012R2": "ami-072e5a06d7fdf8908",
+                "SDKCEWIN2012R2BYOL": "ami-072e5a06d7fdf8908",
+                "SDKCEWIN2016": "ami-0433f49f69fb6c8c6",
+                "SDKCEWIN2016BYOL": "ami-0433f49f69fb6c8c6"
+            },
+            "us-west-1": {
+                "SDKCEWIN2012R2": "ami-09ef06b4426d4dd02",
+                "SDKCEWIN2012R2BYOL": "ami-09ef06b4426d4dd02",
+                "SDKCEWIN2016": "ami-036c6f1543b1fb20e",
+                "SDKCEWIN2016BYOL": "ami-036c6f1543b1fb20e"
+            },
+            "us-west-2": {
+                "SDKCEWIN2012R2": "ami-00492b59993490d72",
+                "SDKCEWIN2012R2BYOL": "ami-00492b59993490d72",
+                "SDKCEWIN2016": "ami-0db559222a40942ee",
+                "SDKCEWIN2016BYOL": "ami-0db559222a40942ee"
             }
         }
     },
