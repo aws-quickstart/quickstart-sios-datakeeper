@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1"
+        "ParameterValue": "DCDKCE1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -29,7 +29,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2"
+        "ParameterValue": "DCDKCE2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
