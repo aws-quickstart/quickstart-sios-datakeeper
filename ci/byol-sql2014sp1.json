@@ -17,7 +17,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1"
+        "ParameterValue": "DCSDKCE1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -29,7 +29,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2"
+        "ParameterValue": "DCSDKCE2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -86,10 +86,6 @@
     {
         "ParameterKey": "RDGWCIDR",
         "ParameterValue": "10.0.0.0/16"
-    },
-    {
-        "ParameterKey": "RestoreModePassword",
-        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
