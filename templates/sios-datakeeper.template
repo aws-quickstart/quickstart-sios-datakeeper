@@ -215,7 +215,7 @@
             "Type": "String"
         },
         "ADServer1NetBIOSName": {
-            "AllowedPattern": "[a-zA-Z0-9\\-]+",
+            "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "DC1",
             "Description": "NetBIOS name of the first Active Directory server (up to 15 characters)",
             "MaxLength": "15",
@@ -229,7 +229,7 @@
             "Type": "String"
         },
         "ADServer2NetBIOSName": {
-            "AllowedPattern": "[a-zA-Z0-9\\-]+",
+            "AllowedPattern": "[a-zA-Z0-9]+",
             "Default": "DC2",
             "Description": "NetBIOS name of the second Active Directory server (up to 15 characters)",
             "MaxLength": "15",
@@ -671,110 +671,6 @@
         }
     },
     "Resources": {
-        "AWSQuickstartSIOSDKCERole": {
-            "Type": "AWS::IAM::Role",
-            "Properties": {
-                "Policies": [
-                    {
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Action": [
-                                        "s3:GetObject"
-                                    ],
-                                    "Resource": {
-                                        "Fn::Sub": [
-                                            "arn:${Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*",
-                                            {
-                                                "Partition": {
-                                                    "Fn::If": [
-                                                        "GovCloudCondition",
-                                                        "aws-us-gov",
-                                                        "aws"
-                                                    ]
-                                                }
-                                            }
-                                        ]
-                                    },
-                                    "Effect": "Allow"
-                                }
-                            ]
-                        },
-                        "PolicyName": "aws-quick-start-s3-policy"
-                    },
-                    {
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "cloudformation:SignalResource"
-                                    ],
-                                    "Resource": {
-                                        "Fn::Sub": "arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*"
-                                    }
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "ec2:DescribeInstances",
-                                        "ec2:DescribeInstanceStatus",
-                                        "ssm:*"
-                                    ],
-                                    "Resource": "*"
-                                }
-                            ]
-                        },
-                        "PolicyName": "DKCE-SSM-Automation"
-                    }
-                ],
-                "Path": "/",
-                "AssumeRolePolicyDocument": {
-                    "Statement": [
-                        {
-                            "Action": [
-                                "sts:AssumeRole"
-                            ],
-                            "Principal": {
-                                "Service": [
-                                    "ec2.amazonaws.com",
-                                    "ssm.amazonaws.com"
-                                ]
-                            },
-                            "Effect": "Allow"
-                        }
-                    ],
-                    "Version": "2012-10-17"
-                }
-            }
-        },
-        "DKCESsmPassRolePolicy": {
-            "Type": "AWS::IAM::Policy",
-            "Properties": {
-                "PolicyName": "DKCE-SSM-PassRole",
-                "PolicyDocument": {
-                    "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Effect": "Allow",
-                            "Action": [
-                                "iam:PassRole"
-                            ],
-                            "Resource": {
-                                "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}"
-                            }
-                        }
-                    ]
-                },
-                "Roles": [
-                    {
-                        "Ref": "AWSQuickstartSIOSDKCERole"
-                    }
-                ]
-            }
-        },
         "WSFCRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -796,40 +692,13 @@
                                     ],
                                     "Resource": "*",
                                     "Effect": "Allow"
-                                },
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "ssm:StartAutomationExecution"
-                                    ],
-                                    "Resource": "*"
                                 }
                             ]
                         },
                         "PolicyName": "aws-quick-start-s3-policy"
-                    },
-                    {
-                        "PolicyDocument": {
-                            "Version": "2012-10-17",
-                            "Statement": [
-                                {
-                                    "Effect": "Allow",
-                                    "Action": [
-                                        "iam:PassRole"
-                                    ],
-                                    "Resource": {
-                                        "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}"
-                                    }
-                                }
-                            ]
-                        },
-                        "PolicyName": "AD-SSM-PassRole"
                     }
                 ],
                 "Path": "/",
-                "ManagedPolicyArns": [
-                    "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-                ],
                 "AssumeRolePolicyDocument": {
                     "Statement": [
                         {
@@ -862,101 +731,309 @@
         },
         "WSFCNode1": {
             "Type": "AWS::EC2::Instance",
-            "Properties": {
-                "ImageId": {
-                    "Fn::If": [
-                        "ByolAmiCondition",
-                        {
-                            "Fn::If": [
-                                "OSVersionCondition",
-                                {
-                                    "Fn::FindInMap": [
-                                        "AWSAMIRegionMap",
-                                        {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "SIOS2016BYOL"
-                                    ]
-                                },
-                                {
-                                    "Fn::FindInMap": [
-                                        "AWSAMIRegionMap",
-                                        {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "SIOS2012R2BYOL"
-                                    ]
-                                }
-                            ]
+            "CreationPolicy": {
+                "ResourceSignal": {
+                    "Timeout": "PT300M",
+                    "Count": "1"
+                }
+            },
+            "Metadata": {
+                "AWS::CloudFormation::Authentication": {
+                    "S3AccessCreds": {
+                        "type": "S3",
+                        "roleName": {
+                            "Ref": "WSFCRole"
                         },
-                        {
-                            "Fn::If": [
-                                "OSVersionCondition",
-                                {
-                                    "Fn::FindInMap": [
-                                        "AWSAMIRegionMap",
-                                        {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "SIOS2016"
-                                    ]
-                                },
-                                {
-                                    "Fn::FindInMap": [
-                                        "AWSAMIRegionMap",
-                                        {
-                                            "Ref": "AWS::Region"
-                                        },
-                                        "SIOS2012R2"
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "IamInstanceProfile": {
-                    "Ref": "WSFCProfile"
-                },
-                "InstanceType": {
-                    "Ref": "WSFCNode1InstanceType"
-                },
-                "EbsOptimized": "true",
-                "NetworkInterfaces": [
-                    {
-                        "DeleteOnTermination": "true",
-                        "DeviceIndex": 0,
-                        "SubnetId": {
-                            "Ref": "PrivateSubnet1ID"
-                        },
-                        "PrivateIpAddresses": [
+                        "buckets": [
                             {
-                                "Primary": "true",
-                                "PrivateIpAddress": {
-                                    "Ref": "WSFCNode1PrivateIP1"
-                                }
+                                "Ref": "QSS3BucketName"
+                            }
+                        ]
+                    }
+                },
+                "AWS::CloudFormation::Init": {
+                    "configSets": {
+                        "config": [
+                            {
+                                "Fn::If": [
+                                    "OSVersionCondition",
+                                    "QuickStartSetup2016",
+                                    "QuickStartSetup"
+                                ]
                             },
                             {
-                                "Primary": "false",
-                                "PrivateIpAddress": {
-                                    "Ref": "WSFCNode1PrivateIP2"
-                                }
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "PrepSQL",
+                                    "PrepNoSQL"
+                                ]
                             },
                             {
-                                "Primary": "false",
-                                "PrivateIpAddress": {
-                                    "Ref": "WSFCNode1PrivateIP3"
+                                "Fn::If": [
+                                    "ByolAmiCondition",
+                                    "DownloadDKCELicenseAndConfigure",
+                                    "ConfigureDKCE"
+                                ]
+                            },
+                            {
+                                "Fn::If": [
+                                    "SQLInstallCondition",
+                                    "InstallSQL",
+                                    "DontInstallSQL"
+                                ]
+                            },
+                            "Cleanup",
+                            "Finalize"
+                        ]
+                    },
+                    "QuickStartSetup": {
+                        "files": {
+                            "c:\\cfn\\cfn-hup.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[main]\n",
+                                            "stack=",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            "\n",
+                                            "region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                }
+                            },
+                            "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[cfn-auto-reloader-hook]\n",
+                                            "triggers=post.update\n",
+                                            "path=Resources.WSFCNode1.Metadata.AWS::CloudFormation::Init\n",
+                                            "action=cfn-init.exe -v -s ",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            " -r WSFCNode1",
+                                            " --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                }
+                            },
+                            "C:\\cfn\\scripts\\Unzip-Archive.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\modules\\AWSQuickStart.zip": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "a-set-execution-policy": {
+                                "command": "powershell.exe -Command \"Set-ExecutionPolicy RemoteSigned -Force\"",
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-unpack-quickstart-module": {
+                                "command": "powershell.exe -Command C:\\cfn\\scripts\\Unzip-Archive.ps1 -Source C:\\cfn\\modules\\AWSQuickStart.zip -Destination C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\",
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-init-quickstart-module": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"",
+                                            "New-AWSQuickStartResourceSignal -Stack '",
+                                            {
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "' -Resource 'WSFCNode1' ",
+                                            " -Region '",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
+                            }
+                        },
+                        "services": {
+                            "windows": {
+                                "cfn-hup": {
+                                    "enabled": "true",
+                                    "ensureRunning": "true",
+                                    "files": [
+                                        "C:\\cfn\\cfn-hup.conf",
+                                        "C:\\cfn\\hooks.d\\cfn-auto-reloader.conf"
+                                    ]
                                 }
                             }
-                        ],
-                        "GroupSet": [
-                            {
-                                "Ref": "DomainMemberSGID"
+                        }
+                    },
+                    "QuickStartSetup2016": {
+                        "files": {
+                            "c:\\cfn\\cfn-hup.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[main]\n",
+                                            "stack=",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            "\n",
+                                            "region=",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                }
                             },
-                            {
-                                "Ref": "WSFCSecurityGroup"
+                            "c:\\cfn\\hooks.d\\cfn-auto-reloader.conf": {
+                                "content": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "[cfn-auto-reloader-hook]\n",
+                                            "triggers=post.update\n",
+                                            "path=Resources.WSFCNode1.Metadata.AWS::CloudFormation::Init\n",
+                                            "action=cfn-init.exe -v -s ",
+                                            {
+                                                "Ref": "AWS::StackId"
+                                            },
+                                            " -r WSFCNode1",
+                                            " --region ",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "\n"
+                                        ]
+                                    ]
+                                }
                             },
-                            {
-                                "Ref": "WSFCClientSecurityGroup"
+                            "C:\\cfn\\scripts\\Unzip-Archive.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\cfn\\modules\\AWSQuickStart.zip": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            },
+                            "C:\\ProgramData\\Amazon\\EC2-Windows\\Launch\\Config\\DriveLetterMappingConfig.json": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}scripts/DriveLetterMappingConfig.json",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "a-set-execution-policy": {
+                                "command": "powershell.exe -Command \"Set-ExecutionPolicy RemoteSigned -Force\"",
+                                "waitAfterCompletion": "0"
+                            },
+                            "b-unpack-quickstart-module": {
+                                "command": "powershell.exe -Command C:\\cfn\\scripts\\Unzip-Archive.ps1 -Source C:\\cfn\\modules\\AWSQuickStart.zip -Destination C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\",
+                                "waitAfterCompletion": "0"
+                            },
+                            "c-init-quickstart-module": {
+                                "command": {
+                                    "Fn::Join": [
+                                        "",
+                                        [
+                                            "powershell.exe -Command \"",
+                                            "New-AWSQuickStartResourceSignal -Stack '",
+                                            {
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "' -Resource 'WSFCNode1' ",
+                                            " -Region '",
+                                            {
+                                                "Ref": "AWS::Region"
+                                            },
+                                            "'\""
+                                        ]
+                                    ]
+                                },
+                                "waitAfterCompletion": "0"
                             },
                             "d-initialize-disks": {
                                 "command": {
@@ -2415,6 +2492,12 @@
         },
         "WSFCNode2": {
             "Type": "AWS::EC2::Instance",
+            "CreationPolicy": {
+                "ResourceSignal": {
+                    "Timeout": "PT300M",
+                    "Count": "1"
+                }
+            },
             "Metadata": {
                 "AWS::CloudFormation::Authentication": {
                     "S3AccessCreds": {
@@ -2552,9 +2635,14 @@
                                         "",
                                         [
                                             "powershell.exe -Command \"",
-                                            "New-AWSQuickStartWaitHandle -Handle '",
+                                            "New-AWSQuickStartResourceSignal -Stack '",
                                             {
-                                                "Ref": "WSFCNode2WaitHandle"
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "' -Resource 'WSFCNode2' ",
+                                            " -Region '",
+                                            {
+                                                "Ref": "AWS::Region"
                                             },
                                             "'\""
                                         ]
@@ -2687,9 +2775,14 @@
                                         "",
                                         [
                                             "powershell.exe -Command \"",
-                                            "New-AWSQuickStartWaitHandle -Handle '",
+                                            "New-AWSQuickStartResourceSignal -Stack '",
                                             {
-                                                "Ref": "WSFCNode2WaitHandle"
+                                                "Ref": "AWS::StackName"
+                                            },
+                                            "' -Resource 'WSFCNode2' ",
+                                            " -Region '",
+                                            {
+                                                "Ref": "AWS::Region"
                                             },
                                             "'\""
                                         ]
@@ -3864,40 +3957,48 @@
                                 },
                                 "waitAfterCompletion": "0"
                             }
-                        ]
-                    }
-                ],
-                "Tags": [
-                    {
-                        "Key": "Name",
-                        "Value": {
-                            "Ref": "WSFCNode1NetBIOSName"
-                        }
-                    }
-                ],
-                "BlockDeviceMappings": [
-                    {
-                        "DeviceName": "/dev/sda1",
-                        "Ebs": {
-                            "VolumeSize": "127",
-                            "VolumeType": "gp2"
                         }
                     },
-                    {
-                        "DeviceName": "/dev/xvdca",
-                        "VirtualName": "ephemeral0"
+                    "Cleanup": {
+                        "files": {
+                            "C:\\cfn\\scripts\\DisableCredSsp.ps1": {
+                                "source": {
+                                    "Fn::Sub": [
+                                        "https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1",
+                                        {
+                                            "QSS3Region": {
+                                                "Fn::If": [
+                                                    "GovCloudCondition",
+                                                    "s3-us-gov-west-1",
+                                                    "s3"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                "authentication": "S3AccessCreds"
+                            }
+                        },
+                        "commands": {
+                            "a-disable-credssp": {
+                                "command": "powershell.exe -ExecutionPolicy RemoteSigned \"C:\\cfn\\scripts\\DisableCredSsp.ps1\"",
+                                "waitAfterCompletion": "0"
+                            }
+                        }
+                    },
+                    "Finalize": {
+                        "commands": {
+                            "a-reboot": {
+                                "command": "powershell.exe -Command \"Restart-Computer -Force\"",
+                                "waitAfterCompletion": "forever"
+                            },
+                            "b-signal-success": {
+                                "command": "powershell -Command \"Write-AWSQuickStartStatus\""
+                            }
+                        }
                     }
-                ],
-                "KeyName": {
-                    "Ref": "KeyPairName"
                 }
-            }
-        },
-        "WSFCNode2": {
-            "Type": "AWS::EC2::Instance",
-            "DependsOn" : [
-                "WSFCNode1"
-            ],
+            },
             "Properties": {
                 "ImageId": {
                     "Fn::If": [
@@ -4023,6 +4124,27 @@
                 ],
                 "KeyName": {
                     "Ref": "KeyPairName"
+                },
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "",
+                            [
+                                "<script>\n",
+                                "cfn-init.exe -v -c config -s ",
+                                {
+                                    "Ref": "AWS::StackId"
+                                },
+                                " -r WSFCNode2 ",
+                                " --region ",
+                                {
+                                    "Ref": "AWS::Region"
+                                },
+                                "\n",
+                                "</script>"
+                            ]
+                        ]
+                    }
                 }
             }
         },

@@ -4,40 +4,28 @@
         "ParameterValue": "BYOL"
     },
     {
-        "ParameterKey": "ClusterNodeOSServerVersion",
+        "ParameterKey": "OSVersion",
         "ParameterValue": "2016"
     },
     {
-        "ParameterKey": "ADServer1InstanceType",
-        "ParameterValue": "t2.large"
-    },
-    {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DCSDKCE1"
+        "ParameterValue": "DCSIOS1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
         "ParameterValue": "10.0.0.10"
     },
     {
-        "ParameterKey": "ADServer2InstanceType",
-        "ParameterValue": "t2.large"
-    },
-    {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DCSDKCE2"
+        "ParameterValue": "DCSIOS2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
         "ParameterValue": "10.0.32.10"
     },
     {
-        "ParameterKey": "AvailabilityZones",
-        "ParameterValue": "$[taskcat_getaz_2]"
-    },
-    {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "$[taskcat_genpass_16]"
+        "ParameterValue": "Pass@word1"
     },
     {
         "ParameterKey": "DomainAdminUser",
@@ -49,11 +37,11 @@
     },
     {
         "ParameterKey": "DomainNetBIOSName",
-        "ParameterValue": "datakeeper"
+        "ParameterValue": "DATAKEEPER"
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "$[taskcat_getkeypair]"
+        "ParameterValue": "aarolima"
     },
     {
         "ParameterKey": "QSS3BucketName",
@@ -68,24 +56,20 @@
         "ParameterValue": "10.0.32.0/19"
     },
     {
-        "ParameterKey": "PublicSubnet1CIDR",
-        "ParameterValue": "10.0.128.0/20"
+        "ParameterKey": "DomainMemberSGID",
+        "ParameterValue": "sg-005727037ccdf2bce"
     },
     {
-        "ParameterKey": "PublicSubnet2CIDR",
-        "ParameterValue": "10.0.144.0/20"
+        "ParameterKey": "PrivateSubnet1ID",
+        "ParameterValue": "subnet-035c466bfc5da4746"
     },
     {
-        "ParameterKey": "RDGWInstanceType",
-        "ParameterValue": "t2.large"
-    },
-    {
-        "ParameterKey": "RDGWCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterKey": "PrivateSubnet2ID",
+        "ParameterValue": "subnet-049d6e0fbf1bbc51f"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "override"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Aaron_Lima_aarolima_2019-02-19_DKCE/"
     },
     {
         "ParameterKey": "SQLServerVersion",
@@ -97,11 +81,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[taskcat_genpass_16A]"
-    },
-    {
-        "ParameterKey": "VPCCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterValue": "Pass@word1"
     },
     {
         "ParameterKey": "Volume1Iops",
@@ -121,7 +101,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "WSFCNode1"
+        "ParameterValue": "SIOSNode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -133,7 +113,7 @@
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP3",
-        "ParameterValue": "10.0.0.200"
+        "ParameterValue": "10.0.0.102"
     },
     {
         "ParameterKey": "WSFCNode2InstanceType",
@@ -141,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "WSFCNode2"
+        "ParameterValue": "SIOSNode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",
@@ -153,6 +133,10 @@
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP3",
-        "ParameterValue": "10.0.32.200"
+        "ParameterValue": "10.0.32.102"
+    },
+    {
+        "ParameterKey": "VPCID",
+        "ParameterValue": "vpc-01cadb58f4ae403ac"
     }
 ]
