@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "OSVersion",
-        "ParameterValue": "2016"
+        "ParameterValue": "2012R2"
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
@@ -40,6 +40,10 @@
         "ParameterValue": "DATAKEEPER"
     },
     {
+        "ParameterKey": "ClusterName",
+        "ParameterValue": "WSFCCluster1"
+    },
+    {
         "ParameterKey": "KeyPairName",
         "ParameterValue": "aarolima"
     },
@@ -57,19 +61,19 @@
     },
     {
         "ParameterKey": "DomainMemberSGID",
-        "ParameterValue": "sg-005727037ccdf2bce"
+        "ParameterValue": "sg-0254a5b55b02d18bf"
     },
     {
         "ParameterKey": "PrivateSubnet1ID",
-        "ParameterValue": "subnet-035c466bfc5da4746"
+        "ParameterValue": "subnet-0e16412db0ccea092"
     },
     {
         "ParameterKey": "PrivateSubnet2ID",
-        "ParameterValue": "subnet-049d6e0fbf1bbc51f"
+        "ParameterValue": "subnet-0964c7e5bc5829158"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
-        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Aaron_Lima_aarolima_2019-02-19_DKCE/"
+        "ParameterValue": "http://ftp.us.sios.com/pickup/EVAL_Aaron_Lima_aarolima_2019-03-04_DKCE/"
     },
     {
         "ParameterKey": "SQLServerVersion",
@@ -137,6 +141,6 @@
     },
     {
         "ParameterKey": "VPCID",
-        "ParameterValue": "vpc-01cadb58f4ae403ac"
+        "ParameterValue": "vpc-0321eccc4ee17be1a"
     }
 ]

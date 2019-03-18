@@ -6,13 +6,10 @@ configuration LCMConfig
         Settings {
             RefreshMode = 'Push'
             ActionAfterReboot = 'StopConfiguration'                      
-            RebootNodeIfNeeded = $false
-            CertificateId = $DscCertThumbprint  
+            RebootNodeIfNeeded = $false 
         }
     }
 }
-
-$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
     
 #Generates MOF File for LCM
 LCMConfig -OutputPath 'C:\AWSQuickstart\LCMConfig'
