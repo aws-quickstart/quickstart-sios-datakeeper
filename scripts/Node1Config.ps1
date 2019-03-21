@@ -19,10 +19,10 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DomainAdminPassword,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLServiceAccount,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLServiceAccountPassword,
 
     [Parameter(Mandatory=$false)]
@@ -30,25 +30,20 @@ param(
 
 )
 
-# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
-$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
-# Getting Password from Secrets Manager for AD Admin User
-$ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser
-$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser
+# Formatting AD User to proper format for DSC Resources in this Script
+$ClusterAdminUser = $DomainNetBIOSName + '\' + $DomainAdminUser
+$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLServiceAccount
 # Creating Credential Object for Administrator
 $Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
 $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLServiceAccountPassword -AsPlainText -Force)))
 
-
 $ShareName = "\\" + $FileServerNetBIOSName + "." + $DomainDnsName + "\witness"
-
 
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
-            Thumbprint = $DscCertThumbprint
+            PSDscAllowPlainTextPassword = $true
             PSDscAllowDomainUser = $true
         },
         @{
@@ -133,7 +128,6 @@ Configuration WSFCNode1Config {
             DomainAdministratorCredential =  $Credentials
             DependsOn                     = '[Group]Administrators'
         }
-
 
         xClusterQuorum 'SetQuorumToNodeAndFileShareMajority' {
             IsSingleInstance = 'Yes'

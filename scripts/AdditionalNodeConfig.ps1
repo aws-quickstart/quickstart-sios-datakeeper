@@ -16,19 +16,17 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$DomainAdminPassword,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLServiceAccount,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLServiceAccountPassword
 
 )
 
-# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
-$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
-# Getting Password from Secrets Manager for AD Admin User
-$ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
-$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+# Formatting AD User to proper format for DSC Resources in this Script
+$ClusterAdminUser = $DomainNetBIOSName + '\' + $DomainAdminUser
+$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLServiceAccount
 # Creating Credential Object for Administrator
 $Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
 $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLServiceAccountPassword -AsPlainText -Force)))
@@ -37,8 +35,7 @@ $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
-            Thumbprint = $DscCertThumbprint
+            PSDscAllowPlainTextPassword = $true
             PSDscAllowDomainUser = $true
         },
         @{
@@ -59,11 +56,18 @@ Configuration AdditionalWSFCNode {
     Import-DscResource -ModuleName PSDscResources
 
     Node 'localhost'{
-
-        Group Administrators {
-            GroupName = 'Administrators'
-            Ensure = 'Present'
-            MembersToInclude = @($ClusterAdminUser, $SQLAdminUser)
+        if ($SQLServiceAccount) {
+            Group Administrators {
+                GroupName = 'Administrators'
+                Ensure = 'Present'
+                MembersToInclude = @($ClusterAdminUser, $SQLAdminUser)
+            }
+        } else {
+            Group Administrators {
+                GroupName = 'Administrators'
+                Ensure = 'Present'
+                MembersToInclude = @($ClusterAdminUser)
+            }
         }
 
         WindowsFeature AddFailoverFeature {
