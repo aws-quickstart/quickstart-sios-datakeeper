@@ -591,7 +591,7 @@ Resources:
     DependsOn: ADStack
     Properties:
       TemplateURL: !Sub
-        - https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/sios-datakeeper.template.yaml
+        - https://${QSS3BucketName}.${QSS3Region}.amazonaws.com/${QSS3KeyPrefix}templates/sios-datakeeper.template
         - QSS3Region: !If
             - GovCloudCondition
             - s3-us-gov-west-1
