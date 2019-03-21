@@ -4,10 +4,6 @@
         "ParameterValue": "BYOL"
     },
     {
-        "ParameterKey": "ADServerOSVersion",
-        "ParameterValue": "2016"
-    },
-    {
         "ParameterKey": "ClusterNodeOSServerVersion",
         "ParameterValue": "2016"
     },
