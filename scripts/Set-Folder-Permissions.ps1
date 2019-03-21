@@ -14,7 +14,10 @@ param(
     [string]$FileServerNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$SQLServiceAccount
+    [string]$SQLServiceAccount,
+
+    [Parameter(Mandatory=$true)]
+    [string]$ClusterName
 
 )
 
@@ -34,7 +37,7 @@ Try{
         Set-Acl C:\witness $acl
     }
 
-    $obj = $DomainNetBIOSName + '\WSFCluster1$'
+    $obj = $DomainNetBIOSName + '\' + $ClusterName + '$'
     Invoke-Command -ScriptBlock $SetPermissions -ComputerName $FileServerNetBIOSName -Credential $DomainAdminCreds
 
     $obj = $DomainNetBIOSName + '\' + $SQLServiceAccount

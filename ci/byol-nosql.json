@@ -4,10 +4,6 @@
         "ParameterValue": "BYOL"
     },
     {
-        "ParameterKey": "ADServerOSVersion",
-        "ParameterValue": "2016"
-    },
-    {
         "ParameterKey": "ClusterNodeOSServerVersion",
         "ParameterValue": "2016"
     },
@@ -125,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "WSFCNode1"
+        "ParameterValue": "DKCENode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -145,7 +141,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "WSFCNode2"
+        "ParameterValue": "DKCENode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",

@@ -1,0 +1,60 @@
+[CmdletBinding()]
+# Incoming Parameters for Script, CloudFormation\SSM Parameters being passed in
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$DomainNetBIOSName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$DomainDNSName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$UserName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$Password
+)
+
+# Formatting AD Admin User to proper format for JoinDomain DSC Resources in this Script
+$AdminUser = $DomainNetBIOSName + '\' + $UserName
+# Creating Credential Object for Administrator
+$Credentials = (New-Object PSCredential($AdminUser,(ConvertTo-SecureString $Password -AsPlainText -Force)))
+# Getting the Name Tag of the Instance
+$NameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)}| Where-Object { $_.Key -eq "Name" })
+$NewName = $NameTag.Value
+
+# Creating Configuration Data Block that has the Certificate Information for DSC Configuration Processing
+$ConfigurationData = @{
+    AllNodes = @(
+        @{
+            NodeName="*"
+            PSDscAllowPlainTextPassword = $true
+            PSDscAllowDomainUser = $true
+        },
+        @{
+            NodeName = 'localhost'
+        }
+    )
+}
+
+Configuration DomainJoin {
+    param(
+        [PSCredential] $Credentials
+    )
+
+    Import-Module -Name PSDesiredStateConfiguration
+    Import-Module -Name ComputerManagementDsc
+    
+    Import-DscResource -Module PSDesiredStateConfiguration
+    Import-DscResource -Module ComputerManagementDsc
+
+    Node 'localhost' {
+
+        Computer JoinDomain {
+            Name = $NewName
+            DomainName = $DomainDNSName
+            Credential = $Credentials
+        }
+    }
+}
+
+DomainJoin -OutputPath 'C:\AWSQuickstart\DomainJoin' -ConfigurationData $ConfigurationData -Credentials $Credentials
