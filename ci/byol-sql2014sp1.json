@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "WSFCNode1"
+        "ParameterValue": "DKCESQLNode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -141,7 +141,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "WSFCNode2"
+        "ParameterValue": "DKCESQLNode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",
