@@ -25,14 +25,13 @@ tests:
     - ap-southeast-1
     - eu-west-1
     - us-east-1
-    # - us-west-1
     - us-west-2
     template_file: sios-datakeeper-master.template
   byol-sql2014sp1:
     parameter_input: byol-sql2014sp1.json
     regions:
-    - ap-southeast-1
-    # - eu-west-1
+    - ap-southeast-2
+    - eu-west-2
     - us-east-1
     - us-west-1
     - us-west-2
