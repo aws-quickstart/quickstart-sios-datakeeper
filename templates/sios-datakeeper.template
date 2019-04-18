@@ -7,6 +7,24 @@ Description: >-
   This template creates Amazon EC2 Windows instance and related resources. You will
   be billed for the AWS resources used if you create a stack from this template. QS(5033)
 Metadata:
+  AWSAMIRegionMap:
+    Filters:
+      SDKCEWIN2016:
+        name: 'SIOS DataKeeper v8* on 2016*'
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+      SDKCEWIN2016BYOL:
+        name: 'SIOS DataKeeper v8* on 2016 BYOL*'
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+      SDKCEWIN2012R2:
+        name: 'SIOS DataKeeper v8* on 2012R2*'
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+      SDKCEWIN2012R2BYOL:
+        name: 'SIOS DataKeeper v8* on 2012R2 BYOL*'
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -177,7 +195,7 @@ Parameters:
     Description: Fixed private IP for the second Active Directory server located in
       Availability Zone 2
     Type: String
-  ClusterName: 
+  ClusterName:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: "WSFCCluster1"
     Description: "NetBIOS name of the WSFC Cluster"
@@ -292,16 +310,16 @@ Parameters:
     Description: ID of the VPC (e.g., vpc-0343606e)
     Type: AWS::EC2::VPC::Id
   Volume1Iops:
-    Default: '1000'
+    Default: 1000
     Description: Iops for the SQL Data drive (Only used when volume type is io1)
-    MaxValue: '20000'
-    MinValue: '100'
+    MaxValue: 20000
+    MinValue: 100
     Type: Number
   Volume1Size:
-    Default: '100'
+    Default: 100
     Description: Volume size for the SQL Data drive
-    MaxValue: '16000'
-    MinValue: '100'
+    MaxValue: 16000
+    MinValue: 100
     Type: Number
   Volume1Type:
     AllowedValues:
@@ -354,8 +372,8 @@ Parameters:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: WSFCNode1
     Description: NetBIOS name of the first WSFC Node (up to 15 characters)
-    MaxLength: '15'
-    MinLength: '1'
+    MaxLength: 15
+    MinLength: 1
     Type: String
   WSFCNode1PrivateIP1:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
@@ -417,8 +435,8 @@ Parameters:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: WSFCNode2
     Description: NetBIOS name of the second WSFC Node (up to 15 characters)
-    MaxLength: '15'
-    MinLength: '1'
+    MaxLength: 15
+    MinLength: 1
     Type: String
   WSFCNode2PrivateIP1:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
@@ -540,7 +558,7 @@ Mappings:
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
-    Properties: 
+    Properties:
       LogGroupName: !Sub '/aws/Quick_Start/${AWS::StackName}'
       RetentionInDays: 30
   AWSQuickstartSIOSDKCE:
@@ -551,12 +569,12 @@ Resources:
         schemaVersion: "0.3"
         description: "Deploy SIOS DKCE with SSM Automation"
         assumeRole: "{{AutomationAssumeRole}}"
-        parameters: 
+        parameters:
           AMIType:
            default: "PAYG"
            description: "AMI type for SIOS license purposes."
            type: "String"
-          OSVersion: 
+          OSVersion:
            default: "2012R2"
            description: "Windows Server OS version to use for cluster nodes."
            type: "String"
@@ -564,7 +582,7 @@ Resources:
            default: "DC1"
            description: "NetBIOS name of the first Active Directory server (up to 15 characters)"
            type: "String"
-          ADServer1PrivateIP: 
+          ADServer1PrivateIP:
            default: "10.0.0.10"
            description: "Fixed private IP for the first Active Directory server located in Availability Zone 1"
            type: "String"
@@ -576,18 +594,18 @@ Resources:
            default: "10.0.32.10"
            description: "Fixed private IP for the second Active Directory server located in Availability Zone 2"
            type: "String"
-          DomainAdminPassword: 
+          DomainAdminPassword:
            description: "Password for the domain admin user. Must be at least 8 characters containing letters numbers and symbols"
            type: "String"
-          DomainAdminUser: 
+          DomainAdminUser:
            default: "siosadmin"
            description: "User name for the account that will be used as Domain Administrator. This is separate from the default \"Administrator\" account"
            type: "String"
-          DomainDNSName: 
+          DomainDNSName:
            default: "datakeeper.local"
            description: "Fully qualified domain name (FQDN) e.g. example.com"
            type: "String"
-          DomainNetBIOSName: 
+          DomainNetBIOSName:
            default: "DATAKEEPER"
            description: "NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE"
            type: "String"
@@ -595,11 +613,11 @@ Resources:
            default: "10.0.0.0/19"
            description: "CIDR block for private subnet 1 located in Availability Zone 1."
            type: "String"
-          PrivateSubnet2CIDR: 
+          PrivateSubnet2CIDR:
            default: "10.0.32.0/19"
            description: "CIDR block for private subnet 2 located in Availability Zone 2."
            type: "String"
-          SIOSLicenseKeyFtpURL: 
+          SIOSLicenseKeyFtpURL:
            default: ""
            description: "URL used to obtain license key for SIOS DataKeeper software."
            type: "String"
@@ -607,14 +625,14 @@ Resources:
            default: "2014SP1"
            description: "Version of MS SQL Server to install. Select 'None' if SQL Server is not desired."
            type: "String"
-          SQLServiceAccount: 
+          SQLServiceAccount:
            default: "sqlsa"
            description: "User name for the SQL Server Service Account. This Account is a Domain User."
            type: "String"
-          SQLServiceAccountPassword: 
+          SQLServiceAccountPassword:
            description: "Password for the SQL Service account. Must be at least 8 characters containing letters numbers and symbols. May be left blank if SQL Server is not desired."
            type: "String"
-          ClusterName: 
+          ClusterName:
            default: "WSFCCluster1"
            description: "NetBIOS name of the WSFC Cluster"
            type: "String"
@@ -630,11 +648,11 @@ Resources:
            default: "10.0.0.101"
            description: "Secondary private IP for WSFC cluster on first WSFC Node"
            type: "String"
-          WSFCNode1PrivateIP3: 
+          WSFCNode1PrivateIP3:
            default: "10.0.0.102"
            description: "Third private IP for SQL Server Network Name on first WSFC Node"
            type: "String"
-          WSFCNode2NetBIOSName: 
+          WSFCNode2NetBIOSName:
            default: "WSFCNode2"
            description: "NetBIOS name of the second WSFC Node (up to 15 characters)"
            type: "String"
@@ -642,7 +660,7 @@ Resources:
            default: "10.0.32.100"
            description: "Primary private IP for the second WSFC Node located in Availability Zone 2"
            type: "String"
-          WSFCNode2PrivateIP2: 
+          WSFCNode2PrivateIP2:
            default: "10.0.32.101"
            description: "Secondary private IP for WSFC cluster on second WSFC Node"
            type: "String"
@@ -674,7 +692,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: "tag:Name"
               Values: [ "{{WSFCNode1NetBIOSName}}","{{WSFCNode2NetBIOSName}}" ]
             - Name: "instance-state-name"
@@ -690,7 +708,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: "tag:Name"
               Values: [ "{{WSFCNode1NetBIOSName}}" ]
             - Name: "instance-state-name"
@@ -702,11 +720,11 @@ Resources:
         - name: "wsfcnode2InstanceId"
           action: "aws:executeAwsApi"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: "tag:Name"
               Values: [ "{{WSFCNode2NetBIOSName}}" ]
             - Name: "instance-state-name"
@@ -722,7 +740,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: "tag:Name"
               Values: [ "{{ADServer1NetBIOSName}}" ]
             - Name: "instance-state-name"
@@ -744,7 +762,7 @@ Resources:
         - name: "2012R2InstallWMF51"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -762,13 +780,13 @@ Resources:
           nextStep: InstallDSCModules
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Install-WindowsFeature -Name DSC-Service
                    Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 2048
@@ -781,7 +799,7 @@ Resources:
         - name: "InstallDSCModules"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -796,7 +814,7 @@ Resources:
         - name: "LCMConfig"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -811,22 +829,22 @@ Resources:
         - name: "CopyQSModule"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip -LocalFile C:\cfn\modules\AWSQuickStart.zip
         - name: "UnzipQSModule"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -841,31 +859,31 @@ Resources:
         - name: "EnableCredSSP"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1 -LocalFile C:\cfn\scripts\EnableCredSsp.ps1
         - name: "EnableCredSSPReboot"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    $CredSSPEnabled = Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation'
                    if ($CredSSPEnabled -eq $false) {
@@ -876,22 +894,22 @@ Resources:
         - name: "QSModuleStart"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    New-AWSQuickStartResourceSignal -Stack {{StackName}} -Resource SSMWaitCondition -Region {{global:REGION}}
         - name: "SetDns"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -918,28 +936,28 @@ Resources:
           onFailure: "step:signalfailure"
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DriveLetterMappingConfig.json -LocalFile C:\ProgramData\Amazon\EC2-Windows\Launch\Config\DriveLetterMappingConfig.json
         - name: "InitializeDisk"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
         - name: "DomainJoin"
@@ -959,17 +977,17 @@ Resources:
         - name: "DomainJoinApply"
           action: aws:runCommand
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -979,14 +997,14 @@ Resources:
                          'Completed'
                        }
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
-                   
+
                    DscStatusCheck
         - name: "Installnetcore"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1001,7 +1019,7 @@ Resources:
         - name: "OpenWSFCPorts"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1026,7 +1044,7 @@ Resources:
         - name: "DownloadDKCELicense"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1041,7 +1059,7 @@ Resources:
         - name: "CreateJob"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1056,7 +1074,7 @@ Resources:
         - name: "CreateMirror"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1071,23 +1089,23 @@ Resources:
         - name: "dc1installDSCModules"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{dc1InstanceId.InstanceId}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Install-Module -Name xSmbShare
                    Install-Module -Name PSDscResources
         - name: "configureWSFCFileShare"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1102,7 +1120,7 @@ Resources:
         - name: "InvokeADReplicationDC1"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1117,7 +1135,7 @@ Resources:
         - name: "InvokeADReplicationDC2"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1156,17 +1174,17 @@ Resources:
         - name: "Node1Reboot1SQL"
           action: aws:runCommand
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnode1InstanceId.InstanceId}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1176,9 +1194,9 @@ Resources:
                          'Completed'
                        }
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
-                   
+
                    DscStatusCheck
         - name: "Node2configureWSFCSQL"
           action: "aws:runCommand"
@@ -1200,14 +1218,14 @@ Resources:
           nextStep: "WaitForCluster"
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnode2InstanceId.InstanceId}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1217,9 +1235,9 @@ Resources:
                          'Completed'
                        }
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
-                   
+
                    DscStatusCheck
         - name: "Node1configureWSFCNOSQL"
           action: "aws:runCommand"
@@ -1238,17 +1256,17 @@ Resources:
         - name: "Node1Reboot1NoSQL"
           action: aws:runCommand
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnode1InstanceId.InstanceId}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1258,9 +1276,9 @@ Resources:
                          'Completed'
                        }
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
-                   
+
                    DscStatusCheck
         - name: "Node2ConfigureWSFCNOSQL"
           action: "aws:runCommand"
@@ -1282,14 +1300,14 @@ Resources:
           onFailure: "step:signalfailure"
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnode2InstanceId.InstanceId}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1299,14 +1317,14 @@ Resources:
                          'Completed'
                        }
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
-                   
+
                    DscStatusCheck
         - name: "WaitForCluster"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1321,7 +1339,7 @@ Resources:
         - name: "registerclustervolume"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1346,7 +1364,7 @@ Resources:
         - name: "InstallSQL"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1361,7 +1379,7 @@ Resources:
         - name: "SetFolderPermissions"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1376,7 +1394,7 @@ Resources:
         - name: "WaitForClusterGroup"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1391,7 +1409,7 @@ Resources:
         - name: "InstallSQLAddNode"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: "AWS-RunRemoteScript"
             InstanceIds:
@@ -1406,31 +1424,31 @@ Resources:
         - name: "DisableCredSSP"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1 -LocalFile C:\cfn\scripts\DisableCredSsp.ps1
         - name: "DisableCredSSPReboot"
           action: "aws:runCommand"
           onFailure: "step:signalfailure"
-          #nextStep: 
+          #nextStep:
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    $CredSSPEnabled = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation' -Name AllowFreshCredentials -ErrorAction SilentlyContinue).AllowFreshCredentials
                    if ($CredSSPEnabled -eq 1) {
@@ -1443,13 +1461,13 @@ Resources:
           onFailure: "step:signalfailure"
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - "{{wsfcnodesInstanceId.InstanceIds}}"
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: "true"
               CloudWatchLogGroupName: !Ref 'QuickStartLogs'
             Parameters:
-              commands: 
+              commands:
                 - |
                    Remove-Item –path C:\AWSQuickstart\ -recurse
         # Determines if CFN Needs to be Signaled or if Work flow should just end
@@ -1458,7 +1476,7 @@ Resources:
           inputs:
             Choices:
             - NextStep: signalsuccess
-              Not: 
+              Not:
                 Variable: "{{StackName}}"
                 StringEquals: ""
             - NextStep: sleepend
@@ -1501,7 +1519,7 @@ Resources:
               - Action:
                   - s3:GetObject
                   - s3:ListBucket
-                Resource: 
+                Resource:
                   - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*'
                   - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}'
                 Effect: Allow
@@ -1553,7 +1571,7 @@ Resources:
             Statement:
               - Action:
                   - s3:GetObject
-                Resource: 
+                Resource:
                   - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*'
                 Effect: Allow
           PolicyName: aws-quick-start-s3-policy
@@ -1620,17 +1638,17 @@ Resources:
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref 'WSFCProfile'
       InstanceType: !Ref 'WSFCNode1InstanceType'
-      EbsOptimized: 'true'
+      EbsOptimized: true
       NetworkInterfaces:
-        - DeleteOnTermination: 'true'
-          DeviceIndex: 0
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
           SubnetId: !Ref 'PrivateSubnet1ID'
           PrivateIpAddresses:
-            - Primary: 'true'
+            - Primary: true
               PrivateIpAddress: !Ref 'WSFCNode1PrivateIP1'
-            - Primary: 'false'
+            - Primary: false
               PrivateIpAddress: !Ref 'WSFCNode1PrivateIP2'
-            - Primary: 'false'
+            - Primary: false
               PrivateIpAddress: !Ref 'WSFCNode1PrivateIP3'
           GroupSet:
             - !Ref 'DomainMemberSGID'
@@ -1643,7 +1661,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '127'
+            VolumeSize: 127
             VolumeType: gp2
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
@@ -1677,17 +1695,17 @@ Resources:
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref 'WSFCProfile'
       InstanceType: !Ref 'WSFCNode2InstanceType'
-      EbsOptimized: 'true'
+      EbsOptimized: true
       NetworkInterfaces:
-        - DeleteOnTermination: 'true'
-          DeviceIndex: 0
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
           SubnetId: !Ref 'PrivateSubnet2ID'
           PrivateIpAddresses:
-            - Primary: 'true'
+            - Primary: true
               PrivateIpAddress: !Ref 'WSFCNode2PrivateIP1'
-            - Primary: 'false'
+            - Primary: false
               PrivateIpAddress: !Ref 'WSFCNode2PrivateIP2'
-            - Primary: 'false'
+            - Primary: false
               PrivateIpAddress: !Ref 'WSFCNode2PrivateIP3'
           GroupSet:
             - !Ref 'DomainMemberSGID'
@@ -1700,7 +1718,7 @@ Resources:
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
           Ebs:
-            VolumeSize: '127'
+            VolumeSize: 127
             VolumeType: gp2
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
@@ -1796,17 +1814,17 @@ Resources:
       Device: /dev/xvdb
       InstanceId: !Ref 'WSFCNode2'
       VolumeId: !Ref 'WSFCNode2Volume1'
-  SSMWaitHandle: 
+  SSMWaitHandle:
     Type: AWS::CloudFormation::WaitConditionHandle
-  SSMWaitCondition: 
+  SSMWaitCondition:
     Type: AWS::CloudFormation::WaitCondition
     CreationPolicy:
       ResourceSignal:
         Timeout: PT300M
         Count: 1
     DependsOn: "WSFCNode2"
-    Properties: 
-      Handle: 
+    Properties:
+      Handle:
         Ref: "SSMWaitHandle"
       Timeout: "18000"
       Count: 1
@@ -1821,48 +1839,48 @@ Resources:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: tcp
-      FromPort: '137'
-      ToPort: '139'
+      FromPort: 137
+      ToPort: 139
   SIOSDataKeeperSGIngressUDP137:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: udp
-      FromPort: '137'
-      ToPort: '138'
+      FromPort: 137
+      ToPort: 138
   SIOSDataKeeperSGIngressTCP139:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: tcp
-      FromPort: '139'
-      ToPort: '139'
+      FromPort: 139
+      ToPort: 139
   SIOSDataKeeperSGIngressTCP9999:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: tcp
-      FromPort: '9999'
-      ToPort: '9999'
+      FromPort: 9999
+      ToPort: 9999
   SIOSDataKeeperSGIngressTCP10003:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: tcp
-      FromPort: '10000'
-      ToPort: '10025'
+      FromPort: 10000
+      ToPort: 10025
   SIOSDataKeeperSGIngressTCP445:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'SIOSDataKeeperSG'
       SourceSecurityGroupId: !Ref 'SIOSDataKeeperSG'
       IpProtocol: tcp
-      FromPort: '445'
-      ToPort: '445'
+      FromPort: 445
+      ToPort: 445
   WSFCSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -1874,104 +1892,104 @@ Resources:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: icmp
-      FromPort: '-1'
-      ToPort: '-1'
+      FromPort: -1
+      ToPort: -1
   WSFCSecurityGroupIngressTcp135:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '135'
-      ToPort: '135'
+      FromPort: 135
+      ToPort: 135
   WSFCSecurityGroupIngressTcp137:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '137'
-      ToPort: '137'
+      FromPort: 137
+      ToPort: 137
   WSFCSecurityGroupIngressTcp445:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '445'
-      ToPort: '445'
+      FromPort: 445
+      ToPort: 445
   WSFCSecurityGroupIngressTcp1433:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '1433'
-      ToPort: '1434'
+      FromPort: 1433
+      ToPort: 1434
   WSFCSecurityGroupIngressTcp3343:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '3343'
-      ToPort: '3343'
+      FromPort: 3343
+      ToPort: 3343
   WSFCSecurityGroupIngressTcp5022:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '5022'
-      ToPort: '5022'
+      FromPort: 5022
+      ToPort: 5022
   WSFCSecurityGroupIngressTcp5985:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '5985'
-      ToPort: '5985'
+      FromPort: 5985
+      ToPort: 5985
   WSFCSecurityGroupIngressUdp137:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: udp
-      FromPort: '137'
-      ToPort: '137'
+      FromPort: 137
+      ToPort: 137
   WSFCSecurityGroupIngressUdp3343:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: udp
-      FromPort: '3343'
-      ToPort: '3343'
+      FromPort: 3343
+      ToPort: 3343
   WSFCSecurityGroupIngressUdp1434:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: udp
-      FromPort: '1434'
-      ToPort: '1434'
+      FromPort: 1434
+      ToPort: 1434
   WSFCSecurityGroupIngressTcpHighPorts:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: tcp
-      FromPort: '49152'
-      ToPort: '65535'
+      FromPort: 49152
+      ToPort: 65535
   WSFCSecurityGroupIngressUdpHighPorts:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
       GroupId: !Ref 'WSFCSecurityGroup'
       SourceSecurityGroupId: !Ref 'WSFCSecurityGroup'
       IpProtocol: udp
-      FromPort: '49152'
-      ToPort: '65535'
+      FromPort: 49152
+      ToPort: 65535
   SQLServerAccessSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -1984,8 +2002,8 @@ Resources:
       VpcId: !Ref 'VPCID'
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: '1433'
-          ToPort: '1433'
+          FromPort: 1433
+          ToPort: 1433
           SourceSecurityGroupId: !Ref 'SQLServerAccessSecurityGroup'
 Outputs:
   DomainAdmin:
