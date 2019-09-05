@@ -1543,18 +1543,19 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       Policies:
-        - PolicyDocument:
+        - PolicyName: aws-quick-start-s3-policy
+          PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Action:
                   - s3:GetObject
                   - s3:ListBucket
-            Resource:
-              - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
-              - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}
-            Effect: Allow
-          PolicyName: aws-quick-start-s3-policy
-        - PolicyDocument:
+                Resource:
+                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
+                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}
+                Effect: Allow
+        - PolicyName: SIOS-SSM-AutomationExecution
+          PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
@@ -1567,18 +1568,16 @@ Resources:
                   - ec2:DescribeInstanceStatus
                   - ssm:*
                 Resource: '*'
-          PolicyName: SIOS-SSM-AutomationExecution
-          Path: /
-          AssumeRolePolicyDocument:
-            Statement:
-              - Action:
-                  - sts:AssumeRole
-                Principal:
-                Service:
-                  - ec2.amazonaws.com
-                  - ssm.amazonaws.com
-          Effect: Allow
-          Version: '2012-10-17'
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - ssm.amazonaws.com
+            Effect: Allow
+            Version: '2012-10-17'
   SIOSSSMPassRolePolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -1621,19 +1620,18 @@ Resources:
                   - iam:PassRole
                 Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}
           PolicyName: QS-SIOS-SSM-PassRole
-          Path: /
-          ManagedPolicyArns:
-            - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonEC2RoleforSSM
-            - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ReadOnlyAccess
-          AssumeRolePolicyDocument:
-            Statement:
-              - Action:
-                  - sts:AssumeRole
-                Principal:
-                Service:
-                  - ec2.amazonaws.com
-                Effect: Allow
-            Version: '2012-10-17'
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonEC2RoleforSSM
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ReadOnlyAccess
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Effect: Allow
+        Version: '2012-10-17'
   WSFCProfile:
     Type: AWS::IAM::InstanceProfile
     DependsOn: WSFCRole
