@@ -1544,16 +1544,15 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       Policies:
-        - PolicyName: aws-quick-start-s3-policy
-          PolicyDocument:
+        - PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Action:
                   - s3:GetObject
                   - s3:ListBucket
-                Resource:
-                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
-                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}
+                Resource: 
+                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}'
                 Effect: Allow
         - PolicyName: SIOS-SSM-AutomationExecution
           PolicyDocument:
