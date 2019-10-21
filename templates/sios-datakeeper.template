@@ -1561,7 +1561,8 @@ Resources:
               - Effect: Allow
                 Action:
                   - cloudformation:SignalResource
-                Resource: !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
+                Resource: 
+                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
               - Effect: Allow
                 Action:
                   - ec2:DescribeInstances
