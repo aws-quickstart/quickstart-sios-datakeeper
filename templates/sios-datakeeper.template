@@ -279,7 +279,7 @@ Parameters:
       forward slash (/).
     Type: String
   SIOSLicenseKeyFtpURL:
-    Default: ''
+    Default: 'override'
     Description: URL used to obtain license key for SIOS DataKeeper software.
     Type: String
   SQLServerVersion:
@@ -619,16 +619,14 @@ Resources:
             type: String
           PrivateSubnet1CIDR:
             default: 10.0.0.0/19
-            description: CIDR block for private subnet 1 located in Availability Zone
-              1.
+            description: CIDR block for private subnet 1 located in Availability Zone 1.
             type: String
           PrivateSubnet2CIDR:
             default: 10.0.32.0/19
-            description: CIDR block for private subnet 2 located in Availability Zone
-              2.
+            description: CIDR block for private subnet 2 located in Availability Zone 2.
             type: String
           SIOSLicenseKeyFtpURL:
-            default: ''
+            default: 'override'
             description: URL used to obtain license key for SIOS DataKeeper software.
             type: String
           SQLServerVersion:
@@ -777,30 +775,30 @@ Resources:
               - Name: InstanceId
                 Selector: $.Reservations[0].Instances[0].InstanceId
                 Type: String
-              - name: OSVersionBranch1
-                action: aws:branch
-                inputs:
-                  Choices:
-                    - NextStep: InstallDSCModules
-                      Variable: '{{OSVersion}}'
-                      StringEquals: '2016'
-                    - NextStep: 2012R2InstallWMF51
-                      Variable: '{{OSVersion}}'
-                      StringEquals: 2012R2
-              - name: 2012R2InstallWMF51
-                action: aws:runCommand
-                onFailure: step:signalfailure
-                inputs:
-                  DocumentName: AWS-RunRemoteScript
-                  InstanceIds:
-                    - '{{wsfcnodesInstanceId.InstanceIds}}'
-                  CloudWatchOutputConfig:
-                    CloudWatchOutputEnabled: 'true'
-                    CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Install-WMF51.ps1"}'
-              commandLine: ./Install-WMF51.ps1
+          - name: OSVersionBranch1
+            action: aws:branch
+            inputs:
+              Choices:
+              - NextStep: InstallDSCModules
+                Variable: '{{OSVersion}}'
+                StringEquals: '2016'
+              - NextStep: 2012R2InstallWMF51
+                Variable: '{{OSVersion}}'
+                StringEquals: 2012R2
+          - name: 2012R2InstallWMF51
+            action: aws:runCommand
+            onFailure: step:signalfailure
+            inputs:
+              DocumentName: AWS-RunRemoteScript
+              InstanceIds:
+                - '{{wsfcnodesInstanceId.InstanceIds}}'
+              CloudWatchOutputConfig:
+                CloudWatchOutputEnabled: 'true'
+                CloudWatchLogGroupName: !Ref QuickStartLogs
+              Parameters:
+                sourceType: S3
+                sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Install-WMF51.ps1"}'
+                commandLine: ./Install-WMF51.ps1
           - name: 2012R2InstallDSC
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -812,16 +810,16 @@ Resources:
               CloudWatchOutputConfig:
                 CloudWatchOutputEnabled: 'true'
                 CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              commands: -|
-                Install-WindowsFeature -Name DSC-Service
-                Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 2048
-                Set-WSManQuickConfig
-                $PSVersion = $PSVersionTable.PSVersion.Major
-                if ($PSVersion -eq '4') {
-                  'returning 3010, should continue after reboot'
-                   exit 3010
-                } else {'Next Step'}
+              Parameters:
+                commands: -|
+                  Install-WindowsFeature -Name DSC-Service
+                  Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 2048
+                  Set-WSManQuickConfig
+                  $PSVersion = $PSVersionTable.PSVersion.Major
+                  if ($PSVersion -eq '4') {
+                    'returning 3010, should continue after reboot'
+                     exit 3010
+                  } else {'Next Step'}
           - name: InstallDSCModules
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -862,10 +860,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip
-                  -LocalFile C:\cfn\modules\AWSQuickStart.zip
-
-                '
+                  - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip -LocalFile C:\cfn\modules\AWSQuickStart.zip
           - name: UnzipQSModule
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -879,8 +874,7 @@ Resources:
               Parameters:
                 sourceType: S3
                 sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"}'
-                commandLine: ./Unzip-Archive.ps1 -Source 'C:\cfn\modules\AWSQuickStart.zip'
-                  -Destination 'C:\Windows\system32\WindowsPowerShell\v1.0\Modules\'
+                commandLine: ./Unzip-Archive.ps1 -Source 'C:\cfn\modules\AWSQuickStart.zip' -Destination 'C:\Windows\system32\WindowsPowerShell\v1.0\Modules\'
           - name: EnableCredSSP
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -893,10 +887,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1
-                  -LocalFile C:\cfn\scripts\EnableCredSsp.ps1
-
-                '
+                  - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1 -LocalFile C:\cfn\scripts\EnableCredSsp.ps1
           - name: EnableCredSSPReboot
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -913,7 +904,7 @@ Resources:
                   if ($CredSSPEnabled -eq $false) {
                     C:\cfn\scripts\EnableCredSsp.ps1
                     'returning 3010, should continue after reboot'
-                     exit 3010
+                      exit 3010
                   } else {'Next Step'}
           - name: QSModuleStart
             action: aws:runCommand
@@ -927,10 +918,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'New-AWSQuickStartResourceSignal -Stack {{StackName}} -Resource SSMWaitCondition
-                  -Region {{global:REGION}}
-
-                '
+                    - New-AWSQuickStartResourceSignal -Stack {{StackName}} -Resource SSMWaitCondition -Region {{global:REGION}}
           - name: SetDns
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -967,10 +955,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DriveLetterMappingConfig.json
-                  -LocalFile C:\ProgramData\Amazon\EC2-Windows\Launch\Config\DriveLetterMappingConfig.json
-
-                '
+                  - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DriveLetterMappingConfig.json -LocalFile C:\ProgramData\Amazon\EC2-Windows\Launch\Config\DriveLetterMappingConfig.json
           - name: InitializeDisk
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -983,9 +968,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
-
-                '
+                    - C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
           - name: DomainJoin
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -1025,7 +1008,6 @@ Resources:
                   }
 
                   Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
-
                   DscStatusCheck
           - name: Installnetcore
             action: aws:runCommand
@@ -1093,9 +1075,9 @@ Resources:
                 sourceType: S3
                 sourceInfo: '{"path": "https://s3.amazonaws.com/{{QSS3BucketName}}/{{QSS3KeyPrefix}}scripts/CreateJob.ps1"}'
                 commandLine: ./CreateJob.ps1 -JobName vol.D -JobDesc 'SQL Volume Protection'
-                   -SourceName {{WSFCNode1NetBIOSName}}.{{DomainDNSName}} -SourceIP {{WSFCNode1PrivateIP1}}
-                   -SourceVol D -TargetName {{WSFCNode2NetBIOSName}}.{{DomainDNSName}}
-                   -TargetIP {{WSFCNode2PrivateIP1}} -TargetVol D -SyncType S
+                    -SourceName {{WSFCNode1NetBIOSName}}.{{DomainDNSName}} -SourceIP {{WSFCNode1PrivateIP1}}
+                    -SourceVol D -TargetName {{WSFCNode2NetBIOSName}}.{{DomainDNSName}}
+                    -TargetIP {{WSFCNode2PrivateIP1}} -TargetVol D -SyncType S
           - name: CreateMirror
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -1472,8 +1454,7 @@ Resources:
                 CloudWatchLogGroupName: !Ref QuickStartLogs
               Parameters:
                 commands:
-                  - 'Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1
-                    -LocalFile C:\cfn\scripts\DisableCredSsp.ps1'
+                  - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1 -LocalFile C:\cfn\scripts\DisableCredSsp.ps1
           - name: DisableCredSSPReboot
             action: aws:runCommand
             onFailure: step:signalfailure
@@ -1488,8 +1469,8 @@ Resources:
                 commands: -|
                   $CredSSPEnabled = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation' -Name AllowFreshCredentials -ErrorAction SilentlyContinue).AllowFreshCredentials
                   if ($CredSSPEnabled -eq 1) {
-                   C:\cfn\scripts\DisableCredSsp.ps1
-                   'returning 3010, should continue after reboot'
+                    C:\cfn\scripts\DisableCredSsp.ps1
+                    'returning 3010, should continue after reboot'
                     exit 3010
                   } else {'Next Step'}
           - name: DSCCleanup
@@ -1578,7 +1559,7 @@ Resources:
                 - ec2.amazonaws.com
                 - ssm.amazonaws.com
             Effect: Allow
-            Version: '2012-10-17'
+        Version: '2012-10-17'
   SIOSSSMPassRolePolicy:
     Type: AWS::IAM::Policy
     Properties:
