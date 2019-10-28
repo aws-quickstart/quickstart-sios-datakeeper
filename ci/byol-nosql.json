@@ -1,10 +1,10 @@
 [
     {
         "ParameterKey": "AMIType",
-        "ParameterValue": "BYOL"
+        "ParameterValue": "PAYG"
     },
     {
-        "ParameterKey": "ClusterNodeOSServerVersion",
+        "ParameterKey": "OSServerVersion",
         "ParameterValue": "2016"
     },
     {
