@@ -378,7 +378,7 @@ Parameters:
     Type: String
   ClusterNodeOSServerVersion:
     AllowedValues:
-      - 2012R2
+      - '2012R2'
       - '2016'
     Default: 2012R2
     Description: Windows Server OS Version for Cluster Nodes
