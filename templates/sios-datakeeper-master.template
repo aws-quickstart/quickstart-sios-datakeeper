@@ -401,10 +401,6 @@ Parameters:
       - i2.xlarge
       - i2.2xlarge
       - i2.4xlarge
-      - h1.2xlarge
-      - h1.4xlarge
-      - h1.8xlarge
-      - h1.16xlarge
       - i3.large
       - i3.xlarge
       - i3.2xlarge
@@ -535,7 +531,7 @@ Resources:
         PublicSubnet2CIDR: !Ref 'PublicSubnet2CIDR'
         VPCCIDR: !Ref 'VPCCIDR'
   ADStack:
-    DependsOn: VPCStack
+#    DependsOn: VPCStack
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub 

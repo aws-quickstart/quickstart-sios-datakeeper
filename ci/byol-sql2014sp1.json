@@ -4,7 +4,7 @@
         "ParameterValue": "PAYG"
     },
     {
-        "ParameterKey": "OSServerVersion",
+        "ParameterKey": "ClusterNodeOSServerVersion",
         "ParameterValue": "2016"
     },
     {

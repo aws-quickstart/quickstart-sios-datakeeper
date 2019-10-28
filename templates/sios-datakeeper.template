@@ -410,10 +410,6 @@ Parameters:
       - i2.xlarge
       - i2.2xlarge
       - i2.4xlarge
-      - h1.2xlarge
-      - h1.4xlarge
-      - h1.8xlarge
-      - h1.16xlarge
       - i3.large
       - i3.xlarge
       - i3.2xlarge
@@ -456,20 +452,16 @@ Parameters:
     Description: Third private IP for SQL Server Network Name on second WSFC Node
     Type: String
 Conditions:
-  GovCloudCondition:
-    !Equals
-    - !Ref AWS::Region
-    - us-gov-west-1
   ByolAmiCondition:
     !Not
     - !Equals
       - !Ref AMIType
       - PAYG
-  SQLInstallCondition:
-    !Not
-    - !Equals
-      - !Ref SQLServerVersion
-      - None
+#  SQLInstallCondition:
+#    !Not
+#    - !Equals
+#      - !Ref SQLServerVersion
+#      - None
   OSVersionCondition:
     !Equals
     - !Ref OSVersion
