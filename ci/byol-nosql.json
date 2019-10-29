@@ -13,7 +13,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DCDKCE1"
+        "ParameterValue": "DC1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DCDKCE2"
+        "ParameterValue": "DC2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -41,7 +41,7 @@
     },
     {
         "ParameterKey": "DomainAdminUser",
-        "ParameterValue": "siosadmin"
+        "ParameterValue": "admin"
     },
     {
         "ParameterKey": "DomainDNSName",
@@ -81,7 +81,7 @@
     },
     {
         "ParameterKey": "RDGWCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "DKCENode1"
+        "ParameterValue": "WSFCNode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -133,7 +133,7 @@
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP3",
-        "ParameterValue": "10.0.0.200"
+        "ParameterValue": "10.0.0.102"
     },
     {
         "ParameterKey": "WSFCNode2InstanceType",
@@ -141,7 +141,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "DKCENode2"
+        "ParameterValue": "WSFCNode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",
@@ -153,6 +153,6 @@
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP3",
-        "ParameterValue": "10.0.32.200"
+        "ParameterValue": "10.0.32.102"
     }
 ]
