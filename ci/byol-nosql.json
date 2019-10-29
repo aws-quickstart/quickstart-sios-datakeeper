@@ -13,7 +13,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DC1"
+        "ParameterValue": "SIOSDC1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DC2"
+        "ParameterValue": "SIOSDC2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "WSFCNode1"
+        "ParameterValue": "SIOSNode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -141,7 +141,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "WSFCNode2"
+        "ParameterValue": "SIOSNode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",

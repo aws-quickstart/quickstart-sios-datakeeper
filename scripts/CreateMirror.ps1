@@ -25,7 +25,7 @@ try {
 
     $ErrorActionPreference = "Continue"
     
-    $tries = 120
+    $tries = 30
     $retryIntervalSec = 30
     $mirror = $NULL
     while ($tries -ge 1) {
