@@ -53,7 +53,7 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "$[taskcat_getkeypair]"
+        "ParameterValue": "davmayd"
     },
     {
         "ParameterKey": "QSS3BucketName",
