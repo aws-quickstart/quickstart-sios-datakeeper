@@ -11,19 +11,19 @@ Metadata:
   AWSAMIRegionMap:
     Filters:
       SDKCEWIN2016:
-        name: SIOS DataKeeper v8* on 2016-*
+        name: 'SIOS DataKeeper v8* on 2016-*'
         owner-alias: aws-marketplace
         product-code.type: marketplace
       SDKCEWIN2016BYOL:
-        name: SIOS DataKeeper v8* on 2016 BYOL*
+        name: 'SIOS DataKeeper v8* on 2016 BYOL*'
         owner-alias: aws-marketplace
         product-code.type: marketplace
       SDKCEWIN2012R2:
-        name: SIOS DataKeeper v8* on 2012R2-*
+        name: 'SIOS DataKeeper v8* on 2012R2-*'
         owner-alias: aws-marketplace
         product-code.type: marketplace
       SDKCEWIN2012R2BYOL:
-        name: SIOS DataKeeper v8* on 2012R2 BYOL*
+        name: 'SIOS DataKeeper v8* on 2012R2 BYOL*'
         owner-alias: aws-marketplace
         product-code.type: marketplace
   AWS::CloudFormation::Interface:
