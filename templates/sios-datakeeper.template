@@ -1661,7 +1661,7 @@ Resources:
           - !FindInMap
             - AWSAMIRegionMap
             - !Ref AWS::Region
-            - SDKCEWIN20162BYOL
+            - SDKCEWIN2016BYOL
           - !FindInMap
             - AWSAMIRegionMap
             - !Ref AWS::Region
