@@ -1600,10 +1600,7 @@ Resources:
         - ByolAmiCondition
         - !If
           - OSVersionCondition
-          - !FindInMap
-            - AWSAMIRegionMap
-            - !Ref AWS::Region
-            - SDKCEWIN2016BYOL
+          - ami-070d5b037f8681a30
           - !FindInMap
             - AWSAMIRegionMap
             - !Ref AWS::Region
@@ -1658,10 +1655,7 @@ Resources:
         - ByolAmiCondition
         - !If
           - OSVersionCondition
-          - !FindInMap
-            - AWSAMIRegionMap
-            - !Ref AWS::Region
-            - SDKCEWIN2016BYOL
+          - ami-070d5b037f8681a30
           - !FindInMap
             - AWSAMIRegionMap
             - !Ref AWS::Region
