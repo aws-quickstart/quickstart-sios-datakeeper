@@ -1603,7 +1603,7 @@ Resources:
           - !FindInMap
             - AMIRegionMap
             - !Ref AWS::Region
-            - SDKC2016BYOL
+            - SDKCEWIN2016BYOL
           - !FindInMap
             - AMIRegionMap
             - !Ref AWS::Region
