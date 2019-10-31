@@ -8,24 +8,24 @@ Description: 'This template deploys two Windows Server Failover Clustering (WSFC
   You will be billed for the AWS resources used if you create a stack from this template.
   QS(5033)'
 Metadata:
-  AWSAMIRegionMap:
-    Filters:
-      SDKCEWIN2016:
-        name: SIOS DataKeeper v8* on 2016*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
-      SDKCEWIN2016BYOL:
-        name: SIOS DataKeeper v8* on 2016 BYOL*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
-      SDKCEWIN2012R2:
-        name: SIOS DataKeeper v8* on 2012R2*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
-      SDKCEWIN2012R2BYOL:
-        name: SIOS DataKeeper v8* on 2012R2 BYOL*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
+#  AMIRegionMap:
+#    Filters:
+#      SDKCEWIN2016:
+#        name: SIOS DataKeeper v8* on 2016*
+#        owner-alias: aws-marketplace
+#        product-code.type: marketplace
+#      SDKCEWIN2016BYOL:
+#        name: SIOS DataKeeper v8* on 2016 BYOL*
+#        owner-alias: aws-marketplace
+#        product-code.type: marketplace
+#      SDKCEWIN2012R2:
+#        name: SIOS DataKeeper v8* on 2012R2*
+#        owner-alias: aws-marketplace
+#        product-code.type: marketplace
+#      SDKCEWIN2012R2BYOL:
+#        name: SIOS DataKeeper v8* on 2012R2 BYOL*
+#        owner-alias: aws-marketplace
+#        product-code.type: marketplace
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -468,7 +468,7 @@ Rules:
         - Fn::RefAll: AWS::EC2::VPC::Id
       AssertDescription: All subnets must be in the VPC
 Mappings:
-  AWSAMIRegionMap:
+  AMIRegionMap:
     ap-northeast-2:
       SDKCEWIN2012R2: ami-0c9eb2b98d2239022
       SDKCEWIN2012R2BYOL: ami-0c9eb2b98d2239022
@@ -530,10 +530,10 @@ Mappings:
       SDKCEWIN2016: ami-03bdf26b27001275e
       SDKCEWIN2016BYOL: ami-03bdf26b27001275e
     us-west-1:
-      SDKCEWIN2012R2: ami-00c96265aa36c1408
-      SDKCEWIN2012R2BYOL: ami-00c96265aa36c1408
-      SDKCEWIN2016: ami-0b7ce517702e83eda
-      SDKCEWIN2016BYOL: ami-0b7ce517702e83eda
+      SDKCEWIN2012R2: ami-04b225fe9e8628ab8
+      SDKCEWIN2012R2BYOL: ami-04b225fe9e8628ab8
+      SDKCEWIN2016: ami-070d5b037f8681a30
+      SDKCEWIN2016BYOL: ami-070d5b037f8681a30
     us-west-2:
       SDKCEWIN2012R2: ami-02d48bd5a36da135b
       SDKCEWIN2012R2BYOL: ami-02d48bd5a36da135b
@@ -1600,19 +1600,22 @@ Resources:
         - ByolAmiCondition
         - !If
           - OSVersionCondition
-          - ami-070d5b037f8681a30
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
+            - !Ref AWS::Region
+            - SDKC2016BYOL
+          - !FindInMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2BYOL
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref WSFCProfile
@@ -1655,19 +1658,22 @@ Resources:
         - ByolAmiCondition
         - !If
           - OSVersionCondition
-          - ami-070d5b037f8681a30
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
+            - !Ref AWS::Region
+            - SDKCEWIN20162BYOL
+          - !FindInMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2BYOL
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016
           - !FindInMap
-            - AWSAMIRegionMap
+            - AMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref WSFCProfile
