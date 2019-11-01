@@ -33,5 +33,5 @@ tests:
     - ap-southeast-2
     - eu-west-2
     - us-east-2
-    - us-west-1
+    - us-west-2
     template_file: sios-datakeeper-master.template
