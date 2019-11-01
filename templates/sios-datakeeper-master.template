@@ -392,7 +392,7 @@ Parameters:
     AllowedValues:
       - '2012R2'
       - '2016'
-    Default: 2012R2
+    Default: 2016
     Description: Windows Server OS Version for Cluster Nodes
     Type: String
   WSFCNode1InstanceType:
