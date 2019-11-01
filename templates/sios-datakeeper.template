@@ -8,24 +8,28 @@ Description: 'This template deploys two Windows Server Failover Clustering (WSFC
   You will be billed for the AWS resources used if you create a stack from this template.
   QS(5033)'
 Metadata:
-#  AMIRegionMap:
-#    Filters:
-#      SDKCEWIN2016:
-#        name: 'SIOS DataKeeper v8* on 2016-*'
-#        owner-alias: aws-marketplace
-#        product-code.type: marketplace
-#      SDKCEWIN2016BYOL:
-#        name: 'SIOS DataKeeper v8* on 2016 BYOL*'
-#        owner-alias: aws-marketplace
-#        product-code.type: marketplace
-#      SDKCEWIN2012R2:
-#        name: 'SIOS DataKeeper v8* on 2012R2-*'
-#        owner-alias: aws-marketplace
-#        product-code.type: marketplace
-#      SDKCEWIN2012R2BYOL:
-#        name: 'SIOS DataKeeper v8* on 2012R2 BYOL*'
-#        owner-alias: aws-marketplace
-#        product-code.type: marketplace
+  AWSAMIRegionMap:
+    Filters:
+      SDKCEWIN2016:
+        name: SIOS DataKeeper v8* on 2016*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: 39ui2evyq6bmfxwhpwyci6l06
+      SDKCEWIN2016BYOL:
+        name: SIOS DataKeeper v8* on 2016 BYOL*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: 959g9sxo7jo9axg7au8fjxvmi
+      SDKCEWIN2012R2:
+        name: SIOS DataKeeper v8* on 2012R2*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: dvw0k1cslwup93kxyf85trjxm
+      SDKCEWIN2012R2BYOL:
+        name: SIOS DataKeeper v8* on 2012R2 BYOL*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: 14oj75sfcidvzwqizi8lzs7c2
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -468,7 +472,7 @@ Rules:
         - Fn::RefAll: AWS::EC2::VPC::Id
       AssertDescription: All subnets must be in the VPC
 Mappings:
-  AMIRegionMap:
+  AWSAMIRegionMap:
     ap-northeast-2:
       SDKCEWIN2012R2: ami-0c9eb2b98d2239022
       SDKCEWIN2012R2BYOL: ami-0c9eb2b98d2239022
@@ -1601,21 +1605,21 @@ Resources:
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016BYOL
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2BYOL
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref WSFCProfile
@@ -1659,21 +1663,21 @@ Resources:
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016BYOL
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2BYOL
         - !If
           - OSVersionCondition
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2016
           - !FindInMap
-            - AMIRegionMap
+            - AWSAMIRegionMap
             - !Ref AWS::Region
             - SDKCEWIN2012R2
       IamInstanceProfile: !Ref WSFCProfile

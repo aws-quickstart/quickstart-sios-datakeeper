@@ -39,6 +39,7 @@ Metadata:
           default: Remote Desktop Gateway Configuration
         Parameters:
           - RDGWCIDR
+          - NumberOfRDGWHosts
           - RDGWInstanceType
       - Label:
           default: Replication Configuration
@@ -95,6 +96,8 @@ Metadata:
         default: Domain NetBIOS Name
       KeyPairName:
         default: Key Pair Name
+      NumberOfRDGWHosts:
+        default: Number of RDGW hosts
       PrivateSubnet1CIDR:
         default: Private Subnet 1 CIDR
       PrivateSubnet2CIDR:
@@ -259,6 +262,15 @@ Parameters:
     Description: Public/private key pairs allow you to securely connect to your instance
       after it launches
     Type: AWS::EC2::KeyPair::KeyName
+  NumberOfRDGWHosts:
+    AllowedValues:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+    Default: '1'
+    Description: Enter the number of Remote Desktop Gateway hosts to create.
+    Type: String
   PrivateSubnet1CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
@@ -571,6 +583,7 @@ Resources:
         DomainMemberSGID: !GetAtt 'ADStack.Outputs.DomainMemberSGID'
         DomainNetBIOSName: !Ref 'DomainNetBIOSName'
         KeyPairName: !Ref 'KeyPairName'
+        NumberOfRDGWHosts: !Ref 'NumberOfRDGWHosts'
         PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
         QSS3BucketName: !Ref 'QSS3BucketName'
