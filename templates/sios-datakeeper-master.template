@@ -97,7 +97,7 @@ Metadata:
       KeyPairName:
         default: Key Pair Name
       NumberOfRDGWHosts:
-        default: Number of RDGW hosts
+        default: Number of RDGW hosts   
       PrivateSubnet1CIDR:
         default: Private Subnet 1 CIDR
       PrivateSubnet2CIDR:
@@ -390,9 +390,10 @@ Parameters:
     Type: String
   ClusterNodeOSServerVersion:
     AllowedValues:
-      - '2012R2'
-      - '2016'
-    Default: 2016
+      - WS2012R2
+      - WS2016
+      - WS2019
+    Default: WS2012R2
     Description: Windows Server OS Version for Cluster Nodes
     Type: String
   WSFCNode1InstanceType:
@@ -413,6 +414,10 @@ Parameters:
       - i2.xlarge
       - i2.2xlarge
       - i2.4xlarge
+      - h1.2xlarge
+      - h1.4xlarge
+      - h1.8xlarge
+      - h1.16xlarge
       - i3.large
       - i3.xlarge
       - i3.2xlarge
@@ -472,6 +477,10 @@ Parameters:
       - i2.xlarge
       - i2.2xlarge
       - i2.4xlarge
+      - h1.2xlarge
+      - h1.4xlarge
+      - h1.8xlarge
+      - h1.16xlarge
       - i3.large
       - i3.xlarge
       - i3.2xlarge
@@ -539,7 +548,7 @@ Resources:
         PublicSubnet2CIDR: !Ref 'PublicSubnet2CIDR'
         VPCCIDR: !Ref 'VPCCIDR'
   ADStack:
-#    DependsOn: VPCStack
+    DependsOn: VPCStack
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub 
@@ -583,7 +592,7 @@ Resources:
         DomainMemberSGID: !GetAtt 'ADStack.Outputs.DomainMemberSGID'
         DomainNetBIOSName: !Ref 'DomainNetBIOSName'
         KeyPairName: !Ref 'KeyPairName'
-        NumberOfRDGWHosts: !Ref 'NumberOfRDGWHosts'
+        NumberOfRDGWHosts: !Ref 'NumberOfRDGWHosts'          
         PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
         QSS3BucketName: !Ref 'QSS3BucketName'
