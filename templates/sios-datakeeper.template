@@ -885,7 +885,8 @@ Resources:
               commandLine: ./LCM-Config.ps1
         - name: CopyQSModule
           action: aws:runCommand
-          onFailure: step:CopyQSModule
+          maxAttempts: 999
+          onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
@@ -1050,6 +1051,7 @@ Resources:
                    DscStatusCheck
         - name: Installnetcore
           action: aws:runCommand
+          maxAttempts: 999
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
