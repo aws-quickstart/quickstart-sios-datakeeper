@@ -10,6 +10,16 @@ Description: 'This template deploys two Windows Server Failover Clustering (WSFC
 Metadata:
   AWSAMIRegionMap:
     Filters:
+      SDKCEWIN2019:
+        name: SIOS DataKeeper v8* on 2019*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: 4751lqgr72zqz6fwj12p82x8s
+      SDKCEWIN2019BYOL:
+        name: SIOS DataKeeper v8* on 2019 BYOL*
+        owner-alias: aws-marketplace
+        product-code.type: marketplace
+        product-code: 4em0o0s00hf8yye81sq8d619d
       SDKCEWIN2016:
         name: SIOS DataKeeper v8* on 2016*
         owner-alias: aws-marketplace
@@ -29,7 +39,7 @@ Metadata:
         name: SIOS DataKeeper v8* on 2012R2 BYOL*
         owner-alias: aws-marketplace
         product-code.type: marketplace
-        product-code: 14oj75sfcidvzwqizi8lzs7c2    
+        product-code: 14oj75sfcidvzwqizi8lzs7c2
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -502,103 +512,110 @@ Mappings:
       SDKCEWIN2019: SIOS DataKeeper v8.7.0 on 2019 - ami-
       SDKCEWIN2019BYOL: SIOS DataKeeper v8.7.0 on 2019 BYOL - ami-04c9d9ed7ff012816
     ap-northeast-2:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-06f2565ef03608e37
+      SDKCEWIN2012R2BYOL: ami-03516417495088685
+      SDKCEWIN2016: ami-0e977da79286a322e
+      SDKCEWIN2016BYOL: ami-00a7f00bf777ae7e6
+      SDKCEWIN2019: ami-0701531bf9360dd6a
+      SDKCEWIN2019BYOL: ami-0140c683f2cbe3434
     ap-south-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-06f60f8e8093c6651
+      SDKCEWIN2012R2BYOL: ami-0d63ee5523d0c44a8
+      SDKCEWIN2016: ami-03095701723e8e191
+      SDKCEWIN2016BYOL: ami-06023c681ee1b9fa7
+      SDKCEWIN2019: ami-0ae89ffebebfea725
+      SDKCEWIN2019BYOL: ami-05d7f8c6e81fad3af
     ap-southeast-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-03a5524f1ff32a048
+      SDKCEWIN2012R2BYOL: ami-0e02e1cd431ad0b26
+      SDKCEWIN2016: ami-0973d65b7688ac5ee
+      SDKCEWIN2016BYOL: ami-0659b392a76f20a94
+      SDKCEWIN2019: ami-03f0b21ce66ad3803
+      SDKCEWIN2019BYOL: ami-07de62254f394eab4
     ap-southeast-2:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-053806398ea2a79e4
+      SDKCEWIN2012R2BYOL: ami-028e157e884ab1dec
+      SDKCEWIN2016: ami-0ad539351d7d8de9b
+      SDKCEWIN2016BYOL: ami-069c329196f311363
+      SDKCEWIN2019: ami-0cc5893644ddf557e
+      SDKCEWIN2019BYOL: ami-06eab46f74f64b6ec
     ca-central-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-08e16751ddec7be09
+      SDKCEWIN2012R2BYOL: ami-0064aa23b73cce907
+      SDKCEWIN2016: ami-0f919f49d415fca5b
+      SDKCEWIN2016BYOL: ami-03dcac8cab455e81b
+      SDKCEWIN2019: ami-053e36dfd8c42d487
+      SDKCEWIN2019BYOL: ami-0ecf8fe07e16e86c2
     eu-central-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-054862ea69bce2f83
+      SDKCEWIN2012R2BYOL: ami-03b29f6d9c38dae49
+      SDKCEWIN2016: ami-0acefe544437c356b
+      SDKCEWIN2016BYOL: ami-069618b12b258c4dc
+      SDKCEWIN2019: ami-04266f0991f0e70c4
+      SDKCEWIN2019BYOL: ami-096d67f89796dfb64
+    eu-north-1:
+      SDKCEWIN2012R2: ami-0191130dd4f744786
+      SDKCEWIN2012R2BYOL: ami-04bce219582ebe58d
+      SDKCEWIN2016: ami-06b4daa0d226b2082
+      SDKCEWIN2016BYOL: ami-00a1568218d846b2f
+      SDKCEWIN2019: ami-0fa4cad9d763029a5
+      SDKCEWIN2019BYOL: ami-006d6c2767fb6ea75
     eu-west-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0f2fd76c51a759f59
+      SDKCEWIN2012R2BYOL: ami-09e8b34d26a729f38
+      SDKCEWIN2016: ami-06b40d380442856bf
+      SDKCEWIN2016BYOL: ami-07af265ea539f2731
+      SDKCEWIN2019: ami-0a25e56e2caf18505
+      SDKCEWIN2019BYOL: ami-02adbfd377ed997bf
     eu-west-2:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0ca99107a2735b116
+      SDKCEWIN2012R2BYOL: ami-0dd3432fb55d37737
+      SDKCEWIN2016: ami-0a5980f8602aac7ff
+      SDKCEWIN2016BYOL: ami-056e3fcc742c523b0
+      SDKCEWIN2019: ami-0de6365046b3680a2
+      SDKCEWIN2019BYOL: ami-09362c652f6a2c900
     eu-west-3:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0231a8b6daae5c83f
+      SDKCEWIN2012R2BYOL: ami-060a6ea922b550780
+      SDKCEWIN2016: ami-07f43ac21e1bca616
+      SDKCEWIN2016BYOL: ami-05193c6d5211c4827
+      SDKCEWIN2019: ami-04cfff53188a91a7a
+      SDKCEWIN2019BYOL: ami-0fae282b3dfa69dbb
     sa-east-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-017eec8ab74872a15
+      SDKCEWIN2012R2BYOL: ami-01a449c3a9d1f04cb
+      SDKCEWIN2016: ami-06a583cafcf689b3e
+      SDKCEWIN2016BYOL: ami-0b24fd3a7021b8b2f
+      SDKCEWIN2019: ami-0013929b981e747e9
+      SDKCEWIN2019BYOL: ami-08f63fd6ed5de98a6
     us-east-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0d213d3472495928f
+      SDKCEWIN2012R2BYOL: ami-0af510038d1977752
+      SDKCEWIN2016: ami-0773e8d74659e4a0c
+      SDKCEWIN2016BYOL: ami-069ab4098e5bc2b6b
+      SDKCEWIN2019: ami-0c1b6862afc7fa5c9
+      SDKCEWIN2019BYOL: ami-087bc32034f4a43c6
     us-east-2:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0fcdeb2fe4a4ed795
+      SDKCEWIN2012R2BYOL: ami-0ce93e853e1a47bbb
+      SDKCEWIN2016: ami-05638d65d1784622a
+      SDKCEWIN2016BYOL: ami-0eab322542fbdfb38
+      SDKCEWIN2019: ami-0987e9c8a3193e592
+      SDKCEWIN2019BYOL: ami-0d563d7703aac56ca
     us-west-1:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-0f04104e1335dd37b
+      SDKCEWIN2012R2BYOL: ami-0b5c886a41f7332b4
+      SDKCEWIN2016: ami-06c590ba1bc46b955
+      SDKCEWIN2016BYOL: ami-0953a0aa0fb6bbbfc
+      SDKCEWIN2019: ami-01b6bf844bed1551d
+      SDKCEWIN2019BYOL: ami-0e10d0d71fe47bef7
     us-west-2:
-      SDKCEWIN2012R2: ami-
-      SDKCEWIN2012R2BYOL: ami-
-      SDKCEWIN2016: ami-
-      SDKCEWIN2016BYOL: ami-
-      SDKCEWIN2019: ami-
-      SDKCEWIN2019BYOL: ami-
+      SDKCEWIN2012R2: ami-027b2a76e12a2beb7
+      SDKCEWIN2012R2BYOL: ami-00db04dac2c592911
+      SDKCEWIN2016: ami-078408ec5ecae7410
+      SDKCEWIN2016BYOL: ami-0bfe889ba173aa1e9
+      SDKCEWIN2019: ami-05d056f3d434cd953
+      SDKCEWIN2019BYOL: ami-0405f91e0c43ab94d
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -868,7 +885,7 @@ Resources:
               commandLine: ./LCM-Config.ps1
         - name: CopyQSModule
           action: aws:runCommand
-          onFailure: step:signalfailure
+          onFailure: step:CopyQSModule
           inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
