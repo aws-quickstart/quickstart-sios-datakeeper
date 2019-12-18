@@ -504,13 +504,6 @@ Mappings:
     WS2019:
       Code: SDKCEWIN2019
   AWSAMIRegionMap:
-    AMI:
-      SDKCEWIN2012R2: Windows_Server-2012-R2_RTM-English-64Bit-Base-2019.09.11 - ami-05ad3e9ea4dcd9863
-      SDKCEWIN2012R2BYOL: Windows_Server-2012-R2_RTM-English-64Bit-Base-2019.09.11 - ami-05ad3e9ea4dcd9863
-      SDKCEWIN2016: SIOS DataKeeper v8.6.3 on 2016 BYOL-9a7d70de-0121-4ecf-b190-10e31dd8ad5a-ami-055dba3db82e8fe46.4
-      SDKCEWIN2016BYOL: SIOS DataKeeper v8.6.3 on 2016 BYOL-9a7d70de-0121-4ecf-b190-10e31dd8ad5a-ami-055dba3db82e8fe46.4
-      SDKCEWIN2019: SIOS DataKeeper v8.7.0 on 2019 - ami-
-      SDKCEWIN2019BYOL: SIOS DataKeeper v8.7.0 on 2019 BYOL - ami-04c9d9ed7ff012816
     ap-northeast-2:
       SDKCEWIN2012R2: ami-06f2565ef03608e37
       SDKCEWIN2012R2BYOL: ami-03516417495088685
