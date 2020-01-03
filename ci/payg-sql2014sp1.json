@@ -1,7 +1,7 @@
 [
     {
         "ParameterKey": "AMIType",
-        "ParameterValue": "BYOL"
+        "ParameterValue": "PAYG"
     },
     {
         "ParameterKey": "ClusterNodeOSServerVersion",
@@ -81,7 +81,7 @@
     },
     {
         "ParameterKey": "RDGWCIDR",
-        "ParameterValue": "0.0.0.0/0"
+        "ParameterValue": "10.0.0.0/16"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
@@ -89,7 +89,7 @@
     },
     {
         "ParameterKey": "SQLServerVersion",
-        "ParameterValue": "None"
+        "ParameterValue": "2014SP1"
     },
     {
         "ParameterKey": "SQLServiceAccount",
@@ -97,7 +97,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[taskcat_genpass_16]"
+        "ParameterValue": "$[taskcat_genpass_16A]"
     },
     {
         "ParameterKey": "VPCCIDR",

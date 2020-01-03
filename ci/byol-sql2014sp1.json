@@ -13,7 +13,7 @@
     },
     {
         "ParameterKey": "ADServer1NetBIOSName",
-        "ParameterValue": "DCSDKCE1"
+        "ParameterValue": "SIOSDC1"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "ADServer2NetBIOSName",
-        "ParameterValue": "DCSDKCE2"
+        "ParameterValue": "SIOSDC2"
     },
     {
         "ParameterKey": "ADServer2PrivateIP",
@@ -37,11 +37,11 @@
     },
     {
         "ParameterKey": "DomainAdminPassword",
-        "ParameterValue": "$[taskcat_genpass_16]"
+        "ParameterValue": "Password1"
     },
     {
         "ParameterKey": "DomainAdminUser",
-        "ParameterValue": "siosadmin"
+        "ParameterValue": "admin"
     },
     {
         "ParameterKey": "DomainDNSName",
@@ -53,7 +53,7 @@
     },
     {
         "ParameterKey": "KeyPairName",
-        "ParameterValue": "$[taskcat_getkeypair]"
+        "ParameterValue": "davmayd"
     },
     {
         "ParameterKey": "QSS3BucketName",
@@ -121,7 +121,7 @@
     },
     {
         "ParameterKey": "WSFCNode1NetBIOSName",
-        "ParameterValue": "DKCESQLNode1"
+        "ParameterValue": "SIOSNode1"
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP1",
@@ -133,7 +133,7 @@
     },
     {
         "ParameterKey": "WSFCNode1PrivateIP3",
-        "ParameterValue": "10.0.0.200"
+        "ParameterValue": "10.0.0.102"
     },
     {
         "ParameterKey": "WSFCNode2InstanceType",
@@ -141,7 +141,7 @@
     },
     {
         "ParameterKey": "WSFCNode2NetBIOSName",
-        "ParameterValue": "DKCESQLNode2"
+        "ParameterValue": "SIOSNode2"
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP1",
@@ -153,6 +153,6 @@
     },
     {
         "ParameterKey": "WSFCNode2PrivateIP3",
-        "ParameterValue": "10.0.32.200"
+        "ParameterValue": "10.0.32.102"
     }
 ]
