@@ -5,7 +5,7 @@
     },
     {
         "ParameterKey": "ClusterNodeOSServerVersion",
-        "ParameterValue": "2016"
+        "ParameterValue": "WS2016"
     },
     {
         "ParameterKey": "ADServer1InstanceType",
