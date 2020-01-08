@@ -25,7 +25,7 @@ tests:
     - ap-southeast-1
     - eu-west-1
     - us-east-1
-    - us-west-1
+#    - us-west-1
     template_file: sios-datakeeper-master.template
   payg-sql2014sp1:
     parameter_input: payg-sql2014sp1.json
