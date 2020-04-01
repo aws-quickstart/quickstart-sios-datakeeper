@@ -486,6 +486,7 @@ Conditions:
     - !Equals
       - !Ref SQLServerVersion
       - None
+  UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
     Assertions:
