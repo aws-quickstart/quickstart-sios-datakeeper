@@ -5,6 +5,7 @@ param()
 Set-ExecutionPolicy RemoteSigned -Force
 
 "Setting up Powershell Gallery to Install DSC Modules"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
