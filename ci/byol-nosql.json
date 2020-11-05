@@ -24,6 +24,10 @@
         "ParameterValue": "t2.large"
     },
     {
+        "ParameterKey": "NumberOfRDGWHosts",
+        "ParameterValue": "0"
+    },
+    {
         "ParameterKey": "ADServer2NetBIOSName",
         "ParameterValue": "SIOSDC2"
     },

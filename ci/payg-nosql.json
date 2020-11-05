@@ -4,6 +4,10 @@
         "ParameterValue": "PAYG"
     },
     {
+        "ParameterKey": "NumberOfRDGWHosts",
+        "ParameterValue": "0"
+    },
+    {
         "ParameterKey": "ClusterNodeOSServerVersion",
         "ParameterValue": "WS2019"
     },

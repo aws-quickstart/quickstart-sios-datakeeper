@@ -16,6 +16,10 @@
         "ParameterValue": "SIOSDC1"
     },
     {
+        "ParameterKey": "NumberOfRDGWHosts",
+        "ParameterValue": "0"
+    },
+    {
         "ParameterKey": "ADServer1PrivateIP",
         "ParameterValue": "10.0.0.10"
     },
