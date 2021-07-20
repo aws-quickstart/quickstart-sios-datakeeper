@@ -63,7 +63,7 @@ tests:
     - eu-west-1
     - us-east-1
     s3_bucket: ''
-    template: templates/sios-datakeeper-master.template
+    template: templates/sios-datakeeper-main.template
   payg-sql2014sp1:
     parameters:
       ADServer1InstanceType: t2.large
@@ -113,4 +113,4 @@ tests:
     - us-east-2
     - us-west-2
     s3_bucket: ''
-    template: templates/sios-datakeeper-master.template
+    template: templates/sios-datakeeper-main.template

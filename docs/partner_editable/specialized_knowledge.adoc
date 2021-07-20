@@ -1,6 +1,8 @@
-// Replace the content in <>
-// For example: “familiarity with basic concepts in networking, database operations, and data encryption” or “familiarity with <software>.”
-// Include links if helpful. 
-// You don't need to list AWS services or point to general info about AWS; the boilerplate already covers this.
+Before you deploy this Quick Start, we recommend that you become familiar with the
+following AWS services. (If you are new to AWS, see https://aws.amazon.com/getting-started/[Getting Started with AWS].)
 
-This Quick Start also assumes familiarity with <knowledge expectations specific to this Quick Start>.
+* https://aws.amazon.com/documentation/vpc/[Amazon VPC]
+* https://aws.amazon.com/documentation/ec2/[Amazon EC2]
+* https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html[Amazon Elastic Block Store (Amazon EBS)]
+
+We recommend that you also take a look at the http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/index.htm[SIOS DataKeeper Deployment Guide].

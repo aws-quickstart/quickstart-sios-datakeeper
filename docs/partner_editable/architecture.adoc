@@ -18,12 +18,24 @@ best practices, to provide you with your own virtual network on AWS.*
 * In the public subnets:
 ** Managed network address translation (NAT) gateways to allow outbound
 internet access for resources in the private subnets.*
-** A Linux bastion host in an Auto Scaling group to allow inbound Secure
-Shell (SSH) access to EC2 instances in public and private subnets.*
+** A Remote Desktop Gateway instance in an Auto Scaling group for remote administration.*
 * In the private subnets:
-** <item>.
-** <item>.
-// Add bullet points for any additional components that are included in the deployment. Make sure that the additional components are also represented in the architecture diagram. End each bullet with a period.
-* <describe any additional components>.
+** Two Active Directory domain controllers.
+** Two cluster nodes featuring SIOS DataKeeper replication software and SQL Server.
 
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |Single AWS Region with two Availability Zones
+|Instance type |Minimum recommended instance type: m3.xlarge
+|Operating system |See the http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix]
+|Elastic IP |An Elastic IP address connected to the Remote Desktop Gateway server
+|Instances |Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance
+|Volumes |Two volumes (Amazon EBS and NTFS only)
+|===

@@ -8,6 +8,9 @@ Description: 'This template deploys two Windows Server Failover Clustering (WSFC
   You will be billed for the AWS resources used if you create a stack from this template.
   (qs-1qup6ralg)'
 Metadata:
+  QuickStartDocumentation:
+    EntrypointName: "Parameters for deploying into an existing VPC"
+    Order: "2"
   AWSAMIRegionMap:
     Filters:
       SDKCEWIN2019:
