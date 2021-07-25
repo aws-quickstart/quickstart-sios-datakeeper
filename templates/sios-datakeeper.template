@@ -1,7 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'This template deploys two Windows Server Failover Clustering (WSFC)
-  nodes with SQL Server 2014 and DataKeeper replication software. This template is
+  nodes with SQL Server 2017 and DataKeeper replication software. This template is
   intended to be installed into an existing VPC that was built using the sample reference
   architecture titled: "Implementing Active Directory Domain Services in the AWS Cloud"
   **WARNING** This template creates Amazon EC2 Windows instance and related resources.
@@ -310,8 +310,8 @@ Parameters:
   SQLServerVersion:
     AllowedValues:
       - None
-      - 2014SP1
-    Default: 2014SP1
+      - SQL2017
+    Default: SQL2017
     Description: Version of MS SQL Server to install. Select 'None' if SQL Server
       is not desired.
     Type: String
@@ -687,7 +687,7 @@ Resources:
            description: URL used to obtain license key for SIOS DataKeeper software.
            type: String
           SQLServerVersion:
-           default: 2014SP1
+           default: SQL2017
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
            type: String
           SQLServiceAccount: 
@@ -1312,12 +1312,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: Node1configureWSFCSQL
-              Variable: '{{SQLServerVersion}}'
-              StringEquals: 2014SP1
             - NextStep: Node1configureWSFCNOSQL
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
+        # START INSTALL SQL branch
         - name: Node1configureWSFCSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1417,6 +1415,8 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
+        # END INSTALL SQL branch
+        # START NO SQL branch
         - name: Node1configureWSFCNOSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1514,6 +1514,7 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
+        # END NO SQL branch
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1566,12 +1567,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: InstallSQL
-              Variable: '{{SQLServerVersion}}'
-              StringEquals: 2014SP1
             - NextStep: DisableCredSSP
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
+        # START INSTALL SQL branch2
         - name: InstallSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1595,7 +1594,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./InstallSQLEE.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
+              commandLine: ./InstallSQLEE.ps1 -SQLServerVersion {{SQLServerVersion}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
         - name: SetFolderPermissions
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1667,7 +1666,8 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: "./InstallSQLEE-AddNode.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}"
+              commandLine: "./InstallSQLEE-AddNode.ps1 -SQLServerVersion {{SQLServerVersion}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}"
+        # END INSTALL SQL branch2
         - name: DisableCredSSP
           action: aws:runCommand
           onFailure: step:signalfailure
