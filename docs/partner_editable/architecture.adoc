@@ -8,7 +8,7 @@ AWS Cloud.
 
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/architecture_diagram.png[Architecture]
+image::../images/sios-datakeeper-architecture-diagram.png[Architecture]
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
@@ -21,9 +21,9 @@ internet access for resources in the private subnets.*
 ** A Remote Desktop Gateway instance in an Auto Scaling group for remote administration.*
 * In the private subnets:
 ** Two Active Directory domain controllers.
-** Two cluster nodes featuring SIOS DataKeeper replication software and SQL Server.
-** AWS Secrets Manager keys to store credentials.
-** An AWS Systems Manager automation document to automate the deployment.
+** Two SQL Server nodes featuring SIOS DataKeeper replication software.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager to automate the deployment with an automation document.
 
 [.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
 
