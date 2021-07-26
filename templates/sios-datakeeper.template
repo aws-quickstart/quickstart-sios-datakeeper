@@ -1,7 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'This template deploys two Windows Server Failover Clustering (WSFC)
-  nodes with SQL Server 2014 and DataKeeper replication software. This template is
+  nodes with SQL Server 2017 and DataKeeper replication software. This template is
   intended to be installed into an existing VPC that was built using the sample reference
   architecture titled: "Implementing Active Directory Domain Services in the AWS Cloud"
   **WARNING** This template creates Amazon EC2 Windows instance and related resources.
@@ -310,8 +310,8 @@ Parameters:
   SQLServerVersion:
     AllowedValues:
       - None
-      - 2014SP1
-    Default: 2014SP1
+      - SQL2017
+    Default: SQL2017
     Description: Version of MS SQL Server to install. Select 'None' if SQL Server
       is not desired.
     Type: String
@@ -516,110 +516,110 @@ Mappings:
       Code: SDKCEWIN2019
   AWSAMIRegionMap:
     ap-northeast-2:
-      SDKCEWIN2012R2: ami-07928a8c006fe303a
-      SDKCEWIN2012R2BYOL: ami-0a92c17ba5e2851bf
-      SDKCEWIN2016: ami-0a1d90ce2b5bdc2fe
-      SDKCEWIN2016BYOL: ami-0972029e9a87f980f
-      SDKCEWIN2019: ami-0ce5c9d89d0705843
-      SDKCEWIN2019BYOL: ami-0e09cf47876c04f52
+      SDKCEWIN2012R2: ami-07aee85912702a8e8
+      SDKCEWIN2012R2BYOL: ami-0513016de7b98ac61
+      SDKCEWIN2016: ami-0bf43229aab6a7df7
+      SDKCEWIN2016BYOL: ami-059a59756fe0c6359
+      SDKCEWIN2019: ami-0976738e202d64f03
+      SDKCEWIN2019BYOL: ami-0cd37acc4e5e663f2
     ap-south-1:
-      SDKCEWIN2012R2: ami-0d9d6e00c6fb92e93
-      SDKCEWIN2012R2BYOL: ami-0735037b160a3cae9
-      SDKCEWIN2016: ami-0be813e72ad871bd3
-      SDKCEWIN2016BYOL: ami-024c358742ccdb60b
-      SDKCEWIN2019: ami-01f3c50e7b89ec226
-      SDKCEWIN2019BYOL: ami-08c85826b1db236b7
+      SDKCEWIN2012R2: ami-0cdca6f7e1979755f
+      SDKCEWIN2012R2BYOL: ami-084585b8d4a10a66c
+      SDKCEWIN2016: ami-0e42dfb75a0fb7b80
+      SDKCEWIN2016BYOL: ami-0f258dd2cb953322b
+      SDKCEWIN2019: ami-04bb4ac688fb506e9
+      SDKCEWIN2019BYOL: ami-07d7d6584e4e4c252
     ap-southeast-1:
-      SDKCEWIN2012R2: ami-0763746dd6a72ddb7
-      SDKCEWIN2012R2BYOL: ami-0e6c7a710e1d1c0df
-      SDKCEWIN2016: ami-0fb06e01c5d67db60
-      SDKCEWIN2016BYOL: ami-0acd14756c0d779ed
-      SDKCEWIN2019: ami-0cb104063affb4fe6
-      SDKCEWIN2019BYOL: ami-02d15ea9750a8c395
+      SDKCEWIN2012R2: ami-096b92345453768d6
+      SDKCEWIN2012R2BYOL: ami-03d2b0ac930bb294f
+      SDKCEWIN2016: ami-0cff216a19add18bd
+      SDKCEWIN2016BYOL: ami-0c3602eaf0388135a
+      SDKCEWIN2019: ami-0d6754ee33de3b9ad
+      SDKCEWIN2019BYOL: ami-073333a76cdc09193
     ap-southeast-2:
-      SDKCEWIN2012R2: ami-051292277ff1b45c2
-      SDKCEWIN2012R2BYOL: ami-09abf002ffcb7e348
-      SDKCEWIN2016: ami-0465e45d3f47747cd
-      SDKCEWIN2016BYOL: ami-06d4a24eb85e99a63
-      SDKCEWIN2019: ami-05a078c2f361bc035
-      SDKCEWIN2019BYOL: ami-09ee28a8c9b947743
+      SDKCEWIN2012R2: ami-0156b48853df1ecb9
+      SDKCEWIN2012R2BYOL: ami-04d8d8bc1d85560d4
+      SDKCEWIN2016: ami-056e6aee7000d57ca
+      SDKCEWIN2016BYOL: ami-09adba53758abb786
+      SDKCEWIN2019: ami-0bd4f156283fbe846
+      SDKCEWIN2019BYOL: ami-08aa5af192251628f
     ca-central-1:
-      SDKCEWIN2012R2: ami-025fba150fdd82096
-      SDKCEWIN2012R2BYOL: ami-0b683097cdaeef370
-      SDKCEWIN2016: ami-048a88824d00b119e
-      SDKCEWIN2016BYOL: ami-05f3589e77a1fbf9f
-      SDKCEWIN2019: ami-060d63292eab6e9d7
-      SDKCEWIN2019BYOL: ami-000e23b86f292a2d9
+      SDKCEWIN2012R2: ami-0c0928bb619fc2083
+      SDKCEWIN2012R2BYOL: ami-0fb58dc07b7b5d819
+      SDKCEWIN2016: ami-0738c394c51dab04d
+      SDKCEWIN2016BYOL: ami-004b5d52c1efd8849
+      SDKCEWIN2019: ami-0fc0de382b6e22c41
+      SDKCEWIN2019BYOL: ami-0e0ec040aea36fc39
     eu-central-1:
-      SDKCEWIN2012R2: ami-0fc1550164fbf4f75
-      SDKCEWIN2012R2BYOL: ami-088b5b7146a577a28
-      SDKCEWIN2016: ami-027490ddf0141e58a
-      SDKCEWIN2016BYOL: ami-009032b7da9f5a4b4
-      SDKCEWIN2019: ami-0b92f7a37a643b5c7
-      SDKCEWIN2019BYOL: ami-0201d5f63e9759bf0
+      SDKCEWIN2012R2: ami-04589a140ab70aac0
+      SDKCEWIN2012R2BYOL: ami-0008c7941a66715cd
+      SDKCEWIN2016: ami-0b67f8c32fa88642e
+      SDKCEWIN2016BYOL: ami-02110dd98679b9d98
+      SDKCEWIN2019: ami-08658fce0bbd8bce4
+      SDKCEWIN2019BYOL: ami-0249a18cb75ee1999
     eu-north-1:
-      SDKCEWIN2012R2: ami-037bc1e51c2bb879f
-      SDKCEWIN2012R2BYOL: ami-02c13a08f6ea82a16
-      SDKCEWIN2016: ami-072ef4b15422426f4
-      SDKCEWIN2016BYOL: ami-0475456f8f6e06143
-      SDKCEWIN2019: ami-05b51ab76221d3b4f
-      SDKCEWIN2019BYOL: ami-07581a104a1c6ce1f
+      SDKCEWIN2012R2: ami-0819efd042dfa57df
+      SDKCEWIN2012R2BYOL: ami-024cabf453405cc1b
+      SDKCEWIN2016: ami-04ae86ce003ad73da
+      SDKCEWIN2016BYOL: ami-050ea49dd75f27d62
+      SDKCEWIN2019: ami-048b8675f79c155c6
+      SDKCEWIN2019BYOL: ami-0349f127d30df0cc9
     eu-west-1:
-      SDKCEWIN2012R2: ami-0dd11ac7a41745296
-      SDKCEWIN2012R2BYOL: ami-031950dfd3675ccff
-      SDKCEWIN2016: ami-07c52aff65241c0c3
-      SDKCEWIN2016BYOL: ami-09609dd95ff5c61aa
-      SDKCEWIN2019: ami-07555179336d4550d
-      SDKCEWIN2019BYOL: ami-00a83ae149a77f641
+      SDKCEWIN2012R2: ami-0c31bda1c76c3c9fc
+      SDKCEWIN2012R2BYOL: ami-00f821f13cb0436ad
+      SDKCEWIN2016: ami-06d567b91a08500a3
+      SDKCEWIN2016BYOL: ami-0d8dc9c11b4e3ab20
+      SDKCEWIN2019: ami-06e7c526b9b8026ff
+      SDKCEWIN2019BYOL: ami-0590725665b90caae
     eu-west-2:
-      SDKCEWIN2012R2: ami-01b6be5ca3a1124ac
-      SDKCEWIN2012R2BYOL: ami-0d8f6277a5c1f0d62
-      SDKCEWIN2016: ami-05195be29d8ee2854
-      SDKCEWIN2016BYOL: ami-028cb888d2a5dd362
-      SDKCEWIN2019: ami-08b873c17aff89e73
-      SDKCEWIN2019BYOL: ami-0854beaa3d149b2c5
+      SDKCEWIN2012R2: ami-06abc57fa909b4151
+      SDKCEWIN2012R2BYOL: ami-04fb8bb7068c7cf5a
+      SDKCEWIN2016: ami-0ec5a864f39dd2d11
+      SDKCEWIN2016BYOL: ami-0de4e83a5c6016fd7
+      SDKCEWIN2019: ami-0701e3966a4b76ee7
+      SDKCEWIN2019BYOL: ami-00ec51a9dd7bd5bef
     eu-west-3:
-      SDKCEWIN2012R2: ami-0c3a4cf5d130070bd
-      SDKCEWIN2012R2BYOL: ami-012950cbb8a44ca73
-      SDKCEWIN2016: ami-0f9fd59b90bb0190f
-      SDKCEWIN2016BYOL: ami-0c767c559998fa967
-      SDKCEWIN2019: ami-0be3e3de06e9c1fd5
-      SDKCEWIN2019BYOL: ami-0e20e04dad587b565
+      SDKCEWIN2012R2: ami-09f341c4a3eea9f03
+      SDKCEWIN2012R2BYOL: ami-0bfba789c019ddbee
+      SDKCEWIN2016: ami-0952652f506fb5657
+      SDKCEWIN2016BYOL: ami-0751c28ace8f8862d
+      SDKCEWIN2019: ami-0bedd7fa49c09788a
+      SDKCEWIN2019BYOL: ami-04ed2802962859288
     sa-east-1:
-      SDKCEWIN2012R2: ami-081b645fab2e17614
-      SDKCEWIN2012R2BYOL: ami-00e270f394dc4ec00
-      SDKCEWIN2016: ami-003dab61d85f67430
-      SDKCEWIN2016BYOL: ami-0ea73dbb0dc19554e
-      SDKCEWIN2019: ami-04d16250b72d5c604
-      SDKCEWIN2019BYOL: ami-04e8a1aa8fd1ef311
+      SDKCEWIN2012R2: ami-09610132294531593
+      SDKCEWIN2012R2BYOL: ami-04f0b5be76d691f5b
+      SDKCEWIN2016: ami-04e88e39099ab6daa
+      SDKCEWIN2016BYOL: ami-0ceacd02fdad625ba
+      SDKCEWIN2019: ami-04eb25539589e7927
+      SDKCEWIN2019BYOL: ami-0e22cf681147e0c2f
     us-east-1:
-      SDKCEWIN2012R2: ami-021d6a6c75d311308
-      SDKCEWIN2012R2BYOL: ami-0689a52ee08c38381
-      SDKCEWIN2016: ami-0b17e311adc04adb7
-      SDKCEWIN2016BYOL: ami-014bc9f567e61176c
-      SDKCEWIN2019: ami-0a7705a3f66615c98
-      SDKCEWIN2019BYOL: ami-0aae9f95c391a04d1
+      SDKCEWIN2012R2: ami-0b7677610c873dd41
+      SDKCEWIN2012R2BYOL: ami-060ac340926c5740b
+      SDKCEWIN2016: ami-01fe05f872eecdad6
+      SDKCEWIN2016BYOL: ami-049b56c830993e699
+      SDKCEWIN2019: ami-082175fcf99b8d31d
+      SDKCEWIN2019BYOL: ami-0f7d8adc21293814f
     us-east-2:
-      SDKCEWIN2012R2: ami-096ce1dbbd3b78f01
-      SDKCEWIN2012R2BYOL: ami-019d654227e6b98b9
-      SDKCEWIN2016: ami-0049509ded61fce77
-      SDKCEWIN2016BYOL: ami-0e9d913f7e748d2f2
-      SDKCEWIN2019: ami-0deba2c9caf93d78d
-      SDKCEWIN2019BYOL: ami-08cc24ab224b5c2ef
+      SDKCEWIN2012R2: ami-00140363e84db577e
+      SDKCEWIN2012R2BYOL: ami-0f3aac75491b4e258
+      SDKCEWIN2016: ami-073255e95f7603915
+      SDKCEWIN2016BYOL: ami-0cc356fe52b8fe10d
+      SDKCEWIN2019: ami-06bd9d182d2bfa08a
+      SDKCEWIN2019BYOL: ami-06a63f89f5b651e9e
     us-west-1:
-      SDKCEWIN2012R2: ami-05f35974dd2f0b602
-      SDKCEWIN2012R2BYOL: ami-0a7f0c12d9df5f767
-      SDKCEWIN2016: ami-0f4bea4dfaa065610
-      SDKCEWIN2016BYOL: ami-0c0c1b97a09d710a3
-      SDKCEWIN2019: ami-006927c26f471be40
-      SDKCEWIN2019BYOL: ami-0b0b0e526ed4c92a1
+      SDKCEWIN2012R2: ami-09b8eb4ecd545df7c
+      SDKCEWIN2012R2BYOL: ami-0becdc3a36599c4ae
+      SDKCEWIN2016: ami-09cd4e2bf4f86b870
+      SDKCEWIN2016BYOL: ami-0c7a6870f53699f51
+      SDKCEWIN2019: ami-0f7f2bc69c488a3f7
+      SDKCEWIN2019BYOL: ami-085cf882c0c48bb7d
     us-west-2:
-      SDKCEWIN2012R2: ami-083c20e5abe9a19f2
-      SDKCEWIN2012R2BYOL: ami-0c7b0673875975d42
-      SDKCEWIN2016: ami-03facdcdc1306a95b
-      SDKCEWIN2016BYOL: ami-07c32ea233f30d83e
-      SDKCEWIN2019: ami-0bf81510c78e24fc3
-      SDKCEWIN2019BYOL: ami-02479556ab78c0e30
+      SDKCEWIN2012R2: ami-0a3a3558a58c61de9
+      SDKCEWIN2012R2BYOL: ami-08983b5fc2832909a
+      SDKCEWIN2016: ami-0dcfa9c9850a815b6
+      SDKCEWIN2016BYOL: ami-0e3ce48d712530c3d
+      SDKCEWIN2019: ami-018aeb83843427097
+      SDKCEWIN2019BYOL: ami-034b0bea4b0c1cd0c
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -687,7 +687,7 @@ Resources:
            description: URL used to obtain license key for SIOS DataKeeper software.
            type: String
           SQLServerVersion:
-           default: 2014SP1
+           default: SQL2017
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
            type: String
           SQLServiceAccount: 
@@ -882,7 +882,7 @@ Resources:
                 - |
                    Install-WindowsFeature -Name DSC-Service
                    Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 2048
-                   Set-WSManQuickConfig
+                   Set-WSManQuickConfig -Force
                    $PSVersion = $PSVersionTable.PSVersion.Major
                    if ($PSVersion -eq '4') {
                      'returning 3010, should continue after reboot'
@@ -1132,31 +1132,6 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: Installnetcore
-          action: aws:runCommand
-          maxAttempts: 999
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-            - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Install-NETFrameworkCore.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./Install-NETFrameworkCore.ps1
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1337,12 +1312,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: Node1configureWSFCSQL
-              Variable: '{{SQLServerVersion}}'
-              StringEquals: 2014SP1
             - NextStep: Node1configureWSFCNOSQL
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
+        # START INSTALL SQL branch
         - name: Node1configureWSFCSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1442,6 +1415,8 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
+        # END INSTALL SQL branch
+        # START NO SQL branch
         - name: Node1configureWSFCNOSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1539,6 +1514,7 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
+        # END NO SQL branch
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1591,12 +1567,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: InstallSQL
-              Variable: '{{SQLServerVersion}}'
-              StringEquals: 2014SP1
             - NextStep: DisableCredSSP
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
+        # START INSTALL SQL branch2
         - name: InstallSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1620,7 +1594,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./InstallSQLEE.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
+              commandLine: ./InstallSQLEE.ps1 -SQLServerVersion {{SQLServerVersion}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
         - name: SetFolderPermissions
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1692,7 +1666,8 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: "./InstallSQLEE-AddNode.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}"
+              commandLine: "./InstallSQLEE-AddNode.ps1 -SQLServerVersion {{SQLServerVersion}} -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}"
+        # END INSTALL SQL branch2
         - name: DisableCredSSP
           action: aws:runCommand
           onFailure: step:signalfailure
