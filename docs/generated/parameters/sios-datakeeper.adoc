@@ -1,68 +1,68 @@
 
-.Network Configuration
+.Network configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|VPC to place SQL cluster in
-(`VPCID`)|`**__Requires input__**`|ID of the VPC (e.g., vpc-0343606e)|Private Subnet 1 ID
-(`PrivateSubnet1ID`)|`**__Requires input__**`|ID of the private subnet 1 in Availability Zone 1 (e.g., subnet-a0246dcd)|Private Subnet 1 CIDR
-(`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1 located in Availability Zone 1.|Private Subnet 2 ID
-(`PrivateSubnet2ID`)|`**__Requires input__**`|ID of the private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd)|Private Subnet 2 CIDR
-(`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2 located in Availability Zone 2.
+|Parameter label (name) |Default value|Description|SQL cluster VPC
+(`VPCID`)|`**__Requires input__**`|ID of the VPC (for example, `vpc-0343606e`).|Private Subnet 1 ID
+(`PrivateSubnet1ID`)|`**__Requires input__**`|ID of private subnet 1 in Availability Zone 1 (for example, `subnet-a0246dcd`).|Private Subnet 1 CIDR
+(`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1, located in Availability Zone 1.|Private Subnet 2 ID
+(`PrivateSubnet2ID`)|`**__Requires input__**`|ID of private subnet 2 in Availability Zone 2 (for example, `subnet-a0246dcd`).|Private Subnet 2 CIDR
+(`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2, located in Availability Zone 2.
 |===
-.Amazon EC2 Configuration
+.Amazon EC2 configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Key Pair Name
-(`KeyPairName`)|`**__Requires input__**`|Public/private key pairs allow you to securely connect to your instance after it launches
+(`KeyPairName`)|`**__Requires input__**`|Key pair name. Public/private key pairs allow you to securely connect to your instance after it launches.
 |===
-.Microsoft Active Directory Configuration
+.Microsoft Active Directory configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Domain DNS Name
-(`DomainDNSName`)|`datakeeper.local`|Fully qualified domain name (FQDN) e.g. example.com|Domain NetBIOS Name
-(`DomainNetBIOSName`)|`DATAKEEPER`|NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE|Domain Admin User Name
-(`DomainAdminUser`)|`siosadmin`|User name for the account that will be used as Domain Administrator. This is separate from the default "Administrator" account|Domain Admin Password
-(`DomainAdminPassword`)|`**__Requires input__**`|Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols|Domain Controller 1 NetBIOS Name
-(`ADServer1NetBIOSName`)|`DC1`|NetBIOS name of the first Active Directory server (up to 15 characters)|Domain Controller 1 Private IP Address
-(`ADServer1PrivateIP`)|`10.0.0.10`|Fixed private IP for the first Active Directory server located in Availability Zone 1|Domain Controller 2 NetBIOS Name
-(`ADServer2NetBIOSName`)|`DC2`|NetBIOS name of the second Active Directory server (up to 15 characters)|Domain Controller 2 Private IP Address
-(`ADServer2PrivateIP`)|`10.0.32.10`|Fixed private IP for the second Active Directory server located in Availability Zone 2|Security Group ID for AD domain members
-(`DomainMemberSGID`)|`**__Requires input__**`|ID of the Domain Member Security Group (e.g., sg-7f16e910)
+|Parameter label (name) |Default value|Description|Domain DNS name
+(`DomainDNSName`)|`datakeeper.local`|Fully qualified domain name (FQDN) of the forest root domain (for example, `example.com`).|Domain NetBIOS name
+(`DomainNetBIOSName`)|`DATAKEEPER`|NetBIOS name (up to 15 characters) of the domain for users of earlier versions of Windows.|Domain administrator user name
+(`DomainAdminUser`)|`siosadmin`|User name for the domain administrator account. *Note:* This is separate from the default "Administrator" account.|Domain administrator password
+(`DomainAdminPassword`)|`**__Requires input__**`|Password for the domain administrator user. Must be at least 8 characters containing letters, numbers, and symbols.|Domain controller 1 NetBIOS name
+(`ADServer1NetBIOSName`)|`DC1`|NetBIOS name of the first Active Directory server (up to 15 characters)|Domain controller 1 private IP address
+(`ADServer1PrivateIP`)|`10.0.0.10`|Fixed private IP for the first Active Directory server, located in Availability Zone 1.|Domain controller 2 NetBIOS name
+(`ADServer2NetBIOSName`)|`DC2`|NetBIOS name of the second Active Directory server (up to 15 characters)|Domain controller 2 private IP address
+(`ADServer2PrivateIP`)|`10.0.32.10`|Fixed private IP for the second Active Directory server, located in Availability Zone 2|Security Group ID for AD domain members
+(`DomainMemberSGID`)|`**__Requires input__**`|ID of the domain member Security Group (for example, `sg-7f16e910`)
 |===
-.Replication Configuration
+.Replication configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|SIOS AMI Version
-(`AMIType`)|`PAYG`|AMI type for SIOS license purposes.|SIOS License Key FTP URL
-(`SIOSLicenseKeyFtpURL`)|`override`|URL used to obtain license key for SIOS DataKeeper software.|SQL Server Version
-(`SQLServerVersion`)|`2014SP1`|Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.|Service Account Name
-(`SQLServiceAccount`)|`sqlsa`|User name for the SQL Server Service Account. This Account is a Domain User.|Service Account Password
-(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.|Data Volume Size (GiB)
-(`Volume1Size`)|`100`|Volume size for the SQL Data drive|Data Volume Type
-(`Volume1Type`)|`gp2`|Volume type for the SQL Data drive|Data Volume IOPS
-(`Volume1Iops`)|`1000`|Iops for the SQL Data drive (Only used when volume type is io1)
+|Parameter label (name) |Default value|Description|SIOS AMI version
+(`AMIType`)|`PAYG`|AMI type for SIOS license purposes.|SIOS license key FTP URL
+(`SIOSLicenseKeyFtpURL`)|`override`|URL to obtain a license key for SIOS DataKeeper software.|SQL Server version
+(`SQLServerVersion`)|`2014SP1`|Microsoft SQL Server version to install. Choose *None* if you don't want to install SQL Server.|Service account name
+(`SQLServiceAccount`)|`sqlsa`|User name for the SQL Server service account. This account is a domain user.|Service account password
+(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Server account. Must be at least 8 characters containing letters, numbers and symbols. Leave blank if you don't want SQL Server.|Data volume size (GiB)
+(`Volume1Size`)|`100`|Volume size for the SQL data drive.|Data volume type
+(`Volume1Type`)|`gp2`|Volume type for the SQL data drive.|Data volume IOPS
+(`Volume1Iops`)|`1000`|IOPS for the SQL data drive. (Only used when volume type is io1.)
 |===
-.Failover Cluster Configuration
+.Failover cluster configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Cluster Node OS Version
-(`OSVersion`)|`WS2012R2`|Windows Server OS version to use for cluster nodes.|Instance Type for Cluster Node 1
-(`WSFCNode1InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the 1st WSFC Node|Cluster Node 1 NetBIOS Name
-(`WSFCNode1NetBIOSName`)|`WSFCNode1`|NetBIOS name of the first WSFC Node (up to 15 characters)|Cluster Node 1 Private IP Address 1
-(`WSFCNode1PrivateIP1`)|`10.0.0.100`|Primary private IP for the first WSFC Node located in Availability Zone 1|Cluster Node 1 Private IP Address 2
-(`WSFCNode1PrivateIP2`)|`10.0.0.101`|Secondary private IP for WSFC cluster on first WSFC Node|Cluster Node 1 Private IP Address 3
-(`WSFCNode1PrivateIP3`)|`10.0.0.102`|Third private IP for SQL Server Network Name on first WSFC Node|Instance Type for Cluster Node 2
-(`WSFCNode2InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the 1st WSFC Node|Cluster Node 2 NetBIOS Name
-(`WSFCNode2NetBIOSName`)|`WSFCNode2`|NetBIOS name of the second WSFC Node (up to 15 characters)|Cluster Node 2 Private IP Address 1
-(`WSFCNode2PrivateIP1`)|`10.0.32.100`|Primary private IP for the second WSFC Node located in Availability Zone 2|Cluster Node 2 Private IP Address 2
-(`WSFCNode2PrivateIP2`)|`10.0.32.101`|Secondary private IP for WSFC cluster on second WSFC Node|Cluster Node 2 Private IP Address 3
-(`WSFCNode2PrivateIP3`)|`10.0.32.102`|Third private IP for SQL Server Network Name on second WSFC Node
+|Parameter label (name) |Default value|Description|Cluster node OS version
+(`OSVersion`)|`WS2012R2`|Windows Server OS version to use for cluster nodes.|Instance type for cluster node 1
+(`WSFCNode1InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the first WSFC node.|Cluster node 1 NetBIOS name
+(`WSFCNode1NetBIOSName`)|`WSFCNode1`|NetBIOS name of the first WSFC Node (up to 15 characters).|Cluster node 1 private IP address 1
+(`WSFCNode1PrivateIP1`)|`10.0.0.100`|Primary private IP for the first WSFC node, located in Availability Zone 1.|Cluster node 1 private IP address 2
+(`WSFCNode1PrivateIP2`)|`10.0.0.101`|Secondary private IP for WSFC cluster on the first WSFC node.|Cluster node 1 private IP address 3
+(`WSFCNode1PrivateIP3`)|`10.0.0.102`|Third private IP for SQL Server network name on the first WSFC node.|Instance type for cluster node 2
+(`WSFCNode2InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the first WSFC node.|Cluster node 2 NetBIOS name
+(`WSFCNode2NetBIOSName`)|`WSFCNode2`|NetBIOS name of the second WSFC node (up to 15 characters)|Cluster node 2 private IP address 1
+(`WSFCNode2PrivateIP1`)|`10.0.32.100`|Primary private IP for the second WSFC node, located in Availability Zone 2.|Cluster node 2 private IP address 2
+(`WSFCNode2PrivateIP2`)|`10.0.32.101`|Secondary private IP for the WSFC cluster on the second WSFC node|Cluster node 2 private IP address 3
+(`WSFCNode2PrivateIP3`)|`10.0.32.102`|Third private IP for the SQL Server network name on the second WSFC node.
 |===
-.AWS Quick Start Configuration
+.AWS Quick Start configuration
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
-|Parameter label (name) |Default value|Description|Quick Start S3 Bucket Name
-(`QSS3BucketName`)|`aws-quickstart`|S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).|Quick Start S3 bucket region
-(`QSS3BucketRegion`)|`us-east-1`|The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.|Quick Start S3 Key Prefix
-(`QSS3KeyPrefix`)|`quickstart-sios-datakeeper/`|S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).
+|Parameter label (name) |Default value|Description|Quick Start S3 bucket name
+(`QSS3BucketName`)|`aws-quickstart`|Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See https://aws-quickstart.github.io/option1.html.|Quick Start S3 bucket Region
+(`QSS3BucketRegion`)|`us-east-1`|AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See https://aws-quickstart.github.io/option1.html.|Quick Start S3 key prefix
+(`QSS3KeyPrefix`)|`quickstart-sios-datakeeper/`|S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html and https://aws-quickstart.github.io/option1.html.
 |===

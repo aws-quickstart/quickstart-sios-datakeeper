@@ -39,5 +39,5 @@ Technical specifications for the architecture:
 |Elastic IP |An Elastic IP address connected to the Remote Desktop Gateway server.
 |Instances |Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes.
 |SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
-|Volumes |Two volumes (Amazon EBS and NTFS only).
+|Volumes |Two Amazon Elastic Block Storage (Amazon EBS) volumes (NTFS only).
 |===
