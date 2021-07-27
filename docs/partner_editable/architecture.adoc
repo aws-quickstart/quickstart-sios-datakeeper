@@ -33,11 +33,11 @@ Technical specifications for the architecture:
 |Component |Details
 
 // Space needed to maintain table headers
-|VPC |Single AWS Region with two Availability Zones
-|Instance type |Minimum recommended instance type: m3.xlarge
-|Operating system |See the http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix]
-|Elastic IP |An Elastic IP address connected to the Remote Desktop Gateway server
-|Instances |Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes
-|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance
-|Volumes |Two volumes (Amazon EBS and NTFS only)
+|VPC |One AWS Region with two Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See the http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the Remote Desktop Gateway server.
+|Instances |Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes.
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes (Amazon EBS and NTFS only).
 |===
