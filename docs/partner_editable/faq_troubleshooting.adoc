@@ -16,7 +16,7 @@ For more information, see https://docs.aws.amazon.com/AWSCloudFormation/latest/U
 *A.* Launch the Quick Start templates from the links in this guide or from another S3 bucket. If you deploy the templates from a local copy on your computer or from a location other than an S3 bucket, you might encounter template-size limitations. For more information, see http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html[AWS CloudFormation quotas^].
 
 *Q.* I encountered problems using SIOS DataKeeper on AWS.
-*A.* Use the following resources to help troubleshoot issues:
+*A.* Use the following resources to troubleshoot issues:
 * Check the http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DKCETechDoc/Content/Troubleshooting.htm[Troubleshooting] section of the SIOS DataKeeper documentation.
 * If you have a support contract, visit http://us.sios.com/support/overview/.
 * If you’re evaluating the software, email SIOS pre-sales support.
