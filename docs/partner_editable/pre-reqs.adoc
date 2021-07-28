@@ -20,7 +20,7 @@ Two licensing options are available: Bring Your Own License (BYOL) and pay as yo
 . If you’re planning to use the BYOL licensing option, obtain a permanent license by http://us.sios.com/contact-us/[contacting SIOS directly^]. You can also sign up for a http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters[free, 14-day, trial license^].
 . Log in to the AWS Marketplace at https://aws.amazon.com/marketplace.
 . Open the page for the licensing option you’d like to use:
-.. https://aws.amazon.com/marketplace/pp/B072B62D1S[Pay as you go (PAYG)^]
-.. https://aws.amazon.com/marketplace/pp/B01MZFU2IE[Bring your own license (BYOL)^]
+* https://aws.amazon.com/marketplace/pp/B072B62D1S[Pay as you go (PAYG)^]
+* https://aws.amazon.com/marketplace/pp/B01MZFU2IE[Bring your own license (BYOL)^]
 . Choose *Continue*.
-. Choose the *Manual Launch* option, and then choose *Accept Software Terms*. For more information about AWS Marketplace, see https://aws.amazon.com/marketplace/help/200799470[Getting started^].
+. Choose *Manual Launch*, and then choose *Accept Software Terms*. For more information about AWS Marketplace, see https://aws.amazon.com/marketplace/help/200799470[Getting started^].
