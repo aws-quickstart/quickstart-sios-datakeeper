@@ -2,9 +2,11 @@
 // Briefly describe the software. Use consistent and clear branding. 
 // Include the benefits of using the software on AWS, and provide details on usage scenarios.
 
-This Quick Start sets up an Amazon Web Services (AWS) architecture for SIOS DataKeeper Cluster Edition and deploys it into your AWS account.
+SIOS DataKeeper Cluster Edition is a highly optimized, host-based replication solution that integrates seamlessly with Windows Server Failover Clustering (WSFC). WSFC
+features, such as cross-subnet failover and tunable heartbeat parameters, make it possible for administrators to deploy geographically dispersed clusters. SIOS DataKeeper provides
+the data replication mechanism that extends WSFC, and enables administrators to take advantage of these advanced features to support high availability and disaster recovery (DR)
+configurations without the need for shared storage.
 
-SIOS DataKeeper Cluster Edition is highly-optimized, host-based replication software that extends Windows Server Failover Clustering (WSFC). With WSFC cross-subnet failover and tunable heartbeat parameters, you can deploy geographically dispersed clusters. SIOS DataKeeper provides high availability and disaster recovery (DR) to your WSFC environment without the need for shared storage.
-
-This Quick Start uses AWS CloudFormation templates to deploy SIOS DataKeeper Cluster Edition into a virtual private cloud (VPC) in a single AWS Region, across two Availability Zones. It also supports a data-replication node outside the cluster, with all nodes in the AWS Cloud.
+SIOS DataKeeper Cluster Edition provides replication in a virtual private cloud (VPC) within a single AWS Region across two Availability Zones. It also supports a data
+replication node outside the cluster with all nodes in the AWS Cloud.
 
