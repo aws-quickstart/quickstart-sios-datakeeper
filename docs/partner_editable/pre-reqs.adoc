@@ -2,25 +2,25 @@
 
 ==== Prepare your AWS account
 
-1. If you don’t already have an AWS account, create one at https://aws.amazon.com by
+. If you don’t already have an AWS account, create one at https://aws.amazon.com by
 following the on-screen instructions.
-2. Use the region selector in the navigation bar to choose the AWS Region where you want
+. Use the Region selector in the navigation bar to choose the AWS Region where you want
 to deploy SIOS DataKeeper Cluster Edition on AWS.
-3. Create a https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html[key pair] in your preferred region.
-4. If necessary, https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-[request a service limit increase] for the Amazon EC2 r3.xlarge instance type. You might need to do this if you already have an existing deployment that uses this
-instance type, and you think you might exceed the http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html[default limit] with this reference deployment. 
+. Create a https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html[key pair^] in your preferred Region.
+. If necessary, https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-[request a service limit increase^] for the Amazon EC2 r3.xlarge instance type. You might need to do this if you already have an existing deployment that uses this
+instance type, and you think you might exceed the http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html[default limit^] with this reference deployment. 
 
 ==== Subscribe to the SIOS DataKeeper Cluster Edition AMI
 
-This Quick Start uses Amazon Machine Images (AMIs) from the http://aws.amazon.com/marketplace/[AWS Marketplace]. Before
-you launch the Quick Start, you must subscribe to one of the SIOS DataKeeper Cluster Edition AMIs.
+This Quick Start uses Amazon Machine Images (AMIs) from the http://aws.amazon.com/marketplace/[AWS Marketplace^]. Before you launch the Quick Start, you must subscribe to one of the SIOS DataKeeper Cluster Edition AMIs.
+
 Two licensing options are available: Bring Your Own License (BYOL) and pay as you go
 (PAYG), as described previously in the Costs and Licenses section.
 
-. If you’re planning to use the BYOL licensing option, obtain a permanent license by http://us.sios.com/contact-us/[contacting SIOS directly]. You can also sign up for a http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters[free, 14-day, trial license].
+. If you’re planning to use the BYOL licensing option, obtain a permanent license by http://us.sios.com/contact-us/[contacting SIOS directly^]. You can also sign up for a http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters[free, 14-day, trial license^].
 . Log in to the AWS Marketplace at https://aws.amazon.com/marketplace.
 . Open the page for the licensing option you’d like to use:
-.. https://aws.amazon.com/marketplace/pp/B072B62D1S[Pay as you go (PAYG)]; or
-.. https://aws.amazon.com/marketplace/pp/B01MZFU2IE[Bring your own license (BYOL)]
-. Choose Continue.
-. Use the Manual Launch option, and then choose Accept Software Terms. For detailed instructions, see the https://aws.amazon.com/marketplace/help/200799470[AWS Marketplace documentation].
+.. https://aws.amazon.com/marketplace/pp/B072B62D1S[Pay as you go (PAYG)^]
+.. https://aws.amazon.com/marketplace/pp/B01MZFU2IE[Bring your own license (BYOL)^]
+. Choose *Continue*.
+. Choose the *Manual Launch* option, and then choose *Accept Software Terms*. For more information about AWS Marketplace, see https://aws.amazon.com/marketplace/help/200799470[Getting started^].
