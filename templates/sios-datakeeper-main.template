@@ -359,9 +359,9 @@ Parameters:
   SQLServerVersion:
     AllowedValues:
       - None
-      - 2014SP1
-    Default: 2014SP1
-    Description: Microsoft SQL Server version to install. Choose *None* if you don't want to install SQL Server.
+      - SQL2017
+    Default: SQL2017
+    Description: Version of MS SQL Server to install. Choose *None* if you don't want to install SQL Server.
     Type: String
   SQLServiceAccount:
     AllowedPattern: '[a-zA-Z0-9]*'

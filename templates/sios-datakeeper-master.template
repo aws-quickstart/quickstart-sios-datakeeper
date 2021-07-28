@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
   This template deploys two Windows Server Failover Clustering (WSFC) nodes with SQL
-  Server 2014 and DataKeeper replication software. This template also deploys the
+  Server 2017 and DataKeeper replication software. This template also deploys the
   required AD architecture outlined in "Implementing Active Directory Domain Services
   in the AWS Cloud" **WARNING** This template creates Amazon EC2 Windows instance
   and related resources. You will be billed for the AWS resources used if you create
@@ -356,10 +356,10 @@ Parameters:
     Type: String
   SQLServerVersion:
     AllowedValues:
-      - None
-      - 2014SP1
-    Default: 2014SP1
-    Description: Microsoft SQL Server version to install. Choose *None* if you don't want to install SQL Server.
+      - SQLNone
+      - SQL2017
+    Default: SQL2017
+    Description: Version of MS SQL Server to install. Choose *None* if you don't want to install SQL Server.
     Type: String
   SQLServiceAccount:
     AllowedPattern: '[a-zA-Z0-9]*'
