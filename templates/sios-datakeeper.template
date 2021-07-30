@@ -632,7 +632,7 @@ Resources:
     Properties: 
       LogGroupName: !Sub /aws/Quick_Start/${AWS::StackName}
       RetentionInDays: 30
-  AWSQuickstartSIOSDKCE:
+  SSMDocumentDKCE:
     Type: AWS::SSM::Document
     Properties:
       DocumentType: Automation
@@ -1758,47 +1758,90 @@ Resources:
             StackName: '{{StackName}}'
             Status: FAILURE
             UniqueId: '{{wsfcnode2InstanceId.InstanceId}}'
-  AWSQuickstartSIOSDKCERole:
+  InstanceRole:
     Type: AWS::IAM::Role
     Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+                - ssm.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonEC2RoleforSSM'
       Policies:
-        - PolicyDocument:
-            Version: '2012-10-17'
+        - PolicyName: aws-quick-start-s3-policy
+          PolicyDocument:
+            Version: 2012-10-17
             Statement:
               - Action:
                   - s3:GetObject
                   - s3:ListBucket
-                Resource: 
-                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*'
-                  - !Sub 'arn:${AWS::Partition}:s3:::${QSS3BucketName}'
+                Resource:
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}/${QSS3KeyPrefix}*', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
+                  - !Sub ['arn:${AWS::Partition}:s3:::${S3Bucket}', S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]]
                 Effect: Allow
-          PolicyName: aws-quick-start-s3-policy
-        - PolicyDocument:
+              - Action:
+                  - s3:GetObject
+                Resource:
+                  - !Sub 'arn:${AWS::Partition}:s3:::aws-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::amazon-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::amazon-ssm-packages-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${AWS::Region}-birdwatcher-prod/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::patch-baseline-snapshot-${AWS::Region}/*'
+                Effect: Allow
+        - PolicyName: cloudformation-policy
+          PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action:
                   - cloudformation:SignalResource
-                Resource: 
-                  - !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
+                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*'
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/*'
+        - PolicyName: ssm-policy
+          PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action: ssm:StartAutomationExecution
+                  Resource: !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:automation-definition/${SSMDocumentDKCE}:$DEFAULT
+                - Effect: Allow
+                  Action: ssm:SendCommand
+                  Resource:
+                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-RunRemoteScript
+                - Effect: Allow
+                  Action: ssm:SendCommand
+                  Resource:
+                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-RunPowerShellScript
+                - Effect: Allow
+                  Action: ssm:SendCommand
+                  Resource: !Sub arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+                - Effect: Allow
+                  Action:
+                  - ssm:DescribeInstanceInformation
+                  - ssm:ListCommandInvocations
+                  - ssm:ListCommands
+                  Resource: '*'
+        - PolicyName: ec2-policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
               - Effect: Allow
                 Action:
                   - ec2:DescribeInstances
                   - ec2:DescribeInstanceStatus
-                  - ssm:*
+                  - ec2:DescribeTags
+                  - tag:GetResources
                 Resource: '*'
-          PolicyName: SIOS-SSM-AutomationExecution
-      Path: /
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-                - ssm.amazonaws.com
-            Effect: Allow
-        Version: '2012-10-17'
   SIOSSSMPassRolePolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -1809,60 +1852,23 @@ Resources:
           - Effect: Allow
             Action:
               - iam:PassRole
-            Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}
+            Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${InstanceRole}
       Roles:
-        - !Ref AWSQuickstartSIOSDKCERole
-  WSFCRole:
-    Type: AWS::IAM::Role
-    Properties:
-      Policies:
-        - PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Action:
-                  - s3:GetObject
-                Resource: 
-                  - !Sub arn:${AWS::Partition}:s3:::${QSS3BucketName}/${QSS3KeyPrefix}*
-                Effect: Allow
-          PolicyName: aws-quick-start-s3-policy
-        - PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - ssm:StartAutomationExecution
-                Resource: '*'
-          PolicyName: QS-SIOS-SSM
-        - PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - iam:PassRole
-                Resource: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}
-          PolicyName: QS-SIOS-SSM-PassRole
-      Path: /
-      ManagedPolicyArns:
-        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AmazonEC2RoleforSSM
-        - !Sub arn:${AWS::Partition}:iam::aws:policy/AmazonEC2ReadOnlyAccess
-      AssumeRolePolicyDocument:
-        Statement:
-          - Action:
-              - sts:AssumeRole
-            Principal:
-              Service:
-                - ec2.amazonaws.com
-            Effect: Allow
-        Version: '2012-10-17'
-  WSFCProfile:
+        - !Ref InstanceRole
+  InstanceProfile:
     Type: AWS::IAM::InstanceProfile
-    DependsOn: WSFCRole
     Properties:
-      Roles:
-        - !Ref WSFCRole
       Path: /
+      Roles:
+      - !Ref InstanceRole
   WSFCNode1:
     Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Authentication:
+        S3AccessCreds:
+          type: S3
+          roleName: !Ref InstanceRole
+          buckets: !Ref QSS3BucketName
     Properties:
       ImageId: !If
         - ByolAmiCondition
@@ -1880,7 +1886,7 @@ Resources:
             - PAYGNameMap
             - !Ref OSVersion
             - Code
-      IamInstanceProfile: !Ref WSFCProfile
+      IamInstanceProfile: !Ref InstanceProfile
       InstanceType: !Ref WSFCNode1InstanceType
       EbsOptimized: true
       NetworkInterfaces:
@@ -1914,6 +1920,12 @@ Resources:
     Type: AWS::EC2::Instance
     DependsOn:
       - WSFCNode1
+    Metadata:
+      AWS::CloudFormation::Authentication:
+        S3AccessCreds:
+          type: S3
+          roleName: !Ref InstanceRole
+          buckets: !Ref QSS3BucketName
     Properties:
       ImageId: !If
         - ByolAmiCondition
@@ -1931,7 +1943,7 @@ Resources:
             - PAYGNameMap
             - !Ref OSVersion
             - Code
-      IamInstanceProfile: !Ref WSFCProfile
+      IamInstanceProfile: !Ref InstanceProfile
       InstanceType: !Ref WSFCNode2InstanceType
       EbsOptimized: true
       NetworkInterfaces:
@@ -1966,7 +1978,7 @@ Resources:
           - ''
           - - "<powershell>\n"
             - 'Start-SSMAutomationExecution -DocumentName '
-            - !Sub '"${AWSQuickstartSIOSDKCE}"'
+            - !Sub '"${SSMDocumentDKCE}"'
             - ' -Parameter @{"AMIType"='
             - !Sub '"${AMIType}"'
             - ';"OSVersion"='
@@ -2026,7 +2038,7 @@ Resources:
             - ';"StackName"='
             - !Sub '"${AWS::StackName}"'
             - ';"AutomationAssumeRole"='
-            - !Sub '"arn:aws:iam::${AWS::AccountId}:role/${AWSQuickstartSIOSDKCERole}"'
+            - !Sub '"arn:aws:iam::${AWS::AccountId}:role/${InstanceRole}"'
             - '}'
             - "\n"
             - "</powershell>\n"
