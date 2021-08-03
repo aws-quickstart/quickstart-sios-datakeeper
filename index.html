@@ -876,7 +876,7 @@ p.footer-text a{color:#d7d8d8}
 </div>
 <div class="paragraph text-center">
 <p><strong>August 2021</strong><br>
-<em>AWS Integration and Automation team</em></p>
+<em>AWS Infrastructure and Automation team</em></p>
 </div>
 <div class="admonitionblock tip text-left">
 <table>
@@ -928,18 +928,10 @@ Amazon may share user-deployment information with the AWS Partner that collabora
 <h2 id="_sios_datakeeper_cluster_edition_on_aws">SIOS DataKeeper Cluster Edition on AWS</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>SIOS DataKeeper Cluster Edition is a highly optimized, host-based replication solution
-that integrates seamlessly with Windows Server Failover Clustering (WSFC). WSFC
-features, such as cross-subnet failover and tunable heartbeat parameters, make it possible
-for administrators to deploy geographically dispersed clusters. SIOS DataKeeper provides
-the data replication mechanism that extends WSFC, and enables administrators to take
-advantage of these advanced features to support high availability and disaster recovery
-configurations without the need for shared storage.</p>
+<p>This Quick Start sets up an Amazon Web Services (AWS) architecture for SIOS DataKeeper Cluster Edition and deploys it into your AWS account.</p>
 </div>
 <div class="paragraph">
-<p>SIOS DataKeeper Cluster Edition provides replication in a virtual private cloud (VPC)
-within a single AWS Region across two Availability Zones. It also supports a data
-replication node outside the cluster with all nodes in the AWS Cloud.</p>
+<p>SIOS DataKeeper Cluster Edition provides high availability cluster protection in a cloud environment. Fully integrated with Windows Server Failover Cluster (WSFC), it enables storage-agnostic clusters in WSFC environments where shared storage is impossible or impractical. SIOS DataKeeper extends WSFC with automatic failover of application instances across Availability Zones or Regions for disaster protection. This Quick Start uses AWS CloudFormation templates to deploy a two-node Microsoft SQL Server cluster with SIOS DataKeeper Cluster Edition across two Availability Zones. It also supports a data replication node outside the cluster with all nodes in the AWS Cloud.</p>
 </div>
 </div>
 </div>
@@ -980,12 +972,12 @@ supports two licensing options:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://aws.amazon.com/marketplace/pp/B072B62D1S">Pay as you go (PAYG)</a> — Use this consumption-based option to pay an hourly fee
+<p><a href="https://aws.amazon.com/marketplace/pp/prodview-hjmfysqc6xhem?qid=1627657774268&amp;sr=0-1&amp;ref_=srh_res_product_title">Pay as you go (PAYG)</a> — Use this consumption-based option to pay an hourly fee
 determined by usage. Current prices are listed on the AWS Marketplace page and billed
 to your AWS account. This option doesn’t require a license for SIOS DataKeeper.</p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/marketplace/pp/B01MZFU2IE">Bring your own license (BYOL)</a> — Use this option if you have a current license for SIOS
+<p><a href="https://aws.amazon.com/marketplace/pp/prodview-n6qfra7iykmri">Bring your own license (BYOL)</a> — Use this option if you have a current license for SIOS
 DataKeeper Cluster Edition (which requires a run-time license for each server). You
 can deploy the Quick Start without first signing up for a license, but you must have a
 license to start and run SIOS DataKeeper Cluster Edition. You can contact SIOS to
@@ -1008,7 +1000,7 @@ AWS Cloud.</p>
 </div>
 <div id="architecture1" class="imageblock">
 <div class="content">
-<img src="images/architecture_diagram.png" alt="Architecture">
+<img src="images/sios-datakeeper-architecture-diagram.png" alt="Architecture">
 </div>
 <div class="title">Figure 1. Quick Start architecture for DataKeeper on AWS</div>
 </div>
@@ -1046,13 +1038,13 @@ internet access for resources in the private subnets.*</p>
 <p>Two Active Directory domain controllers.</p>
 </li>
 <li>
-<p>Two cluster nodes featuring SIOS DataKeeper replication software and SQL Server.</p>
+<p>Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.</p>
 </li>
 <li>
-<p>AWS Secrets Manager keys to store credentials.</p>
+<p>AWS Secrets Manager to store credentials.</p>
 </li>
 <li>
-<p>An AWS Systems Manager automation document to automate the deployment.</p>
+<p>An AWS Systems Manager to automate the deployment.</p>
 </li>
 </ul>
 </div>
@@ -1079,31 +1071,31 @@ internet access for resources in the private subnets.*</p>
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Single AWS Region with two Availability Zones</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One AWS Region with two Availability Zones.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instance type</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum recommended instance type: m3.xlarge</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum recommended instance type: m3.xlarge.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Operating system</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">See the <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm">DKCE Support Matrix</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm">DKCE Support Matrix</a>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Elastic IP</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">An Elastic IP address connected to the Remote Desktop Gateway server</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An Elastic IP address connected to the RD Gateway server.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Instances</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SQL Server</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Elastic network interface (ENI) with three IPs for each SQL Server instance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Elastic network interface (ENI) with three IPs for each SQL Server instance.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Volumes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Two volumes (Amazon EBS and NTFS only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Two volumnes, Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volumne (C drive) and one volume for replicated data storage.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1122,23 +1114,23 @@ deploy, and operate your infrastructure and applications on the AWS Cloud.</p>
 </div>
 <div class="paragraph">
 <p>Before you deploy this Quick Start, we recommend that you become familiar with the
-following AWS services. (If you are new to AWS, see <a href="https://aws.amazon.com/getting-started/">Getting Started with AWS</a>.)</p>
+following AWS services.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://aws.amazon.com/documentation/vpc/">Amazon VPC</a></p>
+<p><a href="https://aws.amazon.com/documentation/vpc/" target="_blank" rel="noopener">Amazon VPC</a></p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/documentation/ec2/">Amazon EC2</a></p>
+<p><a href="https://aws.amazon.com/documentation/ec2/" target="_blank" rel="noopener">Amazon Elastic Container Service (Amazon EC2)</a></p>
 </li>
 <li>
-<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon Elastic Block Store (Amazon EBS)</a></p>
+<p><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html" target="_blank" rel="noopener">Amazon Elastic Block Store (Amazon EBS)</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>We recommend that you also take a look at the <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/index.htm">SIOS DataKeeper Deployment Guide</a>.</p>
+<p>If you are new to AWS, see <a href="https://aws.amazon.com/getting-started/" target="_blank" rel="noopener">Getting Started with AWS</a>. We also recommend that you review <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/index.htm" target="_blank" rel="noopener">Deploying DataKeeper Cluster Edition in AWS Quick Start Guide</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1294,15 +1286,15 @@ Certain Regions are available on an opt-in basis. For more information, see <a h
 following the on-screen instructions.</p>
 </li>
 <li>
-<p>Use the region selector in the navigation bar to choose the AWS Region where you want
+<p>Use the Region selector in the navigation bar to choose the AWS Region where you want
 to deploy SIOS DataKeeper Cluster Edition on AWS.</p>
 </li>
 <li>
-<p>Create a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">key pair</a> in your preferred region.</p>
+<p>Create a <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html" target="_blank" rel="noopener">key pair</a> in your preferred Region.</p>
 </li>
 <li>
-<p>If necessary, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-">request a service limit increase</a> for the Amazon EC2 r3.xlarge instance type. You might need to do this if you already have an existing deployment that uses this
-instance type, and you think you might exceed the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">default limit</a> with this reference deployment.</p>
+<p>If necessary, <a href="https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&amp;limitType=service-code-" target="_blank" rel="noopener">request a service limit increase</a> for the Amazon EC2 r3.xlarge instance type. You might need to do this if you already have an existing deployment that uses this
+instance type, and you think you might exceed the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html" target="_blank" rel="noopener">default limit</a> with this reference deployment.</p>
 </li>
 </ol>
 </div>
@@ -1310,37 +1302,38 @@ instance type, and you think you might exceed the <a href="http://docs.aws.amazo
 <div class="sect3">
 <h4 id="_subscribe_to_the_sios_datakeeper_cluster_edition_ami">Subscribe to the SIOS DataKeeper Cluster Edition AMI</h4>
 <div class="paragraph">
-<p>This Quick Start uses Amazon Machine Images (AMIs) from the <a href="http://aws.amazon.com/marketplace/">AWS Marketplace</a>. Before
-you launch the Quick Start, you must subscribe to one of the SIOS DataKeeper Cluster Edition AMIs.
-Two licensing options are available: Bring Your Own License (BYOL) and pay as you go
+<p>This Quick Start uses Amazon Machine Images (AMIs) from the <a href="http://aws.amazon.com/marketplace/" target="_blank" rel="noopener">AWS Marketplace</a>. Before you launch the Quick Start, you must subscribe to one of the SIOS DataKeeper Cluster Edition AMIs.</p>
+</div>
+<div class="paragraph">
+<p>Two licensing options are available: Bring Your Own License (BYOL) and pay as you go
 (PAYG), as described previously in the Costs and Licenses section.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>If you’re planning to use the BYOL licensing option, obtain a permanent license by <a href="http://us.sios.com/contact-us/">contacting SIOS directly</a>. You can also sign up for a <a href="http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters">free, 14-day, trial license</a>.</p>
+<p>If you’re planning to use the BYOL licensing option, obtain a permanent license by <a href="http://us.sios.com/contact-us/" target="_blank" rel="noopener">contacting SIOS directly</a>. You can also sign up for a <a href="http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters" target="_blank" rel="noopener">free, 14-day, trial license</a>.</p>
 </li>
 <li>
 <p>Log in to the AWS Marketplace at <a href="https://aws.amazon.com/marketplace" class="bare">https://aws.amazon.com/marketplace</a>.</p>
 </li>
 <li>
 <p>Open the page for the licensing option you’d like to use:</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
+<div class="ulist">
+<ul>
 <li>
-<p><a href="https://aws.amazon.com/marketplace/pp/B072B62D1S">Pay as you go (PAYG)</a>; or</p>
+<p><a href="https://aws.amazon.com/marketplace/pp/B072B62D1S" target="_blank" rel="noopener">Pay as you go (PAYG)</a></p>
 </li>
 <li>
-<p><a href="https://aws.amazon.com/marketplace/pp/B01MZFU2IE">Bring your own license (BYOL)</a></p>
+<p><a href="https://aws.amazon.com/marketplace/pp/B01MZFU2IE" target="_blank" rel="noopener">Bring your own license (BYOL)</a></p>
 </li>
-</ol>
+</ul>
 </div>
 </li>
 <li>
-<p>Choose Continue.</p>
+<p>Choose <strong>Continue</strong>.</p>
 </li>
 <li>
-<p>Use the Manual Launch option, and then choose Accept Software Terms. For detailed instructions, see the <a href="https://aws.amazon.com/marketplace/help/200799470">AWS Marketplace documentation</a>.</p>
+<p>Choose <strong>Manual Launch</strong>, and then choose <strong>Accept Software Terms</strong>. For more information about AWS Marketplace, see <a href="https://aws.amazon.com/marketplace/help/200799470" target="_blank" rel="noopener">Getting started</a>.</p>
 </li>
 </ol>
 </div>
@@ -1411,12 +1404,12 @@ If you’re deploying DataKeeper into an existing VPC, make sure that your VPC h
 </colgroup>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy DataKeeper into a new VPC on AWS</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/wdAVA?" target="_blank" rel="noopener">Deploy DataKeeper into a new VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://fwd.aws/Mqaby?" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_launch_permalink" target="_blank" rel="noopener">Deploy DataKeeper into an existing VPC on AWS</a></p></td>
-<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://qs_template_permalink" target="_blank" rel="noopener">View template</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="https://fwd.aws/JrVyK?" target="_blank" rel="noopener">Deploy DataKeeper into an existing VPC on AWS</a></p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock"><a href="http://fwd.aws/YKMqa?" target="_blank" rel="noopener">View template</a></p></td>
 </tr>
 </tbody>
 </table>
@@ -1454,7 +1447,7 @@ If you’re deploying DataKeeper into an existing VPC, make sure that your VPC h
 <h2 id="_test_the_deployment">Test the deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The easiest way to determine whether SIOS DataKeeper Cluster Edition has been correctly deployed and configured is to launch Failover Cluster Manager on one of the replication nodes, and switch over resources. Follow these steps:</p>
+<p>The easiest way to determine whether SIOS DataKeeper Cluster Edition has been correctly deployed and configured is to launch Failover Cluster Manager on one of the replication nodes, and switch over resources.</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1462,16 +1455,16 @@ If you’re deploying DataKeeper into an existing VPC, make sure that your VPC h
 <p>Connect to the Remote Desktop Gateway instance.</p>
 </li>
 <li>
-<p>From that node, RDP into the replication node.</p>
+<p>From that node, connect to the replication node using Remote Desktop Protocol (RDP).</p>
 </li>
 <li>
-<p>When you’ve connected to a replication node, launch Failover Cluster Manager.</p>
+<p>Launch Failover Cluster Manager.</p>
 </li>
 <li>
-<p>In the left pane, choose Roles, and verify that the MSSQLSERVER role is online.</p>
+<p>In the left pane, choose <strong>Roles</strong>, and verify that the MSSQLSERVER role is online.</p>
 </li>
 <li>
-<p>In the Roles pane, open the context (right-click) menu for MSSQLSERVER, choose Move, Select Node, and then choose the other replication node as the destination node. The role should come online within two minutes.</p>
+<p>In the <strong>Roles</strong> pane, open the context (right-click) menu for MSSQLSERVER, and then choose <strong>Move</strong>, <strong>Select Node</strong>, and the other replication node as the destination node. The role should come online within two minutes.</p>
 </li>
 <li>
 <p>Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful and can be used as desired.</p>
@@ -1479,7 +1472,7 @@ If you’re deploying DataKeeper into an existing VPC, make sure that your VPC h
 </ol>
 </div>
 <div class="paragraph">
-<p>For further configuration details, see the <a href="http://docs.us.sios.com/">SIOS technical documentation</a>.</p>
+<p>For more configuration details, see <a href="http://docs.us.sios.com/" target="_blank" rel="noopener">SIOS technical documentation</a>.</p>
 </div>
 </div>
 </div>
@@ -1489,21 +1482,21 @@ If you’re deploying DataKeeper into an existing VPC, make sure that your VPC h
 <div class="sect2">
 <h3 id="_aws_services">AWS services</h3>
 <div class="paragraph">
-<p>SIOS recommends following AWS best practices for creating and using IAM roles and policies, IAM user credentials and roles, and access key rotation.</p>
+<p>SIOS recommends following AWS best practices for creating and using IAM roles and policies, IAM user credentials and roles, and access key rotation. For more information, see the following links.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>IAM roles: <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_forservice.html" class="bare">https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_forservice.html</a></p>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_forservice.html">What is IAM?</a></p>
 </li>
 <li>
-<p>IAM policies: <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html" class="bare">https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html</a></p>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html" target="_blank" rel="noopener">Creating IAM policies</a></p>
 </li>
 <li>
-<p>IAM users: <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_sign-in.html" class="bare">https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_sign-in.html</a></p>
+<p><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_sign-in.html" target="_blank" rel="noopener">How IAM users sign in to AWS</a></p>
 </li>
 <li>
-<p>Access keys: <a href="https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users/" class="bare">https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users/</a></p>
+<p><a href="https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users" target="_blank" rel="noopener">How to Rotate Access Keys for IAM Users</a></p>
 </li>
 </ul>
 </div>
@@ -1570,10 +1563,7 @@ When you set <strong>Rollback on failure</strong> to <strong>Disabled</strong>, 
 </div>
 <div class="paragraph">
 <p><strong>Q.</strong> I encountered problems using SIOS DataKeeper on AWS.
-<strong>A.</strong> Use the following resources to help troubleshoot issues:
-* Check the <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DKCETechDoc/Content/Troubleshooting.htm">Troubleshooting</a> section of the SIOS DataKeeper documentation.
-* If you have a support contract, visit <a href="http://us.sios.com/support/overview/" class="bare">http://us.sios.com/support/overview/</a>.
-* If you’re evaluating the software, email SIOS pre-sales support.</p>
+<strong>A.</strong> See <a href="http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DKCETechDoc/Content/Troubleshooting.htm" target="_blank" rel="noopener">Troubleshooting</a> in the SIOS Technical Documentation, or see <a href="https://support.us.sios.com/aspx/SupportHome" target="_blank" rel="noopener">SIOS Support</a>. Contact your SIOS representative for pre-sales support during an evaluation period.</p>
 </div>
 </div>
 </div>
@@ -1603,7 +1593,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <div class="sect2">
 <h3 id="_parameters_for_deploying_into_a_new_vpc">Parameters for deploying into a new VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Network Configuration</caption>
+<caption class="title">Table 1. Network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1621,42 +1611,42 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones
 (<code>AvailabilityZones</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved and only 2 AZs are used for this deployment.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability Zones to use for the subnets in the VPC. Two Availability Zones are used for this deployment.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">VPC CIDR
 (<code>VPCCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/16</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the VPC</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the VPC.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 1 CIDR
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 1 CIDR
 (<code>PrivateSubnet1CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 2 CIDR
+<td class="tableblock halign-left valign-top"><p class="tableblock">Private subnet 2 CIDR
 (<code>PrivateSubnet2CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2, located in Availability Zone 2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 1 CIDR
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 1 CIDR
 (<code>PublicSubnet1CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.128.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 1 located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 1, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public Subnet 2 CIDR
+<td class="tableblock halign-left valign-top"><p class="tableblock">Public subnet 2 CIDR
 (<code>PublicSubnet2CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.144.0/20</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 2 located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR Block for the public DMZ subnet 2, located in Availability Zone 2.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. Amazon EC2 Configuration</caption>
+<caption class="title">Table 2. Amazon EC2 configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1671,15 +1661,15 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Key Pair Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public/private key pairs allow you to securely connect to your instance after it launches</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name. Public/private key pairs allow you to securely connect to your instance after it launches.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Microsoft Active Directory Configuration</caption>
+<caption class="title">Table 3. Microsoft Active Directory configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1694,69 +1684,69 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 Instance Type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 instance type
 (<code>ADServer1InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first Active Directory instance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first Active Directory instance.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 NetBIOS name
 (<code>ADServer1NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DC1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first Active Directory server (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first Active Directory server (up to 15 characters).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 Private IP Address
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 private IP address
 (<code>ADServer1PrivateIP</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the first Active Directory server located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the first Active Directory server, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 Instance Type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 instance type
 (<code>ADServer2InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the second Active Directory instance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the second Active Directory instance.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 NetBIOS name
 (<code>ADServer2NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DC2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second Active Directory server (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second Active Directory server (up to 15 characters).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 Private IP Address
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 private IP address
 (<code>ADServer2PrivateIP</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the second Active Directory server located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the second Active Directory server, located in Availability Zone 2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
 (<code>DomainDNSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>datakeeper.local</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of the forest root domain e.g. example.com</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of the forest root domain (for example, <code>example.com</code>).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
 (<code>DomainNetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DATAKEEPER</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name (up to 15 characters) of the domain for users of earlier versions of Windows.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Admin User Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator user name
 (<code>DomainAdminUser</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>siosadmin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the account that will be added as Domain Administrator. This is separate from the default "Administrator" account</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the domain administrator account. <strong>Note:</strong> This is separate from the default "Administrator" account.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Admin Password
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator password
 (<code>DomainAdminPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the domain administrator user. Must be at least 8 characters containing letters, numbers, and symbols.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Remote Desktop Gateway Configuration</caption>
+<caption class="title">Table 4. Remote Desktop Gateway configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1771,27 +1761,27 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed Remote Desktop Gateway External Access CIDR
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed Remote Desktop Gateway external access CIDR
 (<code>RDGWCIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR Block for external access to the Remote Desktop Gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allowed CIDR block for external access to the Remote Desktop Gateway.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number of RDGW hosts
 (<code>NumberOfRDGWHosts</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enter the number of Remote Desktop Gateway hosts to create.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of Remote Desktop Gateway hosts to create (0-4).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Remote Desktop Gateway Instance Type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remote Desktop Gateway instance type
 (<code>RDGWInstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>t2.large</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Remote Desktop Gateway instance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the Remote Desktop Gateway instance.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Replication Configuration</caption>
+<caption class="title">Table 5. Replication configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1806,57 +1796,57 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS AMI Version
+<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS AMI version
 (<code>AMIType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PAYG</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AMI type for SIOS license purposes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS License Key FTP URL
+<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS license key FTP URL
 (<code>SIOSLicenseKeyFtpURL</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Blank string</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL used to obtain license key for SIOS DataKeeper software.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL to obtain a license key for SIOS DataKeeper software.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SQL Server Version
+<td class="tableblock halign-left valign-top"><p class="tableblock">SQL Server version
 (<code>SQLServerVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2014SP1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SQL2017</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of MS SQL Server to install. Choose <strong>None</strong> if you don&#8217;t want to install SQL Server.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service Account Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service account name
 (<code>SQLServiceAccount</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sqlsa</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the SQL Server Service Account. This Account is a Domain User.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the SQL Server service account. This account is a domain user.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service Account Password
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service account password
 (<code>SQLServiceAccountPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the SQL Server account. Must be at least 8 characters containing letters, numbers and symbols. Leave blank if you don&#8217;t install SQL Server.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume Size (GiB)
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data volume size (GiB)
 (<code>Volume1Size</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Volume size for the SQL Data drive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Volume size for the SQL data drive.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume Type
 (<code>Volume1Type</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gp2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Volume type for the SQL Data drive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Volume type for the SQL data drive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume IOPS
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data volume IOPS
 (<code>Volume1Iops</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Iops for the SQL Data drive (Only used when volume type is io1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IOPS for the SQL data drive. (Only used when data volume type is <code>io1</code>.)</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Failover Cluster Configuration</caption>
+<caption class="title">Table 6. Failover cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1871,75 +1861,75 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server OS Version for Cluster Nodes
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server OS version for cluster nodes
 (<code>ClusterNodeOSServerVersion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WS2012R2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server OS Version for Cluster Nodes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server OS version for cluster nodes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance Type for Cluster Node 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for cluster node 1
 (<code>WSFCNode1InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>i3.xlarge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the 1st WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 NetBIOS name
 (<code>WSFCNode1NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WSFCNode1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first WSFC Node (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first WSFC Node (up to 15 characters).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 1
 (<code>WSFCNode1PrivateIP1</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the first WSFC Node located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the first WSFC node, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 2
 (<code>WSFCNode1PrivateIP2</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.101</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on first WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 3
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 3
 (<code>WSFCNode1PrivateIP3</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.102</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server Network Name on first WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server network name on the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance Type for Cluster Node 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for cluster node 2
 (<code>WSFCNode2InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>i3.xlarge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the 1st WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 NetBIOS name
 (<code>WSFCNode2NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WSFCNode2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second WSFC Node (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second WSFC node (up to 15 characters).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 1
 (<code>WSFCNode2PrivateIP1</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the second WSFC Node located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the second WSFC node, located in Availability Zone 2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 2
 (<code>WSFCNode2PrivateIP2</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.101</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on second WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for the WSFC cluster on the second WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 3
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 3
 (<code>WSFCNode2PrivateIP3</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.102</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server Network Name on second WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for the SQL Server network name on the second WSFC node.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. AWS Quick Start Configuration</caption>
+<caption class="title">Table 7. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1954,22 +1944,22 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 Bucket Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
 (<code>QSS3BucketName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket region
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
 (<code>QSS3BucketRegion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 Key Prefix
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
 (<code>QSS3KeyPrefix</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-sios-datakeeper/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1977,7 +1967,7 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <div class="sect2">
 <h3 id="_parameters_for_deploying_into_an_existing_vpc">Parameters for deploying into an existing VPC</h3>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Network Configuration</caption>
+<caption class="title">Table 8. Network configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -1992,39 +1982,39 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">VPC to place SQL cluster in
+<td class="tableblock halign-left valign-top"><p class="tableblock">SQL cluster VPC
 (<code>VPCID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (e.g., vpc-0343606e)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the VPC (for example, <code>vpc-0343606e</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 1 ID
 (<code>PrivateSubnet1ID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 1 in Availability Zone 1 (e.g., subnet-a0246dcd)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of private subnet 1 in Availability Zone 1 (for example, <code>subnet-a0246dcd</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 1 CIDR
 (<code>PrivateSubnet1CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1 located in Availability Zone 1.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 1, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 2 ID
 (<code>PrivateSubnet2ID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of private subnet 2 in Availability Zone 2 (for example, <code>subnet-a0246dcd</code>).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Private Subnet 2 CIDR
 (<code>PrivateSubnet2CIDR</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.0/19</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2 located in Availability Zone 2.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">CIDR block for private subnet 2, located in Availability Zone 2.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Amazon EC2 Configuration</caption>
+<caption class="title">Table 9. Amazon EC2 configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2042,12 +2032,12 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 <td class="tableblock halign-left valign-top"><p class="tableblock">Key Pair Name
 (<code>KeyPairName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Public/private key pairs allow you to securely connect to your instance after it launches</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key pair name. Public/private key pairs allow you to securely connect to your instance after it launches.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Microsoft Active Directory Configuration</caption>
+<caption class="title">Table 10. Microsoft Active Directory configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2062,63 +2052,63 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain DNS name
 (<code>DomainDNSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>datakeeper.local</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) e.g. example.com</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified domain name (FQDN) of the forest root domain (for example, <code>example.com</code>).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain NetBIOS name
 (<code>DomainNetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DATAKEEPER</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name (up to 15 characters) of the domain for users of earlier versions of Windows.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Admin User Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator user name
 (<code>DomainAdminUser</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>siosadmin</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the account that will be used as Domain Administrator. This is separate from the default "Administrator" account</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the domain administrator account. <strong>Note:</strong> This is separate from the default "Administrator" account.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Admin Password
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain administrator password
 (<code>DomainAdminPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the domain administrator user. Must be at least 8 characters containing letters, numbers, and symbols.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain controller 1 NetBIOS name
 (<code>ADServer1NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DC1</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first Active Directory server (up to 15 characters)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 1 Private IP Address
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain controller 1 private IP address
 (<code>ADServer1PrivateIP</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the first Active Directory server located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the first Active Directory server, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain controller 2 NetBIOS name
 (<code>ADServer2NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>DC2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second Active Directory server (up to 15 characters)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain Controller 2 Private IP Address
+<td class="tableblock halign-left valign-top"><p class="tableblock">Domain controller 2 private IP address
 (<code>ADServer2PrivateIP</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.10</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the second Active Directory server located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fixed private IP for the second Active Directory server, located in Availability Zone 2</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security Group ID for AD domain members
 (<code>DomainMemberSGID</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the Domain Member Security Group (e.g., sg-7f16e910)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ID of the domain member Security Group (for example, <code>sg-7f16e910</code>).</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Replication Configuration</caption>
+<caption class="title">Table 11. Replication configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2133,57 +2123,57 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS AMI Version
+<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS AMI version
 (<code>AMIType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>PAYG</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AMI type for SIOS license purposes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS License Key FTP URL
+<td class="tableblock halign-left valign-top"><p class="tableblock">SIOS license key FTP URL
 (<code>SIOSLicenseKeyFtpURL</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>override</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL used to obtain license key for SIOS DataKeeper software.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL to obtain a license key for SIOS DataKeeper software.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">SQL Server Version
+<td class="tableblock halign-left valign-top"><p class="tableblock">SQL Server version
 (<code>SQLServerVersion</code>)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2014SP1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SQL2017</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version of MS SQL Server to install. Choose <strong>None</strong> if you don&#8217;t want to install SQL Server.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service Account Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service account name
 (<code>SQLServiceAccount</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sqlsa</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the SQL Server Service Account. This Account is a Domain User.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for the SQL Server service account. This account is a domain user.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service Account Password
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service account password
 (<code>SQLServiceAccountPassword</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code><strong><em>Requires input</em></strong></code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the SQL Server account. Must be at least 8 characters containing letters, numbers, and symbols. Leave blank if don&#8217;t install SQL Server.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume Size (GiB)
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data volume size (GiB)
 (<code>Volume1Size</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Volume size for the SQL Data drive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Volume size for the SQL data drive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume Type
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data volume type
 (<code>Volume1Type</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>gp2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Volume type for the SQL Data drive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Volume type for the SQL data drive.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Data Volume IOPS
+<td class="tableblock halign-left valign-top"><p class="tableblock">Data volume IOPS
 (<code>Volume1Iops</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Iops for the SQL Data drive (Only used when volume type is io1)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">IOPS for the SQL data drive. (Only used when data volume type is <code>io1</code>.)</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Failover Cluster Configuration</caption>
+<caption class="title">Table 12. Failover cluster configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2198,75 +2188,75 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node OS Version
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node OS version
 (<code>OSVersion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WS2012R2</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Windows Server OS version to use for cluster nodes.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance Type for Cluster Node 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for cluster node 1
 (<code>WSFCNode1InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>i3.xlarge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the 1st WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 NetBIOS name
 (<code>WSFCNode1NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WSFCNode1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first WSFC Node (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the first WSFC Node (up to 15 characters).</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 1
 (<code>WSFCNode1PrivateIP1</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the first WSFC Node located in Availability Zone 1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the first WSFC node, located in Availability Zone 1.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 2
 (<code>WSFCNode1PrivateIP2</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.101</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on first WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 1 Private IP Address 3
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 1 private IP address 3
 (<code>WSFCNode1PrivateIP3</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.0.102</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server Network Name on first WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server network name on the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Instance Type for Cluster Node 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Instance type for cluster node 2
 (<code>WSFCNode2InstanceType</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>i3.xlarge</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the 1st WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amazon EC2 instance type for the first WSFC node.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 NetBIOS Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 NetBIOS name
 (<code>WSFCNode2NetBIOSName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>WSFCNode2</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second WSFC Node (up to 15 characters)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NetBIOS name of the second WSFC node (up to 15 characters)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 1
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 1
 (<code>WSFCNode2PrivateIP1</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.100</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the second WSFC Node located in Availability Zone 2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Primary private IP for the second WSFC node, located in Availability Zone 2.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 2
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 2
 (<code>WSFCNode2PrivateIP2</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.101</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for WSFC cluster on second WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secondary private IP for the WSFC cluster on the second WSFC node</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster Node 2 Private IP Address 3
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster node 2 private IP address 3
 (<code>WSFCNode2PrivateIP3</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>10.0.32.102</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for SQL Server Network Name on second WSFC Node</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third private IP for the SQL Server network name on the second WSFC node.</p></td>
 </tr>
 </tbody>
 </table>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. AWS Quick Start Configuration</caption>
+<caption class="title">Table 13. AWS Quick Start configuration</caption>
 <colgroup>
 <col style="width: 16%;">
 <col style="width: 11%;">
@@ -2281,22 +2271,22 @@ Unless you are customizing the Quick Start templates for your own deployment pro
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 Bucket Name
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket name
 (<code>QSS3BucketName</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>aws-quickstart</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the S3 bucket for your copy of the Quick Start assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new Quick Start location. This name can include numbers, lowercase letters, uppercase letters, and hyphens, but do not start or end with a hyphen (-). See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket region
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 bucket Region
 (<code>QSS3BucketRegion</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>us-east-1</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. Keep the default Region unless you are customizing the template. Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. See <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 Key Prefix
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quick Start S3 key prefix
 (<code>QSS3KeyPrefix</code>)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>quickstart-sios-datakeeper/</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">S3 key prefix that is used to simulate a directory for your copy of the Quick Start assets. Keep the default prefix unless you are customizing the template. Changing this prefix updates code references to point to a new Quick Start location. This prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slashes (/). End with a forward slash. See <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html" class="bare">https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html</a> and <a href="https://aws-quickstart.github.io/option1.html" class="bare">https://aws-quickstart.github.io/option1.html</a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2351,12 +2341,12 @@ and to share your customizations with others.</p>
 </html>
 <!--
 repo commit:
-c2f92ec43bf659cb1a90ca66342d739dc6998e1a
+d5d0297b3180202e5fe51f7aea5551f26f1ca276
 
 submodule config:
- e8df84a10f2edd0c1ad0fe386022692274696085 docs/boilerplate (heads/main)
+ 65f80e33e522df2db773d415faf97a7fadf2f5e3 docs/boilerplate (heads/main)
  ffc7af4e59a09dbf52199a3ecf70f3805abeff48 submodules/quickstart-aws-vpc (v1.0-58-gffc7af4)
- 3f2b606d37ca3ca0a850abb2aa37f44b0b350b71 submodules/quickstart-microsoft-activedirectory (heads/main)
- 1f0f71bce50345a8db21f67e5ff8dc580454f351 submodules/quickstart-microsoft-rdgateway (heads/main)
+ 152fda102e8514604eaf201be381d814438b2047 submodules/quickstart-microsoft-activedirectory (heads/main)
+ be93b89126a1844b6e0061764bf933f8db3f84c4 submodules/quickstart-microsoft-rdgateway (heads/main)
  e1f1a322eff1014be7fbaa8f8384e9dea2fa218c submodules/quickstart-microsoft-utilities (heads/main)
 -->
