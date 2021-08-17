@@ -8,42 +8,58 @@ param(
     [string]$DomainDnsName,
 
     [Parameter(Mandatory=$true)]
-    [string]$WSFCNodePrivateIP2,
+    [string]$WSFCNode1PrivateIP2,
 
     [Parameter(Mandatory=$true)]
     [string]$ClusterName,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminUser,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminPassword,
+    [string]$SQLSecret,
 
     [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccount,
-
-    [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccountPassword,
+    [string]$FSXFileSystemID,
 
     [Parameter(Mandatory=$false)]
     [string]$FileServerNetBIOSName
 
 )
 
-# Formatting AD User to proper format for DSC Resources in this Script
-$ClusterAdminUser = $DomainNetBIOSName + '\' + $DomainAdminUser
-$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLServiceAccount
-# Creating Credential Object for Administrator
-$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
-$SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLServiceAccountPassword -AsPlainText -Force)))
+# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
+$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
+# Getting Password from Secrets Manager for AD Admin User
+$AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
+$ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
 
-$ShareName = "\\" + $FileServerNetBIOSName + "." + $DomainDnsName + "\witness"
+# Creating Credential Object for Administrator
+$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $AdminUser.Password -AsPlainText -Force)))
+
+if($SQLSecret) {
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLUser.Password -AsPlainText -Force)))
+}
+
+if ($FSXFileSystemID) {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    Install-Module -Name AWSPowerShell -Confirm:$false -Force
+    $DnsName = Get-FSxFileSystem -FileSystemId $FSXFileSystemID | Select DnsName -ExpandProperty DnsName
+    $ShareName = "\\" + $DnsName + "\share"
+}
+
+if ($FileServerNetBIOSName) {
+    $ShareName = "\\" + $FileServerNetBIOSName + "." + $DomainDnsName + "\witness"
+}
 
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            PSDscAllowPlainTextPassword = $true
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
+            Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
         @{
@@ -60,11 +76,11 @@ Configuration WSFCNode1Config {
 
     Import-Module -Name PSDscResources
     Import-Module -Name xFailOverCluster
-    Import-Module -Name xActiveDirectory
+    Import-Module -Name ActiveDirectoryDsc
     
     Import-DscResource -Module PSDscResources
     Import-DscResource -ModuleName xFailOverCluster
-    Import-DscResource -ModuleName xActiveDirectory
+    Import-DscResource -ModuleName ActiveDirectoryDsc
     
     Node 'localhost' {
         WindowsFeature RSAT-AD-PowerShell {
@@ -95,36 +111,38 @@ Configuration WSFCNode1Config {
             Name      = 'RSAT-Clustering-CmdInterface'
             DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringPowerShellFeature'
         }
-        
-        if ($SQLServiceAccount) {
-            xADUser SQLServiceAccount {
+
+        if($SQLCredentials) {
+            ADUser SQLServiceAccount {
                 DomainName = $DomainDnsName
-                UserName = $SQLServiceAccount
+                UserName = $SQLUser.UserName
                 Password = $SQLCredentials
-                DisplayName = 'SQL Service Account'
+                DisplayName = $SQLUser.UserName
                 PasswordAuthentication = 'Negotiate'
-                DomainAdministratorCredential = $Credentials
+                PsDscRunAsCredential = $Credentials
                 Ensure = 'Present'
                 DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature' 
             }
-            
+
             Group Administrators {
                 GroupName = 'Administrators'
                 Ensure = 'Present'
                 MembersToInclude = @($ClusterAdminUser, $SQLAdminUser)
-                DependsOn = "[xADUser]SQLServiceAccount"
+                DependsOn = "[ADUser]SQLServiceAccount"
             }
-        } else {
+        }
+        else {
             Group Administrators {
                 GroupName = 'Administrators'
                 Ensure = 'Present'
                 MembersToInclude = @($ClusterAdminUser)
+                DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature'
             }
         }
 
         xCluster CreateCluster {
             Name                          =  $ClusterName
-            StaticIPAddress               =  $WSFCNodePrivateIP2
+            StaticIPAddress               =  $WSFCNode1PrivateIP2
             DomainAdministratorCredential =  $Credentials
             DependsOn                     = '[Group]Administrators'
         }
@@ -137,5 +155,10 @@ Configuration WSFCNode1Config {
         }
     }
 }
-    
-WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials -SQLCredentials $SQLCredentials
+
+if($SQLCredentials) {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials -SQLCredentials $SQLCredentials
+}
+else {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials
+}

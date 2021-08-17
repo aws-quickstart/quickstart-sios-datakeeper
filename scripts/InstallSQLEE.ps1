@@ -6,11 +6,11 @@ param(
 
     [Parameter(Mandatory=$true)]
     [string]
-    $NetBIOSName,
+    $DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
     [string]
-    $DomainNetBIOSName,
+    $DomainDNSName,
 
     [Parameter(Mandatory=$true)]
     [string]
@@ -80,13 +80,13 @@ try {
     $DomainAdminCreds = New-Object System.Management.Automation.PSCredential($DomainAdminFullUser, $DomainAdminSecurePassword)
     $subnetMask = Get-SubnetMask($ClusterSubnetCidr)
     $sqlInstallCmds = [ordered]@{
-        "SQL2017" = '/Q /ACTION=InstallFailoverCluster /UpdateEnabled=False /FEATURES=SQLENGINE,REPLICATION,FULLTEXT,DQ /SkipRules=Cluster_VerifyForErrors Cluster_IsWMIServiceOperational /ENU=True /ERRORREPORTING=False /USEMICROSOFTUPDATE=False /HELP=False /INDICATEPROGRESS=False /X86=False /INSTALLSHAREDDIR="C:\Program Files\Microsoft SQL Server" /INSTALLSHAREDWOWDIR="C:\Program Files (x86)\Microsoft SQL Server" /INSTANCENAME=SIOSSQLSERVER /SQLSVCACCOUNT=' + $SQLFULLServiceAccount + ' /SQLSVCPASSWORD=' + $SQLServiceAccountPassword + ' /AGTSVCACCOUNT=' + $SQLFULLServiceAccount + ' /AGTSVCPASSWORD=' + $SQLServiceAccountPassword + ' /SQLSYSADMINACCOUNTS=' + $DomainAdminFullUser + ' /FAILOVERCLUSTERIPADDRESSES="IPv4;' + $SQLServerClusterIP + ';Cluster Network 1;' + $subnetMask + '" /INSTANCEDIR="C:\Program Files\Microsoft SQL Server" /FAILOVERCLUSTERDISKS="DataKeeper Volume D" /FAILOVERCLUSTERGROUP="SQL Server (SIOSSQLSERVER)" /FAILOVERCLUSTERNETWORKNAME="siossqlserver" /COMMFABRICPORT="0" /COMMFABRICNETWORKLEVEL="0" /COMMFABRICENCRYPTION="0" /MATRIXCMBRICKCOMMPORT="0" /FILESTREAMLEVEL="0" /SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS" /SQLTEMPDBFILECOUNT=2 /SQLTEMPDBFILESIZE=8 /SQLTEMPDBFILEGROWTH=64 /SQLTEMPDBLOGFILESIZE=8 /SQLTEMPDBLOGFILEGROWTH=64 /INSTALLSQLDATADIR="D:" /SQLTEMPDBDIR="C:\TempDB" /FTSVCACCOUNT="NT Service\MSSQLFDLauncher`$SIOSSQLSERVER" /IAcceptSQLServerLicenseTerms /SUPPRESSPRIVACYSTATEMENTNOTICE=True /IACCEPTPYTHONLICENSETERMS=False /IACCEPTROPENLICENSETERMS=False';
+        "2017" = '/Q /ACTION=InstallFailoverCluster /UpdateEnabled=False /FEATURES=SQLENGINE,REPLICATION,FULLTEXT,DQ /SkipRules=Cluster_VerifyForErrors Cluster_IsWMIServiceOperational /ENU=True /ERRORREPORTING=False /USEMICROSOFTUPDATE=False /HELP=False /INDICATEPROGRESS=False /X86=False /INSTALLSHAREDDIR="C:\Program Files\Microsoft SQL Server" /INSTALLSHAREDWOWDIR="C:\Program Files (x86)\Microsoft SQL Server" /INSTANCENAME=SIOSSQLSERVER /SQLSVCACCOUNT=' + $SQLFULLServiceAccount + ' /SQLSVCPASSWORD=' + $SQLServiceAccountPassword + ' /AGTSVCACCOUNT=' + $SQLFULLServiceAccount + ' /AGTSVCPASSWORD=' + $SQLServiceAccountPassword + ' /SQLSYSADMINACCOUNTS=' + $DomainAdminFullUser + ' /FAILOVERCLUSTERIPADDRESSES="IPv4;' + $SQLServerClusterIP + ';Cluster Network 1;' + $subnetMask + '" /INSTANCEDIR="C:\Program Files\Microsoft SQL Server" /FAILOVERCLUSTERDISKS="DataKeeper Volume D" /FAILOVERCLUSTERGROUP="SQL Server (SIOSSQLSERVER)" /FAILOVERCLUSTERNETWORKNAME="siossqlserver" /COMMFABRICPORT="0" /COMMFABRICNETWORKLEVEL="0" /COMMFABRICENCRYPTION="0" /MATRIXCMBRICKCOMMPORT="0" /FILESTREAMLEVEL="0" /SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS" /SQLTEMPDBFILECOUNT=2 /SQLTEMPDBFILESIZE=8 /SQLTEMPDBFILEGROWTH=64 /SQLTEMPDBLOGFILESIZE=8 /SQLTEMPDBLOGFILEGROWTH=64 /INSTALLSQLDATADIR="D:" /SQLTEMPDBDIR="C:\TempDB" /FTSVCACCOUNT="NT Service\MSSQLFDLauncher`$SIOSSQLSERVER" /IAcceptSQLServerLicenseTerms /SUPPRESSPRIVACYSTATEMENTNOTICE=True /IACCEPTPYTHONLICENSETERMS=False /IACCEPTROPENLICENSETERMS=False';
     }
 
     $exitcode = $NULL
     $InstallSqlPs={
         Param($DomainAdminFullUser, $SQLFULLServiceAccount, $SQLServiceAccountPassword, $SQLServerClusterIP, $subnetMask, $SQLServerVersion, $arguments)
-        $installer = "C:\$SQLServerVersion\SETUP.EXE"
+        $installer = "C:\SQL$($SQLServerVersion)\SETUP.EXE"
 
         $installResult = Start-Process $installer $arguments -Wait -ErrorAction Continue -PassThru -RedirectStandardOutput "C:\cfn\log\SQLInstallerOutput.txt" -RedirectStandardError "C:\cfn\log\SQLInstallerErrors.txt"
         $exitcode=$installResult.ExitCode
@@ -100,7 +100,7 @@ try {
             Start-Sleep 60
         }
         $Retries++
-        Invoke-Command -Authentication Credssp -Scriptblock $InstallSqlPs -ComputerName $NetBIOSName -Credential $DomainAdminCreds -ArgumentList $DomainAdminFullUser,$SQLFULLServiceAccount,$SQLServiceAccountPassword,$SQLServerClusterIP,$subnetMask,$SQLServerVersion,$sqlInstallCmds[$SQLServerVersion]
+        Invoke-Command -Authentication Credssp -Scriptblock $InstallSqlPs -ComputerName $(hostname) -Credential $DomainAdminCreds -ArgumentList $DomainAdminFullUser,$SQLFULLServiceAccount,$SQLServiceAccountPassword,$SQLServerClusterIP,$subnetMask,$SQLServerVersion,$sqlInstallCmds[$SQLServerVersion]
         $Installed = $true
     }
 
