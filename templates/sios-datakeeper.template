@@ -658,7 +658,7 @@ Resources:
     Type: AWS::SecretsManager::Secret
     Properties:
       Name: !Sub 'AWSQuickStart/${AWS::StackName}/ADAdminSecrets'
-      Description: MS SQL Credentials for Quick Start
+      Description: MS AD Credentials for Quick Start
       SecretString: !Sub '{ "username" : "${DomainAdminUser}", "password" : "${DomainAdminPassword}" }'
   SQLSecrets:
     Type: AWS::SecretsManager::Secret
@@ -1149,31 +1149,6 @@ Resources:
               commands: 
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DriveLetterMappingConfig.json -LocalFile C:\ProgramData\Amazon\EC2-Windows\Launch\Config\DriveLetterMappingConfig.json
-        - name: InitializeDisks
-          action: "aws:runCommand"
-          maxAttempts: 3
-          onFailure: "step:signalfailure"
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds: 
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: "S3"
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.com/{{QSS3KeyPrefix}}scripts/Initialize-GPT.ps1"}'
-                  - S3Bucket: !If 
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: "./Initialize-GPT.ps1"
         - name: DomainJoin
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1750,6 +1725,60 @@ Resources:
                       - UsingManagedAD
                       - 'admin'
                       - !Ref DomainAdminUser
+        - name: ConfigSQL
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode1InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Sub '/aws/Quick_Start/${AWS::StackName}'
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/SQLConfig.ps1"}'
+                  - S3Bucket: !If 
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: 
+                !Sub
+                  - .\SQLConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -ClusterName {{ClusterName}} -ManagedAD ${ManagedADSwitch}
+                  - ManagedADSwitch: !If
+                      - UsingManagedAD
+                      - 'Yes'
+                      - 'No'
+        - name: ApplySQLConfig
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnode1InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Sub '/aws/Quick_Start/${AWS::StackName}'
+            Parameters:
+              commands:
+                - |     
+                   function DscStatusCheck () {
+                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
+                       if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
+                           'returning 3010, should continue after reboot'
+                           exit 3010
+                       } else {
+                         'Completed'
+                       }
+                   }
+                   Start-DscConfiguration 'C:\AWSQuickstart\SQLConfig' -Wait -Verbose -Force
+                   DscStatusCheck
         - name: registerclustervolume
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1783,18 +1812,17 @@ Resources:
               StringEquals: None
         # START INSTALL SQL branch2
         - name: "2NodeDownloadSQL"
-          action: "aws:runCommand"
-          onFailure: "step:signalfailure" 
+          action: aws:runCommand
+          onFailure: step:signalfailure
           inputs:
-            DocumentName: "AWS-RunRemoteScript"
+            DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - "{{wsfcnode1InstanceId.InstanceId}}"
-              - "{{wsfcnode2InstanceId.InstanceId}}"
+              - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              sourceType: "S3"
+              sourceType: S3
               sourceInfo: 
                 !Sub 
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DownloadSQLEE.ps1"}'
@@ -1806,19 +1834,19 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: "./DownloadSQLEE.ps1 -SQLServerVersion {{SQLServerVersion}} -SQL2016Media {{SQL2016Media}} -SQL2017Media {{SQL2017Media}} -SQL2019Media {{SQL2019Media}}"
-        - name: "2NodeSQLInstallMOF"
-          action: "aws:runCommand"
-          onFailure: "step:signalfailure" 
+              commandLine: .\DownloadSQLEE.ps1 -SQLServerVersion {{SQLServerVersion}} -SQL2016Media {{SQL2016Media}} -SQL2017Media {{SQL2017Media}} -SQL2019Media {{SQL2019Media}}
+        - name: SQLInstallNode1MOF
+          action: aws:runCommand
+          onFailure: step:signalfailure
           inputs:
-            DocumentName: "AWS-RunRemoteScript"
+            DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - "{{wsfcnode1InstanceId.InstanceId}}"
+              - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              sourceType: "S3"
+              sourceType: S3
               sourceInfo: 
                 !Sub 
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Install-SQLEE.ps1"}'
@@ -1831,13 +1859,13 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: .\Install-SQLEE.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -SQLServerVersion {{SQLServerVersion}} -SQLSecret {{SQLSecrets}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}}
-        - name: "2NodeSQLInstall"
+        - name: SQLInstallNode1
           action: aws:runCommand
-          onFailure: "step:signalfailure"
+          onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
-              - "{{wsfcnode1InstanceId.InstanceId}}"
+              - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -1854,7 +1882,56 @@ Resources:
                        }
                    }
                    Move-ClusterGroup -Name "Available Storage" -Node {{WSFCNode1NetBIOSName}}
+                   Get-ClusterResource | Start-ClusterResource -IgnoreLocked -ErrorAction SilentlyContinue
                    Test-Cluster -Ignore Storage -Force
+                   Start-DscConfiguration 'C:\AWSQuickstart\SQLInstall' -Wait -Verbose -Force
+                   DscStatusCheck
+        - name: SQLInstallNode2MOF
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode2InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Install-SQLEEAddNode.ps1"}'
+                  - S3Bucket: !If 
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: .\Install-SQLEEAddNode.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -SQLServerVersion {{SQLServerVersion}} -SQLSecret {{SQLSecrets}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}}
+        - name: SQLInstallNode2
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnode2InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |     
+                   function DscStatusCheck () {
+                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
+                       if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
+                           'returning 3010, should continue after reboot'
+                           exit 3010
+                       } else {
+                         'Completed'
+                       }
+                   }
                    Start-DscConfiguration 'C:\AWSQuickstart\SQLInstall' -Wait -Verbose -Force
                    DscStatusCheck
         - name: WaitForClusterGroup
@@ -1876,7 +1953,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
