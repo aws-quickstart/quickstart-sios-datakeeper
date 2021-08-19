@@ -15,8 +15,9 @@ project:
   - us-west-2
   s3_bucket: ''
 tests:
-  payg-nosql:
+  payg-nosql-sad:
     parameters:
+      ADScenarioType: 'Microsoft AD on Amazon EC2'
       ADServer1InstanceType: t2.large
       ADServer1NetBIOSName: SIOSDC1
       ADServer1PrivateIP: 10.0.0.10
@@ -64,8 +65,9 @@ tests:
     - us-east-1
     s3_bucket: ''
     template: templates/sios-datakeeper-main.template
-  payg-sql2014sp1:
+  payg-sql2017-mad:
     parameters:
+      ADScenarioType: 'AWS Directory Service for Microsoft AD (Standard Edition)'
       ADServer1InstanceType: t2.large
       ADServer1NetBIOSName: SIOSDC1
       ADServer1PrivateIP: 10.0.0.10
