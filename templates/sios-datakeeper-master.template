@@ -80,6 +80,8 @@ Metadata:
           - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels:
+      ADScenarioType:
+        default: AD scenario type
       ADServer1InstanceType:
         default: Domain Controller 1 Instance Type
       ADServer1NetBIOSName:
