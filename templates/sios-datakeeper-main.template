@@ -432,7 +432,7 @@ Parameters:
       - WS2012R2
       - WS2016
       - WS2019
-    Default: WS2012R2
+    Default: WS2019
     Description: Windows Server OS Version for Cluster Nodes
     Type: String
   WSFCNode1InstanceType:
