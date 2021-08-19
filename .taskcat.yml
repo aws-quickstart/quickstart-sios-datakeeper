@@ -27,7 +27,7 @@ tests:
     regions:
     - us-east-1
     s3_bucket: ''
-    template: sios-datakeeper-main.template
+    template: templates/sios-datakeeper-main.template
   payg-nosql-sad:
     parameters:
       ADScenarioType: 'Microsoft AD on Amazon EC2'
