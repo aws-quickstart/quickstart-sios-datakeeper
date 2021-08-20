@@ -15,29 +15,52 @@ project:
   - us-west-2
   s3_bucket: ''
 tests:
-  payg-sql2017-mad:
+  ws2019-payg-sql2017-mad:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
-      DomainAdminPassword: SIOS!5105?sios
+      DomainAdminPassword: Password1
       KeyPairName: davmayd
       QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
-  byol-nosql-sad:
+  ws2016-payg-nosql-sad:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AMIType: BYOL
       AvailabilityZones: $[taskcat_getaz_2]
-      DomainAdminPassword: SIOS!5105?sios
+      ClusterNodeOSServerVersion: WS2016
+      DomainAdminPassword: Password1
       KeyPairName: davmayd
       QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
     - us-east-2
+    template: templates/sios-datakeeper-main.template
+  ws2012r2-payg-nosql-mad:
+    parameters:
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2012R2
+      DomainAdminPassword: Password1
+      KeyPairName: davmayd
+      QSS3BucketName: $[taskcat_autobucket]
+      RDGWCIDR: 0.0.0.0/0
+      SQLServerVersion: None
+    regions:
+    - us-west-1
+    template: templates/sios-datakeeper-main.template
+  ws2012r2-payg-sql2017-sad:
+    parameters:
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2012R2
+      DomainAdminPassword: Password1
+      KeyPairName: davmayd
+      QSS3BucketName: $[taskcat_autobucket]
+      RDGWCIDR: 0.0.0.0/0
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+    regions:
+    - us-west-2
     template: templates/sios-datakeeper-main.template
