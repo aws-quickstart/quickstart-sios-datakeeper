@@ -15,7 +15,7 @@ project:
   - us-west-2
   s3_bucket: ''
 tests:
-  default:
+  payg-sql2017-mad:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
       DomainAdminPassword: SIOS!5105?sios
@@ -26,4 +26,18 @@ tests:
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - us-east-1
+    template: templates/sios-datakeeper-main.template
+  byol-nosql-sad:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AMIType: BYOL
+      AvailabilityZones: $[taskcat_getaz_2]
+      DomainAdminPassword: SIOS!5105?sios
+      KeyPairName: davmayd
+      QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
+      RDGWCIDR: 0.0.0.0/0
+      SQLServerVersion: None
+    regions:
+    - us-east-2
     template: templates/sios-datakeeper-main.template
