@@ -395,6 +395,7 @@ Parameters:
     Type: String
   SQLServiceAccountPassword:
     AllowedPattern: (?=^(?![\s\S]))|(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Default: ''
     Description: Password for the SQL Service account. Must be at least 8 characters
       containing letters, numbers and symbols. May be left blank if SQL Server is
       not desired.
