@@ -661,18 +661,6 @@ Resources:
     Properties: 
       LogGroupName: !Sub /aws/Quick_Start/${AWS::StackName}
       RetentionInDays: 30
-  ADAdminSecrets:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Name: !Sub 'AWSQuickStart/${AWS::StackName}/ADAdminSecrets'
-      Description: MS AD Credentials for Quick Start
-      SecretString: !Sub '{ "username" : "${DomainAdminUser}", "password" : "${DomainAdminPassword}" }'
-  SQLSecrets:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Name: !Sub 'AWSQuickStart/${AWS::StackName}/SQLSecrets'
-      Description: MS SQL Credentials for Quick Start
-      SecretString: !Sub '{ "username" : "${SQLServiceAccount}", "password" : "${SQLServiceAccountPassword}" }'
   SSMDocumentDKCE:
     Type: AWS::SSM::Document
     Properties:
