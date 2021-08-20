@@ -70,6 +70,7 @@ Metadata:
           - DomainMemberSGID
       - Label:
           default: (OPTIONAL) Self-managed Active Directory configuration
+        Parameters:
           - DomainAdminUser
           - ADServer1NetBIOSName
           - ADServer2NetBIOSName
