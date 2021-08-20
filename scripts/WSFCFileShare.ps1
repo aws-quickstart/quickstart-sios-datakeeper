@@ -1,11 +1,15 @@
 [CmdletBinding()]
 param()
 
+# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
+$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
+
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            PSDscAllowPlainTextPassword = $true
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
+            Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
         @{

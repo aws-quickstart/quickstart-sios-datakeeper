@@ -61,7 +61,6 @@ Metadata:
       - Label:
           default: Microsoft Active Directory configuration
         Parameters:
-          - ActiveDirectoryConfig
           - ActiveDirectoryId
           - DomainDNSName
           - DomainNetBIOSName
@@ -106,8 +105,6 @@ Metadata:
     ParameterLabels:
       OSVersion:
         default: Cluster node OS version
-      ActiveDirectoryConfig:
-        default: Configuration used for existing AD environment.
       ActiveDirectoryId:
         default: AWS Managed Microsoft AD ID
       ADServer1NetBIOSName:
@@ -199,13 +196,6 @@ Parameters:
       - WS2019
     Default: WS2012R2
     Description: Windows Server OS version to use for cluster nodes.
-    Type: String
-  ActiveDirectoryConfig:
-    AllowedValues:
-      - Legacy
-      - Managed
-    Default: Managed
-    Description: Both refer to the quickstart-microsoft-activedirectory submodule. 'Legacy' refers to scenario 1. 'Managed' refers to scenario 3.
     Type: String
   ActiveDirectoryId:
     Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, leave this blank.
@@ -515,15 +505,8 @@ Parameters:
     Description: Third private IP for the SQL Server network name on the second WSFC node.
     Type: String
 Conditions:
-  UsingManagedAD: !Equals [!Ref ActiveDirectoryConfig, 'Managed']
-  ByolAmiCondition: !Not
-    - !Equals
-      - !Ref AMIType
-      - PAYG
-  SQLInstallCondition: !Not
-    - !Equals
-      - !Ref SQLServerVersion
-      - None
+  UsingManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
+  ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -656,6 +639,18 @@ Mappings:
       SDKCEWIN2019: ami-018aeb83843427097
       SDKCEWIN2019BYOL: ami-034b0bea4b0c1cd0c
 Resources:
+  ADAdminSecrets:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub 'AWSQuickStart/${AWS::StackName}/ADAdminSecrets'
+      Description: MS SQL Credentials for Quick Start
+      SecretString: !Sub '{ "username" : "${DomainAdminUser}", "password" : "${DomainAdminPassword}" }'
+  SQLSecrets:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub 'AWSQuickStart/${AWS::StackName}/SQLSecrets'
+      Description: MS SQL Credentials for Quick Start
+      SecretString: !Sub '{ "username" : "${SQLServiceAccount}", "password" : "${SQLServiceAccountPassword}" }'
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
     Properties: 
@@ -751,18 +746,6 @@ Resources:
           SQLSecrets:
            description: "AWS Secrets Parameter Name that has Password and User namer for the SQL Service Account."
            type: "String"
-          SQL2016Media:
-           default: https://download.microsoft.com/download/9/0/7/907AD35F-9F9C-43A5-9789-52470555DB90/ENU/SQLServer2016SP1-FullSlipstream-x64-ENU.iso
-           description: SQL Server 2016 installation media location
-           type: String
-          SQL2017Media:
-           default: https://download.microsoft.com/download/E/F/2/EF23C21D-7860-4F05-88CE-39AA114B014B/SQLServer2017-x64-ENU.iso
-           description: SQL Server 2017 installation media location
-           type: String
-          SQL2019Media:
-           default: https://go.microsoft.com/fwlink/?linkid=866664
-           description: SQL Server 2019 installation media location
-           type: String
           SQLServerVersion:
            default: '2017'
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
@@ -1193,7 +1176,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -UserName {{DomainAdminUser}} -Password {{DomainAdminPassword}}
+              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}}
         - name: DomainJoinApply
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1442,7 +1425,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1530,7 +1513,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -ShareName ${SharePath}
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
                     - '\\{{FSx.Endpoint}}\share'
@@ -1583,7 +1566,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode2PrivateIP2}} -ClusterName {{ClusterName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}}
+              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode2PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
         - name: Node2Reboot1SQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1636,7 +1619,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -ShareName ${SharePath}
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
                     - '\\{{FSx.Endpoint}}\share'
@@ -1713,7 +1696,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode2PrivateIP2}} -ClusterName {{ClusterName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}}
+              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode2PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}}
         - name: Node2Reboot1NoSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1873,30 +1856,6 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./InstallSQLEE-AddNode.ps1 -SQLServerVersion 'SQL{{SQLServerVersion}}' -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}
-        - name: SQLInstallNode2
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
-              - '{{wsfcnode2InstanceId.InstanceId}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              commands: 
-                - |     
-                   function DscStatusCheck () {
-                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
-                       if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
-                           'returning 3010, should continue after reboot'
-                           exit 3010
-                       } else {
-                         'Completed'
-                       }
-                   }
-                   Start-DscConfiguration 'C:\AWSQuickstart\SQLInstall' -Wait -Verbose -Force
-                   DscStatusCheck
         - name: WaitForClusterGroup
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2456,62 +2415,6 @@ Resources:
       Device: /dev/xvdb
       InstanceId: !Ref WSFCNode2
       VolumeId: !Ref WSFCNode2Volume1
-  WSFCNode1Volume2:
-    Type: AWS::EC2::Volume
-    Condition: SQLInstallCondition
-    Properties:
-      Size: 100
-      VolumeType: 'gp2'
-      AvailabilityZone: !GetAtt 'WSFCNode1.AvailabilityZone'
-  WSFCNode1Volume3:
-    Type: AWS::EC2::Volume
-    Condition: SQLInstallCondition
-    Properties:
-      Size: 100
-      VolumeType: 'gp2'
-      AvailabilityZone: !GetAtt 'WSFCNode1.AvailabilityZone'
-  WSFCNode2Volume2:
-    Type: AWS::EC2::Volume
-    Condition: SQLInstallCondition
-    Properties:
-      Size: 100
-      VolumeType: 'gp2'
-      AvailabilityZone: !GetAtt 'WSFCNode2.AvailabilityZone'
-  WSFCNode2Volume3:
-    Type: AWS::EC2::Volume
-    Condition: SQLInstallCondition
-    Properties:
-      Size: 100
-      VolumeType: 'gp2'
-      AvailabilityZone: !GetAtt 'WSFCNode2.AvailabilityZone'
-  WSFCNode1Volume2Attachment:
-    Type: AWS::EC2::VolumeAttachment
-    Condition: SQLInstallCondition
-    Properties:
-      Device: /dev/xvdc
-      InstanceId: !Ref 'WSFCNode1'
-      VolumeId: !Ref 'WSFCNode1Volume2'
-  WSFCNode1Volume3Attachment:
-    Type: AWS::EC2::VolumeAttachment
-    Condition: SQLInstallCondition
-    Properties:
-      Device: /dev/xvdd
-      InstanceId: !Ref 'WSFCNode1'
-      VolumeId: !Ref 'WSFCNode1Volume3'
-  WSFCNode2Volume2Attachment:
-    Type: AWS::EC2::VolumeAttachment
-    Condition: SQLInstallCondition
-    Properties:
-      Device: /dev/xvdc
-      InstanceId: !Ref 'WSFCNode2'
-      VolumeId: !Ref 'WSFCNode2Volume2'
-  WSFCNode2Volume3Attachment:
-    Type: AWS::EC2::VolumeAttachment
-    Condition: SQLInstallCondition
-    Properties:
-      Device: /dev/xvdd
-      InstanceId: !Ref 'WSFCNode2'
-      VolumeId: !Ref 'WSFCNode2Volume3'
   SSMWaitHandle: 
     Type: AWS::CloudFormation::WaitConditionHandle
   SSMWaitCondition: 

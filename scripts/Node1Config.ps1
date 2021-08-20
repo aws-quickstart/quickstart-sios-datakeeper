@@ -8,43 +8,43 @@ param(
     [string]$DomainDnsName,
 
     [Parameter(Mandatory=$true)]
-    [string]$WSFCNodePrivateIP2,
+    [string]$WSFCNode1PrivateIP2,
 
     [Parameter(Mandatory=$true)]
     [string]$ClusterName,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminUser,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminPassword,
+    [string]$SQLSecret,
 
-    [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccount,
-
-    [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccountPassword,
-
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$true)]
     [string]$ShareName
 
 )
 
-# Formatting AD User to proper format for DSC Resources in this Script
-$ClusterAdminUser = $DomainNetBIOSName + '\' + $DomainAdminUser
-# Creating Credential Object for Administrator
-$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
+# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
+$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
 
-if ($SQLServiceAccount) {
-    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLServiceAccount
-    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLServiceAccountPassword -AsPlainText -Force)))
+# Getting Password from Secrets Manager for AD Admin User
+$AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
+$ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
+# Creating Credential Object for Administrator
+$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $AdminUser.Password -AsPlainText -Force)))
+
+if ($SQLSecret) {
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLUser.Password -AsPlainText -Force)))
 }
 
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            PSDscAllowPlainTextPassword = $true
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
+            Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
         @{
@@ -97,10 +97,10 @@ Configuration WSFCNode1Config {
             DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringPowerShellFeature'
         }
         
-        if ($SQLServiceAccount) {
+        if ($SQLSecret) {
             xADUser SQLServiceAccount {
                 DomainName = $DomainDnsName
-                UserName = $SQLServiceAccount
+                UserName = $SQLUser.UserName
                 Password = $SQLCredentials
                 DisplayName = 'SQL Service Account'
                 PasswordAuthentication = 'Negotiate'
@@ -125,7 +125,7 @@ Configuration WSFCNode1Config {
 
         xCluster CreateCluster {
             Name                          =  $ClusterName
-            StaticIPAddress               =  $WSFCNodePrivateIP2
+            StaticIPAddress               =  $WSFCNode1PrivateIP2
             DomainAdministratorCredential =  $Credentials
             DependsOn                     = '[Group]Administrators'
         }
@@ -138,5 +138,10 @@ Configuration WSFCNode1Config {
         }
     }
 }
-    
-WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials -SQLCredentials $SQLCredentials
+
+if($SQLSecret) {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials -SQLCredentials $SQLCredentials
+}
+else {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials
+}
