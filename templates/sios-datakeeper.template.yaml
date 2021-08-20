@@ -64,13 +64,15 @@ Metadata:
           - ActiveDirectoryId
           - DomainDNSName
           - DomainNetBIOSName
-          - DomainAdminUser
           - DomainAdminPassword
-          - ADServer1NetBIOSName
           - ADServer1PrivateIP
-          - ADServer2NetBIOSName
           - ADServer2PrivateIP
           - DomainMemberSGID
+      - Label:
+          default: (OPTIONAL) Self-managed Active Directory configuration
+          - DomainAdminUser
+          - ADServer1NetBIOSName
+          - ADServer2NetBIOSName
       - Label:
           default: Replication configuration
         Parameters:
@@ -86,6 +88,7 @@ Metadata:
           default: Failover cluster configuration
         Parameters:
           - OSVersion
+          - ClusterName
           - WSFCNode1InstanceType
           - WSFCNode1NetBIOSName
           - WSFCNode1PrivateIP1
@@ -103,18 +106,18 @@ Metadata:
           - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels:
-      OSVersion:
-        default: Cluster node OS version
       ActiveDirectoryId:
         default: AWS Managed Microsoft AD ID
       ADServer1NetBIOSName:
         default: Domain controller 1 NetBIOS name
       ADServer1PrivateIP:
-        default: Domain controller 1 private IP address
+        default: Private IP address of DNS Server in Private Subnet 1
       ADServer2NetBIOSName:
         default: Domain controller 2 NetBIOS name
       ADServer2PrivateIP:
-        default: Domain controller 2 private IP address
+        default: Private IP address of DNS Server in Private Subnet 2
+      AMIType:
+        default: SIOS AMI version
       DomainAdminPassword:
         default: Domain administrator password
       DomainAdminUser:
@@ -127,6 +130,8 @@ Metadata:
         default: Domain NetBIOS name
       KeyPairName:
         default: Key Pair Name
+      OSVersion:
+        default: Cluster node OS version
       PrivateSubnet1ID:
         default: Private Subnet 1 ID
       PrivateSubnet1CIDR:
@@ -179,24 +184,7 @@ Metadata:
         default: Cluster node 2 private IP address 2
       WSFCNode2PrivateIP3:
         default: Cluster node 2 private IP address 3
-      AMIType:
-        default: SIOS AMI version
 Parameters:
-  AMIType:
-    AllowedValues:
-      - PAYG
-      - BYOL
-    Default: PAYG
-    Description: AMI type for SIOS license purposes.
-    Type: String
-  OSVersion:
-    AllowedValues:
-      - WS2012R2
-      - WS2016
-      - WS2019
-    Default: WS2012R2
-    Description: Windows Server OS version to use for cluster nodes.
-    Type: String
   ActiveDirectoryId:
     Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, leave this blank.
     Default: '' 
@@ -226,6 +214,13 @@ Parameters:
     Default: 10.0.32.10
     Description: Fixed private IP for the second Active Directory server, located in
       Availability Zone 2
+    Type: String
+  AMIType:
+    AllowedValues:
+      - PAYG
+      - BYOL
+    Default: PAYG
+    Description: AMI type for SIOS license purposes.
     Type: String
   ClusterName: 
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -268,6 +263,14 @@ Parameters:
   KeyPairName:
     Description: Key pair name. Public/private key pairs allow you to securely connect to your instance after it launches.
     Type: AWS::EC2::KeyPair::KeyName
+  OSVersion:
+    AllowedValues:
+      - WS2012R2
+      - WS2016
+      - WS2019
+    Default: WS2012R2
+    Description: Windows Server OS version to use for cluster nodes.
+    Type: String
   PrivateSubnet1CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
@@ -346,6 +349,7 @@ Parameters:
     Type: String
   SQLServiceAccountPassword:
     AllowedPattern: (?=^(?![\s\S]))|(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
+    Default: ''
     Description: Password for the SQL Server account. Must be at least 8 characters
       containing letters, numbers, and symbols. Leave blank if don't install SQL Server.
     MaxLength: '32'
@@ -2323,7 +2327,12 @@ Resources:
             - ';"OSVersion"='
             - !Sub '"${OSVersion}"'
             - ';"ActiveDirectoryConfig"='
-            - !Sub '"${ActiveDirectoryConfig}"'
+            - !Sub
+              - '"${ADConfig}"'
+              - ADConfig: !If
+                - UsingManagedAD
+                - Managed
+                - Legacy
             - ';"ADServer1NetBIOSName"='
             - !Sub '"${ADServer1NetBIOSName}"'
             - ';"ADServer1PrivateIP"='
@@ -2341,9 +2350,19 @@ Resources:
             - ';"DomainNetBIOSName"='
             - !Sub '"${DomainNetBIOSName}"'
             - ';"FSxId"='
-            - !Sub '"${WindowsFSx}"'
+            - !Sub 
+              - '"${FSxId}"'
+              - FSxId: !If
+                - UsingManagedAD
+                - !Sub ${WindowsFSx}
+                - ''
             - ';"FSxDnsName"='
-            - !Sub '"${WindowsFSx.DNSName}"'
+            - !Sub 
+              - '"${FSxDNSName}"'
+              - FSxDNSName: !If
+                - UsingManagedAD
+                - !Sub ${WindowsFSx.DNSName}
+                - ''
             - ';"PrivateSubnet1CIDR"='
             - !Sub '"${PrivateSubnet1CIDR}"'
             - ';"PrivateSubnet2CIDR"='
