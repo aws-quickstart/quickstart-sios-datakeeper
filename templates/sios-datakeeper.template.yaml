@@ -1418,7 +1418,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1506,7 +1506,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
                     - '\\{{FSx.Endpoint}}\share'
@@ -1612,7 +1612,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNodePrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -ShareName ${SharePath}
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
                     - '\\{{FSx.Endpoint}}\share'

@@ -24,12 +24,11 @@ tests:
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
-    - us-east-1
+    - eu-west-1
     template: templates/sios-datakeeper-main.template
   ws2016-payg-nosql-sad:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
-      AMIType: BYOL
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2016
       DomainAdminPassword: Password1
