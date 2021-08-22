@@ -1168,7 +1168,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./install-dsc-modules.ps1 -WS@012R2
+              commandLine: ./install-dsc-modules.ps1 -WS2012R2
         - name: InstallDSCModules
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1527,24 +1527,65 @@ Resources:
               Variable: "{{ActiveDirectoryConfig}}"
               StringEquals: Managed
         # START Self-Managed AD branch2
+        - name: OSVersionBranch2sad
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: dc1installDSCModules2012R2
+              Variable: "{{OSVersion}}"
+              StringEquals: WS2012R2
         - name: dc1installDSCModules
           action: aws:runCommand
+          nextStep: configureWSFCFileShare
           onFailure: step:signalfailure
           inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
-              - '{{dc1InstanceId.InstanceId}}'
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |
-                   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                   Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5 -Force
-                   Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-                   Install-Module -Name xSmbShare
-                   Install-Module -Name PSDscResources
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./install-fsw-modules.ps1 -WS2012R2
+        # START Self-Managed OS Version WS2012R2 branch
+        - name: dc1installDSCModules2012R2
+          action: aws:runCommand
+          nextStep: configureWSFCFileShare
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./install-fsw-modules.ps1 -WS2012R2
+        # END Self-Managed OS Version WS2012R2 branch
         - name: configureWSFCFileShare
           action: aws:runCommand
           onFailure: step:signalfailure
