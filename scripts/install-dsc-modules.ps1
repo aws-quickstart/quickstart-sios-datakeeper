@@ -13,7 +13,7 @@ Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 "Installing the needed Powershell DSC modules for this Quick Start"
-Install-Module -Name ComputerManagementDsc
+Install-Module -Name xComputerManagement
 Install-Module -Name "xFailOverCluster"
 Install-Module -Name PSDscResources
 Install-Module -Name "xActiveDirectory"
@@ -33,6 +33,7 @@ If($WS2012R2) {
 }
 else {
     $cert = New-SelfSignedCertificate -Type DocumentEncryptionCertLegacyCsp -DnsName 'AWSQSDscEncryptCert' -HashAlgorithm SHA256
-    # Exporting the public key certificate
-    $cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
 }
+
+# Exporting the public key certificate
+$cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
