@@ -43,11 +43,11 @@ Configuration DomainJoin {
         [PSCredential] $Credentials
     )
 
-    Import-Module -Name PSDscResources
-    Import-Module -Name xComputerManagement
+    Import-Module -Name PSDesiredStateConfiguration
+    Import-Module -Name ComputerManagementDsc
     
-    Import-DscResource -Module PSDscResources
-    Import-DscResource -Module xComputerManagement
+    Import-DscResource -Module PSDesiredStateConfiguration
+    Import-DscResource -Module ComputerManagementDsc
 
     Node 'localhost' {
 
