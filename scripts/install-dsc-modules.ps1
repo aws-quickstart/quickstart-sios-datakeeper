@@ -1,5 +1,8 @@
 [CmdletBinding()]
-param()
+param(
+    [Parameter(Mandatory=$false)]
+    [Switch]$WS2012R2
+)
 
 "Setting Execution Policy to Remote Signed"
 Set-ExecutionPolicy RemoteSigned -Force
@@ -25,7 +28,11 @@ New-Item -Path C:\AWSQuickstart\publickeys -ItemType directory -Force
 "Removing DSC Certificate if it already exists"
 (Get-ChildItem Cert:\LocalMachine\My\) | Where-Object { $_.Subject -eq "CN=AWSQSDscEncryptCert" } | Remove-Item
 
-"Setting up DSC Certificate to Encrypt Credentials in MOF File"
-$cert = New-SelfSignedCertificate -Type DocumentEncryptionCertLegacyCsp -DnsName 'AWSQSDscEncryptCert' -HashAlgorithm SHA256
-# Exporting the public key certificate
-$cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
+If($WS2012R2) {
+    $cert = New-SelfSignedCertificate -DnsName 'AWSQSDscEncryptCert' -CertStoreLocation 'Cert:\LocalMachine\My'
+}
+else {
+    $cert = New-SelfSignedCertificate -Type DocumentEncryptionCertLegacyCsp -DnsName 'AWSQSDscEncryptCert' -HashAlgorithm SHA256
+    # Exporting the public key certificate
+    $cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
+}

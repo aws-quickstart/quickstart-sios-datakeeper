@@ -1126,7 +1126,6 @@ Resources:
         - name: 2012R2InstallDSC
           action: aws:runCommand
           onFailure: step:signalfailure
-          nextStep: InstallDSCModules
           inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
@@ -1145,6 +1144,31 @@ Resources:
                      'returning 3010, should continue after reboot'
                       exit 3010
                    } else {'Next Step'}
+        - name: InstallDSCModules2012R2
+          action: aws:runCommand
+          nextStep: LCMConfig
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./install-dsc-modules.ps1 -WS@012R2
         - name: InstallDSCModules
           action: aws:runCommand
           onFailure: step:signalfailure
