@@ -56,11 +56,10 @@ tests:
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-nosql-mad:
     parameters:
-      AvailabilityZones: $[taskcat_getaz_3]
+      AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
       DomainAdminPassword: Password1
       KeyPairName: davmayd
-      ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
