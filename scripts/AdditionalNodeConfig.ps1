@@ -13,20 +13,25 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$AdminSecret,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLSecret
 
 )
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
 $DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
+
 # Getting Password from Secrets Manager for AD Admin User
 $AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
-$SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
 $ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
-$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
 # Creating Credential Object for Administrator
 $Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $AdminUser.Password -AsPlainText -Force)))
+
+if ($SQLSecret) {
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLUser.Password -AsPlainText -Force)))
+}
 
 $ConfigurationData = @{
     AllNodes = @(

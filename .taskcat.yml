@@ -15,11 +15,25 @@ project:
   - us-west-2
   s3_bucket: ''
 tests:
-  ws2019-payg-sql2017-mad:
+  ws2019-payg-nosql-sad:
     parameters:
-      AvailabilityZones: $[taskcat_getaz_2]
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AvailabilityZones: $[taskcat_getaz_3]
       DomainAdminPassword: Password1
       KeyPairName: davmayd
+      ThirdAZ: full
+      QSS3BucketName: $[taskcat_autobucket]
+      RDGWCIDR: 0.0.0.0/0
+      SQLServerVersion: None
+    regions:
+    - us-east-1
+    template: templates/sios-datakeeper-main.template
+  ws2019-payg-sql2017-mad:
+    parameters:
+      AvailabilityZones: $[taskcat_getaz_3]
+      DomainAdminPassword: Password1
+      KeyPairName: davmayd
+      ThirdAZ: full
       QSS3BucketName: $[taskcat_autobucket]
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
@@ -29,10 +43,11 @@ tests:
   ws2016-payg-nosql-sad:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
-      AvailabilityZones: $[taskcat_getaz_2]
+      AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2016
       DomainAdminPassword: Password1
       KeyPairName: davmayd
+      ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
@@ -41,10 +56,11 @@ tests:
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-nosql-mad:
     parameters:
-      AvailabilityZones: $[taskcat_getaz_2]
+      AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2012R2
       DomainAdminPassword: Password1
       KeyPairName: davmayd
+      ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
@@ -53,10 +69,11 @@ tests:
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-sql2017-sad:
     parameters:
-      AvailabilityZones: $[taskcat_getaz_2]
+      AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2012R2
       DomainAdminPassword: Password1
       KeyPairName: davmayd
+      ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]

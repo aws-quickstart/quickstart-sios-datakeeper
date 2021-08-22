@@ -14,7 +14,10 @@ param(
     [string]$FileServerNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$SQLServiceAccount,
+    [string]$AdminSecret,
+
+    [Parameter(Mandatory=$true)]
+    [string]$SQLSecret,
 
     [Parameter(Mandatory=$true)]
     [string]$ClusterName
@@ -25,9 +28,13 @@ Try{
     Start-Transcript -Path C:\cfn\log\Set-Folder-Permissions.ps1.txt -Append
     $ErrorActionPreference = "Stop"
 
-    $DomainAdminFullUser = "$($DomainNetBIOSName)\$($DomainAdminUser)"
-    $DomainAdminSecurePassword = ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force
-    $DomainAdminCreds = New-Object System.Management.Automation.PSCredential($DomainAdminFullUser, $DomainAdminSecurePassword)
+    # Getting Password from Secrets Manager for AD Admin User
+    $AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLServiceAccount = $SQLUser.username
+    $DomainAdminFullUser = $DomainNetBIOSName + '\' + $AdminUser.username
+    # Creating Credential Object for Administrator
+    $DomainAdminCreds = (New-Object PSCredential($DomainAdminFullUser,(ConvertTo-SecureString $AdminUser.password -AsPlainText -Force)))
 
     $SetPermissions={
         $ErrorActionPreference = "Stop"

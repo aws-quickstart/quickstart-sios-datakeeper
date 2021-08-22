@@ -16,7 +16,7 @@ param(
     [Parameter(Mandatory=$true)]
     [string]$AdminSecret,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$SQLSecret,
 
     [Parameter(Mandatory=$true)]

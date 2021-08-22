@@ -48,12 +48,15 @@ Metadata:
       - Label:
           default: Network configuration
         Parameters:
+          - ThirdAZ
           - VPCID
           - VPCCIDR
           - PrivateSubnet1ID
           - PrivateSubnet1CIDR
           - PrivateSubnet2ID
           - PrivateSubnet2CIDR
+          - PrivateSubnet3ID
+          - PrivateSubnet3CIDR
       - Label:
           default: Amazon EC2 configuration
         Parameters:
@@ -100,6 +103,14 @@ Metadata:
           - WSFCNode2PrivateIP1
           - WSFCNode2PrivateIP2
           - WSFCNode2PrivateIP3
+          - WSFCNode3InstanceType
+          - WSFCNode3NetBIOSName
+          - WSFCNode3PrivateIP1
+          - WSFCNode3PrivateIP2
+          - WSFCNode3PrivateIP3
+          - WSFCWitnessNetBIOSName
+          - WSFCWitnessInstanceType
+          - WSFCWitnessAmiId
       - Label:
           default: AWS Quick Start configuration
         Parameters:
@@ -141,6 +152,10 @@ Metadata:
         default: Private Subnet 2 ID
       PrivateSubnet2CIDR:
         default: Private Subnet 2 CIDR
+      PrivateSubnet3ID:
+        default: (Optional) Private Subnet 3 ID
+      PrivateSubnet3CIDR:
+        default: (Optional) Private Subnet 3 CIDR
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3BucketRegion:
@@ -155,6 +170,8 @@ Metadata:
         default: Service account name
       SQLServiceAccountPassword:
         default: Service account password
+      ThirdAZ:
+        default: Third Availability Zone
       Volume1Iops:
         default: Data volume IOPS
       Volume1Size:
@@ -185,6 +202,22 @@ Metadata:
         default: Cluster node 2 private IP address 2
       WSFCNode2PrivateIP3:
         default: Cluster node 2 private IP address 3
+      WSFCNode3InstanceType:
+        default: (Optional) Instance type for cluster node 3
+      WSFCNode3NetBIOSName:
+        default: (Optional) Cluster node 3 NetBIOS name
+      WSFCNode3PrivateIP1:
+        default: (Optional) Cluster node 3 private IP address 1
+      WSFCNode3PrivateIP2:
+        default: (Optional) Cluster node 3 private IP address 2
+      WSFCNode3PrivateIP3:
+        default: (Optional) Cluster node 3 private IP address 3
+      WSFCWitnessNetBIOSName:
+        default: (Optional) Cluster Witness NetBIOS name
+      WSFCWitnessInstanceType:
+        default: (Optional) Instance type for WSFC witness node
+      WSFCWitnessAmiId:
+        default: (Optional) AWS SSM Parameter Store Latest AMI id for chosen OSVersion 
 Parameters:
   ActiveDirectoryId:
     Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, leave this blank.
@@ -290,6 +323,16 @@ Parameters:
   PrivateSubnet2ID:
     Description: ID of private subnet 2 in Availability Zone 2 (for example, `subnet-a0246dcd`).
     Type: AWS::EC2::Subnet::Id
+  PrivateSubnet3CIDR:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28.
+    Default: 10.0.64.0/19
+    Description: (Optional) CIDR block for private subnet 3, located in Availability Zone 3.
+    Type: String
+  PrivateSubnet3ID:
+    Description: (Optional) ID of private subnet 3 in Availability Zone 3 (for example, `subnet-a0246dcd`).
+    Default: ''
+    Type: String
   QSS3BucketName:
     AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
     ConstraintDescription:
@@ -357,6 +400,15 @@ Parameters:
     MinLength: '0'
     NoEcho: 'true'
     Type: String
+  ThirdAZ:
+    AllowedValues:
+      - 'no'
+      - witness
+      - full
+    Default: 'no'
+    Description: Choose full or witness to enable a deployment with three Availability Zones. The third zone can be used for
+      the witness, or it can be a full WSFC cluster node.
+    Type: String
   VPCID:
     Description: ID of the VPC (for example, `vpc-0343606e`).
     Type: AWS::EC2::VPC::Id
@@ -385,6 +437,13 @@ Parameters:
     Default: gp2
     Description: Volume type for the SQL data drive.
     Type: String
+  WSFCWitnessAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
+    AllowedValues:
+    - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
+    - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
+    - /aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base
   WSFCNode1InstanceType:
     AllowedValues:
       - m3.xlarge
@@ -485,7 +544,7 @@ Parameters:
       - x1e.32xlarge
     ConstraintDescription: Only EBS-optimized instance types allowed.
     Default: i3.xlarge
-    Description: Amazon EC2 instance type for the first WSFC node.
+    Description: Amazon EC2 instance type for the second WSFC node.
     Type: String
   WSFCNode2NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -509,9 +568,100 @@ Parameters:
     Default: 10.0.32.102
     Description: Third private IP for the SQL Server network name on the second WSFC node.
     Type: String
+  WSFCNode3InstanceType:
+    AllowedValues:
+      - m3.xlarge
+      - m3.2xlarge
+      - c3.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - g2.2xlarge
+      - r3.xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - d2.xlarge
+      - d2.2xlarge
+      - d2.4xlarge
+      - d2.8xlarge
+      - i2.xlarge
+      - i2.2xlarge
+      - i2.4xlarge
+      - h1.2xlarge
+      - h1.4xlarge
+      - h1.8xlarge
+      - h1.16xlarge
+      - i3.large
+      - i3.xlarge
+      - i3.2xlarge
+      - i3.4xlarge
+      - i3.8xlarge
+      - i3.16xlarge
+      - x1.16xlarge
+      - x1.32xlarge
+      - x1e.xlarge
+      - x1e.2xlarge
+      - x1e.4xlarge
+      - x1e.8xlarge
+      - x1e.16xlarge
+      - x1e.32xlarge
+    Default: i3.xlarge
+    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS optimized types, 
+      but a File Share Witness host can be any available instance type.
+    Type: String
+  WSFCNode3NetBIOSName:
+    AllowedPattern: '[a-zA-Z0-9]+'
+    Default: WSFCNode3
+    Description: (Optional; ThirdAZ set to 'full') NetBIOS name of the second WSFC node (up to 15 characters)
+    MaxLength: 15
+    MinLength: 1
+    Type: String
+  WSFCNode3PrivateIP1:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    Default: 10.0.64.100
+    Description: (Optional; ThirdAZ set to 'witness' or 'full') Primary private IP for the second WSFC node, located in Availability Zone 2.
+    Type: String
+  WSFCNode3PrivateIP2:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    Default: 10.0.64.101
+    Description: (Optional; ThirdAZ set to 'full') Secondary private IP for the WSFC cluster on the third WSFC node
+    Type: String
+  WSFCNode3PrivateIP3:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
+    Default: 10.0.64.102
+    Description:  (Optional; ThirdAZ set to 'full') Third private IP for the SQL Server network name on the third WSFC node.
+    Type: String
+  WSFCWitnessNetBIOSName:
+    AllowedPattern: '[a-zA-Z0-9]+'
+    Default: WSFCWitness
+    Description: (Optional; ThirdAZ set to 'witness') NetBIOS name of the second WSFC node (up to 15 characters)
+    MaxLength: 15
+    MinLength: 1
+    Type: String
+  WSFCWitnessInstanceType:
+    AllowedValues:
+      - t2.micro
+      - t2.small
+      - t2.medium
+      - t2.large
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
+      - m4.large
+      - m5.large
+    Default: t3.micro
+    Description: Amazon EC2 instance type for a WSFC file share witness.
+    Type: String
 Conditions:
   UsingManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
+  ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
+  ThirdAzIsFullNode: !And
+    - !Equals [!Ref ActiveDirectoryId, '']
+    - !Equals [!Ref ThirdAZ, 'full']
+  NeedsWitnessNode: !And
+    - !Equals [!Ref ActiveDirectoryId, '']
+    - !Condition ThirdAzIsWitness
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -644,11 +794,16 @@ Mappings:
       SDKCEWIN2019: ami-018aeb83843427097
       SDKCEWIN2019BYOL: ami-034b0bea4b0c1cd0c
 Resources:
+  QuickStartLogs:
+    Type: AWS::Logs::LogGroup
+    Properties: 
+      LogGroupName: !Sub /aws/Quick_Start/${AWS::StackName}
+      RetentionInDays: 30
   ADAdminSecrets:
     Type: AWS::SecretsManager::Secret
     Properties:
       Name: !Sub 'AWSQuickStart/${AWS::StackName}/ADAdminSecrets'
-      Description: MS SQL Credentials for Quick Start
+      Description: MS AD Credentials for Quick Start
       SecretString: !Sub '{ "username" : "${DomainAdminUser}", "password" : "${DomainAdminPassword}" }'
   SQLSecrets:
     Type: AWS::SecretsManager::Secret
@@ -656,11 +811,6 @@ Resources:
       Name: !Sub 'AWSQuickStart/${AWS::StackName}/SQLSecrets'
       Description: MS SQL Credentials for Quick Start
       SecretString: !Sub '{ "username" : "${SQLServiceAccount}", "password" : "${SQLServiceAccountPassword}" }'
-  QuickStartLogs:
-    Type: AWS::Logs::LogGroup
-    Properties: 
-      LogGroupName: !Sub /aws/Quick_Start/${AWS::StackName}
-      RetentionInDays: 30
   SSMDocumentDKCE:
     Type: AWS::SSM::Document
     Properties:
@@ -674,14 +824,13 @@ Resources:
            default: "PAYG"
            description: AMI type for SIOS license purposes.
            type: String
-          OSVersion: 
-           default: WS2012R2
-           description: Windows Server OS version to use for cluster nodes.
-           type: String
           ActiveDirectoryConfig:
            default: Managed
            description: Both refer to the quickstart-microsoft-activedirectory submodule. 'Legacy' refers to scenario 1. 'Managed' refers to scenario 3.
            type: String
+          AdminSecrets:
+           description: "AWS Secrets Parameter Name that has Password and User name for a domain administrator."
+           type: "String"
           ADServer1NetBIOSName:
            default: SIOSDC1
            description: NetBIOS name of the first Active Directory server (up to 15 characters)
@@ -698,12 +847,9 @@ Resources:
            default: 10.0.32.10
            description: Fixed private IP for the second Active Directory server located in Availability Zone 2
            type: String
-          DomainAdminPassword: 
-           description: Password for the domain admin user. Must be at least 8 characters containing letters numbers and symbols
-           type: String
-          DomainAdminUser: 
-           default: admin
-           description: User name for the account that will be used as Domain Administrator. This is separate from the default "Administrator" account
+          ClusterName: 
+           default: WSFCCluster1
+           description: NetBIOS name of the WSFC Cluster
            type: String
           DomainDNSName: 
            default: datakeeper.local
@@ -713,13 +859,13 @@ Resources:
            default: DATAKEEPER
            description: NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE
            type: String
-          FSxId:
+          FSxDNSName:
            default: ''
-           description: FSx File Share Id used with AWS Managed AD deployment
+           description: Windows Remote PowerShell DNS name for FSx File Share used with AWS Managed AD deployment
            type: String
-          FSxDnsName:
-           default: ''
-           description: Windows Remote PowerShell Endpoint for FSx File Share used with AWS Managed AD deployment
+          OSVersion: 
+           default: WS2012R2
+           description: Windows Server OS version to use for cluster nodes.
            type: String
           PrivateSubnet1CIDR:
            default: 10.0.0.0/19
@@ -729,13 +875,14 @@ Resources:
            default: 10.0.32.0/19
            description: CIDR block for private subnet 2 located in Availability Zone 2.
            type: String
+          PrivateSubnet3CIDR: 
+           default: 10.0.64.0/19
+           description: CIDR block for private subnet 2 located in Availability Zone 2.
+           type: String
           SIOSLicenseKeyFtpURL: 
            default: 'override'
            description: URL used to obtain license key for SIOS DataKeeper software.
            type: String
-          AdminSecrets:
-           description: "AWS Secrets Parameter Name that has Password and User name for a domain administrator."
-           type: "String"
           SQLSecrets:
            description: "AWS Secrets Parameter Name that has Password and User namer for the SQL Service Account."
            type: "String"
@@ -743,17 +890,9 @@ Resources:
            default: '2017'
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
            type: String
-          SQLServiceAccount: 
-           default: sqlsa
-           description: User name for the SQL Server Service Account. This Account is a Domain User.
-           type: String
-          SQLServiceAccountPassword: 
-           description: Password for the SQL Service account. Must be at least 8 characters containing letters numbers and symbols. May be left blank if SQL Server is not desired.
-           type: String
-          ClusterName: 
-           default: WSFCCluster1
-           description: NetBIOS name of the WSFC Cluster
-           type: String
+          ThirdAZ:
+           description: "Purpose of Third Availability Zone"
+           type: "String"
           WSFCNode1NetBIOSName:
            default: WSFCNode1
            description: NetBIOS name of the first WSFC Node (up to 15 characters)
@@ -786,6 +925,26 @@ Resources:
            default: 10.0.32.102
            description: Third private IP for SQL Server Network Name on second WSFC Node
            type: String
+          WSFCNode3NetBIOSName: 
+           default: WSFCNode3
+           description: NetBIOS name of the third WSFC Node (up to 15 characters) - WSFCNode3 or WSFCWitness
+           type: String
+          WSFCNode3PrivateIP1:
+           default: 10.0.64.100
+           description: Primary private IP for the third WSFC Node located in Availability Zone 3
+           type: String
+          WSFCNode3PrivateIP2: 
+           default: 10.0.64.101
+           description: Secondary private IP for WSFC cluster on third WSFC Node
+           type: String
+          WSFCNode3PrivateIP3:
+           default: 10.0.64.102
+           description: Third private IP for SQL Server Network Name on third WSFC Node
+           type: String
+          WSFCNodeNames:
+           default: ["WSFCNode1","WSFCNode2"]
+           description: List of node names in use
+           type: StringList
           QSS3BucketName:
             default: aws-quickstart
             description: S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).
@@ -808,6 +967,7 @@ Resources:
             type: String
         mainSteps:
         - name: wsfcnodesInstanceId
+          maxAttempts: 999
           action: aws:executeAwsApi
           onFailure: step:signalfailure
           inputs:
@@ -815,7 +975,9 @@ Resources:
             Api: DescribeInstances
             Filters:  
             - Name: tag:Name
-              Values: [ '{{WSFCNode1NetBIOSName}}','{{WSFCNode2NetBIOSName}}' ]
+              Values: [ '{{WSFCNodeNames}}' ]
+            - Name: tag:aws:cloudformation:stack-name
+              Values: [ '{{StackName}}' ]
             - Name: instance-state-name
               Values: [ 'running' ]
           outputs:
@@ -831,6 +993,8 @@ Resources:
             Filters:  
             - Name: tag:Name
               Values: [ '{{WSFCNode1NetBIOSName}}' ]
+            - Name: tag:aws:cloudformation:stack-name
+              Values: [ '{{StackName}}' ]
             - Name: instance-state-name
               Values: [ 'running' ]
           outputs:
@@ -846,6 +1010,37 @@ Resources:
             Filters:  
             - Name: tag:Name
               Values: [ '{{WSFCNode2NetBIOSName}}' ]
+            - Name: tag:aws:cloudformation:stack-name
+              Values: [ '{{StackName}}' ]
+            - Name: instance-state-name
+              Values: [ 'running' ]
+          outputs:
+          - Name: InstanceId
+            Selector: $.Reservations[0].Instances[0].InstanceId
+            Type: String
+        # Skip finding node 3 instance id if managed ad or no third zone
+        - name: InstanceIdBranch
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: ManagedADBranch1
+              Or:
+              - Variable: '{{ActiveDirectoryConfig}}'
+                StringEquals: Managed
+              - Variable: '{{ThirdAZ}}'
+                StringEquals: 'no'
+        # START Self-Managed Third Node exists branch1 - {{WSFCNode3NetBIOSName}} holds Node3 or Witness NetBIOSName 
+        - name: wsfcnode3InstanceId
+          action: aws:executeAwsApi
+          onFailure: step:signalfailure
+          inputs:
+            Service: ec2
+            Api: DescribeInstances
+            Filters:  
+            - Name: tag:Name
+              Values: [ '{{WSFCNode3NetBIOSName}}' ]
+            - Name: tag:aws:cloudformation:stack-name
+              Values: [ '{{StackName}}' ]
             - Name: instance-state-name
               Values: [ 'running' ]
           outputs:
@@ -857,7 +1052,7 @@ Resources:
           inputs:
             Choices:
             - NextStep: OSVersionBranch1
-              Variable: "{{ActiveDirectoryConfig}}"
+              Variable: '{{ActiveDirectoryConfig}}'
               StringEquals: Managed
         # START Self-Managed AD branch1
         - name: dc1InstanceId
@@ -1391,7 +1586,7 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: FSx
+            - NextStep: Node1configureWSFCSQLManagedAD
               Variable: "{{ActiveDirectoryConfig}}"
               StringEquals: Managed
         # START Self-Managed AD branch3
@@ -1418,7 +1613,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ShareName '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1468,19 +1663,8 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -Admin -SQLServiceAccount {{SQLServiceAccount}} -FileServerNetBIOSName {{ADServer1NetBIOSName}} -ClusterName {{ClusterName}}
+              commandLine: ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -FileServerNetBIOSName {{ADServer1NetBIOSName}} -ClusterName {{ClusterName}}
         # END Self-Managed AD branch3
-        - name: FSx
-          action: aws:executeAwsApi
-          onFailure: step:signalfailure
-          inputs:
-            Service: fsx
-            Api: DescribeFileSystems
-            FileSystemIds: ['{{FSxId}}']
-          outputs:
-          - Name: Endpoint
-            Selector: $.FileSystems[0].DNSName
-            Type: String
         - name: Node1configureWSFCSQLManagedAD
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1506,10 +1690,10 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLServiceAccount {{SQLServiceAccount}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
-                    - '\\{{FSx.Endpoint}}\share'
+                    - '\\{{FSxDNSName}}\share'
                     - '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: Node1Reboot1SQL
           action: aws:runCommand
@@ -1615,7 +1799,7 @@ Resources:
                   - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
                     - UsingManagedAD
-                    - '\\{{FSx.Endpoint}}\share'
+                    - '\\{{FSxDNSName}}\share'
                     - '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1ConfigNoSQL
           action: aws:runCommand
@@ -1738,13 +1922,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: 
-                !Sub
-                  - ./WaitForCluster.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser ${AdminUser} -DomainAdminPassword {{DomainAdminPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}}
-                  - AdminUser: !If
-                      - UsingManagedAD
-                      - 'admin'
-                      - !Ref DomainAdminUser
+              commandLine: ./WaitForCluster.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -NetBIOSName {{WSFCNode1NetBIOSName}}
         - name: ConfigurePermissionsOnMAD
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1824,7 +2002,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./InstallSQLEE.ps1 -SQLServerVersion 'SQL{{SQLServerVersion}}' -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
+              commandLine: ./InstallSQLEE.ps1 -SQLServerVersion 'SQL{{SQLServerVersion}}' -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -NetBIOSName {{WSFCNode1NetBIOSName}} -SQLServerClusterIP {{WSFCNode1PrivateIP3}} -ClusterSubnetCidr {{PrivateSubnet1CIDR}}
         - name: SQLInstallNode2MOF
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1848,7 +2026,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./InstallSQLEE-AddNode.ps1 -SQLServerVersion 'SQL{{SQLServerVersion}}' -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser {{DomainAdminUser}} -DomainAdminPassword {{DomainAdminPassword}} -SQLServiceAccount {{SQLServiceAccount}} -SQLServiceAccountPassword {{SQLServiceAccountPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}
+              commandLine: ./InstallSQLEE-AddNode.ps1 -SQLServerVersion 'SQL{{SQLServerVersion}}' -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -NetBIOSName {{WSFCNode2NetBIOSName}} -ClusterIPAddresses {{WSFCNode1PrivateIP3}},{{WSFCNode2PrivateIP3}} -ClusterSubnetCidrs {{PrivateSubnet1CIDR}},{{PrivateSubnet2CIDR}}
         - name: WaitForClusterGroup
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1872,13 +2050,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine:
-                !Sub
-                  - ./WaitForClusterGroup.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainAdminUser ${AdminUser} -DomainAdminPassword {{DomainAdminPassword}} -NetBIOSName {{WSFCNode2NetBIOSName}}
-                  - AdminUser: !If
-                      - UsingManagedAD
-                      - 'admin'
-                      - !Ref DomainAdminUser
+              commandLine: ./WaitForClusterGroup.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -NetBIOSName {{WSFCNode2NetBIOSName}}
         # END INSTALL SQL branch2
         - name: DisableCredSSP
           action: aws:runCommand
@@ -2098,6 +2270,7 @@ Resources:
       Roles:
       - !Ref InstanceRole
   FSxSecurityGroup:
+    Condition: UsingManagedAD
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -2181,8 +2354,10 @@ Resources:
     Properties:
       FileSystemType: WINDOWS
       StorageCapacity: 32
-      SubnetIds:
-        - !Ref 'PrivateSubnet1ID'
+      SubnetIds: !If
+        - ThirdAzIsWitness
+        - [ !Ref 'PrivateSubnet3ID' ]
+        - [ !Ref 'PrivateSubnet1ID' ]
       SecurityGroupIds:
         - !Ref 'DomainMemberSGID'
         - !Ref 'FSxSecurityGroup'
@@ -2193,6 +2368,33 @@ Resources:
         ActiveDirectoryId: !Ref 'ActiveDirectoryId'
         DeploymentType: SINGLE_AZ_2
         ThroughputCapacity: 32
+  WSFCWitness:
+    Condition: NeedsWitnessNode
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref WSFCWitnessAmiId
+      IamInstanceProfile: !Ref InstanceProfile
+      InstanceType: !Ref WSFCWitnessInstanceType
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet3ID
+          PrivateIpAddresses:
+            - Primary: true
+              PrivateIpAddress: !Ref WSFCNode3PrivateIP1
+          GroupSet:
+            - !Ref DomainMemberSGID
+            - !Ref WSFCSecurityGroup
+            - !Ref WSFCClientSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref WSFCWitnessNetBIOSName
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 100
+            VolumeType: gp2
+      KeyName: !Ref KeyPairName
   WSFCNode1:
     Type: AWS::EC2::Instance
     Metadata:
@@ -2248,10 +2450,64 @@ Resources:
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
+  WSFCNode3:
+    Condition: ThirdAzIsFullNode
+    Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Authentication:
+        S3AccessCreds:
+          type: S3
+          roleName: !Ref InstanceRole
+          buckets: !Ref QSS3BucketName
+    Properties:
+      ImageId: !If
+        - ByolAmiCondition
+        - !FindInMap
+          - AWSAMIRegionMap
+          - !Ref AWS::Region
+          - !FindInMap
+            - BYOLNameMap
+            - !Ref OSVersion
+            - Code
+        - !FindInMap
+          - AWSAMIRegionMap
+          - !Ref AWS::Region
+          - !FindInMap
+            - PAYGNameMap
+            - !Ref OSVersion
+            - Code
+      IamInstanceProfile: !Ref InstanceProfile
+      InstanceType: !Ref WSFCNode3InstanceType
+      EbsOptimized: true
+      NetworkInterfaces:
+        - DeleteOnTermination: true
+          DeviceIndex: '0'
+          SubnetId: !Ref PrivateSubnet3ID
+          PrivateIpAddresses:
+            - Primary: true
+              PrivateIpAddress: !Ref WSFCNode3PrivateIP1
+            - Primary: false
+              PrivateIpAddress: !Ref WSFCNode3PrivateIP2
+            - Primary: false
+              PrivateIpAddress: !Ref WSFCNode3PrivateIP3
+          GroupSet:
+            - !Ref DomainMemberSGID
+            - !Ref WSFCSecurityGroup
+            - !Ref WSFCClientSecurityGroup
+            - !Ref SIOSDataKeeperSG
+      Tags:
+        - Key: Name
+          Value: !Ref WSFCNode3NetBIOSName
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 127
+            VolumeType: gp2
+        - DeviceName: /dev/xvdca
+          VirtualName: ephemeral0
+      KeyName: !Ref KeyPairName
   WSFCNode2:
     Type: AWS::EC2::Instance
-    DependsOn:
-      - WSFCNode1
     Metadata:
       AWS::CloudFormation::Authentication:
         S3AccessCreds:
@@ -2309,12 +2565,11 @@ Resources:
         Fn::Join:
           - ''
           - - "<powershell>\n"
+            - 'Start-Transcript -Path C:\\cfn\\log\\Start-DSCConfiguration.txt;'
             - 'Start-SSMAutomationExecution -DocumentName '
             - !Sub '"${SSMDocumentDKCE}"'
             - ' -Parameter @{"AMIType"='
             - !Sub '"${AMIType}"'
-            - ';"OSVersion"='
-            - !Sub '"${OSVersion}"'
             - ';"ActiveDirectoryConfig"='
             - !Sub
               - '"${ADConfig}"'
@@ -2322,6 +2577,8 @@ Resources:
                 - UsingManagedAD
                 - Managed
                 - Legacy
+            - ';"AdminSecrets"='
+            - !Sub '"${ADAdminSecrets}"'
             - ';"ADServer1NetBIOSName"='
             - !Sub '"${ADServer1NetBIOSName}"'
             - ';"ADServer1PrivateIP"='
@@ -2330,46 +2587,35 @@ Resources:
             - !Sub '"${ADServer2NetBIOSName}"'
             - ';"ADServer2PrivateIP"='
             - !Sub '"${ADServer2PrivateIP}"'
-            - ';"DomainAdminPassword"='
-            - !Sub '"${DomainAdminPassword}"'
-            - ';"DomainAdminUser"='
-            - !Sub '"${DomainAdminUser}"'
+            - ';"ClusterName"='
+            - !Sub '"${ClusterName}"'
             - ';"DomainDNSName"='
             - !Sub '"${DomainDNSName}"'
             - ';"DomainNetBIOSName"='
             - !Sub '"${DomainNetBIOSName}"'
-            - ';"FSxId"='
-            - !Sub 
-              - '"${FSxId}"'
-              - FSxId: !If
-                - UsingManagedAD
-                - !Sub ${WindowsFSx}
-                - ''
-            - ';"FSxDnsName"='
+            - ';"FSxDNSName"='
             - !Sub 
               - '"${FSxDNSName}"'
               - FSxDNSName: !If
                 - UsingManagedAD
                 - !Sub ${WindowsFSx.DNSName}
                 - ''
+            - ';"OSVersion"='
+            - !Sub '"${OSVersion}"'
             - ';"PrivateSubnet1CIDR"='
             - !Sub '"${PrivateSubnet1CIDR}"'
             - ';"PrivateSubnet2CIDR"='
             - !Sub '"${PrivateSubnet2CIDR}"'
+            - ';"PrivateSubnet3CIDR"='
+            - !Sub '"${PrivateSubnet3CIDR}"'
             - ';"SIOSLicenseKeyFtpURL"='
             - !Sub '"${SIOSLicenseKeyFtpURL}"'
-            - ';"AdminSecrets"='
-            - !Sub '"${ADAdminSecrets}"'
             - ';"SQLSecrets"='
             - !Sub '"${SQLSecrets}"'
             - ';"SQLServerVersion"='
             - !Sub '"${SQLServerVersion}"'
-            - ';"SQLServiceAccount"='
-            - !Sub '"${SQLServiceAccount}"'
-            - ';"SQLServiceAccountPassword"='
-            - !Sub '"${SQLServiceAccountPassword}"'
-            - ';"ClusterName"='
-            - !Sub '"${ClusterName}"'
+            - ';"ThirdAZ"='
+            - !Sub '"${ThirdAZ}"'
             - ';"WSFCNode1NetBIOSName"='
             - !Sub '"${WSFCNode1NetBIOSName}"'
             - ';"WSFCNode1PrivateIP1"='
@@ -2386,6 +2632,29 @@ Resources:
             - !Sub '"${WSFCNode2PrivateIP2}"'
             - ';"WSFCNode2PrivateIP3"='
             - !Sub '"${WSFCNode2PrivateIP3}"'
+            - ';"WSFCNode3NetBIOSName"='
+            - !Sub 
+              - '"${WSFCNode3Name}"'
+              - WSFCNode3Name: !If
+                - ThirdAzIsWitness
+                - !Sub ${WSFCWitnessNetBIOSName}
+                - !Sub ${WSFCNode3NetBIOSName}
+            - ';"WSFCNode3PrivateIP1"='
+            - !Sub '"${WSFCNode3PrivateIP1}"'
+            - ';"WSFCNode3PrivateIP2"='
+            - !Sub '"${WSFCNode3PrivateIP2}"'
+            - ';"WSFCNode3PrivateIP3"='
+            - !Sub '"${WSFCNode3PrivateIP3}"'
+            - ';"WSFCNodeNames"='
+            - !If
+              - NeedsWitnessNode
+              - !Sub
+                - '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3Name}"'
+                - WSFCNode3Name: !If
+                  - ThirdAzIsWitness
+                  - !Sub ${WSFCWitnessNetBIOSName}
+                  - !Sub ${WSFCNode3NetBIOSName}
+              - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}"'
             - ';"QSS3BucketName"='
             - !Sub '"${QSS3BucketName}"'
             - ';"QSS3BucketRegion"='
@@ -2397,7 +2666,7 @@ Resources:
             - ';"AutomationAssumeRole"='
             - !Sub '"arn:aws:iam::${AWS::AccountId}:role/${InstanceRole}"'
             - '}'
-            - "\n"
+            - ';Stop-Transcript;'
             - "</powershell>\n"
   WSFCNode1Volume1:
     Type: AWS::EC2::Volume
@@ -2411,6 +2680,13 @@ Resources:
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode2.AvailabilityZone
+  WSFCNode3Volume1:
+    Condition: ThirdAzIsFullNode
+    Type: AWS::EC2::Volume
+    Properties:
+      Size: !Ref Volume1Size
+      VolumeType: !Ref Volume1Type
+      AvailabilityZone: !GetAtt WSFCNode3.AvailabilityZone
   WSFCNode1Volume1Attachment:
     Type: AWS::EC2::VolumeAttachment
     Properties:
@@ -2423,6 +2699,13 @@ Resources:
       Device: /dev/xvdb
       InstanceId: !Ref WSFCNode2
       VolumeId: !Ref WSFCNode2Volume1
+  WSFCNode3Volume1Attachment:
+    Condition: ThirdAzIsFullNode
+    Type: AWS::EC2::VolumeAttachment
+    Properties:
+      Device: /dev/xvdb
+      InstanceId: !Ref WSFCNode3
+      VolumeId: !Ref WSFCNode3Volume1
   SSMWaitHandle: 
     Type: AWS::CloudFormation::WaitConditionHandle
   SSMWaitCondition: 
@@ -2615,22 +2898,16 @@ Resources:
           ToPort: 1433
           SourceSecurityGroupId: !Ref SQLServerAccessSecurityGroup
 Outputs:
-  DomainAdmin:
-    Value: !Join
-      - ''
-      - - !Ref DomainNetBIOSName
-        - \
-        - !Ref DomainAdminUser
-    Description: Domain administrator account
-  LocalAdmin:
-    Value: Administrator
-    Description: Please retrieve Administrator password of the instance
   WSFCNode1NetBIOSName:
     Value: !Ref WSFCNode1NetBIOSName
     Description: NetBIOS name of the 1st WSFC Node
   WSFCNode2NetBIOSName:
     Value: !Ref WSFCNode2NetBIOSName
     Description: NetBIOS name of the 2nd WSFC Node
+  WSFCNode3NetBIOSName:
+    Condition: ThirdAzIsFullNode
+    Value: !Ref WSFCNode3NetBIOSName
+    Description: NetBIOS name of the 3rd WSFC Node
   SQLServerAccessSecurityGroup:
     Value: !Ref SQLServerAccessSecurityGroup
     Description: Add instances that require access to SQL to this Security Group

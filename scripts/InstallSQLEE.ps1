@@ -13,20 +13,10 @@ param(
     $DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]
-    $SQLServiceAccount,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]
-    $SQLServiceAccountPassword,
-
-    [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminUser,
-
-    [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminPassword,
+    [string]$SQLSecret,
     
     [parameter(Mandatory = $true)]
     [System.String]
@@ -74,10 +64,15 @@ try {
     Start-Transcript -Path "C:\cfn\log\InstallSQLEE.ps1.txt" -Append
     $ErrorActionPreference = "Continue"
 
+    $DomainAdminUser = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).username
+    $DomainAdminPassword = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).password
+    $SQLServiceAccount = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString).username
+    $SQLServiceAccountPassword = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString).password
+
     $DomainAdminFullUser = $DomainNetBIOSName + '\' + $DomainAdminUser
     $SQLFULLServiceAccount = $DomainNetBIOSName + '\' + $SQLServiceAccount
     $DomainAdminSecurePassword = ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force
-    $DomainAdminCreds = New-Object System.Management.Automation.PSCredential($DomainAdminFullUser, $DomainAdminSecurePassword)
+    $DomainAdminCreds = (New-Object PSCredential($DomainAdminFullUser,(ConvertTo-SecureString $AdminUser.password -AsPlainText -Force)))
     $subnetMask = Get-SubnetMask($ClusterSubnetCidr)
     $sqlInstallCmds = [ordered]@{
         "SQL2017" = '/Q /ACTION=InstallFailoverCluster /UpdateEnabled=False /FEATURES=SQLENGINE,REPLICATION,FULLTEXT,DQ /SkipRules=Cluster_VerifyForErrors Cluster_IsWMIServiceOperational /ENU=True /ERRORREPORTING=False /USEMICROSOFTUPDATE=False /HELP=False /INDICATEPROGRESS=False /X86=False /INSTALLSHAREDDIR="C:\Program Files\Microsoft SQL Server" /INSTALLSHAREDWOWDIR="C:\Program Files (x86)\Microsoft SQL Server" /INSTANCENAME=SIOSSQLSERVER /SQLSVCACCOUNT=' + $SQLFULLServiceAccount + ' /SQLSVCPASSWORD=' + $SQLServiceAccountPassword + ' /AGTSVCACCOUNT=' + $SQLFULLServiceAccount + ' /AGTSVCPASSWORD=' + $SQLServiceAccountPassword + ' /SQLSYSADMINACCOUNTS=' + $DomainAdminFullUser + ' /FAILOVERCLUSTERIPADDRESSES="IPv4;' + $SQLServerClusterIP + ';Cluster Network 1;' + $subnetMask + '" /INSTANCEDIR="C:\Program Files\Microsoft SQL Server" /FAILOVERCLUSTERDISKS="DataKeeper Volume D" /FAILOVERCLUSTERGROUP="SQL Server (SIOSSQLSERVER)" /FAILOVERCLUSTERNETWORKNAME="siossqlserver" /COMMFABRICPORT="0" /COMMFABRICNETWORKLEVEL="0" /COMMFABRICENCRYPTION="0" /MATRIXCMBRICKCOMMPORT="0" /FILESTREAMLEVEL="0" /SQLCOLLATION="SQL_Latin1_General_CP1_CI_AS" /SQLTEMPDBFILECOUNT=2 /SQLTEMPDBFILESIZE=8 /SQLTEMPDBFILEGROWTH=64 /SQLTEMPDBLOGFILESIZE=8 /SQLTEMPDBLOGFILEGROWTH=64 /INSTALLSQLDATADIR="D:" /SQLTEMPDBDIR="C:\TempDB" /FTSVCACCOUNT="NT Service\MSSQLFDLauncher`$SIOSSQLSERVER" /IAcceptSQLServerLicenseTerms /SUPPRESSPRIVACYSTATEMENTNOTICE=True /IACCEPTPYTHONLICENSETERMS=False /IACCEPTROPENLICENSETERMS=False';
