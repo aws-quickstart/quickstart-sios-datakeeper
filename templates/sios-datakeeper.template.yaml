@@ -1090,15 +1090,35 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: InstallDSCModules
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2019
-            - NextStep: InstallDSCModules
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2016
             - NextStep: 2012R2InstallWMF51
               Variable: "{{OSVersion}}"
               StringEquals: WS2012R2
+        - name: InstallDSCModules
+          action: aws:runCommand
+          nextStep: LCMConfig
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./install-dsc-modules.ps1
+        # START WS2012R2 OSVersion branch1
         - name: 2012R2InstallWMF51
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1146,7 +1166,6 @@ Resources:
                    } else {'Next Step'}
         - name: InstallDSCModules2012R2
           action: aws:runCommand
-          nextStep: LCMConfig
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
@@ -1169,30 +1188,7 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./install-dsc-modules.ps1 -WS2012R2
-        - name: InstallDSCModules
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./install-dsc-modules.ps1
+        # END WS2012R2 OSVersion branch1
         - name: LCMConfig
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1327,14 +1323,7 @@ Resources:
         - name: OSVersionBranch2
           action: aws:branch
           inputs:
-            Choices:
-            - NextStep: CopyDriveLetterMapping
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2019
-            - NextStep: CopyDriveLetterMapping
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2016
-            - NextStep: DomainJoin
+            - NextStep: DomainJoin2012R2
               Variable: "{{OSVersion}}"
               StringEquals: WS2012R2
         - name: CopyDriveLetterMapping
@@ -1365,16 +1354,9 @@ Resources:
               commands: 
                 - |
                    C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
-        - name: OSVersionBranch3
-          action: aws:branch
-          inputs:
-            Choices:
-            - NextStep: DomainJoin2012R2
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2012R2
         - name: DomainJoin
           action: aws:runCommand
-          nextStep: OpenWSFCPorts
+          nextStep: DomainJoinApply
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
