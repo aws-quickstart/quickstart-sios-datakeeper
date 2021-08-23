@@ -8,7 +8,7 @@ $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscEncryptCert.cer"
             Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
