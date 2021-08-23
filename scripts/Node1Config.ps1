@@ -98,13 +98,13 @@ Configuration WSFCNode1Config {
         }
         
         if ($SQLSecret) {
-            xADUser SQLServiceAccount {
+            ADUser SQLServiceAccount {
                 DomainName = $DomainDnsName
                 UserName = $SQLUser.UserName
                 Password = $SQLCredentials
-                DisplayName = 'SQL Service Account'
+                DisplayName = $SQLUser.UserName
                 PasswordAuthentication = 'Negotiate'
-                DomainAdministratorCredential = $Credentials
+                PsDscRunAsCredential = $Credentials
                 Ensure = 'Present'
                 DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature' 
             }
@@ -113,7 +113,7 @@ Configuration WSFCNode1Config {
                 GroupName = 'Administrators'
                 Ensure = 'Present'
                 MembersToInclude = @($ClusterAdminUser, $SQLAdminUser)
-                DependsOn = "[xADUser]SQLServiceAccount"
+                DependsOn = "[ADUser]SQLServiceAccount"
             }
         } else {
             Group Administrators {
