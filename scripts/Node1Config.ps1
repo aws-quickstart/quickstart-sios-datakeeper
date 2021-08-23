@@ -61,11 +61,11 @@ Configuration WSFCNode1Config {
 
     Import-Module -Name PSDscResources
     Import-Module -Name xFailOverCluster
-    Import-Module -Name xActiveDirectory
+    Import-Module -Name ActiveDirectoryDsc
     
     Import-DscResource -Module PSDscResources
     Import-DscResource -ModuleName xFailOverCluster
-    Import-DscResource -ModuleName xActiveDirectory
+    Import-DscResource -ModuleName ActiveDirectoryDsc
     
     Node 'localhost' {
         WindowsFeature RSAT-AD-PowerShell {
