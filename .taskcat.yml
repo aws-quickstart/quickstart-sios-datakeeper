@@ -23,6 +23,7 @@ tests:
       KeyPairName: davmayd
       ThirdAZ: full
       QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
@@ -35,6 +36,7 @@ tests:
       KeyPairName: davmayd
       ThirdAZ: full
       QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
@@ -49,6 +51,7 @@ tests:
       KeyPairName: davmayd
       ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
@@ -61,6 +64,7 @@ tests:
       DomainAdminPassword: Password1
       KeyPairName: davmayd
       QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
@@ -74,6 +78,7 @@ tests:
       KeyPairName: davmayd
       ThirdAZ: witness
       QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:

@@ -1381,6 +1381,7 @@ Resources:
               commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}}
         - name: DomainJoinApply
           action: aws:runCommand
+          nextStep: OpenWSFCPorts
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
@@ -1398,7 +1399,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed DomainJoinApply'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
@@ -1426,7 +1427,15 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+              commandLine:  
+                - |     
+                   if ($env:USERDNSDOMAIN -like {{DomainDNSName}}) {
+                       ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+                       'returning 3010, should continue after reboot'
+                       exit 3010
+                   } else {
+                     'Completed DomainJoin2012R2'
+                   }
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1712,7 +1721,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed ApplyWSFCNode1Config'
                        }
                    }
                    
@@ -1793,7 +1802,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed Node1Reboot1SQL'
                        }
                    }
                    
@@ -1843,7 +1852,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed Node2Reboot1SQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
@@ -1899,7 +1908,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed ApplyWSFCNode1ConfigNoSQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1923,7 +1932,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed Node1Reboot1NoSQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1972,7 +1981,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed'
+                         'Completed Node2Reboot1NoSQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
@@ -2977,6 +2986,9 @@ Resources:
           ToPort: 1433
           SourceSecurityGroupId: !Ref SQLServerAccessSecurityGroup
 Outputs:
+  QuickStartLogs:
+    Value: !Ref QuickStartLogs
+    Description: CloudWatch log group
   WSFCNode1NetBIOSName:
     Value: !Ref WSFCNode1NetBIOSName
     Description: NetBIOS name of the 1st WSFC Node
