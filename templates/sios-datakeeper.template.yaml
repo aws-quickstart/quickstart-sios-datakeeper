@@ -1555,7 +1555,7 @@ Resources:
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
+              - '{{dc1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -1581,7 +1581,7 @@ Resources:
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
+              - '{{dc1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
