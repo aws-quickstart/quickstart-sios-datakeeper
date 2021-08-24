@@ -1323,6 +1323,7 @@ Resources:
         - name: OSVersionBranch2
           action: aws:branch
           inputs:
+            Choices:
             - NextStep: DomainJoin2012R2
               Variable: "{{OSVersion}}"
               StringEquals: WS2012R2
@@ -1356,7 +1357,6 @@ Resources:
                    C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
         - name: DomainJoin
           action: aws:runCommand
-          nextStep: DomainJoinApply
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
@@ -1379,30 +1379,6 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}}
-        - name: DomainJoin2012R2
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
         - name: DomainJoinApply
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1427,6 +1403,30 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
+        - name: DomainJoin2012R2
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
