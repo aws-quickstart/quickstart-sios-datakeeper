@@ -14,17 +14,20 @@ project:
   - us-west-1
   - us-west-2
   s3_bucket: ''
+general:
+  s3_regional_buckets: true
+  parameters:
+      DomainAdminPassword: Password1
+      KeyPairName: davmayd
+      QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
+      RDGWCIDR: 0.0.0.0/0
 tests:
   ws2019-payg-nosql-sad:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AvailabilityZones: $[taskcat_getaz_3]
-      DomainAdminPassword: Password1
-      KeyPairName: davmayd
       ThirdAZ: full
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
     - us-east-1
@@ -32,12 +35,7 @@ tests:
   ws2019-payg-sql2017-mad:
     parameters:
       AvailabilityZones: $[taskcat_getaz_3]
-      DomainAdminPassword: Password1
-      KeyPairName: davmayd
       ThirdAZ: full
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - eu-west-1
@@ -47,12 +45,7 @@ tests:
       ADScenarioType: Microsoft AD on Amazon EC2
       AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2016
-      DomainAdminPassword: Password1
-      KeyPairName: davmayd
       ThirdAZ: witness
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
     - us-east-2
@@ -61,11 +54,6 @@ tests:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
-      DomainAdminPassword: Password1
-      KeyPairName: davmayd
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
       SQLServerVersion: None
     regions:
     - us-west-1
@@ -74,12 +62,7 @@ tests:
     parameters:
       AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2012R2
-      DomainAdminPassword: Password1
-      KeyPairName: davmayd
       ThirdAZ: witness
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - us-west-2
