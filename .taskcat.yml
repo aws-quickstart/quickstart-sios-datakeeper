@@ -60,7 +60,7 @@ tests:
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-sql2017-sad:
     parameters:
-      AvailabilityZones: $[taskcat_getaz_3]
+      AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
       ThirdAZ: witness
       SQLServiceAccountPassword: $[taskcat_genpass_16]

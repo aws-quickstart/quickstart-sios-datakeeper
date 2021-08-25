@@ -891,6 +891,7 @@ Resources:
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
            type: String
           ThirdAZ:
+           default: 'no'
            description: "Purpose of Third Availability Zone"
            type: "String"
           WSFCNode1NetBIOSName:
@@ -1108,7 +1109,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1133,7 +1134,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Install-WMF51.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Install-WMF51.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1178,7 +1179,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1203,7 +1204,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/LCM-Config.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/LCM-Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1241,7 +1242,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1310,7 +1311,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1369,7 +1370,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1418,7 +1419,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1429,7 +1430,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:  
                 - |     
-                   if ($env:USERDNSDOMAIN -like {{DomainDNSName}}) {
+                   if ("$($env:USERDNSDOMAIN)" -like "{{DomainDNSName}}") {
                        ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
                        'returning 3010, should continue after reboot'
                        exit 3010
@@ -1450,7 +1451,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/OpenWSFCPorts.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/OpenWSFCPorts.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1484,7 +1485,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1508,7 +1509,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/CreateJob.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/CreateJob.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1532,7 +1533,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/CreateMirror.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/CreateMirror.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1549,22 +1550,39 @@ Resources:
             - NextStep: WSFCConfigureBranch
               Variable: "{{ActiveDirectoryConfig}}"
               StringEquals: Managed
-        # START Self-Managed AD branch2
-        - name: OSVersionBranch2sad
+        - name: ThirdAZWitnessBranch1
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: dc1installDSCModules2012R2
-              Variable: "{{OSVersion}}"
-              StringEquals: WS2012R2
-        - name: dc1installDSCModules
+            - NextStep: WitnessInstallDSCModules3AZ
+              Variable: '{{ThirdAZ}}'
+              StringEquals: witness
+        - name: CreateSmbFileShare2AZ
           action: aws:runCommand
-          nextStep: configureWSFCFileShare
+          nextStep: InvokeADReplicationDC1
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{dc1InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |
+                  $sharePath = 'C:\witness'
+                  if (-Not(Test-Path -Path $sharePath)) {
+                      New-Item -ItemType Directory -Path $sharePath -Force
+                  }
+                  New-SmbShare -Name witness -Path $sharePath -FullAccess "Everyone"
+        - name: WitnessInstallDSCModules3AZ
+          action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{dc1InstanceId.InstanceId}}'
+            InstanceIds: 
+              - '{{wsfcnode3InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -1572,7 +1590,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1582,15 +1600,13 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./install-fsw-modules.ps1
-        # START Self-Managed OS Version WS2012R2 branch
-        - name: dc1installDSCModules2012R2
+        - name: WitnessCreateFileShare3AZ
           action: aws:runCommand
-          nextStep: configureWSFCFileShare
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - '{{dc1InstanceId.InstanceId}}'
+              - '{{wsfcnode3InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -1598,32 +1614,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./install-fsw-modules.ps1 -WS2012R2
-        # END Self-Managed OS Version WS2012R2 branch
-        - name: configureWSFCFileShare
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{dc1InstanceId.InstanceId}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/WSFCFileShare.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/WSFCFileShare.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1646,7 +1637,7 @@ Resources:
             Parameters:
               commands: 
                 - |
-                   repadmin /syncall /A /e /P
+                  repadmin /syncall /A /e /P
         - name: InvokeADReplicationDC2
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1660,7 +1651,7 @@ Resources:
             Parameters:
               commands: 
                 - |
-                   repadmin /syncall /A /e /P
+                  repadmin /syncall /A /e /P
         # END Self-Managed AD branch2
         - name: WSFCConfigureBranch
           action: aws:branch
@@ -1669,7 +1660,7 @@ Resources:
             - NextStep: Node1configureWSFCNOSQL
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
-        # START INSTALL SQL branch
+        # START INSTALL SQL branch2
         - name: ManagedADBranch3
           action: aws:branch
           inputs:
@@ -1692,7 +1683,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1742,7 +1733,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Set-Folder-Permissions.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/Set-Folder-Permissions.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1767,7 +1758,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1822,7 +1813,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1857,8 +1848,67 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
-        # END INSTALL SQL branch
-        # START NO SQL branch
+        - name: ThirdAZWitnessBranch2
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: WaitForCluster
+              Variable: '{{ThirdAZ}}'
+              StringEquals: 'witness'
+            - NextStep: WaitForCluster
+              Variable: '{{ThirdAZ}}'
+              StringEquals: 'no'
+        - name: Node3configureWSFCSQL
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode3InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode3PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
+        - name: Node3Reboot1SQL
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          nextStep: WaitForCluster
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnode3InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |     
+                   function DscStatusCheck () {
+                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
+                       if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
+                           'returning 3010, should continue after reboot'
+                           exit 3010
+                       } else {
+                         'Completed Node2Reboot1SQL'
+                       }
+                   }
+                   Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
+                   DscStatusCheck
+        # END INSTALL SQL branch2
+        # START NO SQL branch1
         - name: Node1configureWSFCNOSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1873,7 +1923,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1952,7 +2002,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -1986,7 +2036,66 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
-        # END NO SQL branch
+        - name: ThirdAZWitnessBranch3
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: WaitForCluster
+              Variable: '{{ThirdAZ}}'
+              StringEquals: 'witness'
+            - NextStep: WaitForCluster
+              Variable: '{{ThirdAZ}}'
+              StringEquals: 'no'
+        - name: Node3ConfigureWSFCNOSQL
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          nextStep: Node2Reboot1NoSQL
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode3InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./AdditionalNodeConfig.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -WSFCNodePrivateIP2 {{WSFCNode3PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}}
+        - name: Node3Reboot1NoSQL
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnode3InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |     
+                   function DscStatusCheck () {
+                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
+                       if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
+                           'returning 3010, should continue after reboot'
+                           exit 3010
+                       } else {
+                         'Completed Node2Reboot1NoSQL'
+                       }
+                   }
+                   Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
+                   DscStatusCheck
+        # END NO SQL branch1
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2001,7 +2110,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/WaitForCluster.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/WaitForCluster.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2025,7 +2134,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/Configure-MAD-Permissions.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/Configure-MAD-Permissions.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2049,7 +2158,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/RegisterClusterVolume.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/RegisterClusterVolume.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2066,7 +2175,7 @@ Resources:
             - NextStep: DisableCredSSP
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
-        # START INSTALL SQL branch2
+        # START INSTALL SQL branch3
         - name: InstallSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2081,7 +2190,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/InstallSQLEE.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/InstallSQLEE.ps1"}'
                   - S3Bucket: !If 
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2105,7 +2214,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/InstallSQLEE-AddNode.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/InstallSQLEE-AddNode.ps1"}'
                   - S3Bucket: !If 
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2129,7 +2238,7 @@ Resources:
               sourceType: S3
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.amazonaws.com/{{QSS3KeyPrefix}}scripts/WaitForClusterGroup.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/{{QSS3KeyPrefix}}scripts/WaitForClusterGroup.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -2139,7 +2248,7 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./WaitForClusterGroup.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -NetBIOSName {{WSFCNode2NetBIOSName}}
-        # END INSTALL SQL branch2
+        # END INSTALL SQL branch3
         - name: DisableCredSSP
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2233,8 +2342,8 @@ Resources:
           - Effect: Allow
             Principal:
               Service:
-                - ec2.amazonaws.com
-                - ssm.amazonaws.com
+                - ec2.${AWS::URLSuffix}
+                - ssm.${AWS::URLSuffix}
             Action:
               - sts:AssumeRole
       Path: /
