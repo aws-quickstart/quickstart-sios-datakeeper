@@ -23,7 +23,7 @@ general:
       QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
 tests:
-  ws2019-payg-nosql-sad:
+  ws2019-payg-nosql-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AvailabilityZones: $[taskcat_getaz_3]
@@ -32,7 +32,7 @@ tests:
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
-  ws2019-payg-sql2017-mad:
+  ws2019-payg-sql2017-mad-3az:
     parameters:
       AvailabilityZones: $[taskcat_getaz_3]
       ThirdAZ: full
@@ -40,7 +40,7 @@ tests:
     regions:
     - eu-west-1
     template: templates/sios-datakeeper-main.template
-  ws2016-payg-nosql-sad:
+  ws2016-payg-nosql-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AvailabilityZones: $[taskcat_getaz_3]
@@ -50,7 +50,7 @@ tests:
     regions:
     - us-east-2
     template: templates/sios-datakeeper-main.template
-  ws2012r2-payg-nosql-mad:
+  ws2012r2-payg-nosql-mad-2az:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
@@ -58,7 +58,7 @@ tests:
     regions:
     - us-west-1
     template: templates/sios-datakeeper-main.template
-  ws2012r2-payg-sql2017-sad:
+  ws2012r2-payg-sql2017-sad-2az:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
