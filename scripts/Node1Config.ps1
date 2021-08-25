@@ -19,8 +19,8 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$SQLSecret,
 
-    [Parameter(Mandatory=$true)]
-    [string]$ShareName
+    [Parameter(Mandatory=$false)]
+    [string]$SharePath = ''
 
 )
 
@@ -130,11 +130,20 @@ Configuration WSFCNode1Config {
             DependsOn                     = '[Group]Administrators'
         }
 
-        xClusterQuorum 'SetQuorumToNodeAndFileShareMajority' {
-            IsSingleInstance = 'Yes'
-            Type             = 'NodeAndFileShareMajority'
-            Resource         = $ShareName
-            DependsOn        = '[xCluster]CreateCluster'
+        if($SharePath -eq '') {
+            xClusterQuorum 'SetQuorumToNodeMajority' {
+                IsSingleInstance = 'Yes'
+                Type             = 'NodeMajority'
+                DependsOn        = '[xCluster]CreateCluster'
+            }
+        }
+        else {
+            xClusterQuorum 'SetQuorumToNodeAndFileShareMajority' {
+                IsSingleInstance = 'Yes'
+                Type             = 'NodeAndFileShareMajority'
+                Resource         = $SharePath
+                DependsOn        = '[xCluster]CreateCluster'
+            }
         }
     }
 }
