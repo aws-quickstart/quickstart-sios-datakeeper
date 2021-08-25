@@ -656,9 +656,7 @@ Conditions:
   UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
   UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
-  TwoNodeDeployment: !Or
-    - !Condition UsingSelfManagedAD
-    - !Equals [!Ref ThirdAZ, 'no']
+  TwoNodeDeployment: !Equals [!Ref ThirdAZ, 'no']
   ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
   ThirdAzIsFullNode: !Equals [!Ref ThirdAZ, 'full']
   NeedsWitnessNode: !And
@@ -1435,13 +1433,13 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:  
                 - |     
-                   if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
-                       ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
-                       'returning 3010, should continue after reboot'
-                       exit 3010
-                   } else {
-                     'Completed DomainJoin2012R2'
-                   }
+                  if ("$($env:USERDNSDOMAIN)" -like "{{DomainDNSName}}") {
+                      'Completed DomainJoin2012R2'
+                      exit 0
+                  }
+                  ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+                  'returning 3010, should continue after reboot'
+                  exit 3010
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1774,11 +1772,17 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:
                 !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
-                  - SharePath: !If
+                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption}
+                  - ShareOption: !If
                     - UsingAWSManagedAD
-                    - '\\{{FSxDNSName}}\share'
-                    - '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+                    - !If
+                      - ThirdAzIsFullNode
+                      - ''
+                      - '-ShareName \\{{FSxDNSName}}\share'
+                    - !If
+                      - ThirdAzIsWitness
+                      - '-ShareName -ShareName \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                      - '-ShareName -ShareName \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: Node1Reboot1SQL
           action: aws:runCommand
           onFailure: step:signalfailure

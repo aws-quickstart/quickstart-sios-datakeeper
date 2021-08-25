@@ -32,14 +32,6 @@ tests:
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
-  ws2019-payg-sql2017-mad-3az:
-    parameters:
-      AvailabilityZones: $[taskcat_getaz_3]
-      ThirdAZ: full
-      SQLServiceAccountPassword: $[taskcat_genpass_16]
-    regions:
-    - eu-west-1
-    template: templates/sios-datakeeper-main.template
   ws2016-payg-nosql-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
@@ -65,4 +57,12 @@ tests:
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - us-west-2
+    template: templates/sios-datakeeper-main.template
+  ws2019-payg-sql2017-mad-3az:
+    parameters:
+      AvailabilityZones: $[taskcat_getaz_3]
+      ThirdAZ: full
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+    regions:
+    - eu-west-1
     template: templates/sios-datakeeper-main.template
