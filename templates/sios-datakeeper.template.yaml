@@ -1902,7 +1902,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed Node2Reboot1SQL'
+                         'Completed Node3Reboot1SQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
@@ -2049,7 +2049,7 @@ Resources:
         - name: Node3ConfigureWSFCNOSQL
           action: aws:runCommand
           onFailure: step:signalfailure
-          nextStep: Node2Reboot1NoSQL
+          nextStep: Node3Reboot1NoSQL
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
@@ -2090,7 +2090,7 @@ Resources:
                            'returning 3010, should continue after reboot'
                            exit 3010
                        } else {
-                         'Completed Node2Reboot1NoSQL'
+                         'Completed Node3Reboot1NoSQL'
                        }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
