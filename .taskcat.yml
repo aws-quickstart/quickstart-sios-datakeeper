@@ -62,7 +62,6 @@ tests:
     parameters:
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
-      ThirdAZ: witness
       SQLServiceAccountPassword: $[taskcat_genpass_16]
     regions:
     - us-west-2

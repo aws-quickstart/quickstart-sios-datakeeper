@@ -653,14 +653,16 @@ Parameters:
     Description: Amazon EC2 instance type for a WSFC file share witness.
     Type: String
 Conditions:
-  UsingManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
+  UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
+  UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
+  TwoNodeDeployment: !Or
+    - !Condition UsingSelfManagedAD
+    - !Equals [!Ref ThirdAZ, 'no']
   ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
-  ThirdAzIsFullNode: !And
-    - !Equals [!Ref ActiveDirectoryId, '']
-    - !Equals [!Ref ThirdAZ, 'full']
+  ThirdAzIsFullNode: !Equals [!Ref ThirdAZ, 'full']
   NeedsWitnessNode: !And
-    - !Equals [!Ref ActiveDirectoryId, '']
+    - !Condition UsingSelfManagedAD
     - !Condition ThirdAzIsWitness
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
@@ -1433,7 +1435,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine:  
                 - |     
-                   if ("$($env:USERDNSDOMAIN)" -like "{{DomainDNSName}}") {
+                   if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
                        ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
                        'returning 3010, should continue after reboot'
                        exit 3010
@@ -1774,7 +1776,7 @@ Resources:
                 !Sub
                   - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
-                    - UsingManagedAD
+                    - UsingAWSManagedAD
                     - '\\{{FSxDNSName}}\share'
                     - '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: Node1Reboot1SQL
@@ -1939,7 +1941,7 @@ Resources:
                 !Sub
                   - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -ShareName ${SharePath}
                   - SharePath: !If
-                    - UsingManagedAD
+                    - UsingAWSManagedAD
                     - '\\{{FSxDNSName}}\share'
                     - '\\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1ConfigNoSQL
@@ -2470,7 +2472,7 @@ Resources:
       Roles:
       - !Ref InstanceRole
   FSxSecurityGroup:
-    Condition: UsingManagedAD
+    Condition: UsingAWSManagedAD
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -2549,7 +2551,7 @@ Resources:
           ToPort: 65535
           CidrIp: !Ref VPCCIDR
   WindowsFSx:
-    Condition: UsingManagedAD
+    Condition: UsingAWSManagedAD
     Type: AWS::FSx::FileSystem
     Properties:
       FileSystemType: WINDOWS
@@ -2774,7 +2776,7 @@ Resources:
             - !Sub
               - '"${ADConfig}"'
               - ADConfig: !If
-                - UsingManagedAD
+                - UsingAWSManagedAD
                 - Managed
                 - Legacy
             - ';"AdminSecrets"='
@@ -2797,7 +2799,7 @@ Resources:
             - !Sub 
               - '"${FSxDNSName}"'
               - FSxDNSName: !If
-                - UsingManagedAD
+                - UsingAWSManagedAD
                 - !Sub ${WindowsFSx.DNSName}
                 - ''
             - ';"OSVersion"='
@@ -2836,7 +2838,7 @@ Resources:
             - !Sub 
               - '"${WSFCNode3Name}"'
               - WSFCNode3Name: !If
-                - ThirdAzIsWitness
+                - NeedsWitnessNode
                 - !Sub ${WSFCWitnessNetBIOSName}
                 - !Sub ${WSFCNode3NetBIOSName}
             - ';"WSFCNode3PrivateIP1"='
@@ -2847,14 +2849,14 @@ Resources:
             - !Sub '"${WSFCNode3PrivateIP3}"'
             - ';"WSFCNodeNames"='
             - !If
-              - NeedsWitnessNode
+              - TwoNodeDeployment
+              - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}"'
               - !Sub
                 - '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3Name}"'
                 - WSFCNode3Name: !If
-                  - ThirdAzIsWitness
+                  - NeedsWitnessNode
                   - !Sub ${WSFCWitnessNetBIOSName}
                   - !Sub ${WSFCNode3NetBIOSName}
-              - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}"'
             - ';"QSS3BucketName"='
             - !Sub '"${QSS3BucketName}"'
             - ';"QSS3BucketRegion"='
