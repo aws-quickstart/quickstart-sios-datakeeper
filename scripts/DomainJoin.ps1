@@ -27,7 +27,7 @@ $NewName = $NameTag.Value
 
 if($WS2012R2) {
     Add-Computer -NewName $NewName -DomainName $DomainDNSName -Credential $Credentials
-    exit 0
+    return
 }
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File

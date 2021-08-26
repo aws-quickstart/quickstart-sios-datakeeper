@@ -1402,9 +1402,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed DomainJoinApply'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1412,26 +1410,15 @@ Resources:
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+              commands: 
+                - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DomainJoin.ps1 -LocalFile C:\cfn\scripts\DomainJoin.ps1
         - name: DomainJoinReboot2012R2
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1445,13 +1432,11 @@ Resources:
             Parameters:
               commands: 
                 - |
-                  if ("$($env:USERDNSDOMAIN)" -like "{{DomainDNSName}}") {
-                      'Completed DomainJoinReboot2012R2'
-                  }
-                  else {
-                      'returning 3010, should continue after reboot'
-                      exit 3010
-                  }
+                   if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
+                       C:\cfn\scripts\DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+                       'returning 3010, should continue after reboot'
+                       exit 3010
+                   } else { 'Next Step' }
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1732,9 +1717,7 @@ Resources:
                        if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed ApplyWSFCNode1Config'
-                       }
+                       } else { 'Next Step' }
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1813,9 +1796,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node1Reboot1SQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1863,9 +1844,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node2Reboot1SQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1922,9 +1901,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node3Reboot1SQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1984,9 +1961,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed ApplyWSFCNode1ConfigNoSQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2008,9 +1983,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node1Reboot1NoSQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2057,9 +2030,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node2Reboot1NoSQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2116,9 +2087,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed Node3Reboot1NoSQL'
-                       }
+                       } else { 'Next Step' }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
