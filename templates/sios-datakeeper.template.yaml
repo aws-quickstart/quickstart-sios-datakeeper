@@ -1408,7 +1408,7 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: DomainJoinReboot2012R2
+        - name: DomainJoin2012R2
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
