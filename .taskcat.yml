@@ -32,13 +32,13 @@ tests:
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
-  ws2016-payg-nosql-sad-3az:
+  ws2016-payg-sql2017-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2016
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
       ThirdAZ: witness
-      SQLServerVersion: None
     regions:
     - us-east-2
     template: templates/sios-datakeeper-main.template

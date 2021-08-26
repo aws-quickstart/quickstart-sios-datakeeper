@@ -26,14 +26,8 @@ $NameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -
 $NewName = $NameTag.Value
 
 if($WS2012R2) {
-    if ($env:USERDNSDOMAIN -like $DomainDNSName) {
-        Write-Host 'Completed DomainJoin2012R2'
-        exit 0
-    }
-
     Add-Computer -NewName $NewName -DomainName $DomainDNSName -Credential $Credentials
-    Write-Host 'returning 3010, should continue after reboot'
-    exit 3010
+    exit 0
 }
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File

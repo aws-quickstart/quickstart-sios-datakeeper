@@ -1396,7 +1396,7 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               commands: 
-                - |     
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1432,6 +1432,26 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
+        - name: DomainJoinReboot2012R2
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |
+                  if ("$($env:USERDNSDOMAIN)" -like "{{DomainDNSName}}") {
+                      'Completed DomainJoinReboot2012R2'
+                  }
+                  else {
+                      'returning 3010, should continue after reboot'
+                      exit 3010
+                  }
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
