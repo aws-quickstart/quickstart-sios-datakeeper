@@ -1402,11 +1402,13 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: DomainJoin2012R2
+        - name: DomainJoinReboot2012R2
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
@@ -1427,8 +1429,10 @@ Resources:
                           $Credentials = (New-Object PSCredential("{{DomainNetBIOSName}}\$($admin.username)",(ConvertTo-SecureString $admin.Password -AsPlainText -Force)))
                           Add-Computer -NewName $newName -DomainName {{DomainDNSName}} -Credential $Credentials
                           'returning 3010, should continue after reboot'
-                          exit 3010
-                      } else { 'Next Step' }
+                           exit 3010
+                       } else {
+                         'Completed'
+                       }
                   }
                   Test-DomainJoined
         - name: OpenWSFCPorts
@@ -1711,7 +1715,9 @@ Resources:
                        if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1790,7 +1796,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1838,7 +1846,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1895,7 +1905,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1955,7 +1967,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1977,7 +1991,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2024,7 +2040,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2081,7 +2099,9 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else { 'Next Step' }
+                       } else {
+                         'Completed'
+                       }
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2265,12 +2285,14 @@ Resources:
             Parameters:
               commands: 
                 - |
-                   $CredSSPEnabled = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation' -Name AllowFreshCredentials -ErrorAction SilentlyContinue).AllowFreshCredentials
-                   if ($CredSSPEnabled -eq 1) {
-                     C:\cfn\scripts\DisableCredSsp.ps1
-                     'returning 3010, should continue after reboot'
+                  $CredSSPEnabled = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation' -Name AllowFreshCredentials -ErrorAction SilentlyContinue).AllowFreshCredentials
+                  if ($CredSSPEnabled -eq 1) {
+                      C:\cfn\scripts\DisableCredSsp.ps1
+                      'returning 3010, should continue after reboot'
                       exit 3010
-                   } else {'Next Step'}
+                  } else {
+                      'Completed'
+                  }
         - name: DSCCleanup
           action: aws:runCommand
           onFailure: step:signalfailure

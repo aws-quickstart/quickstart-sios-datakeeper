@@ -95,12 +95,12 @@ tests:
     regions:
     - eu-west-2
     template: templates/sios-datakeeper-main.template
-  ws2019-payg-nosql-sad-witness:
+  ws2016-payg-nosql-sad-witness:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_3]
-      ClusterNodeOSServerVersion: WS2019
+      ClusterNodeOSServerVersion: WS2016
       SQLServerVersion: None
       SQLServiceAccountPassword: ''
       ThirdAZ: witness
