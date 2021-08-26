@@ -8,10 +8,7 @@ param(
     [string]$DomainDNSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$AdminSecret,
-
-    [Parameter(Mandatory=$false)]
-    [Switch]$WS2012R2
+    [string]$AdminSecret
 )
 
 # Formatting AD Admin User to proper format for JoinDomain DSC Resources in this Script
@@ -24,11 +21,6 @@ $Credentials = (New-Object PSCredential($AdminUser,(ConvertTo-SecureString $Admi
 # Getting the Name Tag of the Instance
 $NameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)}| Where-Object { $_.Key -eq "Name" })
 $NewName = $NameTag.Value
-
-if($WS2012R2) {
-    Add-Computer -NewName $NewName -DomainName $DomainDNSName -Credential $Credentials
-    return
-}
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
 $DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint

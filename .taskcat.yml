@@ -26,17 +26,22 @@ tests:
   ws2019-payg-nosql-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_3]
-      ThirdAZ: full
+      ClusterNodeOSServerVersion: WS2019
       SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: full
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
   ws2016-payg-sql2017-sad-3az:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2016
+      SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
       ThirdAZ: witness
     regions:
@@ -44,25 +49,37 @@ tests:
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-nosql-mad-2az:
     parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
       SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: none
     regions:
     - us-west-1
     template: templates/sios-datakeeper-main.template
   ws2012r2-payg-sql2017-sad-2az:
     parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: none
     regions:
     - us-west-2
     template: templates/sios-datakeeper-main.template
   ws2019-payg-sql2017-mad-3az:
     parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_3]
-      ThirdAZ: full
+      ClusterNodeOSServerVersion: WS2019
+      SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: full
     regions:
     - eu-west-1
     template: templates/sios-datakeeper-main.template

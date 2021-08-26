@@ -455,10 +455,10 @@ Parameters:
     Type: String
   ThirdAZ:
     AllowedValues:
-      - 'no'
+      - none
       - witness
       - full
-    Default: 'no'
+    Default: none
     Description: Choose full or witness to enable a deployment with three Availability Zones. The third zone can be used for
       the witness, or it can be a full WSFC cluster node.
     Type: String
@@ -704,7 +704,7 @@ Mappings:
       WS2016: /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
       WS2019: /aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base
 Conditions:
-  IsTwoAz: !Equals [!Ref ThirdAZ, 'no']
+  IsTwoAz: !Equals [!Ref ThirdAZ, none]
   UseAWSDirectoryServiceEE: !Equals
     - !Ref 'ADScenarioType'
     - AWS Directory Service for Microsoft AD (Enterprise Edition)

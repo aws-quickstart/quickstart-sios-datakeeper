@@ -402,10 +402,10 @@ Parameters:
     Type: String
   ThirdAZ:
     AllowedValues:
-      - 'no'
+      - none
       - witness
       - full
-    Default: 'no'
+    Default: none
     Description: Choose full or witness to enable a deployment with three Availability Zones. The third zone can be used for
       the witness, or it can be a full WSFC cluster node.
     Type: String
@@ -656,7 +656,7 @@ Conditions:
   UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
   UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
-  TwoNodeDeployment: !Equals [!Ref ThirdAZ, 'no']
+  TwoNodeDeployment: !Equals [!Ref ThirdAZ, 'none']
   ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
   ThirdAzIsFullNode: !Equals [!Ref ThirdAZ, 'full']
   NeedsWitnessNode: !And
@@ -891,7 +891,7 @@ Resources:
            description: Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.
            type: String
           ThirdAZ:
-           default: 'no'
+           default: none
            description: "Purpose of Third Availability Zone"
            type: "String"
           WSFCNode1NetBIOSName:
@@ -1032,7 +1032,7 @@ Resources:
               - Variable: '{{ActiveDirectoryConfig}}'
                 StringEquals: Managed
               - Variable: '{{ThirdAZ}}'
-                StringEquals: 'no'
+                StringEquals: none
         # START Self-Managed Third Node exists branch1 - {{WSFCNode3NetBIOSName}} holds Node3 or Witness NetBIOSName 
         - name: wsfcnode3InstanceId
           action: aws:executeAwsApi
@@ -1406,19 +1406,6 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: DomainJoin2012R2
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              commands: 
-                - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DomainJoin.ps1 -LocalFile C:\cfn\scripts\DomainJoin.ps1
         - name: DomainJoinReboot2012R2
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1432,11 +1419,18 @@ Resources:
             Parameters:
               commands: 
                 - |
-                   if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
-                       C:\cfn\scripts\DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}} -WS2012R2
-                       'returning 3010, should continue after reboot'
-                       exit 3010
-                   } else { 'Next Step' }
+                  function Test-DomainJoined() {
+                      if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
+                          $nameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)}| Where-Object { $_.Key -eq "Name" })
+                          $newName = $nameTag.Value
+                          $admin = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId {{AdminSecret}}).SecretString
+                          $Credentials = (New-Object PSCredential("{{DomainNetBIOSName}}\$($admin.username)",(ConvertTo-SecureString $admin.Password -AsPlainText -Force)))
+                          Add-Computer -NewName $newName -DomainName {{DomainDNSName}} -Credential $Credentials
+                          'returning 3010, should continue after reboot'
+                          exit 3010
+                      } else { 'Next Step' }
+                  }
+                  Test-DomainJoined
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1854,10 +1848,10 @@ Resources:
             Choices:
             - NextStep: WaitForCluster
               Variable: '{{ThirdAZ}}'
-              StringEquals: 'witness'
+              StringEquals: witness
             - NextStep: WaitForCluster
               Variable: '{{ThirdAZ}}'
-              StringEquals: 'no'
+              StringEquals: none
         - name: Node3configureWSFCSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2040,10 +2034,10 @@ Resources:
             Choices:
             - NextStep: WaitForCluster
               Variable: '{{ThirdAZ}}'
-              StringEquals: 'witness'
+              StringEquals: witness
             - NextStep: WaitForCluster
               Variable: '{{ThirdAZ}}'
-              StringEquals: 'no'
+              StringEquals: none
         - name: Node3ConfigureWSFCNOSQL
           action: aws:runCommand
           onFailure: step:signalfailure

@@ -39,26 +39,12 @@ Configuration WSFCFileServer {
             DestinationPath = 'C:\witness'
         }
 
-        File ReplicaFolder {
-            Ensure          = 'Present'
-            Type            = 'Directory'
-            DestinationPath = 'C:\replica'
-        }
-
         xSmbShare WitnessShare {
             Ensure     = 'Present'
             Name       = 'witness'
             Path       = 'C:\witness'
             FullAccess = 'Everyone'
             DependsOn  = '[File]WitnessFolder'
-        }
-
-        xSmbShare ReplicaShare {
-            Ensure     = 'Present'
-            Name       = 'replica'
-            Path       = 'C:\replica'
-            FullAccess = 'Everyone'
-            DependsOn  = '[File]ReplicaFolder'
         }
     }
 }
