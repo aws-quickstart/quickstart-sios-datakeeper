@@ -1423,7 +1423,7 @@ Resources:
                       if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
                           $nameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)}| Where-Object { $_.Key -eq "Name" })
                           $newName = $nameTag.Value
-                          $admin = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId {{AdminSecret}}).SecretString
+                          $admin = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId {{AdminSecrets}}).SecretString
                           $Credentials = (New-Object PSCredential("{{DomainNetBIOSName}}\$($admin.username)",(ConvertTo-SecureString $admin.Password -AsPlainText -Force)))
                           Add-Computer -NewName $newName -DomainName {{DomainDNSName}} -Credential $Credentials
                           'returning 3010, should continue after reboot'
