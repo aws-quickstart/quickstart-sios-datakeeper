@@ -1,7 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'This template deploys two Windows Server Failover Clustering (WSFC)
-  nodes with SQL Server 2017 and DataKeeper replication software. This template is
+Description: 'This template deploys a two or three node Windows Server Failover Cluster (WSFC)
+  with SQL Server 2017 and SIOS DataKeeper replication software. This template is
   intended to be installed into an existing VPC that was built using the sample reference
   architecture titled: "Implementing Active Directory Domain Services in the AWS Cloud"
   **WARNING** This template creates Amazon EC2 Windows instance and related resources.
@@ -1925,7 +1925,7 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
+              sourceInfo:
                 !Sub 
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
@@ -2580,6 +2580,12 @@ Resources:
   WSFCWitness:
     Condition: NeedsWitnessNode
     Type: AWS::EC2::Instance
+    Metadata:
+      AWS::CloudFormation::Authentication:
+        S3AccessCreds:
+          type: S3
+          roleName: !Ref InstanceRole
+          buckets: !Ref QSS3BucketName
     Properties:
       ImageId: !Ref WSFCWitnessAmiId
       IamInstanceProfile: !Ref InstanceProfile
@@ -2934,180 +2940,79 @@ Resources:
   SIOSDataKeeperSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Replication node communication
+      GroupDescription: 
       VpcId: !Ref VPCID
-  SIOSDataKeeperSGIngressTCP137:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: tcp
-      FromPort: 137
-      ToPort: 139
-  SIOSDataKeeperSGIngressUDP137:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: udp
-      FromPort: 137
-      ToPort: 138
-  SIOSDataKeeperSGIngressTCP139:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: tcp
-      FromPort: 139
-      ToPort: 139
-  SIOSDataKeeperSGIngressTCP9999:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: tcp
-      FromPort: 9999
-      ToPort: 9999
-  SIOSDataKeeperSGIngressTCP10003:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: tcp
-      FromPort: 10000
-      ToPort: 10025
-  SIOSDataKeeperSGIngressTCP445:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref SIOSDataKeeperSG
-      SourceSecurityGroupId: !Ref SIOSDataKeeperSG
-      IpProtocol: tcp
-      FromPort: 445
-      ToPort: 445
-  WSFCSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable the WSFC and SQL AlwaysOn Availability Group communications
-      VpcId: !Ref VPCID
-  WSFCSecurityGroupIngressIcmp:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: icmp
-      FromPort: -1
-      ToPort: -1
-  WSFCSecurityGroupIngressTcp135:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 135
-      ToPort: 135
-  WSFCSecurityGroupIngressTcp137:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 137
-      ToPort: 137
-  WSFCSecurityGroupIngressTcp445:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 445
-      ToPort: 445
-  WSFCSecurityGroupIngressTcp1433:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 1433
-      ToPort: 1434
-  WSFCSecurityGroupIngressTcp3343:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 3343
-      ToPort: 3343
-  WSFCSecurityGroupIngressTcp5022:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 5022
-      ToPort: 5022
-  WSFCSecurityGroupIngressTcp5985:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 5985
-      ToPort: 5985
-  WSFCSecurityGroupIngressUdp137:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: udp
-      FromPort: 137
-      ToPort: 137
-  WSFCSecurityGroupIngressUdp3343:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: udp
-      FromPort: 3343
-      ToPort: 3343
-  WSFCSecurityGroupIngressUdp1434:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: udp
-      FromPort: 1434
-      ToPort: 1434
-  WSFCSecurityGroupIngressTcpHighPorts:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: tcp
-      FromPort: 49152
-      ToPort: 65535
-  WSFCSecurityGroupIngressUdpHighPorts:
-    Type: AWS::EC2::SecurityGroupIngress
-    Properties:
-      GroupId: !Ref WSFCSecurityGroup
-      SourceSecurityGroupId: !Ref WSFCSecurityGroup
-      IpProtocol: udp
-      FromPort: 49152
-      ToPort: 65535
-  SQLServerAccessSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+    Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
-      GroupDescription: Allows access to SQL Servers
-  WSFCClientSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: SQL Client access ports
-      VpcId: !Ref VPCID
+      GroupDescription: Security group for replication communication
       SecurityGroupIngress:
         - IpProtocol: tcp
+          FromPort: 9999
+          ToPort: 9999
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 10000
+          ToPort: 10025
+          CidrIp: !Ref VPCCIDR
+  WSFCSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref VPCID
+      GroupDescription: Security group to enable WSFC communications
+      SecurityGroupIngress:
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 135
+          ToPort: 135
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 137
+          ToPort: 139
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 445
+          ToPort: 445
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
           FromPort: 1433
-          ToPort: 1433
-          SourceSecurityGroupId: !Ref SQLServerAccessSecurityGroup
+          ToPort: 1434
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 3343
+          ToPort: 3343
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 5022
+          ToPort: 5022
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 5985
+          ToPort: 5985
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: udp
+          FromPort: 137
+          ToPort: 138
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: udp
+          FromPort: 1434
+          ToPort: 1434
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: udp
+          FromPort: 3343
+          ToPort: 3343
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: tcp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Ref VPCCIDR
+        - IpProtocol: udp
+          FromPort: 49152
+          ToPort: 65535
+          CidrIp: !Ref VPCCIDR
 Outputs:
   QuickStartLogs:
     Value: !Ref QuickStartLogs
