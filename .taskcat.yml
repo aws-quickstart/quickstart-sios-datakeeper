@@ -33,5 +33,5 @@ tests:
       SQLServiceAccountPassword: ''
       ThirdAZ: full
     regions:
-    - us-east-1
+    - us-east-2
     template: templates/sios-datakeeper-main.template

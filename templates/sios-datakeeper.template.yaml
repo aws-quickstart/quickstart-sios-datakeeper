@@ -1946,9 +1946,12 @@ Resources:
                       - ''
                       - '-SharePath \\{{FSxDNSName}}\share'
                     - !If
-                      - ThirdAzIsWitness
-                      - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                      - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+                      - ThirdAzIsFullNode
+                      - ''
+                      - !If
+                        - ThirdAzIsWitness
+                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1ConfigNoSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2600,7 +2603,6 @@ Resources:
           GroupSet:
             - !Ref DomainMemberSGID
             - !Ref WSFCSecurityGroup
-            - !Ref WSFCClientSecurityGroup
       Tags:
         - Key: Name
           Value: !Ref WSFCWitnessNetBIOSName
@@ -2652,7 +2654,6 @@ Resources:
           GroupSet:
             - !Ref DomainMemberSGID
             - !Ref WSFCSecurityGroup
-            - !Ref WSFCClientSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2708,7 +2709,6 @@ Resources:
           GroupSet:
             - !Ref DomainMemberSGID
             - !Ref WSFCSecurityGroup
-            - !Ref WSFCClientSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2763,7 +2763,6 @@ Resources:
           GroupSet:
             - !Ref DomainMemberSGID
             - !Ref WSFCSecurityGroup
-            - !Ref WSFCClientSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -3027,7 +3026,4 @@ Outputs:
     Condition: ThirdAzIsFullNode
     Value: !Ref WSFCNode3NetBIOSName
     Description: NetBIOS name of the 3rd WSFC Node
-  SQLServerAccessSecurityGroup:
-    Value: !Ref SQLServerAccessSecurityGroup
-    Description: Add instances that require access to SQL to this Security Group
 ...  
