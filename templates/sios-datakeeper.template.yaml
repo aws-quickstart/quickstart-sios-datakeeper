@@ -1516,7 +1516,10 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./CreateJob.ps1 -JobName vol.D -JobDesc 'SQL Volume Protection' -SourceName {{WSFCNode1NetBIOSName}}.{{DomainDNSName}} -SourceVol D -SourceIP {{WSFCNode1PrivateIP1}} -TargetName {{WSFCNode2NetBIOSName}}.{{DomainDNSName}} -TargetIP {{WSFCNode2PrivateIP1}} -TargetVol D -SyncType S
+              commandLine: !If
+                - ThirdAzIsFullNode
+                - ./CreateJob.ps1 -JobName "vol.D" -JobDesc "DKCE Volume Protection" -SourceNames "{{WSFCNode1NetBIOSName}}.{{DomainDNSName}}","{{WSFCNode2NetBIOSName}}.{{DomainDNSName}}" -SourceVols "D","D" -SourceIPs "{{WSFCNode1PrivateIP1}}","{{WSFCNode2PrivateIP1}}" -TargetNames "{{WSFCNode2NetBIOSName}}.{{DomainDNSName}}","{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}" -TargetIPs "{{WSFCNode2PrivateIP1}}","{{WSFCNode3PrivateIP1}}" -TargetVols "D","D" -SyncTypes "S","S","S"
+                - ./CreateJob.ps1 -JobName "vol.D" -JobDesc "DKCE Volume Protection" -SourceNames "{{WSFCNode1NetBIOSName}}.{{DomainDNSName}}" -SourceVols "D" -SourceIPs "{{WSFCNode1PrivateIP1}}" -TargetNames "{{WSFCNode2NetBIOSName}}.{{DomainDNSName}}" -TargetIPs "{{WSFCNode2PrivateIP1}}" -TargetVols "D" -SyncTypes "S"
         - name: CreateMirror
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1540,7 +1543,10 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./CreateMirror.ps1 -SourceIP {{WSFCNode1PrivateIP1}} -Volume D -TargetIP {{WSFCNode2PrivateIP1}} -SyncType S
+              commandLine: !If
+                - ThirdAzIsFullNode
+                - ./CreateMirror.ps1 -SourceIP "{{WSFCNode1PrivateIP1}}" -Volume "D" -TargetIPs "{{WSFCNode2PrivateIP1}}","{{WSFCNode3PrivateIP1}}" -SyncTypes "S","S"
+                - ./CreateMirror.ps1 -SourceIP "{{WSFCNode1PrivateIP1}}" -Volume "D" -TargetIPs "{{WSFCNode2PrivateIP1}}" -SyncTypes "S"
         - name: ManagedADBranch2
           action: aws:branch
           inputs:
