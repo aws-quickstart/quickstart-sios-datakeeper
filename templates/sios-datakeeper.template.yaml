@@ -3011,12 +3011,12 @@ Resources:
           ToPort: 3343
           CidrIp: !Ref VPCCIDR
         - IpProtocol: tcp
-          FromPort: -1
-          ToPort: -1
+          FromPort: 0
+          ToPort: 65535
           CidrIp: !Ref VPCCIDR
         - IpProtocol: udp
-          FromPort: -1
-          ToPort: -1
+          FromPort: 0
+          ToPort: 65535
           CidrIp: !Ref VPCCIDR
 Outputs:
   QuickStartLogs:
