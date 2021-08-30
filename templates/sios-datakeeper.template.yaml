@@ -828,6 +828,10 @@ Resources:
            default: Managed
            description: Both refer to the quickstart-microsoft-activedirectory submodule. 'Legacy' refers to scenario 1. 'Managed' refers to scenario 3.
            type: String
+          ActiveDirectoryId:
+           default: ''
+           description: AWS Managed Active Directory ID
+           type: String
           AdminSecrets:
            description: "AWS Secrets Parameter Name that has Password and User name for a domain administrator."
            type: "String"
@@ -1336,7 +1340,7 @@ Resources:
               StringEquals: WS2019
         - name: CreateCertificate2012R2
           action: aws:runCommand
-          nextStep: DomainJoin
+          nextStep: ManagedADBranch2
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
@@ -1390,7 +1394,29 @@ Resources:
               commands: 
                 - |
                    C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
-        - name: DomainJoin
+        - name: ManagedADBranch2
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: DomainJoinSAD
+              Variable: '{{ActiveDirectoryConfig}}'
+              StringEquals: Legacy
+        - name: DomainJoinMAD
+          action: aws:runCommand
+          nextStep: OpenWSFCPorts
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-JoinDirectoryServiceDomain
+            InstanceIds: 
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              directoryId: '{{ActiveDirectoryId}}'
+              directoryName: '{{DomainDNSName}}'
+              dnsIpAddresses: ['{{ADServer1PrivateIP}}','{{ADServer2PrivateIP}}']
+        - name: DomainJoinSAD
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
@@ -1547,7 +1573,7 @@ Resources:
                 - ThirdAzIsFullNode
                 - ./CreateMirror.ps1 -SourceIP "{{WSFCNode1PrivateIP1}}" -Volume "D" -TargetIPs "{{WSFCNode2PrivateIP1}}","{{WSFCNode3PrivateIP1}}" -SyncTypes "S","S"
                 - ./CreateMirror.ps1 -SourceIP "{{WSFCNode1PrivateIP1}}" -Volume "D" -TargetIPs "{{WSFCNode2PrivateIP1}}" -SyncTypes "S"
-        - name: ManagedADBranch2
+        - name: ManagedADBranch3
           action: aws:branch
           inputs:
             Choices:
@@ -1665,7 +1691,7 @@ Resources:
               Variable: '{{SQLServerVersion}}'
               StringEquals: None
         # START INSTALL SQL branch2
-        - name: ManagedADBranch3
+        - name: ManagedADBranch4
           action: aws:branch
           inputs:
             Choices:
@@ -2794,6 +2820,8 @@ Resources:
                 - UsingAWSManagedAD
                 - Managed
                 - Legacy
+            - ';"ActiveDirectoryId"='
+            - !Sub '"{{ActiveDirectoryId}}"'
             - ';"AdminSecrets"='
             - !Sub '"${ADAdminSecrets}"'
             - ';"ADServer1NetBIOSName"='
