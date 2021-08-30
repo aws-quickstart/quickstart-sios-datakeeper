@@ -1328,9 +1328,40 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: DomainJoin2012R2
+            - NextStep: CopyDriveLetterMapping
               Variable: "{{OSVersion}}"
-              StringEquals: WS2012R2
+              StringEquals: WS2016
+            - NextStep: CopyDriveLetterMapping
+              Variable: "{{OSVersion}}"
+              StringEquals: WS2019
+        - name: CreateCertificate2012R2
+          action: aws:runCommand
+          nextStep: DomainJoin
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/New-SelfSignedCertificateEx.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine:
+                - |
+                  $cert = ./New-SelfSignedCertificateEx -Subject "CN=AWSQSDscEncryptCert" -EKU "1.3.6.1.4.1.311.10.3.4" -KeySpec Exchange -KeyUsage "EncipherOnly, DataEncipherment, KeyEncipherment, DigitalSignature, DecipherOnly" -StoreLocation "LocalMachine\My" -FriendlyName "AWSQSDscEncryptCert" -ProviderName "Microsoft Strong Cryptographic Provider" -SignatureAlgorithm sha1 -NotAfter $(Get-Date).AddYears(100) -Exportable
+                  $cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
         - name: CopyDriveLetterMapping
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1385,7 +1416,6 @@ Resources:
               commandLine: ./DomainJoin.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -AdminSecret {{AdminSecrets}}
         - name: DomainJoinApply
           action: aws:runCommand
-          nextStep: OpenWSFCPorts
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
@@ -1408,33 +1438,6 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: DomainJoin2012R2
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              commands: 
-                - |
-                  function Test-DomainJoined() {
-                      if ("$($env:USERDNSDOMAIN)" -NotLike "{{DomainDNSName}}") {
-                          $nameTag = (Get-EC2Tag -Filter @{ Name="resource-id";Values=(Invoke-RestMethod -Method Get -Uri http://169.254.169.254/latest/meta-data/instance-id)}| Where-Object { $_.Key -eq "Name" })
-                          $newName = $nameTag.Value
-                          $admin = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId {{AdminSecrets}}).SecretString
-                          $Credentials = (New-Object PSCredential("{{DomainNetBIOSName}}\$($admin.username)",(ConvertTo-SecureString $admin.Password -AsPlainText -Force)))
-                          Add-Computer -NewName $newName -DomainName {{DomainDNSName}} -Credential $Credentials
-                          'returning 3010, should continue after reboot'
-                           exit 3010
-                       } else {
-                         'Completed'
-                       }
-                  }
-                  Test-DomainJoined
         - name: OpenWSFCPorts
           action: aws:runCommand
           onFailure: step:signalfailure
