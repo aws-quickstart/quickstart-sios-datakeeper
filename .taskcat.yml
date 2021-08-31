@@ -74,6 +74,8 @@ tests:
   ws2019-payg-sql2017-sad-full:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
+      ADServer1InstanceType: t3.large
+      ADServer2InstanceType: t3.large
       AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_3]
       ClusterNodeOSServerVersion: WS2019

@@ -2461,6 +2461,10 @@ Resources:
                     - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-RunPowerShellScript
                 - Effect: Allow
                   Action: ssm:SendCommand
+                  Resource:
+                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-JoinDirectoryServiceDomain
+                - Effect: Allow
+                  Action: ssm:SendCommand
                   Resource: !Sub arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
                 - Effect: Allow
                   Action:
