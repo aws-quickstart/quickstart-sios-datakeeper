@@ -183,7 +183,7 @@ $PrivateKey.Length = $KeyLength
 # key will be stored in current user certificate store
 switch ($PSCmdlet.ParameterSetName) {
     '__store' {
-        $PrivateKey.MachineContext = if ($StoreLocation -like "LocalMachine*") {$true} else {$false}
+        $PrivateKey.MachineContext = if ($StoreLocation -like "LocalMachine") {$true} else {$false}
     }
     '__file' {
         $PrivateKey.MachineContext = $false

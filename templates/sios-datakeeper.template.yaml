@@ -1172,6 +1172,20 @@ Resources:
                      'returning 3010, should continue after reboot'
                       exit 3010
                    } else {'Next Step'}
+        - name: CopyNewCertificateScript
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |
+                   Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/New-SelfSignedCertificateEx.ps1 -LocalFile C:\cfn\scripts\New-SelfSignedCertificateEx.ps1
         - name: InstallDSCModules2012R2
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1338,34 +1352,9 @@ Resources:
             - NextStep: CopyDriveLetterMapping
               Variable: "{{OSVersion}}"
               StringEquals: WS2019
-        - name: CreateCertificate2012R2
-          action: aws:runCommand
-          nextStep: ManagedADBranch2
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/New-SelfSignedCertificateEx.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine:
-                - |
-                  $cert = ./New-SelfSignedCertificateEx -Subject "CN=AWSQSDscEncryptCert" -EKU "1.3.6.1.4.1.311.10.3.4" -KeySpec Exchange -KeyUsage "EncipherOnly, DataEncipherment, KeyEncipherment, DigitalSignature, DecipherOnly" -StoreLocation "LocalMachine\My" -FriendlyName "AWSQSDscEncryptCert" -ProviderName "Microsoft Strong Cryptographic Provider" -SignatureAlgorithm sha1 -NotAfter $(Get-Date).AddYears(100) -Exportable
-                  $cert | Export-Certificate -FilePath "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer" -Force
+            - NextStep: ManagedADBranch2
+              Variable: "{{OSVersion}}"
+              StringEquals: WS2012R2
         - name: CopyDriveLetterMapping
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2821,7 +2810,7 @@ Resources:
                 - Managed
                 - Legacy
             - ';"ActiveDirectoryId"='
-            - !Sub '"{{ActiveDirectoryId}}"'
+            - !Sub '"${ActiveDirectoryId}"'
             - ';"AdminSecrets"='
             - !Sub '"${ADAdminSecrets}"'
             - ';"ADServer1NetBIOSName"='
@@ -3036,11 +3025,11 @@ Resources:
           ToPort: 3343
           CidrIp: !Ref VPCCIDR
         - IpProtocol: tcp
-          FromPort: 0
+          FromPort: 49152
           ToPort: 65535
           CidrIp: !Ref VPCCIDR
         - IpProtocol: udp
-          FromPort: 0
+          FromPort: 49152
           ToPort: 65535
           CidrIp: !Ref VPCCIDR
 Outputs:

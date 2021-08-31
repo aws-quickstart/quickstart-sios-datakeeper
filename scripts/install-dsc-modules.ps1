@@ -26,7 +26,8 @@ New-Item -Path C:\AWSQuickstart\publickeys -ItemType directory -Force
 (Get-ChildItem Cert:\LocalMachine\My\) | Where-Object { $_.Subject -eq "CN=AWSQSDscEncryptCert" } | Remove-Item
 
 If($WS2012R2) {
-    $cert = New-SelfSignedCertificate -DnsName 'AWSQSDscEncryptCert' -CertStoreLocation 'Cert:\LocalMachine\My'
+    Get-ChildItem -Path cert:\LocalMachine\My | Where { $_.subject -eq "CN=AWSQSDscEncryptCert" } | foreach { $_ | Remove-Item -Force }
+    $cert = C:\cfn\scripts\New-SelfSignedCertificateEx -Subject "CN=AWSQSDscEncryptCert" -EKU "1.3.6.1.4.1.311.80.1" -KeySpec Exchange -KeyUsage "DataEncipherment, KeyEncipherment" -StoreLocation "LocalMachine" -ProviderName "Microsoft RSA SChannel Cryptographic Provider" -SignatureAlgorithm SHA256 -NotAfter $(Get-Date).AddYears(100) -Exportable
 }
 else {
     $cert = New-SelfSignedCertificate -Type DocumentEncryptionCertLegacyCsp -DnsName 'AWSQSDscEncryptCert' -HashAlgorithm SHA256
