@@ -1576,6 +1576,9 @@ Resources:
             - NextStep: WitnessInstallDSCModules3AZ
               Variable: '{{ThirdAZ}}'
               StringEquals: witness
+            - NextStep: InvokeADReplicationDC1
+              Variable: '{{ThirdAZ}}'
+              StringEquals: full
         - name: CreateSmbFileShare2AZ
           action: aws:runCommand
           nextStep: InvokeADReplicationDC1
@@ -1715,9 +1718,12 @@ Resources:
                 !Sub
                   - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption}
                   - ShareOption: !If
-                      - ThirdAzIsWitness
-                      - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                      - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+                      - ThirdAzIsFullNode
+                      - ''
+                      - !If
+                        - ThirdAzIsWitness
+                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1743,6 +1749,13 @@ Resources:
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
+        - name: ThirdAZWitnessBranch2
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: Node1Reboot1SQL
+              Variable: '{{ThirdAZ}}'
+              StringEquals: full
         - name: SetFolderPermissions
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1767,7 +1780,13 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -FileServerNetBIOSName {{ADServer1NetBIOSName}} -ClusterName {{ClusterName}}
+              commandLine: 
+                !Sub
+                  - ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption} -ClusterName {{ClusterName}}
+                  - ShareOption: !If
+                      - ThirdAzIsWitness
+                      - '-FileServerNetBIOSName {{WSFCNode3NetBIOSName}}'
+                      - '-FileServerNetBIOSName {{ADServer1NetBIOSName}}'
         # END Self-Managed AD branch3
         - name: Node1configureWSFCSQLManagedAD
           action: aws:runCommand
@@ -1872,7 +1891,7 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: ThirdAZWitnessBranch2
+        - name: ThirdAZWitnessBranch3
           action: aws:branch
           inputs:
             Choices:
@@ -2068,7 +2087,7 @@ Resources:
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
-        - name: ThirdAZWitnessBranch3
+        - name: ThirdAZWitnessBranch4
           action: aws:branch
           inputs:
             Choices:

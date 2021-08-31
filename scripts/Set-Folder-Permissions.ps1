@@ -5,12 +5,6 @@ param(
     [string]$DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminUser,
-
-    [Parameter(Mandatory=$true)]
-    [string]$DomainAdminPassword,
-
-    [Parameter(Mandatory=$true)]
     [string]$FileServerNetBIOSName,
 
     [Parameter(Mandatory=$true)]
