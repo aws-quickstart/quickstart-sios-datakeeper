@@ -66,7 +66,7 @@ tests:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_3]
+      AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2019
       SQLServerVersion: None
       SQLServiceAccountPassword: ''
@@ -102,7 +102,7 @@ tests:
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_3]
+      AvailabilityZones: $[taskcat_getaz_2]
       ClusterNodeOSServerVersion: WS2019
       SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
@@ -134,6 +134,30 @@ tests:
     regions:
     - us-east-1
     template: templates/sios-datakeeper-main.template
+  ws2012R2-payg-sql2017-sad-witness:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: witness
+    regions:
+    - us-east-2
+    template: templates/sios-datakeeper-main.template
+  ws2019-payg-sql2017-sad-none:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2019
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: none
+    regions:
+    - us-west-1
+    template: templates/sios-datakeeper-main.template
   ws2012R2-payg-sql2017-sad-full:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
@@ -143,30 +167,6 @@ tests:
       SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
       ThirdAZ: full
-    regions:
-    - us-east-2
-    template: templates/sios-datakeeper-main.template
-  ws2019-payg-sql2017-sad-witness:
-    parameters:
-      ADScenarioType: Microsoft AD on Amazon EC2
-      AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_3]
-      ClusterNodeOSServerVersion: WS2019
-      SQLServerVersion: 2017
-      SQLServiceAccountPassword: $[taskcat_genpass_16]
-      ThirdAZ: witness
-    regions:
-    - us-west-1
-    template: templates/sios-datakeeper-main.template
-  ws2012R2-payg-sql2017-sad-none:
-    parameters:
-      ADScenarioType: Microsoft AD on Amazon EC2
-      AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_2]
-      ClusterNodeOSServerVersion: WS2012R2
-      SQLServerVersion: 2017
-      SQLServiceAccountPassword: $[taskcat_genpass_16]
-      ThirdAZ: none
     regions:
     - us-west-2
     template: templates/sios-datakeeper-main.template
