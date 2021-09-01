@@ -1407,7 +1407,7 @@ Resources:
         - name: DomainJoinMAD
           action: aws:runCommand
           nextStep: OpenWSFCPorts
-          onFailure: step:signalfailure
+          onFailure: Continue
           inputs:
             DocumentName: AWS-JoinDirectoryServiceDomain
             InstanceIds: 
