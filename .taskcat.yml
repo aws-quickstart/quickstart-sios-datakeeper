@@ -35,18 +35,6 @@ tests:
     regions:
     - us-east-2
     template: templates/sios-datakeeper-main.template
-  ws2012r2-payg-nosql-mad-none:
-    parameters:
-      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
-      AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_2]
-      ClusterNodeOSServerVersion: WS2012R2
-      SQLServerVersion: None
-      SQLServiceAccountPassword: ''
-      ThirdAZ: none
-    regions:
-    - us-west-1
-    template: templates/sios-datakeeper-main.template
   ws2012r2-payg-sql2017-sad-none:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
