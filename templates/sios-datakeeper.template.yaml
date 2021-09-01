@@ -2653,6 +2653,16 @@ Resources:
             VolumeSize: 100
             VolumeType: gp2
       KeyName: !Ref KeyPairName
+      UserData: !Base64
+        Fn::Join:
+          - ''
+          - - "<powershell>\n"
+            - "New-Item -Path C:\\ -Name log -ItemType Directory \n"
+            - !Sub 'Set-Content -Value "${WSFCWitnessNetBIOSName}" -Path C:\log\hostname.txt'
+            - "\n"
+            - !Sub 'Rename-Computer -NewName "${WSFCWitnessNetBIOSName}"'
+            - "\n"
+            - "</powershell>\n"
   WSFCNode1:
     Type: AWS::EC2::Instance
     Metadata:
@@ -2707,6 +2717,16 @@ Resources:
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
+      UserData: !Base64
+        Fn::Join:
+          - ''
+          - - "<powershell>\n"
+            - "New-Item -Path C:\\ -Name log -ItemType Directory \n"
+            - !Sub 'Set-Content -Value "${WSFCNode1NetBIOSName}" -Path C:\log\hostname.txt'
+            - "\n"
+            - !Sub 'Rename-Computer -NewName "${WSFCNode1NetBIOSName}"'
+            - "\n"
+            - "</powershell>\n"
   WSFCNode3:
     Condition: ThirdAzIsFullNode
     Type: AWS::EC2::Instance
@@ -2762,6 +2782,16 @@ Resources:
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
+      UserData: !Base64
+        Fn::Join:
+          - ''
+          - - "<powershell>\n"
+            - "New-Item -Path C:\\ -Name log -ItemType Directory \n"
+            - !Sub 'Set-Content -Value "${WSFCNode3NetBIOSName}" -Path C:\log\hostname.txt'
+            - "\n"
+            - !Sub 'Rename-Computer -NewName "${WSFCNode3NetBIOSName}"'
+            - "\n"
+            - "</powershell>\n"
   WSFCNode2:
     Type: AWS::EC2::Instance
     Metadata:
@@ -2820,6 +2850,11 @@ Resources:
         Fn::Join:
           - ''
           - - "<powershell>\n"
+            - "New-Item -Path C:\\ -Name log -ItemType Directory \n"
+            - !Sub 'Set-Content -Value "${WSFCNode2NetBIOSName}" -Path C:\log\hostname.txt'
+            - "\n"
+            - !Sub 'Rename-Computer -NewName "${WSFCNode2NetBIOSName}"'
+            - "\n"
             - 'Start-Transcript -Path C:\\cfn\\log\\Start-DSCConfiguration.txt;'
             - 'Start-SSMAutomationExecution -DocumentName '
             - !Sub '"${SSMDocumentDKCE}"'
