@@ -1031,12 +1031,15 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: ManagedADBranch1
-              Or:
+            - NextStep: updateSSMAgent
+              And:
               - Variable: '{{ActiveDirectoryConfig}}'
                 StringEquals: Managed
               - Variable: '{{ThirdAZ}}'
-                StringEquals: none
+                StringEquals: witness
+            - NextStep: updateSSMAgent
+              Variable: '{{ThirdAZ}}'
+              StringEquals: none
         # START Self-Managed Third Node exists branch1 - {{WSFCNode3NetBIOSName}} holds Node3 or Witness NetBIOSName 
         - name: wsfcnode3InstanceId
           action: aws:executeAwsApi
@@ -1055,6 +1058,17 @@ Resources:
           - Name: InstanceId
             Selector: $.Reservations[0].Instances[0].InstanceId
             Type: String
+        - name: updateSSMAgent
+          action: aws:runCommand
+          timeoutSeconds: 300
+          onFailure: Continue
+          inputs:
+            DocumentName: AWS-UpdateSSMAgent
+            InstanceIds:
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
         - name: ManagedADBranch1
           action: aws:branch
           inputs:
@@ -2473,6 +2487,10 @@ Resources:
                 - Effect: Allow
                   Action: ssm:SendCommand
                   Resource:
+                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-JoinDirectoryServiceDomain
+                - Effect: Allow
+                  Action: ssm:SendCommand
+                  Resource:
                     - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-RunRemoteScript
                 - Effect: Allow
                   Action: ssm:SendCommand
@@ -2481,7 +2499,7 @@ Resources:
                 - Effect: Allow
                   Action: ssm:SendCommand
                   Resource:
-                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-JoinDirectoryServiceDomain
+                    - !Sub arn:${AWS::Partition}:ssm:${AWS::Region}:*:document/AWS-UpdateSSMAgent
                 - Effect: Allow
                   Action: ssm:SendCommand
                   Resource: !Sub arn:${AWS::Partition}:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
