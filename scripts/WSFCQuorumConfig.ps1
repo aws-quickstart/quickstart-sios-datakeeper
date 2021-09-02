@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$false)]
-    [string]$SQLSecret = ''
+    [string]$SharePath = ''
 )
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
