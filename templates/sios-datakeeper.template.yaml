@@ -1787,7 +1787,7 @@ Resources:
                       - !Ref QSS3BucketRegion
               commandLine: 
                 !Sub
-                  - ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption} -ClusterName {{ClusterName}}
+                  - ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ClusterName {{ClusterName}} ${ShareOption}
                   - ShareOption: !If
                       - ThirdAzIsWitness
                       - '-FileServerNetBIOSName {{WSFCNode3NetBIOSName}}'

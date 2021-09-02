@@ -5,16 +5,16 @@ param(
     [string]$DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$FileServerNetBIOSName,
-
-    [Parameter(Mandatory=$true)]
     [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
     [string]$SQLSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]$ClusterName
+    [string]$ClusterName,
+
+    [Parameter(Mandatory=$true)]
+    [string]$FileServerNetBIOSName
 
 )
 

@@ -127,22 +127,6 @@ Configuration WSFCNode1Config {
             DomainAdministratorCredential =  $Credentials
             DependsOn                     = '[Group]Administrators'
         }
-
-        if($SharePath -eq '') {
-            xClusterQuorum 'SetQuorumToNodeMajority' {
-                IsSingleInstance = 'Yes'
-                Type             = 'NodeMajority'
-                DependsOn        = '[xCluster]CreateCluster'
-            }
-        }
-        else {
-            xClusterQuorum 'SetQuorumToNodeAndFileShareMajority' {
-                IsSingleInstance = 'Yes'
-                Type             = 'NodeAndFileShareMajority'
-                Resource         = $SharePath
-                DependsOn        = '[xCluster]CreateCluster'
-            }
-        }
     }
 }
 
