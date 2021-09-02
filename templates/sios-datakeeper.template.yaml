@@ -1728,16 +1728,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine:
-                !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption}
-                  - ShareOption: !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - !If
-                        - ThirdAzIsWitness
-                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1825,13 +1816,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine:
-                !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} ${ShareOption}
-                  - ShareOption: !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - '-SharePath \\{{FSxDNSName}}\share'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
         - name: Node1Reboot1SQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1909,10 +1894,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: WaitForCluster
+            - NextStep: WSFCQuorumConfig
               Variable: '{{ThirdAZ}}'
               StringEquals: witness
-            - NextStep: WaitForCluster
+            - NextStep: WSFCQuorumConfig
               Variable: '{{ThirdAZ}}'
               StringEquals: none
         - name: Node3configureWSFCSQL
@@ -1942,7 +1927,7 @@ Resources:
         - name: Node3Reboot1SQL
           action: aws:runCommand
           onFailure: step:signalfailure
-          nextStep: WaitForCluster
+          nextStep: WSFCQuorumConfig
           inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
@@ -1989,22 +1974,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine:
-                !Sub
-                  - ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} ${ShareOption}
-                  - ShareOption: !If
-                    - UsingAWSManagedAD
-                    - !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - '-SharePath \\{{FSxDNSName}}\share'
-                    - !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - !If
-                        - ThirdAzIsWitness
-                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}}
         - name: ApplyWSFCNode1ConfigNoSQL
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2105,10 +2075,10 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: WaitForCluster
+            - NextStep: WSFCQuorumConfig
               Variable: '{{ThirdAZ}}'
               StringEquals: witness
-            - NextStep: WaitForCluster
+            - NextStep: WSFCQuorumConfig
               Variable: '{{ThirdAZ}}'
               StringEquals: none
         - name: Node3ConfigureWSFCNOSQL
@@ -2160,6 +2130,69 @@ Resources:
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
         # END NO SQL branch1
+        - name: WSFCQuorumConfig
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode1InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WSFCQuorumConfig.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine:
+                !Sub
+                  - ./WSFCQuorumConfig.ps1 ${ShareOption}
+                  - ShareOption: !If
+                    - UsingAWSManagedAD
+                    - !If
+                      - ThirdAzIsFullNode
+                      - ''
+                      - '-SharePath \\{{FSxDNSName}}\share'
+                    - !If
+                      - ThirdAzIsFullNode
+                      - ''
+                      - !If
+                        - ThirdAzIsWitness
+                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+        - name: ApplyWSFCQuorumConfig
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnode1InstanceId.InstanceId}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands: 
+                - |
+                   function DscStatusCheck () {
+                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
+                       if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
+                           'returning 3010, should continue after reboot'
+                           exit 3010
+                       } else {
+                         'Completed'
+                       }
+                   }
+                   Start-DscConfiguration 'C:\AWSQuickstart\WSFCQuorumConfig' -Wait -Verbose -Force
+                   DscStatusCheck
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure

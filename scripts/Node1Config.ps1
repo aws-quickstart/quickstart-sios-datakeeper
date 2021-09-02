@@ -17,11 +17,7 @@ param(
     [string]$AdminSecret = '',
 
     [Parameter(Mandatory=$false)]
-    [string]$SQLSecret = '',
-
-    [Parameter(Mandatory=$false)]
-    [string]$SharePath = ''
-
+    [string]$SQLSecret = ''
 )
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
