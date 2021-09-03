@@ -2134,45 +2134,6 @@ Resources:
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{wsfcnode1InstanceId.InstanceId}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WSFCQuorumConfig.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine:
-                !Sub
-                  - ./WSFCQuorumConfig.ps1 ${ShareOption}
-                  - ShareOption: !If
-                    - UsingAWSManagedAD
-                    - !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - '-SharePath \\{{FSxDNSName}}\share'
-                    - !If
-                      - ThirdAzIsFullNode
-                      - ''
-                      - !If
-                        - ThirdAzIsWitness
-                        - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                        - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
-        - name: ApplyWSFCQuorumConfig
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
             DocumentName: AWS-RunPowerShellScript
             InstanceIds: 
               - '{{wsfcnode1InstanceId.InstanceId}}'
@@ -2182,17 +2143,21 @@ Resources:
             Parameters:
               commands: 
                 - |
-                   function DscStatusCheck () {
-                       $LCMState = (Get-DscLocalConfigurationManager).LCMState
-                       if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
-                           'returning 3010, should continue after reboot'
-                           exit 3010
-                       } else {
-                         'Completed'
-                       }
-                   }
-                   Start-DscConfiguration 'C:\AWSQuickstart\WSFCQuorumConfig' -Wait -Verbose -Force
-                   DscStatusCheck
+                  !Sub
+                    - 'Set-ClusterQuorum ${QuorumOption}
+                    - QuorumOption: !If
+                      - UsingAWSManagedAD
+                      - !If
+                        - ThirdAzIsFullNode
+                        - '-NodeMajority'
+                        - '-NodeAndFileShareMajority \\{{FSxDNSName}}\share'
+                      - !If
+                        - ThirdAzIsFullNode
+                        - '-NodeMajority'
+                        - !If
+                          - ThirdAzIsWitness
+                          - '-NodeAndFileShareMajority \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                          - '-NodeAndFileShareMajority \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure
