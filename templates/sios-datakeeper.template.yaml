@@ -1785,7 +1785,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: 
+              commandLine:
                 !Sub
                   - ./Set-Folder-Permissions.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}} -ClusterName {{ClusterName}} ${ShareOption}
                   - ShareOption: !If
@@ -2134,30 +2134,41 @@ Resources:
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
               - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |
-                  !Sub
-                    - 'Set-ClusterQuorum ${QuorumOption}
-                    - QuorumOption: !If
+              sourceType: S3
+              sourceInfo: 
+                !Sub 
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WSFCQuorumConfig.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If 
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine:
+                !Sub
+                  - ./WSFCQuorumConfig.ps1 ${QuorumOption}
+                  - QuorumOption: !If
                       - UsingAWSManagedAD
                       - !If
                         - ThirdAzIsFullNode
-                        - '-NodeMajority'
-                        - '-NodeAndFileShareMajority \\{{FSxDNSName}}\share'
+                        - ''
+                        - '-SharePath \\{{FSxDNSName}}\share'
                       - !If
                         - ThirdAzIsFullNode
-                        - '-NodeMajority'
+                        - ''
                         - !If
                           - ThirdAzIsWitness
-                          - '-NodeAndFileShareMajority \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
-                          - '-NodeAndFileShareMajority \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
+                          - '-SharePath \\{{WSFCNode3NetBIOSName}}.{{DomainDNSName}}\witness'
+                          - '-SharePath \\{{ADServer1NetBIOSName}}.{{DomainDNSName}}\witness'
         - name: WaitForCluster
           action: aws:runCommand
           onFailure: step:signalfailure
