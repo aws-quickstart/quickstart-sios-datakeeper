@@ -25,15 +25,15 @@ general:
       QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
 tests:
-  ws2016-payg-nosql-mad-witness:
+  ws2019-payg-sql2017-mad-none:
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
-      AvailabilityZones: $[taskcat_getaz_3]
-      ClusterNodeOSServerVersion: WS2016
-      SQLServerVersion: None
-      SQLServiceAccountPassword: ''
-      ThirdAZ: witness
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2019
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: none
     regions:
-    - ap-southeast-2
+    - eu-west-3
     template: templates/sios-datakeeper-main.template
