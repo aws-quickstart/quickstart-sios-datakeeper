@@ -3065,36 +3065,28 @@ Resources:
       VpcId: !Ref VPCID
       GroupDescription: Security group to enable WSFC communications
       SecurityGroupIngress:
-        - IpProtocol: icmp
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet1CIDR
-        - IpProtocol: tcp
+          CidrIp: !Ref PrivateSubnet2CIDR
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet1CIDR
-        - IpProtocol: udp
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet1CIDR
+          CidrIp: !Ref PrivateSubnet3CIDR
   WSFCSecurityGroup2:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
       GroupDescription: Security group to enable WSFC communications
       SecurityGroupIngress:
-        - IpProtocol: icmp
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet2CIDR
-        - IpProtocol: tcp
+          CidrIp: !Ref PrivateSubnet1CIDR
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet2CIDR
-        - IpProtocol: udp
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet2CIDR
+          CidrIp: !Ref PrivateSubnet3CIDR
   WSFCSecurityGroup3:
     Type: 'AWS::EC2::SecurityGroup'
     Condition: ThirdAzIsFullNode
@@ -3102,18 +3094,14 @@ Resources:
       VpcId: !Ref VPCID
       GroupDescription: Security group to enable WSFC communications
       SecurityGroupIngress:
-        - IpProtocol: icmp
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet3CIDR
-        - IpProtocol: tcp
+          CidrIp: !Ref PrivateSubnet1CIDR
+        - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet3CIDR
-        - IpProtocol: udp
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet3CIDR
+          CidrIp: !Ref PrivateSubnet2CIDR
 Outputs:
   QuickStartLogs:
     Value: !Ref QuickStartLogs
