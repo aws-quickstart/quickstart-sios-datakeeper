@@ -2670,7 +2670,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode3PrivateIP1
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup
+            - !Ref FSxSecurityGroup
       Tags:
         - Key: Name
           Value: !Ref WSFCWitnessNetBIOSName
@@ -2731,7 +2731,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode1PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup
+            - !Ref WSFCSecurityGroup1
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2796,7 +2796,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode3PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup
+            - !Ref WSFCSecurityGroup3
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2860,7 +2860,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode2PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup
+            - !Ref WSFCSecurityGroup2
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -3059,7 +3059,7 @@ Resources:
           FromPort: 10000
           ToPort: 10025
           CidrIp: !Ref VPCCIDR
-  WSFCSecurityGroup:
+  WSFCSecurityGroup1:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -3068,55 +3068,52 @@ Resources:
         - IpProtocol: icmp
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref VPCCIDR
+          CidrIp: !Ref PrivateSubnet1CIDR
         - IpProtocol: tcp
-          FromPort: 135
-          ToPort: 135
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 137
-          ToPort: 139
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 445
-          ToPort: 445
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 1433
-          ToPort: 1434
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 3343
-          ToPort: 3343
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 5022
-          ToPort: 5022
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: tcp
-          FromPort: 5985
-          ToPort: 5985
-          CidrIp: !Ref VPCCIDR
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet1CIDR
         - IpProtocol: udp
-          FromPort: 137
-          ToPort: 138
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: udp
-          FromPort: 1434
-          ToPort: 1434
-          CidrIp: !Ref VPCCIDR
-        - IpProtocol: udp
-          FromPort: 3343
-          ToPort: 3343
-          CidrIp: !Ref VPCCIDR
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet1CIDR
+  WSFCSecurityGroup2:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref VPCID
+      GroupDescription: Security group to enable WSFC communications
+      SecurityGroupIngress:
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet2CIDR
         - IpProtocol: tcp
-          FromPort: 49152
-          ToPort: 65535
-          CidrIp: !Ref VPCCIDR
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet2CIDR
         - IpProtocol: udp
-          FromPort: 49152
-          ToPort: 65535
-          CidrIp: !Ref VPCCIDR
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet2CIDR
+  WSFCSecurityGroup3:
+    Type: 'AWS::EC2::SecurityGroup'
+    Condition: ThirdAzIsFullNode
+    Properties:
+      VpcId: !Ref VPCID
+      GroupDescription: Security group to enable WSFC communications
+      SecurityGroupIngress:
+        - IpProtocol: icmp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet3CIDR
+        - IpProtocol: tcp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet3CIDR
+        - IpProtocol: udp
+          FromPort: -1
+          ToPort: -1
+          CidrIp: !Ref PrivateSubnet3CIDR
 Outputs:
   QuickStartLogs:
     Value: !Ref QuickStartLogs
@@ -3129,6 +3126,10 @@ Outputs:
     Description: NetBIOS name of the 2nd WSFC Node
   WSFCNode3NetBIOSName:
     Condition: ThirdAzIsFullNode
+    Value: !Ref WSFCNode3NetBIOSName
+    Description: NetBIOS name of the 3rd WSFC Node
+  WSFCWitnessNetBIOSName:
+    Condition: ThirdAzIsWitness
     Value: !Ref WSFCNode3NetBIOSName
     Description: NetBIOS name of the 3rd WSFC Node
 ...  
