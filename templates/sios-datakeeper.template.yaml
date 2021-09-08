@@ -2670,7 +2670,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode3PrivateIP1
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref FSxSecurityGroup
+            - !Ref WSFCSecurityGroup
       Tags:
         - Key: Name
           Value: !Ref WSFCWitnessNetBIOSName
@@ -2731,7 +2731,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode1PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup1
+            - !Ref WSFCSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2796,7 +2796,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode3PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup3
+            - !Ref WSFCSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -2860,7 +2860,7 @@ Resources:
               PrivateIpAddress: !Ref WSFCNode2PrivateIP3
           GroupSet:
             - !Ref DomainMemberSGID
-            - !Ref WSFCSecurityGroup2
+            - !Ref WSFCSecurityGroup
             - !Ref SIOSDataKeeperSG
       Tags:
         - Key: Name
@@ -3059,7 +3059,7 @@ Resources:
           FromPort: 10000
           ToPort: 10025
           CidrIp: !Ref VPCCIDR
-  WSFCSecurityGroup1:
+  WSFCSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -3068,40 +3068,7 @@ Resources:
         - IpProtocol: '-1'
           FromPort: -1
           ToPort: -1
-          CidrIp: !Ref PrivateSubnet2CIDR
-        - IpProtocol: '-1'
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet3CIDR
-  WSFCSecurityGroup2:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      VpcId: !Ref VPCID
-      GroupDescription: Security group to enable WSFC communications
-      SecurityGroupIngress:
-        - IpProtocol: '-1'
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet1CIDR
-        - IpProtocol: '-1'
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet3CIDR
-  WSFCSecurityGroup3:
-    Type: 'AWS::EC2::SecurityGroup'
-    Condition: ThirdAzIsFullNode
-    Properties:
-      VpcId: !Ref VPCID
-      GroupDescription: Security group to enable WSFC communications
-      SecurityGroupIngress:
-        - IpProtocol: '-1'
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet1CIDR
-        - IpProtocol: '-1'
-          FromPort: -1
-          ToPort: -1
-          CidrIp: !Ref PrivateSubnet2CIDR
+          CidrIp: !Ref VPCCIDR
 Outputs:
   QuickStartLogs:
     Value: !Ref QuickStartLogs
@@ -3119,5 +3086,5 @@ Outputs:
   WSFCWitnessNetBIOSName:
     Condition: ThirdAzIsWitness
     Value: !Ref WSFCNode3NetBIOSName
-    Description: NetBIOS name of the 3rd WSFC Node
+    Description: NetBIOS name of the WSFC Witness Node
 ...  
