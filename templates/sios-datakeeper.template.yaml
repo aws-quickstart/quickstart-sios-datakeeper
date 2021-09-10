@@ -689,110 +689,110 @@ Mappings:
       Code: SDKCEWIN2019
   AWSAMIRegionMap:
     ap-northeast-2:
-      SDKCEWIN2012R2: ami-07aee85912702a8e8
-      SDKCEWIN2012R2BYOL: ami-0513016de7b98ac61
-      SDKCEWIN2016: ami-0bf43229aab6a7df7
-      SDKCEWIN2016BYOL: ami-059a59756fe0c6359
-      SDKCEWIN2019: ami-0976738e202d64f03
-      SDKCEWIN2019BYOL: ami-0cd37acc4e5e663f2
+      SDKCEWIN2012R2: ami-097309890c134b661
+      SDKCEWIN2012R2BYOL: ami-0bc3fa6ca2163e110
+      SDKCEWIN2016: ami-010a7dc22204cbbd7
+      SDKCEWIN2016BYOL: ami-0c814bdb53c5786d3
+      SDKCEWIN2019: ami-0aae5393447df8f8b
+      SDKCEWIN2019BYOL: ami-0be292949daacd441
     ap-south-1:
-      SDKCEWIN2012R2: ami-0cdca6f7e1979755f
-      SDKCEWIN2012R2BYOL: ami-084585b8d4a10a66c
-      SDKCEWIN2016: ami-0e42dfb75a0fb7b80
-      SDKCEWIN2016BYOL: ami-0f258dd2cb953322b
-      SDKCEWIN2019: ami-04bb4ac688fb506e9
-      SDKCEWIN2019BYOL: ami-07d7d6584e4e4c252
+      SDKCEWIN2012R2: ami-0207a6b918b234f12
+      SDKCEWIN2012R2BYOL: ami-0980f9d3b102c730f
+      SDKCEWIN2016: ami-087441694bfa0c0d0
+      SDKCEWIN2016BYOL: ami-0f586ef0a502fb4ce
+      SDKCEWIN2019: ami-0de433d1784a45f12
+      SDKCEWIN2019BYOL: ami-0f0bcbc28705ab9c5
     ap-southeast-1:
-      SDKCEWIN2012R2: ami-096b92345453768d6
-      SDKCEWIN2012R2BYOL: ami-03d2b0ac930bb294f
-      SDKCEWIN2016: ami-0cff216a19add18bd
-      SDKCEWIN2016BYOL: ami-0c3602eaf0388135a
-      SDKCEWIN2019: ami-0d6754ee33de3b9ad
-      SDKCEWIN2019BYOL: ami-073333a76cdc09193
+      SDKCEWIN2012R2: ami-06ca1f27b5d6c8b57
+      SDKCEWIN2012R2BYOL: ami-0781a72a2e28c4410
+      SDKCEWIN2016: ami-01be5c332d9300024
+      SDKCEWIN2016BYOL: ami-0c02f652949321b1c
+      SDKCEWIN2019: ami-06b2f14c1d8417d36
+      SDKCEWIN2019BYOL: ami-076aa440781096e2e
     ap-southeast-2:
-      SDKCEWIN2012R2: ami-0156b48853df1ecb9
-      SDKCEWIN2012R2BYOL: ami-04d8d8bc1d85560d4
-      SDKCEWIN2016: ami-056e6aee7000d57ca
-      SDKCEWIN2016BYOL: ami-09adba53758abb786
-      SDKCEWIN2019: ami-0bd4f156283fbe846
-      SDKCEWIN2019BYOL: ami-08aa5af192251628f
+      SDKCEWIN2012R2: ami-0bf45d31cdee85616
+      SDKCEWIN2012R2BYOL: ami-08854fb812e957e67
+      SDKCEWIN2016: ami-0093929e3e0ba2395
+      SDKCEWIN2016BYOL: ami-05b5b9f2b698f1b94
+      SDKCEWIN2019: ami-08b84d386ea33daef
+      SDKCEWIN2019BYOL: ami-0bbb1b3d5e1c6eef8
     ca-central-1:
-      SDKCEWIN2012R2: ami-0c0928bb619fc2083
-      SDKCEWIN2012R2BYOL: ami-0fb58dc07b7b5d819
-      SDKCEWIN2016: ami-0738c394c51dab04d
-      SDKCEWIN2016BYOL: ami-004b5d52c1efd8849
-      SDKCEWIN2019: ami-0fc0de382b6e22c41
-      SDKCEWIN2019BYOL: ami-0e0ec040aea36fc39
+      SDKCEWIN2012R2: ami-0a9ea4f9cbab4d59d
+      SDKCEWIN2012R2BYOL: ami-007c816cc9061f6b4
+      SDKCEWIN2016: ami-09f4064b34e4c9fe5
+      SDKCEWIN2016BYOL: ami-098e8bce1dc1a26be
+      SDKCEWIN2019: ami-0fe170d81f4f39656
+      SDKCEWIN2019BYOL: ami-0c693104daba261b2
     eu-central-1:
-      SDKCEWIN2012R2: ami-04589a140ab70aac0
-      SDKCEWIN2012R2BYOL: ami-0008c7941a66715cd
-      SDKCEWIN2016: ami-0b67f8c32fa88642e
-      SDKCEWIN2016BYOL: ami-02110dd98679b9d98
-      SDKCEWIN2019: ami-08658fce0bbd8bce4
-      SDKCEWIN2019BYOL: ami-0249a18cb75ee1999
+      SDKCEWIN2012R2: ami-0a737abff817bdbfa
+      SDKCEWIN2012R2BYOL: ami-02c1e68e72cde898b
+      SDKCEWIN2016: ami-06a095b172edeed3c
+      SDKCEWIN2016BYOL: ami-011c949cc41f7fa83
+      SDKCEWIN2019: ami-05052384eb19cdf25
+      SDKCEWIN2019BYOL: ami-005fcbf05083b88c4
     eu-north-1:
-      SDKCEWIN2012R2: ami-0819efd042dfa57df
-      SDKCEWIN2012R2BYOL: ami-024cabf453405cc1b
-      SDKCEWIN2016: ami-04ae86ce003ad73da
-      SDKCEWIN2016BYOL: ami-050ea49dd75f27d62
-      SDKCEWIN2019: ami-048b8675f79c155c6
-      SDKCEWIN2019BYOL: ami-0349f127d30df0cc9
+      SDKCEWIN2012R2: ami-0a87f47a3d3ec3b38
+      SDKCEWIN2012R2BYOL: ami-0d1489f91d63e172a
+      SDKCEWIN2016: ami-0cad9c514747dd202
+      SDKCEWIN2016BYOL: ami-00368266375fa794c
+      SDKCEWIN2019: ami-0fe4d69459d1d25c4
+      SDKCEWIN2019BYOL: ami-0593ad9473cc063e0
     eu-west-1:
-      SDKCEWIN2012R2: ami-0c31bda1c76c3c9fc
-      SDKCEWIN2012R2BYOL: ami-00f821f13cb0436ad
-      SDKCEWIN2016: ami-06d567b91a08500a3
-      SDKCEWIN2016BYOL: ami-0d8dc9c11b4e3ab20
-      SDKCEWIN2019: ami-06e7c526b9b8026ff
-      SDKCEWIN2019BYOL: ami-0590725665b90caae
+      SDKCEWIN2012R2: ami-0fada93364fc04bf6
+      SDKCEWIN2012R2BYOL: ami-0127e7fdfa589a437
+      SDKCEWIN2016: ami-051b670b2ebd5b860
+      SDKCEWIN2016BYOL: ami-095576695064a1737
+      SDKCEWIN2019: ami-0256991d3f2ae4284
+      SDKCEWIN2019BYOL: ami-0b899b1abd3da02e6
     eu-west-2:
-      SDKCEWIN2012R2: ami-06abc57fa909b4151
-      SDKCEWIN2012R2BYOL: ami-04fb8bb7068c7cf5a
-      SDKCEWIN2016: ami-0ec5a864f39dd2d11
-      SDKCEWIN2016BYOL: ami-0de4e83a5c6016fd7
-      SDKCEWIN2019: ami-0701e3966a4b76ee7
-      SDKCEWIN2019BYOL: ami-00ec51a9dd7bd5bef
+      SDKCEWIN2012R2: ami-0e499a885582b0bbf
+      SDKCEWIN2012R2BYOL: ami-0474dd2917fb8cfe7
+      SDKCEWIN2016: ami-00ef38f8c16d38bd3
+      SDKCEWIN2016BYOL: ami-0d63be20e9668f30f
+      SDKCEWIN2019: ami-0eb474a57608edc2d
+      SDKCEWIN2019BYOL: ami-0ed8eade22340f77e
     eu-west-3:
-      SDKCEWIN2012R2: ami-09f341c4a3eea9f03
-      SDKCEWIN2012R2BYOL: ami-0bfba789c019ddbee
-      SDKCEWIN2016: ami-0952652f506fb5657
-      SDKCEWIN2016BYOL: ami-0751c28ace8f8862d
-      SDKCEWIN2019: ami-0bedd7fa49c09788a
-      SDKCEWIN2019BYOL: ami-04ed2802962859288
+      SDKCEWIN2012R2: ami-0323c5e07340bb2e1
+      SDKCEWIN2012R2BYOL: ami-0bb1f9834a30a4627
+      SDKCEWIN2016: ami-0e74e289b8a10b7a5
+      SDKCEWIN2016BYOL: ami-024a9144a52226c5d
+      SDKCEWIN2019: ami-01dea56e4b183d671
+      SDKCEWIN2019BYOL: ami-0651e6a418ccd8b90
     sa-east-1:
-      SDKCEWIN2012R2: ami-09610132294531593
-      SDKCEWIN2012R2BYOL: ami-04f0b5be76d691f5b
-      SDKCEWIN2016: ami-04e88e39099ab6daa
-      SDKCEWIN2016BYOL: ami-0ceacd02fdad625ba
-      SDKCEWIN2019: ami-04eb25539589e7927
-      SDKCEWIN2019BYOL: ami-0e22cf681147e0c2f
+      SDKCEWIN2012R2: ami-0749c6bd1567b487e
+      SDKCEWIN2012R2BYOL: ami-007d451b5a59b4603
+      SDKCEWIN2016: ami-0f065f6256cf64a10
+      SDKCEWIN2016BYOL: ami-0e18aeea01904064b
+      SDKCEWIN2019: ami-09c8d3695c589ac2e
+      SDKCEWIN2019BYOL: ami-04c949519a560f45d
     us-east-1:
-      SDKCEWIN2012R2: ami-0b7677610c873dd41
-      SDKCEWIN2012R2BYOL: ami-060ac340926c5740b
-      SDKCEWIN2016: ami-01fe05f872eecdad6
-      SDKCEWIN2016BYOL: ami-049b56c830993e699
-      SDKCEWIN2019: ami-082175fcf99b8d31d
-      SDKCEWIN2019BYOL: ami-0f7d8adc21293814f
+      SDKCEWIN2012R2: ami-07b5366f9007f2ba4
+      SDKCEWIN2012R2BYOL: ami-007f2fc864a90a0a8
+      SDKCEWIN2016: ami-0f09b25a40cb8f531
+      SDKCEWIN2016BYOL: ami-0af655276fd0537c7
+      SDKCEWIN2019: ami-0a7085e8fd7140173
+      SDKCEWIN2019BYOL: ami-03ef2f737aebaa815
     us-east-2:
-      SDKCEWIN2012R2: ami-00140363e84db577e
-      SDKCEWIN2012R2BYOL: ami-0f3aac75491b4e258
-      SDKCEWIN2016: ami-073255e95f7603915
-      SDKCEWIN2016BYOL: ami-0cc356fe52b8fe10d
-      SDKCEWIN2019: ami-06bd9d182d2bfa08a
-      SDKCEWIN2019BYOL: ami-06a63f89f5b651e9e
+      SDKCEWIN2012R2: ami-053f917270c31b7bc
+      SDKCEWIN2012R2BYOL: ami-01e88b6d8decce48d
+      SDKCEWIN2016: ami-0b679d17e28ed83cc
+      SDKCEWIN2016BYOL: ami-08341b84eacbee820
+      SDKCEWIN2019: ami-0ead1020b61a6df8b
+      SDKCEWIN2019BYOL: ami-0794b98df624b82bd
     us-west-1:
-      SDKCEWIN2012R2: ami-09b8eb4ecd545df7c
-      SDKCEWIN2012R2BYOL: ami-0becdc3a36599c4ae
-      SDKCEWIN2016: ami-09cd4e2bf4f86b870
-      SDKCEWIN2016BYOL: ami-0c7a6870f53699f51
-      SDKCEWIN2019: ami-0f7f2bc69c488a3f7
-      SDKCEWIN2019BYOL: ami-085cf882c0c48bb7d
+      SDKCEWIN2012R2: ami-04de7a4a20b4562a7
+      SDKCEWIN2012R2BYOL: ami-07c7f5258bba01fc9
+      SDKCEWIN2016: ami-06d371aa968788b7c
+      SDKCEWIN2016BYOL: ami-0eefcdd18a4278cf3
+      SDKCEWIN2019: ami-0f48860623c53b157
+      SDKCEWIN2019BYOL: ami-05a09a5f683f20d68
     us-west-2:
-      SDKCEWIN2012R2: ami-0a3a3558a58c61de9
-      SDKCEWIN2012R2BYOL: ami-08983b5fc2832909a
-      SDKCEWIN2016: ami-0dcfa9c9850a815b6
-      SDKCEWIN2016BYOL: ami-0e3ce48d712530c3d
-      SDKCEWIN2019: ami-018aeb83843427097
-      SDKCEWIN2019BYOL: ami-034b0bea4b0c1cd0c
+      SDKCEWIN2012R2: ami-0a706844aadbcc625
+      SDKCEWIN2012R2BYOL: ami-046bf72bfda7ec030
+      SDKCEWIN2016: ami-0175d3ed6acb940a3
+      SDKCEWIN2016BYOL: ami-05ea4a058e13615b6
+      SDKCEWIN2019: ami-0173e8b3875de02a0
+      SDKCEWIN2019BYOL: ami-0dde6a1f4a6d8bf19
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -1728,7 +1728,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}}
         - name: ApplyWSFCNode1Config
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1816,7 +1816,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}} -SQLSecret {{SQLSecrets}}
+              commandLine: ./Node1Config.ps1 -DomainNetBIOSName {{DomainNetBIOSName}} -DomainDNSName {{DomainDNSName}} -WSFCNode1PrivateIP2 {{WSFCNode1PrivateIP2}} -ClusterName {{ClusterName}} -AdminSecret {{AdminSecrets}}
         - name: Node1Reboot1SQL
           action: aws:runCommand
           onFailure: step:signalfailure
