@@ -14,7 +14,10 @@ param(
     [string]$ClusterName,
 
     [Parameter(Mandatory=$true)]
-    [string]$AdminSecret = ''
+    [string]$AdminSecret = '',
+
+    [Parameter(Mandatory=$false)]
+    [string]$SQLSecret = ''
 )
 
 # Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
@@ -25,6 +28,12 @@ $AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminS
 $ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
 # Creating Credential Object for Administrator
 $Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $AdminUser.Password -AsPlainText -Force)))
+
+if ($SQLSecret -ne '') {
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLUser.Password -AsPlainText -Force)))
+}
 
 $ConfigurationData = @{
     AllNodes = @(
@@ -42,7 +51,8 @@ $ConfigurationData = @{
 
 Configuration WSFCNode1Config {
     param(
-        [PSCredential] $Credentials
+        [PSCredential] $Credentials,
+        [PSCredential] $SQLCredentials
     )
 
     Import-Module -Name PSDscResources
@@ -83,11 +93,32 @@ Configuration WSFCNode1Config {
             DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringPowerShellFeature'
         }
 
-        Group Administrators {
-            GroupName = 'Administrators'
-            Ensure = 'Present'
-            MembersToInclude = @($ClusterAdminUser)
-            DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature' 
+        if ($SQLSecret -ne '') {
+            ADUser SQLServiceAccount {
+                DomainName = $DomainDnsName
+                UserName = $SQLUser.UserName
+                Password = $SQLCredentials
+                DisplayName = $SQLUser.UserName
+                PasswordAuthentication = 'Negotiate'
+                PsDscRunAsCredential = $Credentials
+                Ensure = 'Present'
+                DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature' 
+            }
+
+            Group Administrators {
+                GroupName = 'Administrators'
+                Ensure = 'Present'
+                MembersToInclude = @($ClusterAdminUser, $SQLAdminUser)
+                DependsOn = "[ADUser]SQLServiceAccount"
+            }
+        } 
+        else {
+            Group Administrators {
+                GroupName = 'Administrators'
+                Ensure = 'Present'
+                MembersToInclude = @($ClusterAdminUser)
+                DependsOn = '[WindowsFeature]AddRemoteServerAdministrationToolsClusteringCmdInterfaceFeature' 
+            }
         }
 
         xCluster CreateCluster {
@@ -99,6 +130,9 @@ Configuration WSFCNode1Config {
     }
 }
 
-
-WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials
-
+if($SQLSecret -ne '') {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials -SQLCredentials $SQLCredentials
+}
+else {
+    WSFCNode1Config -OutputPath 'C:\AWSQuickstart\WSFCNode1Config' -ConfigurationData $ConfigurationData -Credentials $Credentials
+}
