@@ -14,7 +14,7 @@ Install-Module -Name ComputerManagementDsc -RequiredVersion 8.4.0
 Install-Module -Name xFailOverCluster -RequiredVersion 1.14.1
 Install-Module -Name PSDscResources -RequiredVersion 2.12.0.0
 Install-Module -Name xSmbShare -RequiredVersion 2.2.0.0
-Install-Module -Name ActiveDirectoryDsc -RequiredVersion 6.0.1
+Install-Module -Name xActiveDirectory
 
 "Disabling Windows Firewall"
 Get-NetFirewallProfile | Set-NetFirewallProfile -Enabled False
