@@ -406,7 +406,7 @@ Resources:
               sourceType: "S3"
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/LCM-Config-DC.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/LCM-Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
