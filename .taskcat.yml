@@ -25,6 +25,126 @@ general:
       QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
 tests:
+  ws2012r2-payg-nosql-mad-none:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: none
+    regions:
+    - ap-south-1
+    template: templates/sios-datakeeper-main.template
+  ws2016-payg-nosql-mad-witness:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2016
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: witness
+    regions:
+    - ap-southeast-2
+    template: templates/sios-datakeeper-main.template
+  ws2012R2-payg-nosql-mad-full:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: full
+    regions:
+    - ca-central-1
+    template: templates/sios-datakeeper-main.template
+  ws2019-payg-nosql-sad-none:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2019
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: none
+    regions:
+    - eu-central-1
+    template: templates/sios-datakeeper-main.template
+  ws2012r2-payg-nosql-sad-witness:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: witness
+    regions:
+    - eu-west-1
+    template: templates/sios-datakeeper-main.template
+  ws2016-payg-nosql-sad-full:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2016
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: full
+    regions:
+    - eu-west-2
+    template: templates/sios-datakeeper-main.template
+  ws2019-payg-sql2017-mad-none:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_2]
+      ClusterNodeOSServerVersion: WS2019
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: none
+    regions:
+    - eu-west-3
+    template: templates/sios-datakeeper-main.template
+  ws2012R2-payg-sql2017-mad-witness:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: witness
+    regions:
+    - sa-east-1
+    template: templates/sios-datakeeper-main.template
+  ws2016-payg-sql2017-mad-full:
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2016
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: full
+    regions:
+    - us-east-1
+    template: templates/sios-datakeeper-main.template
+  ws2012R2-payg-sql2017-sad-witness:
+    parameters:
+      ADScenarioType: Microsoft AD on Amazon EC2
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: witness
+    regions:
+    - us-east-2
+    template: templates/sios-datakeeper-main.template
   ws2019-payg-sql2017-sad-none:
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
