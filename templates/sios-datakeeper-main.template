@@ -760,11 +760,11 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub
-        - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}submodules/quickstart-microsoft-activedirectory/templates/${QSADTemplate}
+        - https://${S3Bucket}.s3.${S3Region}.${AWS::URLSuffix}/${QSS3KeyPrefix}${QSADTemplate}
         - QSADTemplate: !If
             - UseAWSManagedAD
-            - ad-3.template
-            - ad-1.template
+            - submodules/quickstart-microsoft-activedirectory/templates/ad-3.template
+            - templates/ad.template
           S3Region: !If
             - UsingDefaultBucket
             - !Ref AWS::Region
