@@ -6,14 +6,14 @@ param(
 
 "Setting up Powershell Gallery to Install DSC Modules"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5 -Force
 Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 "Installing the needed Powershell DSC modules for this Quick Start"
-Install-Module -Name ComputerManagementDsc -RequiredVersion 8.4.0
-Install-Module -Name xFailOverCluster -RequiredVersion 1.14.1
-Install-Module -Name PSDscResources -RequiredVersion 2.12.0.0
-Install-Module -Name xSmbShare -RequiredVersion 2.2.0.0
+Install-Module -Name ComputerManagementDsc
+Install-Module -Name xFailOverCluster
+Install-Module -Name PSDscResources
+Install-Module -Name xSmbShare 
 Install-Module -Name xActiveDirectory
 
 "Disabling Windows Firewall"
