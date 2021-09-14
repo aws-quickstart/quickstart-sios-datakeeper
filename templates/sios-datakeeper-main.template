@@ -764,7 +764,7 @@ Resources:
         - QSADTemplate: !If
             - UseAWSManagedAD
             - submodules/quickstart-microsoft-activedirectory/templates/ad-3.template
-            - templates/ad.template
+            - templates/ad.template.yaml
           S3Region: !If
             - UsingDefaultBucket
             - !Ref AWS::Region
