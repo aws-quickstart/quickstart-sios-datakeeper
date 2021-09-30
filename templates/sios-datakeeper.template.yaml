@@ -3045,10 +3045,6 @@ Resources:
   SIOSDataKeeperSG:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: Security group to enable replication node communication
-      VpcId: !Ref VPCID
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
       VpcId: !Ref VPCID
       GroupDescription: Security group for replication communication
       SecurityGroupIngress:
