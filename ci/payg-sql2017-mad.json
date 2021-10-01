@@ -1,11 +1,19 @@
 [
     {
+        "ParameterKey": "ADScenarioType",
+        "ParameterValue": "AWS Directory Service for Microsoft AD (Standard Edition)"
+    },
+    {
         "ParameterKey": "AMIType",
-        "ParameterValue": "BYOL"
+        "ParameterValue": "PAYG"
+    },
+    {
+        "ParameterKey": "NumberOfRDGWHosts",
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "ClusterNodeOSServerVersion",
-        "ParameterValue": "2016"
+        "ParameterValue": "WS2019"
     },
     {
         "ParameterKey": "ADServer1InstanceType",
@@ -14,10 +22,6 @@
     {
         "ParameterKey": "ADServer1NetBIOSName",
         "ParameterValue": "SIOSDC1"
-    },
-    {
-        "ParameterKey": "NumberOfRDGWHosts",
-        "ParameterValue": "0"
     },
     {
         "ParameterKey": "ADServer1PrivateIP",
@@ -53,7 +57,7 @@
     },
     {
         "ParameterKey": "DomainNetBIOSName",
-        "ParameterValue": "datakeeper"
+        "ParameterValue": "DATAKEEPER"
     },
     {
         "ParameterKey": "KeyPairName",
@@ -89,7 +93,7 @@
     },
     {
         "ParameterKey": "RDGWCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
@@ -97,7 +101,7 @@
     },
     {
         "ParameterKey": "SQLServerVersion",
-        "ParameterValue": "2014SP1"
+        "ParameterValue": "2017"
     },
     {
         "ParameterKey": "SQLServiceAccount",
@@ -105,7 +109,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[taskcat_genpass_16A]"
+        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "VPCCIDR",
