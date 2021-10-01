@@ -17,7 +17,6 @@ project:
   - us-west-2
   s3_bucket: ''
 general:
-  template: templates/sios-datakeeper-main.template
   s3_regional_buckets: true
   parameters:
       DomainAdminPassword: Password1
@@ -27,6 +26,7 @@ general:
       RDGWCIDR: 0.0.0.0/0
 tests:
   ws2012r2-payg-nosql-mad-none:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
@@ -38,6 +38,7 @@ tests:
     regions:
     - ap-south-1
   ws2016-payg-nosql-mad-witness:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
@@ -49,6 +50,7 @@ tests:
     regions:
     - ap-southeast-2
   ws2012R2-payg-nosql-mad-full:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
@@ -60,6 +62,7 @@ tests:
     regions:
     - ca-central-1
   ws2019-payg-nosql-sad-none:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AmiType: PAYG
@@ -71,6 +74,7 @@ tests:
     regions:
     - eu-central-1
   ws2012r2-payg-nosql-sad-witness:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AmiType: PAYG
@@ -82,6 +86,7 @@ tests:
     regions:
     - eu-west-1
   ws2016-payg-nosql-sad-full:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
       AmiType: PAYG
@@ -93,6 +98,7 @@ tests:
     regions:
     - eu-west-2
   ws2019-payg-sql2017-mad-none:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
@@ -104,6 +110,7 @@ tests:
     regions:
     - eu-west-3
   ws2012R2-payg-sql2017-mad-witness:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
@@ -115,6 +122,7 @@ tests:
     regions:
     - sa-east-1
   ws2016-payg-sql2017-mad-full:
+    template: templates/sios-datakeeper-main.template
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG
