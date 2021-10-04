@@ -109,6 +109,18 @@ tests:
       ThirdAZ: none
     regions:
     - eu-west-3
+  ws2012R2-payg-sql2017-mad-witness:
+    template: templates/sios-datakeeper-main.template
+    parameters:
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
+      AvailabilityZones: $[taskcat_getaz_3]
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: 2017
+      SQLServiceAccountPassword: $[taskcat_genpass_16]
+      ThirdAZ: witness
+    regions:
+    - sa-east-1
   ws2016-payg-sql2017-mad-full:
     template: templates/sios-datakeeper-main.template
     parameters:
