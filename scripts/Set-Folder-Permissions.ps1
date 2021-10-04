@@ -5,19 +5,16 @@ param(
     [string]$DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminUser,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminPassword,
+    [string]$SQLSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]$FileServerNetBIOSName,
+    [string]$ClusterName,
 
     [Parameter(Mandatory=$true)]
-    [string]$SQLServiceAccount,
-
-    [Parameter(Mandatory=$true)]
-    [string]$ClusterName
+    [string]$FileServerNetBIOSName
 
 )
 
@@ -25,25 +22,53 @@ Try{
     Start-Transcript -Path C:\cfn\log\Set-Folder-Permissions.ps1.txt -Append
     $ErrorActionPreference = "Stop"
 
-    $DomainAdminFullUser = $DomainNetBIOSName + '\' + $DomainAdminUser
-    $DomainAdminSecurePassword = ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force
-    $DomainAdminCreds = New-Object System.Management.Automation.PSCredential($DomainAdminFullUser, $DomainAdminSecurePassword)
+    # Getting Password from Secrets Manager for AD Admin User
+    $AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLServiceAccount = $SQLUser.username
+    $DomainAdminFullUser = $DomainNetBIOSName + '\' + $AdminUser.username
+    # Creating Credential Object for Administrator
+    $DomainAdminCreds = (New-Object PSCredential($DomainAdminFullUser,(ConvertTo-SecureString $AdminUser.password -AsPlainText -Force)))
 
     $SetPermissions={
         $ErrorActionPreference = "Stop"
-        $acl = Get-Acl C:\witness
-        $rule = New-Object System.Security.AccessControl.FileSystemAccessRule( $Using:obj,'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow')
-        $acl.AddAccessRule($rule)
-        Set-Acl C:\witness $acl
+        $timeoutMinutes=30
+        $intervalMinutes=1
+        $elapsedMinutes = 0.0
+        $startTime = Get-Date
+        $stabilized = $false
+
+        While (($elapsedMinutes -lt $timeoutMinutes)) {
+            Try {
+                $acl = Get-Acl C:\witness
+                $rule = New-Object System.Security.AccessControl.FileSystemAccessRule( $Using:obj, 'FullControl', 'ContainerInherit, ObjectInherit', 'None', 'Allow')
+                $acl.AddAccessRule($rule)
+                Set-Acl C:\witness $acl
+                $stabilized = $true
+                break
+            } 
+            Catch {
+                Start-Sleep -Seconds $($intervalMinutes * 60)
+                $elapsedMinutes = ($(Get-Date) - $startTime).TotalMinutes
+            }
+        }
+
+        if ($stabilized -eq $false) {
+            Throw "Item did not propgate within the timeout of $Timeout minutes"
+        }
+
     }
 
-    $obj = $DomainNetBIOSName + '\' + $ClusterName + '$'
+    $obj = "$($DomainNetBIOSName)\$($ClusterName)$"
     Invoke-Command -ScriptBlock $SetPermissions -ComputerName $FileServerNetBIOSName -Credential $DomainAdminCreds
 
-    $obj = $DomainNetBIOSName + '\' + $SQLServiceAccount
+    $obj = "$($DomainNetBIOSName)\$($SQLServiceAccount)"
     Invoke-Command -ScriptBlock $SetPermissions -ComputerName $FileServerNetBIOSName -Credential $DomainAdminCreds
 
 }
-Catch{
+Catch {
     $_ | Write-AWSQuickStartException
 }
+Finally {
+    Stop-Transcript
+}   
