@@ -83,7 +83,6 @@ Metadata:
           - WSFCNode3PrivateIP3
           - WSFCWitnessNetBIOSName
           - WSFCWitnessInstanceType
-          - WSFCWitnessAmiId
       - Label:
           default: AWS Quick Start Configuration
         Parameters:
@@ -191,8 +190,6 @@ Metadata:
         default: (Optional) Cluster Witness NetBIOS name
       WSFCWitnessInstanceType:
         default: (Optional) Instance type for WSFC witness node
-      WSFCWitnessAmiId:
-        default: (Optional) AWS SSM Parameter Store Latest AMI id for chosen OSVersion 
 Parameters:
   ADScenarioType:
     AllowedValues:
@@ -901,6 +898,10 @@ Resources:
         WSFCNode2PrivateIP3: !Ref 'WSFCNode2PrivateIP3'
         PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
         ThirdAZ: !Ref 'ThirdAZ'
+        WSFCNode3InstanceType:  !If
+          - IsTwoAz
+          - !Ref 'AWS::NoValue'
+          - !Ref 'WSFCNode3InstanceType'
         PrivateSubnet3CIDR: !If
           - IsTwoAz
           - !Ref 'AWS::NoValue'
@@ -913,8 +914,7 @@ Resources:
           - IsTwoAz
           - !Ref 'AWS::NoValue'
           - !Ref 'WSFCNode3NetBIOSName'
-        WSFCWitnessAmiId:
-          !FindInMap
+        WSFCWitnessAmiId: !FindInMap
           - AWSLatestAMIMap
           - LATEST
           - !Ref ClusterNodeOSServerVersion
