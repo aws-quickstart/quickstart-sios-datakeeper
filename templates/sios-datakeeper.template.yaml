@@ -653,6 +653,7 @@ Parameters:
     Description: Amazon EC2 instance type for a WSFC file share witness.
     Type: String
 Conditions:
+  Vol1IsIo1: !Equals [!Ref Volume1Type, 'io1']
   UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
   UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
@@ -2453,12 +2454,12 @@ Resources:
               - Action:
                   - s3:GetObject
                 Resource: 
-                  - !Sub 'arn:aws:s3:::aws-ssm-${AWS::Region}/*'
-                  - !Sub 'arn:aws:s3:::aws-windows-downloads-${AWS::Region}/*'
-                  - !Sub 'arn:aws:s3:::amazon-ssm-${AWS::Region}/*'
-                  - !Sub 'arn:aws:s3:::amazon-ssm-packages-${AWS::Region}/*'
-                  - !Sub 'arn:aws:s3:::${AWS::Region}-birdwatcher-prod/*'
-                  - !Sub 'arn:aws:s3:::patch-baseline-snapshot-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::aws-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::aws-windows-downloads-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::amazon-ssm-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::amazon-ssm-packages-${AWS::Region}/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::${AWS::Region}-birdwatcher-prod/*'
+                  - !Sub 'arn:${AWS::Partition}:s3:::patch-baseline-snapshot-${AWS::Region}/*'
                 Effect: Allow
         - PolicyName: QS-MSSQL-SSM
           PolicyDocument:
@@ -2996,12 +2997,14 @@ Resources:
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode1.AvailabilityZone
+      Iops: !If [Vol1IsIo1, !Ref 'Volume1Iops', !Ref 'AWS::NoValue']
   WSFCNode2Volume1:
     Type: AWS::EC2::Volume
     Properties:
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode2.AvailabilityZone
+      Iops: !If [Vol1IsIo1, !Ref 'Volume1Iops', !Ref 'AWS::NoValue']
   WSFCNode3Volume1:
     Condition: ThirdAzIsFullNode
     Type: AWS::EC2::Volume
@@ -3009,6 +3012,7 @@ Resources:
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode3.AvailabilityZone
+      Iops: !If [Vol1IsIo1, !Ref 'Volume1Iops', !Ref 'AWS::NoValue']
   WSFCNode1Volume1Attachment:
     Type: AWS::EC2::VolumeAttachment
     Properties:
