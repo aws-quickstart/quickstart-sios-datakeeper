@@ -1,15 +1,19 @@
 [
     {
+        "ParameterKey": "ADScenarioType",
+        "ParameterValue": "Microsoft AD on Amazon EC2"
+    },
+    {
         "ParameterKey": "AMIType",
-        "ParameterValue": "PAYG"
+        "ParameterValue": "BYOL"
     },
     {
         "ParameterKey": "NumberOfRDGWHosts",
-        "ParameterValue": "0"
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "ClusterNodeOSServerVersion",
-        "ParameterValue": "WS2016"
+        "ParameterValue": "WS2019"
     },
     {
         "ParameterKey": "ADServer1InstanceType",
@@ -53,7 +57,7 @@
     },
     {
         "ParameterKey": "DomainNetBIOSName",
-        "ParameterValue": "datakeeper"
+        "ParameterValue": "DATAKEEPER"
     },
     {
         "ParameterKey": "KeyPairName",
@@ -89,7 +93,7 @@
     },
     {
         "ParameterKey": "RDGWCIDR",
-        "ParameterValue": "10.0.0.0/16"
+        "ParameterValue": "0.0.0.0/0"
     },
     {
         "ParameterKey": "SIOSLicenseKeyFtpURL",
@@ -97,7 +101,7 @@
     },
     {
         "ParameterKey": "SQLServerVersion",
-        "ParameterValue": "2014SP1"
+        "ParameterValue": "2017"
     },
     {
         "ParameterKey": "SQLServiceAccount",
@@ -105,7 +109,7 @@
     },
     {
         "ParameterKey": "SQLServiceAccountPassword",
-        "ParameterValue": "$[taskcat_genpass_16A]"
+        "ParameterValue": "$[taskcat_genpass_16]"
     },
     {
         "ParameterKey": "VPCCIDR",

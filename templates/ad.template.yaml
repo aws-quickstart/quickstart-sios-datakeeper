@@ -406,7 +406,7 @@ Resources:
               sourceType: "S3"
               sourceInfo: 
                 !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/LCM-Config-DC.ps1"}'
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/LCM-Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
@@ -415,7 +415,7 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: "./LCM-Config-DC.ps1"
+              commandLine: "./LCM-Config.ps1"
         # This step grabs the Instance ID for the node that will be configured as the first DC in the new domain.
         - name: "dc1InstanceId"
           action: aws:executeAwsApi

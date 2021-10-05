@@ -1,11 +1,15 @@
 [
     {
+        "ParameterKey": "ADScenarioType",
+        "ParameterValue": "Microsoft AD on Amazon EC2"
+    },
+    {
         "ParameterKey": "AMIType",
         "ParameterValue": "PAYG"
     },
     {
         "ParameterKey": "NumberOfRDGWHosts",
-        "ParameterValue": "0"
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "ClusterNodeOSServerVersion",
@@ -53,7 +57,7 @@
     },
     {
         "ParameterKey": "DomainNetBIOSName",
-        "ParameterValue": "datakeeper"
+        "ParameterValue": "DATAKEEPER"
     },
     {
         "ParameterKey": "KeyPairName",
