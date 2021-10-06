@@ -26,7 +26,7 @@ general:
       RDGWCIDR: 0.0.0.0/0
 tests:
   ws2012r2-payg-nosql-mad-none:
-    template: templates/sios-datakeeper-main.template
+    template: templates/sios-datakeeper-main.template.yaml
     parameters:
       ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
       AmiType: PAYG

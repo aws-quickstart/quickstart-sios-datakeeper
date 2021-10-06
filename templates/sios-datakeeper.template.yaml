@@ -8,6 +8,12 @@ Description: 'This template deploys a two or three node Windows Server Failover 
   You will be billed for the AWS resources used if you create a stack from this template.
   (qs-1qup6ralg)'
 Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+        - E9101
+        - E1019
+        - W9006
   QuickStartDocumentation:
     EntrypointName: Parameters for deploying into an existing VPC
     Order: "2"
@@ -130,6 +136,8 @@ Metadata:
         default: Private IP address of DNS Server in Private Subnet 2
       AMIType:
         default: SIOS AMI version
+      ClusterName:
+        default: Cluster name
       DomainAdminPassword:
         default: Domain administrator password
       DomainAdminUser:
@@ -440,6 +448,7 @@ Parameters:
   WSFCWitnessAmiId:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
+    Description: AMI ID for WSFC witness
     AllowedValues:
     - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
     - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
@@ -2412,6 +2421,11 @@ Resources:
             UniqueId: '{{wsfcnode2InstanceId.InstanceId}}'
   InstanceRole:
     Type: AWS::IAM::Role
+    Metadata:
+      cfn-lint:
+        config:
+          ignore_checks:
+            - EIAMPolicyWildcardResource
     Properties:
       AssumeRolePolicyDocument:
         Version: 2012-10-17
