@@ -1,6 +1,6 @@
 
 === Parameters for deploying into a new VPC
-include::sios-datakeeper-main.adoc[]
+include::sios-datakeeper-main.template.adoc[]
 
 === Parameters for deploying into an existing VPC
-include::sios-datakeeper.adoc[]
+include::sios-datakeeper.template.adoc[]

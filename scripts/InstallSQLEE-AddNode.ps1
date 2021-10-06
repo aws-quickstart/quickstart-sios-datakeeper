@@ -13,20 +13,10 @@ param(
     $DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]
-    $SQLServiceAccount,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$true)]
-    [string]
-    $SQLServiceAccountPassword,
-
-    [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminUser,
-
-    [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminPassword,
+    [string]$SQLSecret,
 
     [Parameter(Mandatory=$true)]
     [String[]]
@@ -77,6 +67,11 @@ try {
     if(-Not (Test-Path "C:\TempDB")) {
         mkdir "C:\TempDB"
     }
+
+    $DomainAdminUser = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).username
+    $DomainAdminPassword = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).password
+    $SQLServiceAccount = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString).username
+    $SQLServiceAccountPassword = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString).password
 
     $DomainAdminFullUser = $DomainNetBIOSName + '\' + $DomainAdminUser
     $SQLFULLServiceAccount = $DomainNetBIOSName + '\' + $SQLServiceAccount

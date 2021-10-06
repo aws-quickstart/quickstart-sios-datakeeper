@@ -27,7 +27,7 @@
 (`ADServer1PrivateIP`)|`10.0.0.10`|Fixed private IP for the first Active Directory server, located in Availability Zone 1.|Domain controller 2 NetBIOS name
 (`ADServer2NetBIOSName`)|`DC2`|NetBIOS name of the second Active Directory server (up to 15 characters)|Domain controller 2 private IP address
 (`ADServer2PrivateIP`)|`10.0.32.10`|Fixed private IP for the second Active Directory server, located in Availability Zone 2|Security Group ID for AD domain members
-(`DomainMemberSGID`)|`**__Requires input__**`|ID of the domain member Security Group (for example, `sg-7f16e910`).
+(`DomainMemberSGID`)|`**__Requires input__**`|ID of the domain member Security Group (for example, `sg-7f16e910`)
 |===
 .Replication configuration
 [width="100%",cols="16%,11%,73%",options="header",]
@@ -35,12 +35,12 @@
 |Parameter label (name) |Default value|Description|SIOS AMI version
 (`AMIType`)|`PAYG`|AMI type for SIOS license purposes.|SIOS license key FTP URL
 (`SIOSLicenseKeyFtpURL`)|`override`|URL to obtain a license key for SIOS DataKeeper software.|SQL Server version
-(`SQLServerVersion`)|`SQL2017`|Version of MS SQL Server to install. Choose *None* if you don't want to install SQL Server.|Service account name
+(`SQLServerVersion`)|`2014SP1`|Microsoft SQL Server version to install. Choose *None* if you don't want to install SQL Server.|Service account name
 (`SQLServiceAccount`)|`sqlsa`|User name for the SQL Server service account. This account is a domain user.|Service account password
-(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Server account. Must be at least 8 characters containing letters, numbers, and symbols. Leave blank if don't install SQL Server.|Data volume size (GiB)
+(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Server account. Must be at least 8 characters containing letters, numbers and symbols. Leave blank if you don't want SQL Server.|Data volume size (GiB)
 (`Volume1Size`)|`100`|Volume size for the SQL data drive.|Data volume type
 (`Volume1Type`)|`gp2`|Volume type for the SQL data drive.|Data volume IOPS
-(`Volume1Iops`)|`1000`|IOPS for the SQL data drive. (Only used when data volume type is `io1`.)
+(`Volume1Iops`)|`1000`|IOPS for the SQL data drive. (Only used when volume type is io1.)
 |===
 .Failover cluster configuration
 [width="100%",cols="16%,11%,73%",options="header",]

@@ -3,7 +3,7 @@
 [width="100%",cols="16%,11%,73%",options="header",]
 |===
 |Parameter label (name) |Default value|Description|Availability Zones
-(`AvailabilityZones`)|`**__Requires input__**`|Availability Zones to use for the subnets in the VPC. Two Availability Zones are used for this deployment.|VPC CIDR
+(`AvailabilityZones`)|`**__Requires input__**`|Choose two Availability Zones to use for the VPC subnets.|VPC CIDR
 (`VPCCIDR`)|`10.0.0.0/16`|CIDR Block for the VPC.|Private subnet 1 CIDR
 (`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1, located in Availability Zone 1.|Private subnet 2 CIDR
 (`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2, located in Availability Zone 2.|Public subnet 1 CIDR
@@ -45,12 +45,12 @@
 |Parameter label (name) |Default value|Description|SIOS AMI version
 (`AMIType`)|`PAYG`|AMI type for SIOS license purposes.|SIOS license key FTP URL
 (`SIOSLicenseKeyFtpURL`)|`**__Blank string__**`|URL to obtain a license key for SIOS DataKeeper software.|SQL Server version
-(`SQLServerVersion`)|`SQL2017`|Version of MS SQL Server to install. Choose *None* if you don't want to install SQL Server.|Service account name
+(`SQLServerVersion`)|`2014SP1`|Microsoft SQL Server version to install. Choose *None* if you don't want to install SQL Server.|Service account name
 (`SQLServiceAccount`)|`sqlsa`|User name for the SQL Server service account. This account is a domain user.|Service account password
-(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Server account. Must be at least 8 characters containing letters, numbers and symbols. Leave blank if you don't install SQL Server.|Data volume size (GiB)
+(`SQLServiceAccountPassword`)|`**__Requires input__**`|Password for the SQL Server account. Must be at least 8 characters containing letters, numbers and symbols. Leave blank if you don't want SQL Server.|Data volume size (GiB)
 (`Volume1Size`)|`100`|Volume size for the SQL data drive.|Data Volume Type
 (`Volume1Type`)|`gp2`|Volume type for the SQL data drive.|Data volume IOPS
-(`Volume1Iops`)|`1000`|IOPS for the SQL data drive. (Only used when data volume type is `io1`.)
+(`Volume1Iops`)|`1000`|IOPS for the SQL data drive. (Only used when volume type is io1.)
 |===
 .Failover cluster configuration
 [width="100%",cols="16%,11%,73%",options="header",]

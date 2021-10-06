@@ -9,6 +9,7 @@
 :template_aws_ec2_volume:
 :template_aws_ec2_volumeattachment:
 :template_aws_ec2_vpcdhcpoptionsassociation:
+:template_aws_fsx_filesystem:
 :template_aws_iam_instanceprofile:
 :template_aws_iam_policy:
 :template_aws_iam_role:
@@ -18,6 +19,7 @@
 :template_cloudformation:
 :template_deterministic_ec2_instances:
 :template_ec2:
+:template_fsx:
 :template_iam:
 :template_logs:
 :template_secretsmanager:

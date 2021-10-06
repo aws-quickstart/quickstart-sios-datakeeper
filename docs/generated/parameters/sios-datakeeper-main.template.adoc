@@ -1,0 +1,94 @@
+
+.Network Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Availability Zones
+(`AvailabilityZones`)|`**__Requires input__**`|List of Availability Zones to use for the subnets in the VPC. Note: The logical order is preserved and 2 zones must be provided unless the Third Availability Zone parameter is specified, in which case 3 zones must be provided.|Third Availability Zone
+(`ThirdAZ`)|`none`|Choose full or witness to enable a deployment with three Availability Zones. The third zone can be used for the witness, or it can be a full WSFC cluster node.|VPC CIDR
+(`VPCCIDR`)|`10.0.0.0/16`|CIDR Block for the VPC|Private Subnet 1 CIDR
+(`PrivateSubnet1CIDR`)|`10.0.0.0/19`|CIDR block for private subnet 1 located in Availability Zone 1.|Private Subnet 2 CIDR
+(`PrivateSubnet2CIDR`)|`10.0.32.0/19`|CIDR block for private subnet 2 located in Availability Zone 2.|Private Subnet 3 CIDR
+(`PrivateSubnet3CIDR`)|`10.0.64.0/19`|(Optional) CIDR block for optional private subnet 3 located in Availability Zone 3.|Public Subnet 1 CIDR
+(`PublicSubnet1CIDR`)|`10.0.128.0/20`|CIDR Block for the public DMZ subnet 1 located in Availability Zone 1|Public Subnet 2 CIDR
+(`PublicSubnet2CIDR`)|`10.0.144.0/20`|CIDR Block for the public DMZ subnet 2 located in Availability Zone 2|Public Subnet 3 CIDR
+(`PublicSubnet3CIDR`)|`10.0.160.0/20`|(Optional) CIDR block for the optional public subnet 3 located in Availability Zone 3.
+|===
+.Amazon EC2 Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Key Pair Name
+(`KeyPairName`)|`**__Requires input__**`|Public/private key pairs allow you to securely connect to your instance after it launches
+|===
+.Active Directory configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Active Directory scenario type
+(`ADScenarioType`)|`AWS Directory Service for Microsoft AD (Standard Edition)`|Select the type of AD DS deployment to use: AWS Directory Service for Microsoft AD or managing your own Amazon EC2 AD instances.|Domain DNS Name
+(`DomainDNSName`)|`datakeeper.local`|Fully qualified domain name (FQDN) of the forest root domain e.g. example.com|Domain NetBIOS Name
+(`DomainNetBIOSName`)|`DATAKEEPER`|NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE|Domain Admin Password
+(`DomainAdminPassword`)|`**__Requires input__**`|Password for the domain admin user. Must be at least 8 characters containing letters, numbers and symbols
+|===
+.(OPTIONAL) Self-managed Active Directory configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Domain Admin User Name
+(`DomainAdminUser`)|`admin`|User name for the account that will be added as Domain Administrator. This is separate from the default "Administrator" account|Domain Controller 1 Instance Type
+(`ADServer1InstanceType`)|`t2.large`|Amazon EC2 instance type for the first Active Directory instance|Domain Controller 1 NetBIOS Name
+(`ADServer1NetBIOSName`)|`DC1`|NetBIOS name of the first Active Directory server (up to 15 characters)|Domain Controller 1 Private IP Address
+(`ADServer1PrivateIP`)|`10.0.0.10`|Fixed private IP for the first Active Directory server located in Availability Zone 1|Domain Controller 2 Instance Type
+(`ADServer2InstanceType`)|`t2.large`|Amazon EC2 instance type for the second Active Directory instance|Domain Controller 2 NetBIOS Name
+(`ADServer2NetBIOSName`)|`DC2`|NetBIOS name of the second Active Directory server (up to 15 characters)|Domain Controller 2 Private IP Address
+(`ADServer2PrivateIP`)|`10.0.32.10`|Fixed private IP for the second Active Directory server located in Availability Zone 2
+|===
+.Remote Desktop Gateway Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Allowed Remote Desktop Gateway External Access CIDR
+(`RDGWCIDR`)|`**__Requires input__**`|Allowed CIDR Block for external access to the Remote Desktop Gateway|Number of RDGW hosts
+(`NumberOfRDGWHosts`)|`1`|Enter the number of Remote Desktop Gateway hosts to create.|Remote Desktop Gateway Instance Type
+(`RDGWInstanceType`)|`t3.micro`|Amazon EC2 instance type for the Remote Desktop Gateway instance
+|===
+.Replication Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|SIOS AMI Version
+(`AMIType`)|`PAYG`|AMI type for SIOS license purposes.|SIOS License Key FTP URL
+(`SIOSLicenseKeyFtpURL`)|`**__Blank string__**`|URL used to obtain license key for SIOS DataKeeper software.|SQL Server Version
+(`SQLServerVersion`)|`2017`|Version of MS SQL Server to install. Select 'None' if SQL Server is not desired.|Service Account Name
+(`SQLServiceAccount`)|`sqlsa`|User name for the SQL Server Service Account. This Account is a Domain User.|Service Account Password
+(`SQLServiceAccountPassword`)|`**__Blank string__**`|Password for the SQL Service account. Must be at least 8 characters containing letters, numbers and symbols. May be left blank if SQL Server is not desired.|Data Volume Size (GiB)
+(`Volume1Size`)|`100`|Volume size for the SQL Data drive|Data Volume Type
+(`Volume1Type`)|`gp2`|Volume type for the SQL Data drive|Data Volume IOPS
+(`Volume1Iops`)|`1000`|Iops for the SQL Data drive (Only used when volume type is io1)
+|===
+.Failover Cluster Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Windows Server OS Version for Cluster Nodes
+(`ClusterNodeOSServerVersion`)|`WS2019`|Windows Server OS Version for Cluster Nodes|Instance Type for Cluster Node 1
+(`WSFCNode1InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the 1st WSFC Node|Cluster Node 1 NetBIOS Name
+(`WSFCNode1NetBIOSName`)|`WSFCNode1`|NetBIOS name of the first WSFC Node (up to 15 characters)|Cluster Node 1 Private IP Address 1
+(`WSFCNode1PrivateIP1`)|`10.0.0.100`|Primary private IP for the first WSFC Node located in Availability Zone 1|Cluster Node 1 Private IP Address 2
+(`WSFCNode1PrivateIP2`)|`10.0.0.101`|Secondary private IP for WSFC cluster on first WSFC Node|Cluster Node 1 Private IP Address 3
+(`WSFCNode1PrivateIP3`)|`10.0.0.102`|Third private IP for SQL Server Network Name on first WSFC Node|Instance Type for Cluster Node 2
+(`WSFCNode2InstanceType`)|`i3.xlarge`|Amazon EC2 instance type for the 1st WSFC Node|Cluster Node 2 NetBIOS Name
+(`WSFCNode2NetBIOSName`)|`WSFCNode2`|NetBIOS name of the second WSFC Node (up to 15 characters)|Cluster Node 2 Private IP Address 1
+(`WSFCNode2PrivateIP1`)|`10.0.32.100`|Primary private IP for the second WSFC Node located in Availability Zone 2|Cluster Node 2 Private IP Address 2
+(`WSFCNode2PrivateIP2`)|`10.0.32.101`|Secondary private IP for WSFC cluster on second WSFC Node|Cluster Node 2 Private IP Address 3
+(`WSFCNode2PrivateIP3`)|`10.0.32.102`|Third private IP for SQL Server Network Name on second WSFC Node|(Optional) Instance type for cluster node 3
+(`WSFCNode3InstanceType`)|`i3.xlarge`|(Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS optimized types, but a File Share Witness host can be any available instance type.|(Optional) Cluster node 3 NetBIOS name
+(`WSFCNode3NetBIOSName`)|`WSFCNode3`|(Optional; ThirdAZ set to 'full') NetBIOS name of the second WSFC node (up to 15 characters)|(Optional) Cluster node 3 private IP address 1
+(`WSFCNode3PrivateIP1`)|`10.0.64.100`|(Optional; ThirdAZ set to 'witness' or 'full') Primary private IP for the second WSFC node, located in Availability Zone 2.|(Optional) Cluster node 3 private IP address 2
+(`WSFCNode3PrivateIP2`)|`10.0.64.101`|(Optional; ThirdAZ set to 'full') Secondary private IP for the WSFC cluster on the third WSFC node|(Optional) Cluster node 3 private IP address 3
+(`WSFCNode3PrivateIP3`)|`10.0.64.102`|(Optional; ThirdAZ set to 'full') Third private IP for the SQL Server network name on the third WSFC node.|(Optional) Cluster Witness NetBIOS name
+(`WSFCWitnessNetBIOSName`)|`WSFCWitness`|(Optional; ThirdAZ set to 'witness') NetBIOS name of the second WSFC node (up to 15 characters)|(Optional) Instance type for WSFC witness node
+(`WSFCWitnessInstanceType`)|`t3.micro`|Amazon EC2 instance type for a WSFC file share witness.
+|===
+.AWS Quick Start Configuration
+[width="100%",cols="16%,11%,73%",options="header",]
+|===
+|Parameter label (name) |Default value|Description|Quick Start S3 Bucket Name
+(`QSS3BucketName`)|`aws-quickstart`|S3 bucket name for the Quick Start assets. Quick Start bucket name can include numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen (-).|Quick Start S3 bucket region
+(`QSS3BucketRegion`)|`us-east-1`|The AWS Region where the Quick Start S3 bucket (QSS3BucketName) is hosted. When using your own bucket, you must specify this value.|Quick Start S3 Key Prefix
+(`QSS3KeyPrefix`)|`quickstart-sios-datakeeper/`|S3 key prefix for the Quick Start assets. Quick Start key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), and forward slash (/).
+|===

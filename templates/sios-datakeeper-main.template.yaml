@@ -11,6 +11,9 @@ Metadata:
     config:
       ignore_checks:
         - W9006
+  QuickStartDocumentation:
+    EntrypointName: "Parameters for deploying into a new VPC"
+    Order: "1"
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -91,6 +94,8 @@ Metadata:
           - QSS3BucketRegion
           - QSS3KeyPrefix
     ParameterLabels:
+      ADScenarioType:
+        default: Active Directory scenario type
       ADServer1InstanceType:
         default: Domain Controller 1 Instance Type
       ADServer1NetBIOSName:
@@ -125,10 +130,14 @@ Metadata:
         default: Private Subnet 1 CIDR
       PrivateSubnet2CIDR:
         default: Private Subnet 2 CIDR
+      PrivateSubnet3CIDR:
+        default: Private Subnet 3 CIDR
       PublicSubnet1CIDR:
         default: Public Subnet 1 CIDR
       PublicSubnet2CIDR:
         default: Public Subnet 2 CIDR
+      PublicSubnet3CIDR:
+        default: Public Subnet 3 CIDR
       QSS3BucketName:
         default: Quick Start S3 Bucket Name
       QSS3BucketRegion:
