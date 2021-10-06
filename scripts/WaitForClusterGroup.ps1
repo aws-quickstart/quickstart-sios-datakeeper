@@ -10,18 +10,15 @@ param(
     $DomainNetBIOSName,
 
     [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminUser,
-
-    [Parameter(Mandatory=$true)]
-    [string]
-    $DomainAdminPassword
-
+    [string]$AdminSecret
 )
 
 try {
     Start-Transcript -Path C:\cfn\log\WaitForClusterGroup.ps1.txt -Append
     $ErrorActionPreference = "Continue"
+
+    $DomainAdminUser = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).username
+    $DomainAdminPassword = (ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString).password
 
     $DomainAdminFullUser = $DomainNetBIOSName + '\' + $DomainAdminUser
     $DomainAdminSecurePassword = ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force

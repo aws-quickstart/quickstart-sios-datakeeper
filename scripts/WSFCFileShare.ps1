@@ -1,11 +1,15 @@
 [CmdletBinding()]
 param()
 
+# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
+$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
+
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            PSDscAllowPlainTextPassword = $true
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscEncryptCert.cer"
+            Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
         @{
@@ -35,26 +39,12 @@ Configuration WSFCFileServer {
             DestinationPath = 'C:\witness'
         }
 
-        File ReplicaFolder {
-            Ensure          = 'Present'
-            Type            = 'Directory'
-            DestinationPath = 'C:\replica'
-        }
-
         xSmbShare WitnessShare {
             Ensure     = 'Present'
             Name       = 'witness'
             Path       = 'C:\witness'
             FullAccess = 'Everyone'
             DependsOn  = '[File]WitnessFolder'
-        }
-
-        xSmbShare ReplicaShare {
-            Ensure     = 'Present'
-            Name       = 'replica'
-            Path       = 'C:\replica'
-            FullAccess = 'Everyone'
-            DependsOn  = '[File]ReplicaFolder'
         }
     }
 }

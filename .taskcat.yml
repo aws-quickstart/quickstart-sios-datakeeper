@@ -4,113 +4,36 @@ project:
   package_lambda: false
   regions:
   - ap-northeast-2
-  - ap-southeast-1
+  - ap-south-1
+  - ca-central-1
   - eu-central-1
   - eu-west-1
   - eu-west-2
+  - eu-west-3
   - sa-east-1
   - us-east-1
   - us-east-2
   - us-west-1
   - us-west-2
   s3_bucket: ''
-tests:
-  payg-nosql:
-    parameters:
-      ADServer1InstanceType: t2.large
-      ADServer1NetBIOSName: SIOSDC1
-      ADServer1PrivateIP: 10.0.0.10
-      ADServer2InstanceType: t2.large
-      ADServer2NetBIOSName: SIOSDC2
-      ADServer2PrivateIP: 10.0.32.10
-      AMIType: PAYG
-      AvailabilityZones: $[taskcat_getaz_2]
-      ClusterNodeOSServerVersion: WS2019
+general:
+  s3_regional_buckets: true
+  parameters:
       DomainAdminPassword: Password1
-      DomainAdminUser: admin
-      DomainDNSName: datakeeper.local
-      DomainNetBIOSName: datakeeper
       KeyPairName: davmayd
-      NumberOfRDGWHosts: '0'
-      PrivateSubnet1CIDR: 10.0.0.0/19
-      PrivateSubnet2CIDR: 10.0.32.0/19
-      PublicSubnet1CIDR: 10.0.128.0/20
-      PublicSubnet2CIDR: 10.0.144.0/20
       QSS3BucketName: $[taskcat_autobucket]
       QSS3BucketRegion: $[taskcat_current_region]
       RDGWCIDR: 0.0.0.0/0
-      RDGWInstanceType: t2.large
-      SIOSLicenseKeyFtpURL: override
-      SQLServerVersion: None
-      SQLServiceAccount: sqlsa
-      SQLServiceAccountPassword: $[taskcat_genpass_16]
-      VPCCIDR: 10.0.0.0/16
-      Volume1Iops: '1000'
-      Volume1Size: '100'
-      Volume1Type: gp2
-      WSFCNode1InstanceType: i3.xlarge
-      WSFCNode1NetBIOSName: SIOSNode1
-      WSFCNode1PrivateIP1: 10.0.0.100
-      WSFCNode1PrivateIP2: 10.0.0.101
-      WSFCNode1PrivateIP3: 10.0.0.102
-      WSFCNode2InstanceType: i3.xlarge
-      WSFCNode2NetBIOSName: SIOSNode2
-      WSFCNode2PrivateIP1: 10.0.32.100
-      WSFCNode2PrivateIP2: 10.0.32.101
-      WSFCNode2PrivateIP3: 10.0.32.102
-    regions:
-    - ap-southeast-1
-    - eu-west-1
-    - us-east-1
-    s3_bucket: ''
+tests:
+  ws2012r2-payg-nosql-mad-none:
     template: templates/sios-datakeeper-main.template
-  payg-sql2014sp1:
     parameters:
-      ADServer1InstanceType: t2.large
-      ADServer1NetBIOSName: SIOSDC1
-      ADServer1PrivateIP: 10.0.0.10
-      ADServer2InstanceType: t2.large
-      ADServer2NetBIOSName: SIOSDC2
-      ADServer2PrivateIP: 10.0.32.10
-      AMIType: PAYG
+      ADScenarioType: AWS Directory Service for Microsoft AD (Standard Edition)
+      AmiType: PAYG
       AvailabilityZones: $[taskcat_getaz_2]
-      ClusterNodeOSServerVersion: WS2016
-      DomainAdminPassword: Password1
-      DomainAdminUser: admin
-      DomainDNSName: datakeeper.local
-      DomainNetBIOSName: datakeeper
-      KeyPairName: davmayd
-      NumberOfRDGWHosts: '0'
-      PrivateSubnet1CIDR: 10.0.0.0/19
-      PrivateSubnet2CIDR: 10.0.32.0/19
-      PublicSubnet1CIDR: 10.0.128.0/20
-      PublicSubnet2CIDR: 10.0.144.0/20
-      QSS3BucketName: $[taskcat_autobucket]
-      QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 10.0.0.0/16
-      RDGWInstanceType: t2.large
-      SIOSLicenseKeyFtpURL: override
-      SQLServerVersion: 2014SP1
-      SQLServiceAccount: sqlsa
-      SQLServiceAccountPassword: $[taskcat_genpass_16A]
-      VPCCIDR: 10.0.0.0/16
-      Volume1Iops: '1000'
-      Volume1Size: '100'
-      Volume1Type: gp2
-      WSFCNode1InstanceType: i3.xlarge
-      WSFCNode1NetBIOSName: SIOSNode1
-      WSFCNode1PrivateIP1: 10.0.0.100
-      WSFCNode1PrivateIP2: 10.0.0.101
-      WSFCNode1PrivateIP3: 10.0.0.102
-      WSFCNode2InstanceType: i3.xlarge
-      WSFCNode2NetBIOSName: SIOSNode2
-      WSFCNode2PrivateIP1: 10.0.32.100
-      WSFCNode2PrivateIP2: 10.0.32.101
-      WSFCNode2PrivateIP3: 10.0.32.102
+      ClusterNodeOSServerVersion: WS2012R2
+      SQLServerVersion: None
+      SQLServiceAccountPassword: ''
+      ThirdAZ: none
     regions:
-    - ap-southeast-2
-    - eu-west-2
-    - us-east-2
-    - us-west-2
-    s3_bucket: ''
-    template: templates/sios-datakeeper-main.template
+    - ap-south-1
