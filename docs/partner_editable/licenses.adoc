@@ -9,5 +9,3 @@ DataKeeper Cluster Edition (which requires a run-time license for each server). 
 can deploy the Quick Start without first signing up for a license, but you must have a
 license to start and run SIOS DataKeeper Cluster Edition. You can contact SIOS to
 request a http://us.sios.com/contact-us/[run-time license] or a http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters[14-day, free, trial license].
-
-Subscription instructions are provided in step 2 of the deployment instructions.
