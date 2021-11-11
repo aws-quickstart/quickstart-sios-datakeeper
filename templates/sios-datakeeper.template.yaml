@@ -672,6 +672,9 @@ Conditions:
   NeedsWitnessNode: !And
     - !Condition UsingSelfManagedAD
     - !Condition ThirdAzIsWitness
+  NeedsFSxWitness: !And
+    - !Condition UsingAWSManagedAD
+    - !Condition ThirdAzIsWitness
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -2566,7 +2569,7 @@ Resources:
       Roles:
       - !Ref InstanceRole
   FSxSecurityGroup:
-    Condition: UsingAWSManagedAD
+    Condition: NeedsFSxWitness
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -2645,7 +2648,7 @@ Resources:
           ToPort: 65535
           CidrIp: !Ref VPCCIDR
   WindowsFSx:
-    Condition: UsingAWSManagedAD
+    Condition: NeedsFSxWitness
     Type: AWS::FSx::FileSystem
     Properties:
       FileSystemType: WINDOWS
@@ -2932,7 +2935,7 @@ Resources:
             - !Sub 
               - '"${FSxDNSName}"'
               - FSxDNSName: !If
-                - UsingAWSManagedAD
+                - NeedsFSxWitness
                 - !Sub ${WindowsFSx.DNSName}
                 - ''
             - ';"OSVersion"='
