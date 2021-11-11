@@ -1475,9 +1475,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1761,9 +1759,7 @@ Resources:
                        if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1849,9 +1845,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1898,9 +1892,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1957,9 +1949,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2007,9 +1997,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2031,9 +2019,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2079,9 +2065,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2137,9 +2121,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
