@@ -156,7 +156,7 @@ tests:
       SQLServiceAccountPassword: $[taskcat_genpass_16]
       ThirdAZ: none
     regions:
-    - sa-east-1
+    - us-west-1
   ws2012R2-payg-sql2017-sad-full:
     template: templates/sios-datakeeper-main.template.yaml
     parameters:
@@ -168,4 +168,4 @@ tests:
       SQLServiceAccountPassword: $[taskcat_genpass_16]
       ThirdAZ: full
     regions:
-    - sa-east-1
+    - us-west-2
