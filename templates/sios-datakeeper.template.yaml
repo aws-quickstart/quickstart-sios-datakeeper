@@ -2349,9 +2349,7 @@ Resources:
                       C:\cfn\scripts\DisableCredSsp.ps1
                       'returning 3010, should continue after reboot'
                       exit 3010
-                  } else {
-                      'Completed'
-                  }
+                  } else {'Next Step'}
         - name: DSCCleanup
           action: aws:runCommand
           onFailure: step:signalfailure
