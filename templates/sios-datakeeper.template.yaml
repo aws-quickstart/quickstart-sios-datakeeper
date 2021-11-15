@@ -1419,9 +1419,8 @@ Resources:
               StringEquals: Legacy
         - name: DomainJoinMAD
           action: aws:runCommand
-          maxAttempts: 999
+          maxAttempts: 10
           nextStep: OpenWSFCPorts
-          onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-JoinDirectoryServiceDomain
             InstanceIds: 
