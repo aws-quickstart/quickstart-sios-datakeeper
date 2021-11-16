@@ -481,9 +481,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                           'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\ConfigDC1' -Wait -Verbose -Force
@@ -554,9 +552,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                           'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\ConfigDC2' -Wait -Verbose -Force
