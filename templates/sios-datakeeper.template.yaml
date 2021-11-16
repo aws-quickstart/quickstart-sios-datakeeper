@@ -672,6 +672,9 @@ Conditions:
   NeedsWitnessNode: !And
     - !Condition UsingSelfManagedAD
     - !Condition ThirdAzIsWitness
+  NeedsFSxWitness: !And
+    - !Condition UsingAWSManagedAD
+    - !Condition ThirdAzIsWitness
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -699,110 +702,110 @@ Mappings:
       Code: SDKCEWIN2019
   AWSAMIRegionMap:
     ap-northeast-2:
-      SDKCEWIN2012R2: ami-097309890c134b661
-      SDKCEWIN2012R2BYOL: ami-0bc3fa6ca2163e110
-      SDKCEWIN2016: ami-010a7dc22204cbbd7
-      SDKCEWIN2016BYOL: ami-0c814bdb53c5786d3
-      SDKCEWIN2019: ami-0aae5393447df8f8b
-      SDKCEWIN2019BYOL: ami-0be292949daacd441
+      SDKCEWIN2012R2: ami-08cc45a61f2a5430b
+      SDKCEWIN2012R2BYOL: ami-0a3f350fa2062a405
+      SDKCEWIN2016: ami-0b884b09fbe3cf6e0
+      SDKCEWIN2016BYOL: ami-0555d3eb27944d0ce
+      SDKCEWIN2019: ami-026bcd9eea7a45000
+      SDKCEWIN2019BYOL: ami-0b74d37ee13568471
     ap-south-1:
-      SDKCEWIN2012R2: ami-0207a6b918b234f12
-      SDKCEWIN2012R2BYOL: ami-0980f9d3b102c730f
-      SDKCEWIN2016: ami-087441694bfa0c0d0
-      SDKCEWIN2016BYOL: ami-0f586ef0a502fb4ce
-      SDKCEWIN2019: ami-0de433d1784a45f12
-      SDKCEWIN2019BYOL: ami-0f0bcbc28705ab9c5
+      SDKCEWIN2012R2: ami-0a1cf747cb50759c0
+      SDKCEWIN2012R2BYOL: ami-076da39628ed43103
+      SDKCEWIN2016: ami-014a082089f750f81
+      SDKCEWIN2016BYOL: ami-0d45e65c2ce40c6ef
+      SDKCEWIN2019: ami-0b9caa25b2168d6d1
+      SDKCEWIN2019BYOL: ami-073d6e4b270b5539d
     ap-southeast-1:
-      SDKCEWIN2012R2: ami-06ca1f27b5d6c8b57
-      SDKCEWIN2012R2BYOL: ami-0781a72a2e28c4410
-      SDKCEWIN2016: ami-01be5c332d9300024
-      SDKCEWIN2016BYOL: ami-0c02f652949321b1c
-      SDKCEWIN2019: ami-06b2f14c1d8417d36
-      SDKCEWIN2019BYOL: ami-076aa440781096e2e
+      SDKCEWIN2012R2: ami-01d0fbdef44d0f0ac
+      SDKCEWIN2012R2BYOL: ami-00117ea784ea5eb23
+      SDKCEWIN2016: ami-052716f96c7dd556c
+      SDKCEWIN2016BYOL: ami-0679f2139451924e1
+      SDKCEWIN2019: ami-024063163e00a8936
+      SDKCEWIN2019BYOL: ami-063d7c1c2927e6735
     ap-southeast-2:
-      SDKCEWIN2012R2: ami-0bf45d31cdee85616
-      SDKCEWIN2012R2BYOL: ami-08854fb812e957e67
-      SDKCEWIN2016: ami-0093929e3e0ba2395
-      SDKCEWIN2016BYOL: ami-05b5b9f2b698f1b94
-      SDKCEWIN2019: ami-08b84d386ea33daef
-      SDKCEWIN2019BYOL: ami-0bbb1b3d5e1c6eef8
+      SDKCEWIN2012R2: ami-092e4d7de48941a2f
+      SDKCEWIN2012R2BYOL: ami-068ea2eb9884a83db
+      SDKCEWIN2016: ami-09a167db893228c27
+      SDKCEWIN2016BYOL: ami-0840f45626c1ac7c8
+      SDKCEWIN2019: ami-0552d562641898c9a
+      SDKCEWIN2019BYOL: ami-0880f14eb94928e51
     ca-central-1:
-      SDKCEWIN2012R2: ami-0a9ea4f9cbab4d59d
-      SDKCEWIN2012R2BYOL: ami-007c816cc9061f6b4
-      SDKCEWIN2016: ami-09f4064b34e4c9fe5
-      SDKCEWIN2016BYOL: ami-098e8bce1dc1a26be
-      SDKCEWIN2019: ami-0fe170d81f4f39656
-      SDKCEWIN2019BYOL: ami-0c693104daba261b2
+      SDKCEWIN2012R2: ami-04ffc9417bfda85d4
+      SDKCEWIN2012R2BYOL: ami-06fc7ab07a4e2cb47
+      SDKCEWIN2016: ami-092cb2e4dd31c7904
+      SDKCEWIN2016BYOL: ami-0a9f6adf76d4bb967
+      SDKCEWIN2019: ami-00bb964227eabcb79
+      SDKCEWIN2019BYOL: ami-08e63c913076a4b04
     eu-central-1:
-      SDKCEWIN2012R2: ami-0a737abff817bdbfa
-      SDKCEWIN2012R2BYOL: ami-02c1e68e72cde898b
-      SDKCEWIN2016: ami-06a095b172edeed3c
-      SDKCEWIN2016BYOL: ami-011c949cc41f7fa83
-      SDKCEWIN2019: ami-05052384eb19cdf25
-      SDKCEWIN2019BYOL: ami-005fcbf05083b88c4
+      SDKCEWIN2012R2: ami-06fa9d9e36761dcb5
+      SDKCEWIN2012R2BYOL: ami-0a4102c26187b1a21
+      SDKCEWIN2016: ami-0a585a6570ade8bf0
+      SDKCEWIN2016BYOL: ami-085ff48d973bc19ee
+      SDKCEWIN2019: ami-08e771fe134edfc89
+      SDKCEWIN2019BYOL: ami-023f8c90f0b0c1e90
     eu-north-1:
-      SDKCEWIN2012R2: ami-0a87f47a3d3ec3b38
-      SDKCEWIN2012R2BYOL: ami-0d1489f91d63e172a
-      SDKCEWIN2016: ami-0cad9c514747dd202
-      SDKCEWIN2016BYOL: ami-00368266375fa794c
-      SDKCEWIN2019: ami-0fe4d69459d1d25c4
-      SDKCEWIN2019BYOL: ami-0593ad9473cc063e0
+      SDKCEWIN2012R2: ami-02ab090c2f39391f9
+      SDKCEWIN2012R2BYOL: ami-09f016d6b6aeaa94d
+      SDKCEWIN2016: ami-03fd49cbec5909910
+      SDKCEWIN2016BYOL: ami-061668e061d946bb9
+      SDKCEWIN2019: ami-058b6a0198308aca7
+      SDKCEWIN2019BYOL: ami-0e266dcd5b523fc0a
     eu-west-1:
-      SDKCEWIN2012R2: ami-0fada93364fc04bf6
-      SDKCEWIN2012R2BYOL: ami-0127e7fdfa589a437
-      SDKCEWIN2016: ami-051b670b2ebd5b860
-      SDKCEWIN2016BYOL: ami-095576695064a1737
-      SDKCEWIN2019: ami-0256991d3f2ae4284
-      SDKCEWIN2019BYOL: ami-0b899b1abd3da02e6
+      SDKCEWIN2012R2: ami-0b229835b8929bc1f
+      SDKCEWIN2012R2BYOL: ami-0e47cc20d3c353cdd
+      SDKCEWIN2016: ami-074c6cc0642429184
+      SDKCEWIN2016BYOL: ami-019fa2c4b8b8d3d8f
+      SDKCEWIN2019: ami-062f6614ddbfcced2
+      SDKCEWIN2019BYOL: ami-04828d4355f1332f6
     eu-west-2:
-      SDKCEWIN2012R2: ami-0e499a885582b0bbf
-      SDKCEWIN2012R2BYOL: ami-0474dd2917fb8cfe7
-      SDKCEWIN2016: ami-00ef38f8c16d38bd3
-      SDKCEWIN2016BYOL: ami-0d63be20e9668f30f
-      SDKCEWIN2019: ami-0eb474a57608edc2d
-      SDKCEWIN2019BYOL: ami-0ed8eade22340f77e
+      SDKCEWIN2012R2: ami-0c38a7a4d19fb3533
+      SDKCEWIN2012R2BYOL: ami-0c5d33f2f9feebb52
+      SDKCEWIN2016: ami-042e090406e4df83c
+      SDKCEWIN2016BYOL: ami-0e1208cbc3b8a5b41
+      SDKCEWIN2019: ami-0a316f4a93c54ed72
+      SDKCEWIN2019BYOL: ami-01364eda050642f00
     eu-west-3:
-      SDKCEWIN2012R2: ami-0323c5e07340bb2e1
-      SDKCEWIN2012R2BYOL: ami-0bb1f9834a30a4627
-      SDKCEWIN2016: ami-0e74e289b8a10b7a5
-      SDKCEWIN2016BYOL: ami-024a9144a52226c5d
-      SDKCEWIN2019: ami-01dea56e4b183d671
-      SDKCEWIN2019BYOL: ami-0651e6a418ccd8b90
+      SDKCEWIN2012R2: ami-022aae79e9ca0b0a1
+      SDKCEWIN2012R2BYOL: ami-0a30b5a82241d2ef8
+      SDKCEWIN2016: ami-05d34f70d119e922c
+      SDKCEWIN2016BYOL: ami-00449193a43a9312b
+      SDKCEWIN2019: ami-00dae5c9d7494633e
+      SDKCEWIN2019BYOL: ami-0e45be0365023ecc4
     sa-east-1:
-      SDKCEWIN2012R2: ami-0749c6bd1567b487e
-      SDKCEWIN2012R2BYOL: ami-007d451b5a59b4603
-      SDKCEWIN2016: ami-0f065f6256cf64a10
-      SDKCEWIN2016BYOL: ami-0e18aeea01904064b
-      SDKCEWIN2019: ami-09c8d3695c589ac2e
-      SDKCEWIN2019BYOL: ami-04c949519a560f45d
+      SDKCEWIN2012R2: ami-0ad069041f07f4ddf
+      SDKCEWIN2012R2BYOL: ami-0f1d2830fdaa33f7a
+      SDKCEWIN2016: ami-04360e272875d63bd
+      SDKCEWIN2016BYOL: ami-01c6f253cb2efdde3
+      SDKCEWIN2019: ami-00fcbb6653de0d506
+      SDKCEWIN2019BYOL: ami-00056f1047b076afc
     us-east-1:
-      SDKCEWIN2012R2: ami-07b5366f9007f2ba4
-      SDKCEWIN2012R2BYOL: ami-007f2fc864a90a0a8
-      SDKCEWIN2016: ami-0f09b25a40cb8f531
-      SDKCEWIN2016BYOL: ami-0af655276fd0537c7
-      SDKCEWIN2019: ami-0a7085e8fd7140173
-      SDKCEWIN2019BYOL: ami-03ef2f737aebaa815
+      SDKCEWIN2012R2: ami-0c3d38bcd23c7867f
+      SDKCEWIN2012R2BYOL: ami-001fe9abc587bc6a5
+      SDKCEWIN2016: ami-0cbb1f1ef98fa6c0a
+      SDKCEWIN2016BYOL: ami-0c93b0192ed94c2a5
+      SDKCEWIN2019: ami-0ee0b8dd3203356d4
+      SDKCEWIN2019BYOL: ami-05ab52d86958c3cce
     us-east-2:
-      SDKCEWIN2012R2: ami-053f917270c31b7bc
-      SDKCEWIN2012R2BYOL: ami-01e88b6d8decce48d
-      SDKCEWIN2016: ami-0b679d17e28ed83cc
-      SDKCEWIN2016BYOL: ami-08341b84eacbee820
-      SDKCEWIN2019: ami-0ead1020b61a6df8b
-      SDKCEWIN2019BYOL: ami-0794b98df624b82bd
+      SDKCEWIN2012R2: ami-042dc1d1f62a4c25a
+      SDKCEWIN2012R2BYOL: ami-0d0017f4ee1717e55
+      SDKCEWIN2016: ami-0b1d343f9b6e825eb
+      SDKCEWIN2016BYOL: ami-044be877579f47df8
+      SDKCEWIN2019: ami-02034955dc8b6b811
+      SDKCEWIN2019BYOL: ami-0d33a235d539386dc
     us-west-1:
-      SDKCEWIN2012R2: ami-04de7a4a20b4562a7
-      SDKCEWIN2012R2BYOL: ami-07c7f5258bba01fc9
-      SDKCEWIN2016: ami-06d371aa968788b7c
-      SDKCEWIN2016BYOL: ami-0eefcdd18a4278cf3
-      SDKCEWIN2019: ami-0f48860623c53b157
-      SDKCEWIN2019BYOL: ami-05a09a5f683f20d68
+      SDKCEWIN2012R2: ami-0b0435ad4cc84ff38
+      SDKCEWIN2012R2BYOL: ami-060875db128ed97ad
+      SDKCEWIN2016: ami-0bac7514c6a22757b
+      SDKCEWIN2016BYOL: ami-02790a1d7d6fc48b6
+      SDKCEWIN2019: ami-08df562468184963e
+      SDKCEWIN2019BYOL: ami-0d578c639d84780d7
     us-west-2:
-      SDKCEWIN2012R2: ami-0a706844aadbcc625
-      SDKCEWIN2012R2BYOL: ami-046bf72bfda7ec030
-      SDKCEWIN2016: ami-0175d3ed6acb940a3
-      SDKCEWIN2016BYOL: ami-05ea4a058e13615b6
-      SDKCEWIN2019: ami-0173e8b3875de02a0
-      SDKCEWIN2019BYOL: ami-0dde6a1f4a6d8bf19
+      SDKCEWIN2012R2: ami-05870333bf197e2ad
+      SDKCEWIN2012R2BYOL: ami-0f4a010c248481760
+      SDKCEWIN2016: ami-0522d60afa1854a25
+      SDKCEWIN2016BYOL: ami-0c43457255a491513
+      SDKCEWIN2019: ami-0928737b8774e0e90
+      SDKCEWIN2019BYOL: ami-0e6f54845958f30db
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -1416,9 +1419,8 @@ Resources:
               StringEquals: Legacy
         - name: DomainJoinMAD
           action: aws:runCommand
-          maxAttempts: 999
+          maxAttempts: 10
           nextStep: OpenWSFCPorts
-          onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-JoinDirectoryServiceDomain
             InstanceIds: 
@@ -1472,9 +1474,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\DomainJoin' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1758,9 +1758,7 @@ Resources:
                        if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1846,9 +1844,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
@@ -1895,9 +1891,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -1954,9 +1948,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2004,9 +1996,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2028,9 +2018,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2076,9 +2064,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2134,9 +2120,7 @@ Resources:
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
                            'returning 3010, should continue after reboot'
                            exit 3010
-                       } else {
-                         'Completed'
-                       }
+                       } else {'Next Step'}
                    }
                    Start-DscConfiguration 'C:\AWSQuickstart\AdditionalWSFCNode' -Wait -Verbose -Force
                    DscStatusCheck
@@ -2364,9 +2348,7 @@ Resources:
                       C:\cfn\scripts\DisableCredSsp.ps1
                       'returning 3010, should continue after reboot'
                       exit 3010
-                  } else {
-                      'Completed'
-                  }
+                  } else {'Next Step'}
         - name: DSCCleanup
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -2566,7 +2548,7 @@ Resources:
       Roles:
       - !Ref InstanceRole
   FSxSecurityGroup:
-    Condition: UsingAWSManagedAD
+    Condition: NeedsFSxWitness
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
@@ -2645,7 +2627,7 @@ Resources:
           ToPort: 65535
           CidrIp: !Ref VPCCIDR
   WindowsFSx:
-    Condition: UsingAWSManagedAD
+    Condition: NeedsFSxWitness
     Type: AWS::FSx::FileSystem
     Properties:
       FileSystemType: WINDOWS
@@ -2932,7 +2914,7 @@ Resources:
             - !Sub 
               - '"${FSxDNSName}"'
               - FSxDNSName: !If
-                - UsingAWSManagedAD
+                - NeedsFSxWitness
                 - !Sub ${WindowsFSx.DNSName}
                 - ''
             - ';"OSVersion"='
