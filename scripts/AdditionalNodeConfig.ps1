@@ -11,31 +11,34 @@ param(
     [string]$ClusterName,
 
     [Parameter(Mandatory=$true)]
-    [string]$DomainAdminUser,
-
-    [Parameter(Mandatory=$true)]
-    [string]$DomainAdminPassword,
+    [string]$AdminSecret,
 
     [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccount,
-
-    [Parameter(Mandatory=$false)]
-    [string]$SQLServiceAccountPassword
+    [string]$SQLSecret
 
 )
 
-# Formatting AD User to proper format for DSC Resources in this Script
-$ClusterAdminUser = $DomainNetBIOSName + '\' + $DomainAdminUser
-$SQLAdminUser = $DomainNetBIOSName + '\' + $SQLServiceAccount
+# Getting the DSC Cert Encryption Thumbprint to Secure the MOF File
+$DscCertThumbprint = (get-childitem -path cert:\LocalMachine\My | where { $_.subject -eq "CN=AWSQSDscEncryptCert" }).Thumbprint
+
+# Getting Password from Secrets Manager for AD Admin User
+$AdminUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $AdminSecret).SecretString
+$ClusterAdminUser = $DomainNetBIOSName + '\' + $AdminUser.UserName
 # Creating Credential Object for Administrator
-$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $DomainAdminPassword -AsPlainText -Force)))
-$SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLServiceAccountPassword -AsPlainText -Force)))
+$Credentials = (New-Object PSCredential($ClusterAdminUser,(ConvertTo-SecureString $AdminUser.Password -AsPlainText -Force)))
+
+if ($SQLSecret) {
+    $SQLUser = ConvertFrom-Json -InputObject (Get-SECSecretValue -SecretId $SQLSecret).SecretString
+    $SQLAdminUser = $DomainNetBIOSName + '\' + $SQLUser.UserName
+    $SQLCredentials = (New-Object PSCredential($SQLAdminUser,(ConvertTo-SecureString $SQLUser.Password -AsPlainText -Force)))
+}
 
 $ConfigurationData = @{
     AllNodes = @(
         @{
             NodeName="*"
-            PSDscAllowPlainTextPassword = $true
+            CertificateFile = "C:\AWSQuickstart\publickeys\AWSQSDscPublicKey.cer"
+            Thumbprint = $DscCertThumbprint
             PSDscAllowDomainUser = $true
         },
         @{
@@ -56,7 +59,7 @@ Configuration AdditionalWSFCNode {
     Import-DscResource -ModuleName PSDscResources
 
     Node 'localhost'{
-        if ($SQLServiceAccount) {
+        if ($SQLSecret) {
             Group Administrators {
                 GroupName = 'Administrators'
                 Ensure = 'Present'

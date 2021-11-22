@@ -19,19 +19,19 @@ global:
   - us-west-2
   reporting: true
 tests:
-  payg-nosql:
-    parameter_input: payg-nosql.json
+  payg-nosql-sad:
+    parameter_input: payg-sql2017-mad.json
     regions:
     - ap-southeast-1
     - eu-west-1
     - us-east-1
 #    - us-west-1
-    template_file: sios-datakeeper-master.template
-  payg-sql2014sp1:
-    parameter_input: payg-sql2014sp1.json
+    template_file: sios-datakeeper-main.template
+  payg-sql2017-mad:
+    parameter_input: payg-nosql-sad.json
     regions:
     - ap-southeast-2
     - eu-west-2
     - us-east-2
     - us-west-2
-    template_file: sios-datakeeper-master.template
+    template_file: sios-datakeeper-main.template

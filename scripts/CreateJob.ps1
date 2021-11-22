@@ -4,68 +4,67 @@ param
     [parameter(Mandatory = $true)]
     [System.String]
     $JobName,
-    
+
     [parameter(Mandatory = $true)]
     [System.String]
     $JobDesc,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $SourceName,
+    [System.String[]]
+    $SourceNames,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $SourceIP,
+    [System.String[]]
+    $SourceVols,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $SourceVol,
+    [System.String[]]
+    $SourceIPs,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $TargetName,
+    [System.String[]]
+    $TargetNames,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $TargetIP,
+    [System.String[]]
+    $TargetVols,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $TargetVol,
+    [System.String[]]
+    $TargetIPs,
 
     [parameter(Mandatory = $true)]
-    [System.String]
-    $SyncType
+    [System.String[]]
+    $SyncTypes
 )
 
 Start-Transcript -Path "C:\cfn\log\CreateJob.ps1.log" -Append
-"Creating Job from $SourceName to $TargetName"
-
 $ErrorActionPreference = "Continue"
-    
+
 $tries = 120
 $retryIntervalSec = 30
 $job = $NULL
 while ($tries -ge 1) {
-	
-	$tries--
-	Start-Sleep -Seconds $retryIntervalSec
-	$job = & "$env:extmirrbase\emcmd" . CREATEJOB $JobName $JobDesc $SourceName $SourceVol $SourceIP $TargetName $TargetVol $TargetIP $SyncType
-		
-	# normally createjob returns the job info on success, otherwise it gives 'Status = X'
-	if($job -ne $NULL) {
-		$statusMessage = $false
-		$job | foreach { if($_.Contains("Status")) {
-				$statusMessage = $true
-			}
-		}
-		if($statusMessage) {
-			"Job creation failed with code $LastExitCode, tries remaining: $tries. Retrying in $retryIntervalSec seconds ..."
-		} else {
-			"Job created successfully"
-			$tries = 0
-            exit 0
-		}   
-	}
+
+    if($SyncTypes.Count -eq 3) {
+        Write-Host "$env:extmirrbase\emcmd . CREATEJOB $JobName $JobDesc $($SourceNames[0]) $($SourceVols[0]) $($SourceIPs[0]) $($TargetNames[0]) $($TargetVols[0]) $($TargetIPs[0]) $($SyncTypes[0]) $($TargetNames[1]) $($TargetVols[1]) $($TargetIPs[1]) $($SourceNames[1]) $($SourceVols[1]) $($SourceIPs[1]) $($SyncTypes[0]) $($SourceNames[1]) $($SourceVols[1]) $($SourceIPs[1]) $($TargetNames[1]) $($TargetVols[1]) $($TargetIPs[1]) $($SyncTypes[1])"
+        $job = & "$env:extmirrbase\emcmd" . CREATEJOB $JobName $JobDesc $SourceNames[0] $SourceVols[0] $SourceIPs[0] $TargetNames[0] $TargetVols[0] $TargetIPs[0] $SyncTypes[0] $TargetNames[0] $TargetVols[0] $TargetIPs[0] $TargetNames[1] $TargetVols[1] $TargetIPs[1] $SyncTypes[1] $SourceNames[0] $SourceVols[0] $SourceIPs[0] $TargetNames[1] $TargetVols[1] $TargetIPs[1] $SyncTypes[2]
+    }
+    else {
+        Write-Host "$env:extmirrbase\emcmd . CREATEJOB $JobName $JobDesc $($SourceNames[0]) $($SourceVols[0]) $($SourceIPs[0]) $($TargetNames[0]) $($TargetVols[0]) $($TargetIPs[0]) $($SyncTypes[0])"
+        $job = & "$env:extmirrbase\emcmd" . CREATEJOB $JobName $JobDesc $SourceNames[0] $SourceVols[0] $SourceIPs[0] $TargetNames[0] $TargetVols[0] $TargetIPs[0] $SyncTypes[0]
+    }
+
+    # normally createjob returns the job info on success, otherwise it gives 'Status = X'
+    if ($?) {
+        "Job created successfully"
+        $job
+        exit 0
+    }
+    else {
+        "Job creation failed with code $LastExitCode, tries remaining: $tries. Retrying in $retryIntervalSec seconds ..."
+        $tries--
+        Start-Sleep -Seconds $retryIntervalSec
+    }
 }
     
