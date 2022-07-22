@@ -1075,7 +1075,7 @@ Resources:
           action: aws:branch
           inputs:
             Choices:
-            - NextStep: OSVersionBranch1
+            - NextStep: CopyQSModule
               Variable: '{{ActiveDirectoryConfig}}'
               StringEquals: Managed
         # START Self-Managed AD branch1
@@ -1110,6 +1110,22 @@ Resources:
             Selector: $.Reservations[0].Instances[0].InstanceId
             Type: String
         # END Self-Managed AD branch1
+        - name: CopyQSModule
+          action: aws:runCommand
+          maxAttempts: 999
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunPowerShellScript
+            InstanceIds: 
+              - '{{wsfcnodesInstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              commands:
+                - |
+                  New-Item -Type Directory C:\Windows\system32\WindowsPowerShell\v1.0\Modules\AWSQuickStart
+                  Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart/AWSQuickStart.psm1 -LocalFile C:\Windows\system32\WindowsPowerShell\v1.0\Modules\AWSQuickStart\AWSQuickStart.psm1
         - name: OSVersionBranch1
           action: aws:branch
           inputs:
@@ -1166,7 +1182,10 @@ Resources:
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
-              commandLine: ./Install-WMF51.ps1
+              commandLine:
+              - |
+                [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+                ./Install-WMF51.ps1
         - name: 2012R2InstallDSC
           action: aws:runCommand
           onFailure: step:signalfailure
@@ -1251,44 +1270,6 @@ Resources:
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
               commandLine: ./LCM-Config.ps1
-        - name: CopyQSModule
-          action: aws:runCommand
-          maxAttempts: 999
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              commands: 
-                - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/modules/AWSQuickStart.zip -LocalFile C:\cfn\modules\AWSQuickStart.zip
-        - name: UnzipQSModule
-          action: aws:runCommand
-          onFailure: step:signalfailure
-          inputs:
-            DocumentName: AWS-RunRemoteScript
-            InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
-            CloudWatchOutputConfig:
-              CloudWatchOutputEnabled: 'true'
-              CloudWatchLogGroupName: !Ref QuickStartLogs
-            Parameters:
-              sourceType: S3
-              sourceInfo: 
-                !Sub 
-                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Unzip-Archive.ps1"}'
-                  - S3Bucket: !If
-                      - UsingDefaultBucket
-                      - !Sub '${QSS3BucketName}-${AWS::Region}'
-                      - !Ref QSS3BucketName
-                    S3Region: !If 
-                      - UsingDefaultBucket
-                      - !Ref AWS::Region
-                      - !Ref QSS3BucketRegion
-              commandLine: ./Unzip-Archive.ps1 -Source 'C:\\cfn\\modules\\AWSQuickStart.zip' -Destination 'C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules\\'
         - name: EnableCredSSP
           action: aws:runCommand
           onFailure: step:signalfailure
