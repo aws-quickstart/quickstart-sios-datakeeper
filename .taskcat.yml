@@ -133,7 +133,7 @@ tests:
       ThirdAZ: full
     regions:
     - us-east-1
-  ws2019-payg-sql2017-sad-none:
+  ws2019-payg-sql2017-sad-witness:
     template: templates/sios-datakeeper-main.template.yaml
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
@@ -142,10 +142,10 @@ tests:
       ClusterNodeOSServerVersion: WS2019
       SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
-      ThirdAZ: none
+      ThirdAZ: witness
     regions:
     - us-east-2
-  ws2012R2-payg-sql2017-sad-witness:
+  ws2012R2-payg-sql2017-sad-none:
     template: templates/sios-datakeeper-main.template.yaml
     parameters:
       ADScenarioType: Microsoft AD on Amazon EC2
@@ -154,7 +154,7 @@ tests:
       ClusterNodeOSServerVersion: WS2012R2
       SQLServerVersion: 2017
       SQLServiceAccountPassword: $[taskcat_genpass_16]
-      ThirdAZ: witness
+      ThirdAZ: none
     regions:
     - us-west-1
   ws2016-payg-sql2017-sad-full:
