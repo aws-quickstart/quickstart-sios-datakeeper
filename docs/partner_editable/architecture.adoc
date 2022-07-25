@@ -1,8 +1,10 @@
 :xrefstyle: short
 
 Deploying this Quick Start for a new virtual private cloud (VPC) with
-default parameters builds the following {partner-product-short-name} environment in the
+default parameters builds one of the following four {partner-product-short-name} environments in the
 AWS Cloud.
+
+=== Option 1
 
 // Replace this example diagram with your own. Follow our wiki guidelines: https://w.amazon.com/bin/view/AWS_Quick_Starts/Process_for_PSAs/#HPrepareyourarchitecturediagram. Upload your source PowerPoint file to the GitHub {deployment name}/docs/images/ directory in this repo. 
 
@@ -20,7 +22,7 @@ best practices, to provide you with your own virtual network on AWS.*
 internet access for resources in the private subnets.*
 ** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
 * In the private subnets:
-** Two Active Directory domain controllers.
+** AWS Directory Service (Standard or Enterprise) to provision AD DS and to manage tasks such as monitoring domain controllers, and configuring backups and snapshots. You can also choose to add AD DS domain controllers as EC2 instances to the architecture and manage these yourself, as shown in <<architecture3>> and <<architecture4>>.
 ** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
 ** AWS Secrets Manager to store credentials.
 ** An AWS Systems Manager runbook to automate the deployment.
@@ -37,7 +39,286 @@ Technical specifications for the architecture:
 |Instance type |Minimum recommended instance type: m3.xlarge.
 |Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
-|Instances |Four instances: Two DNS / Active Directory domain controllers and two SIOS DataKeeper / SQL Server cluster nodes.
+|Instances |Five instances: Two DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
 |SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
-|Volumes |Two volumes, Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
 |===
+
+=== Option 2
+
+[#architecture2]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram2.png[Architecture]
+
+As shown in <<architecture2>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** AWS Directory Service (Standard or Enterprise) to provision AD DS and to manage tasks such as monitoring domain controllers, and configuring backups and snapshots. You can also choose to add AD DS domain controllers as EC2 instances to the architecture and manage these yourself, as shown in <<architecture3>> and <<architecture4>>.
+** Three Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with two Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Four instances: three SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 3
+
+[#architecture3]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram3.png[Architecture]
+
+As shown in <<architecture3>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** AWS Directory Service (Standard or Enterprise) to provision AD DS and to manage tasks such as monitoring domain controllers, and configuring backups and snapshots. You can also choose to add AD DS domain controllers as EC2 instances to the architecture and manage these yourself, as shown in <<architecture3>> and <<architecture4>>.
+** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** Amazon FSx for Windows File Server to provide quorum witness functionality to the Windows Server Failover Cluster Instance.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with three Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Three instances: two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |Amazon FSx for Windows, AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 4
+
+[#architecture4]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram4.png[Architecture]
+
+As shown in <<architecture4>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** AWS Directory Service (Standard or Enterprise) to provision AD DS and to manage tasks such as monitoring domain controllers, and configuring backups and snapshots. You can also choose to add AD DS domain controllers as EC2 instances to the architecture and manage these yourself, as shown in <<architecture3>> and <<architecture4>>.
+** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** One Microsoft Windows Server node hosting a FileShare Witness.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with three Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Four instances: two SIOS DataKeeper / SQL Server cluster nodes, one Windows Server witness node to provide quorum witness functionality to the Windows Server Failover Cluster Instance, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 5
+
+[#architecture5]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram5.png[Architecture]
+
+As shown in <<architecture5>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans two Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** two Active Directory domain controllers.
+** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with two Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Five instances: Two DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 6
+
+[#architecture6]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram6.png[Architecture]
+
+As shown in <<architecture6>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** Three Active Directory domain controllers.
+** Three Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with two Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Seven instances: Three DNS / Active Directory domain controllers, three SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 7
+
+[#architecture7]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram7.png[Architecture]
+
+As shown in <<architecture7>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** Three Active Directory domain controllers.
+** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** Amazon FSx for Windows File Server to provide quorum witness functionality to the Windows Server Failover Cluster Instance.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with three Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Six instances: Three DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
+|Services |Amazon FSx for Windows, AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
+=== Option 8
+
+[#architecture8]
+.Quick Start architecture for {partner-product-short-name} on AWS
+image::../images/sios-datakeeper-architecture-diagram8.png[Architecture]
+
+As shown in <<architecture8>>, the Quick Start sets up the following:
+
+* A highly available architecture that spans three Availability Zones.*
+* A VPC configured with public and private subnets, according to AWS
+best practices, to provide you with your own virtual network on AWS.*
+* In the public subnets:
+** Managed network address translation (NAT) gateways to allow outbound
+internet access for resources in the private subnets.*
+** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+* In the private subnets:
+** Three Active Directory domain controllers.
+** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
+** One Microsoft Windows Server node hosting a FileShare Witness.
+** AWS Secrets Manager to store credentials.
+** An AWS Systems Manager runbook to automate the deployment.
+
+[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+
+Technical specifications for the architecture:
+
+|===
+|Component |Details
+
+// Space needed to maintain table headers
+|VPC |One AWS Region with three Availability Zones.
+|Instance type |Minimum recommended instance type: m3.xlarge.
+|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Elastic IP |An Elastic IP address connected to the RD Gateway server.
+|Instances |Seven instances: Three DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, one Windows Server witness node to provide quorum witness functionality to the Windows Server Failover Cluster Instance, and one Remote Destop Gateway Jumpbox.
+|Services |AWS Directory Service, AWS Secrets Manager
+|SQL Server |Elastic network interface (ENI) with three IPs for each SQL Server instance.
+|Volumes |Two volumes per cluster node |Requires Amazon Elastic Block Storage (Amazon EBS) and NTFS only: One primary volume (C drive) and one volume for replicated data storage.
+|===
+
