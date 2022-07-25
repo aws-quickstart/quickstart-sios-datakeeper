@@ -1,7 +1,7 @@
 :xrefstyle: short
 
 Deploying this Quick Start for a new virtual private cloud (VPC) with
-default parameters builds one of the following four {partner-product-short-name} environments in the
+default parameters builds one of the following eight {partner-product-short-name} environments in the
 AWS Cloud.
 
 === Option 1
@@ -37,7 +37,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with two Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Five instances: Two DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
@@ -76,7 +76,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with two Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Four instances: three SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
@@ -116,7 +116,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with three Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Three instances: two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |Amazon FSx for Windows, AWS Directory Service, AWS Secrets Manager
@@ -156,7 +156,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with three Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Four instances: two SIOS DataKeeper / SQL Server cluster nodes, one Windows Server witness node to provide quorum witness functionality to the Windows Server Failover Cluster Instance, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
@@ -195,7 +195,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with two Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Five instances: Two DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
@@ -234,7 +234,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with two Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Seven instances: Three DNS / Active Directory domain controllers, three SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
@@ -274,7 +274,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with three Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Six instances: Three DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, and one Remote Destop Gateway Jumpbox.
 |Services |Amazon FSx for Windows, AWS Directory Service, AWS Secrets Manager
@@ -314,7 +314,7 @@ Technical specifications for the architecture:
 // Space needed to maintain table headers
 |VPC |One AWS Region with three Availability Zones.
 |Instance type |Minimum recommended instance type: m3.xlarge.
-|Operating system |See http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DeployingDKCEinAWSQuickStart/Content/DataKeeper/DKCE_Support_Matrix.htm[DKCE Support Matrix].
+|Operating system |See https://docs.us.sios.com/dkce/8.9.0/en/topic/dkce-support-matrix[DKCE Support Matrix].
 |Elastic IP |An Elastic IP address connected to the RD Gateway server.
 |Instances |Seven instances: Three DNS / Active Directory domain controllers, two SIOS DataKeeper / SQL Server cluster nodes, one Windows Server witness node to provide quorum witness functionality to the Windows Server Failover Cluster Instance, and one Remote Destop Gateway Jumpbox.
 |Services |AWS Directory Service, AWS Secrets Manager
