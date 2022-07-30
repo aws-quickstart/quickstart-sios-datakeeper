@@ -10,7 +10,7 @@ AWS Cloud.
 
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[Architecture]
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
@@ -49,7 +49,7 @@ Technical specifications for the architecture:
 
 [#architecture2]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram2.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram2.png[Architecture]
 
 As shown in <<architecture2>>, the Quick Start sets up the following:
 
@@ -88,7 +88,7 @@ Technical specifications for the architecture:
 
 [#architecture3]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram3.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram3.png[Architecture]
 
 As shown in <<architecture3>>, the Quick Start sets up the following:
 
@@ -128,7 +128,7 @@ Technical specifications for the architecture:
 
 [#architecture4]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram4.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram4.png[Architecture]
 
 As shown in <<architecture4>>, the Quick Start sets up the following:
 
@@ -168,7 +168,7 @@ Technical specifications for the architecture:
 
 [#architecture5]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram5.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram5.png[Architecture]
 
 As shown in <<architecture5>>, the Quick Start sets up the following:
 
@@ -207,7 +207,7 @@ Technical specifications for the architecture:
 
 [#architecture6]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram6.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram6.png[Architecture]
 
 As shown in <<architecture6>>, the Quick Start sets up the following:
 
@@ -246,7 +246,7 @@ Technical specifications for the architecture:
 
 [#architecture7]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram7.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram7.png[Architecture]
 
 As shown in <<architecture7>>, the Quick Start sets up the following:
 
@@ -286,7 +286,7 @@ Technical specifications for the architecture:
 
 [#architecture8]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../images/sios-datakeeper-architecture-diagram8.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram8.png[Architecture]
 
 As shown in <<architecture8>>, the Quick Start sets up the following:
 
