@@ -1,0 +1,17 @@
+//Include any predeployment steps here, such as signing up for a Marketplace AMI or making any changes to a partner account. If there are no predeployment steps, leave this file empty.
+
+== Predeployment steps
+
+=== Subscribe to the {partner-product-short-name} AMI
+
+This Quick Start requires a subscription to the AMI for {partner-product-short-name} in AWS Marketplace.
+
+. Sign in to your AWS account.
+. Open the page for the AMI in AWS Marketplace, and then choose *Continue to Subscribe*.
+..  https://aws.amazon.com/marketplace/pp/prodview-hjmfysqc6xhem?qid=1627657774268&sr=0-1&ref_=srh_res_product_title[Pay as you go (PAYG)]
+.. https://aws.amazon.com/marketplace/pp/prodview-n6qfra7iykmri[Bring your own license (BYOL)]
+. Review the terms and conditions for software usage, and then choose *Accept Terms*. +
+  A confirmation page loads, and an email confirmation is sent to the account owner. For detailed subscription instructions, see the https://aws.amazon.com/marketplace/help/200799470[AWS Marketplace documentation^].
+
+. When the subscription process is complete, exit out of AWS Marketplace without further action. *Do not* provision the software from AWS Marketplace—the Quick Start deploys the AMI for you.
+endif::marketplace_subscription[]

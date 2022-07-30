@@ -1,7 +1,8 @@
-// Add steps as necessary for accessing the software, post-configuration, and testing. Don’t include full usage instructions for your software, but add links to your product documentation for that information.
-//Should any sections not be applicable, remove them
+// Include any postdeployment steps here, such as steps necessary to test that the deployment was successful. If there are no postdeployment steps, leave this file empty.
 
-== Test the deployment
+== Postdeployment steps
+
+=== Test the deployment
 
 The easiest way to determine whether SIOS DataKeeper Cluster Edition has been correctly deployed and configured is to launch Failover Cluster Manager on one of the replication nodes, and switch over resources.
 
@@ -14,9 +15,9 @@ The easiest way to determine whether SIOS DataKeeper Cluster Edition has been co
 
 For more configuration details, see http://docs.us.sios.com/[SIOS technical documentation^].
 
-== Best practices for using DataKeeper on AWS
+=== Best practices for using DataKeeper on AWS
 
-=== AWS services
+==== AWS services
 
 SIOS recommends following AWS best practices for creating and using IAM roles and policies, IAM user credentials and roles, and access key rotation. For more information, see the following links.
 
@@ -25,7 +26,7 @@ SIOS recommends following AWS best practices for creating and using IAM roles an
 * https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_sign-in.html[How IAM users sign in to AWS^]
 * https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users[How to Rotate Access Keys for IAM Users^]
 
-=== SIOS DataKeeper Cluster Edition
+==== SIOS DataKeeper Cluster Edition
 
 SIOS also has some recommendations for customers seeking optimal performance. These recommendations include considerations specific to both the Windows operating system and the AWS Cloud configurations.
 
