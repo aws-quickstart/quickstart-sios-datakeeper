@@ -463,7 +463,7 @@ Parameters:
       - none
       - witness
       - full
-    Default: none
+    Default: witness
     Description: Choose `full` or `witness` to enable a deployment with three Availability Zones. The third zone can be used for the witness, or it can be a full WSFC cluster node.
     Type: String
   VPCCIDR:
