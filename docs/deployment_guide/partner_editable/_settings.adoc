@@ -3,7 +3,7 @@
 :partner-product-name: SIOS DataKeeper Cluster Edition
 :partner-product-short-name: DataKeeper
 :partner-company-name: SIOS Technology Corp.
-:doc-month: July
+:doc-month: September
 :doc-year: 2022
 :partner-contributors: Heath Carroll, {partner-company-name}
 // :other-contributors: Akua Mansa, Trek10
