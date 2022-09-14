@@ -1,10 +1,7 @@
 :xrefstyle: short
 
-Deploying this Quick Start for a new virtual private cloud (VPC) with
-default parameters builds the following {partner-product-short-name} environment in the
+Deploying this Quick Start with default parameters builds the following {partner-product-short-name} environment in the
 AWS Cloud.
-
-// Replace this example diagram with your own. Follow our wiki guidelines: https://w.amazon.com/bin/view/AWS_Quick_Starts/Process_for_PSAs/#HPrepareyourarchitecturediagram. Upload your source PowerPoint file to the GitHub {deployment name}/docs/images/ directory in this repo. 
 
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
@@ -13,12 +10,12 @@ image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
 * A highly available architecture that spans three Availability Zones.*
-* A VPC configured with public and private subnets, according to AWS
+* A virtual private cloud (VPC) configured with public and private subnets, according to AWS
 best practices, to provide you with your own virtual network on AWS.*
 * In the public subnets:
 ** Managed network address translation (NAT) gateways to allow outbound
 internet access for resources in the private subnets.*
-** Remote Desktop Gateway instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
+** Remote Desktop Gateway (RD Gateway) instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
 * In the private subnets:
 ** AWS Directory Service (Standard or Enterprise) to provision AD DS and to manage tasks such as monitoring domain controllers, and configuring backups and snapshots. You can also choose to add AD DS domain controllers as EC2 instances to the architecture and manage these yourself, as shown in <<architecture3>> and <<architecture4>>.
 ** Two Microsoft SQL Server cluster nodes featuring SIOS DataKeeper replication software.
