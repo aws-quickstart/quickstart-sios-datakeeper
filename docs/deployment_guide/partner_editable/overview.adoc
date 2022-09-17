@@ -1,12 +1,3 @@
-This Quick Start reference deployment guide provides step-by-step instructions for
-deploying SIOS DataKeeper Cluster Edition on the AWS Cloud. Quick Starts are automated
-reference deployments that use AWS CloudFormation templates to launch, configure, and
-run the AWS compute, network, storage, and other services required to deploy a specific
-workload on AWS.
+This Quick Start deploys https://us.sios.com/products/sios-datakeeper/[SIOS DataKeeper^] Cluster Edition on the AWS Cloud. This guide covers the steps necessary to deploy this Quick Start.
 
-This Quick Start is for enterprise users who want to deploy SIOS DataKeeper Cluster
-Edition on AWS into their test or production environment.
-
-// For advanced information about the product, troubleshooting, or additional functionality, refer to the https://{quickstart-github-org}.github.io/{quickstart-project-name}/operational/index.html[Operational Guide^].
-
-// For information about using this Quick Start for migrations, refer to the https://{quickstart-github-org}.github.io/{quickstart-project-name}/migration/index.html[Migration Guide^].
+For information on supported operating system versions, refer to the http://docs.us.sios.com/WindowsSPS/current/SPS4W/dkce-support-matrix.html[DataKeeper Cluster Edition (DKCE) support matrix^].
