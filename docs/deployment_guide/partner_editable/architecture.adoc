@@ -9,20 +9,14 @@ image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
-* A highly available architecture that spans three Availability Zones.*
-
-//TODO Dave, Do we actually deploy three Availability Zones by default? In the template, the default value for ThirdAZ is none.
-
+* A highly available architecture that spans two (optionally three) Availability Zones.*
 * A virtual private cloud (VPC) configured with public and private subnets, according to AWS
 best practices, to provide you with your own virtual network on AWS.*
 * In the public subnets:
 ** Managed network address translation (NAT) gateways to allow outbound
 internet access for resources in the private subnets.*
 ** Remote Desktop Gateway (RD Gateway) instances in an Amazon Elastic Compute Cloud (Amazon EC2) Auto Scaling group for remote administration.*
-* In the private subnets, a Windows Server Failover Clustering (WSFC) cluster containing three Microsoft SQL Server nodes with SIOS DataKeeper replication software. Each node resides in a separate Availability Zone and contains an Amazon Elastic Block Store (Amazon EBS) volume for replicated data storage.
-
-//TODO Dave, Do we actually deploy three nodes by default? In the template, WSFCNode3 is listed as optional, and the description says, "This template deploys two Windows Server Failover Clustering (WSFC) nodes."
-
+* In the private subnets, a Windows Server Failover Clustering (WSFC) cluster containing two (optionally three) Microsoft SQL Server nodes with SIOS DataKeeper replication software. Each node resides in a separate Availability Zone and contains an Amazon Elastic Block Store (Amazon EBS) volume for replicated data storage. For information on supported operating system versions, refer to the http://docs.us.sios.com/WindowsSPS/current/SPS4W/dkce-support-matrix.html[DataKeeper Cluster Edition (DKCE) support matrix^].
 * An https://aws.amazon.com/fsx/windows/[Amazon FSx for Windows File Server^] file system provides quorum witness functionality to the WSFC cluster.*
 
 //TODO Dave, is the asterisk correct on the preceding bullet?

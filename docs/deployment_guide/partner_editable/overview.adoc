@@ -1,3 +1,1 @@
-This Quick Start deploys https://us.sios.com/products/sios-datakeeper/[SIOS DataKeeper^] Cluster Edition on the AWS Cloud. This guide covers the steps necessary to deploy this Quick Start.
-
-For information on supported operating system versions, refer to the http://docs.us.sios.com/WindowsSPS/current/SPS4W/dkce-support-matrix.html[DataKeeper Cluster Edition (DKCE) support matrix^].
+This guide covers the information you need to deploy the https://us.sios.com/products/sios-datakeeper/[{partner-product-name}^] Quick Start in the AWS Cloud.
