@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: This template deploys a two or three node Windows Server Failover Cluster (WSFC)
+Description: This template deploys a two- or three-node Windows Server Failover Cluster (WSFC)
   with SQL Server 2017 and SIOS DataKeeper replication software. This template is
   intended to be installed into an existing VPC that was built using the Active Directory Domain Services
   on AWS Quick Start. **WARNING** This template creates Amazon EC2 Windows instance and related resources.
