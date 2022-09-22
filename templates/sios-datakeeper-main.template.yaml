@@ -109,11 +109,11 @@ Metadata:
       ADServer2PrivateIP:
         default: Domain controller 2 private IP address
       AMIType:
-        default: SIOS DataKeeper AMI type
+        default: AMI type
       AvailabilityZones:
         default: Availability Zones
       ClusterNodeOSServerVersion:
-        default: Cluster-node operating-system version
+        default: Cluster-node OS version
       DomainAdminPassword:
         default: Domain administrator password
       DomainAdminUser:
@@ -277,7 +277,7 @@ Parameters:
     Description: AMI type for the SIOS DataKeeper license.
     Type: String
   AvailabilityZones:
-    Description: List of Availability Zones to use for the subnets in the VPC. Two zones must be provided unless the Third Availability Zone parameter is specified, in which case three zones must be provided.
+    Description: Availability Zones to use for the subnets in the VPC. You must provide at least two Availability Zones. If the ThirdAZ parameter is specified, you must also provide a third Availability Zone.
     Type: List<AWS::EC2::AvailabilityZone::Name>
   ClusterNodeOSServerVersion:
     AllowedValues:
@@ -443,7 +443,7 @@ Parameters:
   SQLServiceAccountPassword:
     AllowedPattern: (?=^(?![\s\S]))|(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Default: ''
-    Description: Password for the SQL Server account. Must be at least eight characters containing letters, numbers, and symbols. Keep blank if you don't want to install SQL Server.
+    Description: Password for the SQL Server account. Must be at least 8 characters containing letters, numbers, and symbols. Keep blank if you don't want to install SQL Server.
     MaxLength: '32'
     MinLength: '0'
     NoEcho: 'true'
