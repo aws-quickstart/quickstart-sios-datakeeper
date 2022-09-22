@@ -113,7 +113,7 @@ Metadata:
       AvailabilityZones:
         default: Availability Zones
       ClusterNodeOSServerVersion:
-        default: Cluster-node OS version
+        default: Cluster-node Windows Server OS version
       DomainAdminPassword:
         default: Domain administrator password
       DomainAdminUser:
