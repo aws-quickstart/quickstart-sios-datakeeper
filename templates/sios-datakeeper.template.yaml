@@ -644,7 +644,7 @@ Parameters:
       - m4.large
       - m5.large
     Default: t3.micro
-    Description: Amazon EC2 instance type for a WSFC file-share witness.
+    Description: Amazon EC2 instance type for a WSFC file-share-witness node.
     Type: String
 Conditions:
   Vol1IsIo1: !Equals [!Ref Volume1Type, 'io1']
