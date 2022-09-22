@@ -95,7 +95,7 @@ Metadata:
           - Volume1Type
           - Volume1Iops
       - Label:
-          default: Failover cluster configuration
+          default: Failover-cluster configuration
         Parameters:
           - OSVersion
           - ClusterName
@@ -145,7 +145,7 @@ Metadata:
       DomainDNSName:
         default: Domain DNS name
       DomainMemberSGID:
-        default: Security Group ID for AD domain members
+        default: Security group ID for AD domain members
       DomainNetBIOSName:
         default: Domain NetBIOS name
       KeyPairName:
@@ -161,9 +161,9 @@ Metadata:
       PrivateSubnet2CIDR:
         default: Private subnet 2 CIDR
       PrivateSubnet3ID:
-        default: (Optional) Private subnet 3 ID
+        default: Private subnet 3 ID
       PrivateSubnet3CIDR:
-        default: (Optional) Private subnet 3 CIDR
+        default: Private subnet 3 CIDR
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3BucketRegion:
@@ -191,44 +191,44 @@ Metadata:
       VPCCIDR:
         default: SQL cluster VPC CIDR
       WSFCNode1InstanceType:
-        default: Instance type for cluster node 1
+        default: WSFC node 1 instance type
       WSFCNode1NetBIOSName:
-        default: Cluster node 1 NetBIOS name
+        default: WSFC node 1 NetBIOS name
       WSFCNode1PrivateIP1:
-        default: Cluster node 1 private IP address 1
+        default: WSFC node 1 private IP address 1
       WSFCNode1PrivateIP2:
-        default: Cluster node 1 private IP address 2
+        default: WSFC node 1 private IP address 2
       WSFCNode1PrivateIP3:
-        default: Cluster node 1 private IP address 3
+        default: WSFC node 1 private IP address 3
       WSFCNode2InstanceType:
-        default: Instance type for cluster node 2
+        default: WSFC node 2 instance type
       WSFCNode2NetBIOSName:
-        default: Cluster node 2 NetBIOS name
+        default: WSFC node 2 NetBIOS name
       WSFCNode2PrivateIP1:
-        default: Cluster node 2 private IP address 1
+        default: WSFC node 2 private IP address 1
       WSFCNode2PrivateIP2:
-        default: Cluster node 2 private IP address 2
+        default: WSFC node 2 private IP address 2
       WSFCNode2PrivateIP3:
-        default: Cluster node 2 private IP address 3
+        default: WSFC node 2 private IP address 3
       WSFCNode3InstanceType:
-        default: (Optional) Instance type for cluster node 3
+        default: WSFC node 3 instance type
       WSFCNode3NetBIOSName:
-        default: (Optional) Cluster node 3 NetBIOS name
+        default: WSFC node 3 NetBIOS name
       WSFCNode3PrivateIP1:
-        default: (Optional) Cluster node 3 private IP address 1
+        default: WSFC node 3 private IP address 1
       WSFCNode3PrivateIP2:
-        default: (Optional) Cluster node 3 private IP address 2
+        default: WSFC node 3 private IP address 2
       WSFCNode3PrivateIP3:
-        default: (Optional) Cluster node 3 private IP address 3
+        default: WSFC node 3 private IP address 3
       WSFCWitnessNetBIOSName:
-        default: (Optional) Cluster witness NetBIOS name
+        default: WSFC witness-node NetBIOS name
       WSFCWitnessInstanceType:
-        default: (Optional) Instance type for WSFC witness node
+        default: WSFC witness-node instance type
       WSFCWitnessAmiId:
-        default: (Optional) WSFC witness node AMI ID
+        default: WSFC witness-node AMI ID
 Parameters:
   ActiveDirectoryId:
-    Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, leave this blank.
+    Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, keep this blank.
     Default: ''
     Type: String
   ADServer1NetBIOSName:
@@ -327,7 +327,7 @@ Parameters:
     Description: CIDR block for private subnet 2, located in Availability Zone 2.
     Type: String
   PrivateSubnet2ID:
-    Description: ID of private subnet 2 in Availability Zone 2 (for example, subnet-a0246dcd).
+    Description: ID of private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd).
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet3CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -336,46 +336,36 @@ Parameters:
     Description: (Optional) CIDR block for private subnet 3, located in Availability Zone 3.
     Type: String
   PrivateSubnet3ID:
-    Description: (Optional) ID of private subnet 3 in Availability Zone 3 (for example, subnet-a0246dcd).
+    Description: (Optional) ID of private subnet 3 in Availability Zone 3 (e.g., subnet-a0246dcd).
     Default: ''
     Type: String
   QSS3BucketName:
-    AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
-    ConstraintDescription:
-      The Quick Start bucket name can include numbers, lowercase
-      letters, uppercase letters, and hyphens (-). It cannot start or end with a
-      hyphen (-).
+    AllowedPattern: ^[0-9a-z]+([0-9a-z-\.]*[0-9a-z])*$
+    ConstraintDescription: >-
+      The S3 bucket name can include numbers, lowercase letters,
+      and hyphens (-), but it cannot start or end with a hyphen.
     Default: aws-quickstart
-    Description:
-      Name of the S3 bucket for your copy of the Quick Start assets.
-      Keep the default name unless you are customizing the template.
-      Changing the name updates code references to point to a new Quick
-      Start location. This name can include numbers, lowercase letters,
-      uppercase letters, and hyphens, but do not start or end with a hyphen (-).
-      See https://aws-quickstart.github.io/option1.html.
+    Description: >-
+      Name of the S3 bucket for your copy of the deployment assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new location.
+    MinLength: 3
+    MaxLength: 63
     Type: String
   QSS3BucketRegion:
     Default: 'us-east-1'
-    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is
-    hosted. Keep the default Region unless you are customizing the template.
-    Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region.
-    See https://aws-quickstart.github.io/option1.html.'
+    Description: >-
+      AWS Region where the S3 bucket (QSS3BucketName) is hosted. Keep
+      the default Region unless you are customizing the template. Changing the Region updates code references to point to a new location. When using your own bucket, specify the Region.
     Type: String
   QSS3KeyPrefix:
-    AllowedPattern: '^[0-9a-zA-Z-/]*$'
-    ConstraintDescription:
-      The Quick Start S3 key prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens (-), and forward slashes (/). The prefix should
-      end with a forward slash (/).
+    AllowedPattern: ^([0-9a-zA-Z!-_\.\*'\(\)/]+/)*$
+    ConstraintDescription: >-
+      The S3 key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), underscores (_), periods (.), asterisks (*), single quotes ('), open parenthesis ((), close parenthesis ()), and forward slashes (/). End the prefix with a forward slash.
     Default: quickstart-sios-datakeeper/
-    Description:
-      S3 key prefix that is used to simulate a directory for your copy of the
-      Quick Start assets. Keep the default prefix unless you are customizing
-      the template. Changing this prefix updates code references to point to
-      a new Quick Start location. This prefix can include numbers, lowercase
-      letters, uppercase letters, hyphens (-), and forward slashes (/). End with
-      a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html
-      and https://aws-quickstart.github.io/option1.html.
+    Description: >-
+      S3 key prefix that is used to simulate a folder for your copy of the
+      deployment assets. Keep the default prefix unless you are customizing
+      the template. Changing the prefix updates code references to point to
+      a new location.
     Type: String
   SIOSLicenseKeyFtpURL:
     Default: 'override'
@@ -400,7 +390,7 @@ Parameters:
   SQLServiceAccountPassword:
     AllowedPattern: (?=^(?![\s\S]))|(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Default: ''
-    Description: Password for the SQL Server account. Must be at least eight characters containing letters, numbers, and symbols. Leave blank if you don't want to install SQL Server.
+    Description: Password for the SQL Server account. Must be at least eight characters containing letters, numbers, and symbols. Keep blank if you don't want to install SQL Server.
     MaxLength: '32'
     MinLength: '0'
     NoEcho: 'true'
@@ -834,11 +824,11 @@ Resources:
            type: String
           ActiveDirectoryConfig:
            default: Managed
-           description: Both refer to the quickstart-microsoft-activedirectory submodule. 'Legacy' refers to scenario 1. 'Managed' refers to scenario 3.
+           description: Both refer to the quickstart-microsoft-activedirectory submodule. "Legacy" refers to scenario 1. "Managed" refers to scenario 3.
            type: String
           ActiveDirectoryId:
            default: ''
-           description: AWS Managed Active Directory ID
+           description: AWS Managed Microsoft AD ID
            type: String
           AdminSecrets:
            description: "AWS Secrets Parameter Name that has Password and User name for a domain administrator."
@@ -873,7 +863,7 @@ Resources:
            type: String
           FSxDNSName:
            default: ''
-           description: Windows Remote PowerShell DNS name for FSx file share used with AWS Managed AD deployment.
+           description: Windows Remote PowerShell DNS name for Amazon FSx file share used with AWS Managed Microsoft AD deployment.
            type: String
           OSVersion:
            default: WS2012R2
@@ -2528,7 +2518,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
-      GroupDescription: Security Group for FSx for Windows File Storage Access
+      GroupDescription: Security group for Amazon FSx file-storage access
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 53
