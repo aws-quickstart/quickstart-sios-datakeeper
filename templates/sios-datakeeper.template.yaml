@@ -600,7 +600,7 @@ Parameters:
       - x1e.16xlarge
       - x1e.32xlarge
     Default: i3.xlarge
-    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS-optimized types, but a file share witness host can be any available instance type.
+    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS-optimized types, but a file-share-witness host can be any available instance type.
     Type: String
   WSFCNode3NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -644,7 +644,7 @@ Parameters:
       - m4.large
       - m5.large
     Default: t3.micro
-    Description: Amazon EC2 instance type for a WSFC file share witness.
+    Description: Amazon EC2 instance type for a WSFC file-share witness.
     Type: String
 Conditions:
   Vol1IsIo1: !Equals [!Ref Volume1Type, 'io1']
