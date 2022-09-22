@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: >-
   This template deploys two or three Windows Server Failover Clustering (WSFC) nodes with SQL
-  Server 2014 and DataKeeper replication software. This template also deploys the
+  Server and DataKeeper replication software. This template also deploys the
   required Active Directory architecture as deployed by the Active Directory Domain Services
   on AWS Quick Start. **WARNING** This template creates Amazon EC2 Windows instance
   and related resources. You will be billed for the AWS resources used if you create
