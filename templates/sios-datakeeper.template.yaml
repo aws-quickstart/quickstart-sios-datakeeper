@@ -78,7 +78,7 @@ Metadata:
           - ADServer2PrivateIP
           - DomainMemberSGID
       - Label:
-          default: (OPTIONAL) Self-managed Active Directory configuration
+          default: (Optional) Self-managed Active Directory configuration
         Parameters:
           - DomainAdminUser
           - ADServer1NetBIOSName
