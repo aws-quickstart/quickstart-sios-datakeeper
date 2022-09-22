@@ -197,9 +197,9 @@ Metadata:
       WSFCNode3PrivateIP3:
         default: WSFC node 3 private IP address 3
       WSFCWitnessNetBIOSName:
-        default: WSFC witness-node NetBIOS name
+        default: WSFC witness NetBIOS name
       WSFCWitnessInstanceType:
-        default: WSFC witness-node instance type
+        default: WSFC witness instance type
 Parameters:
   ADScenarioType:
     AllowedValues:
@@ -689,7 +689,7 @@ Parameters:
       - m4.large
       - m5.large
     Default: t3.micro
-    Description: Amazon EC2 instance type for a WSFC file-share witness.
+    Description: Amazon EC2 instance type for a WSFC file-share-witness node.
     Type: String
 Mappings:
   AWSLatestAMIMap:

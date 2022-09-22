@@ -221,11 +221,11 @@ Metadata:
       WSFCNode3PrivateIP3:
         default: WSFC node 3 private IP address 3
       WSFCWitnessNetBIOSName:
-        default: WSFC witness-node NetBIOS name
+        default: WSFC witness NetBIOS name
       WSFCWitnessInstanceType:
-        default: WSFC witness-node instance type
+        default: WSFC witness instance type
       WSFCWitnessAmiId:
-        default: WSFC witness-node AMI ID
+        default: WSFC witness AMI ID
 Parameters:
   ActiveDirectoryId:
     Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, keep this blank.
@@ -434,7 +434,7 @@ Parameters:
   WSFCWitnessAmiId:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
-    Description: AMI ID for WSFC witness
+    Description: AMI ID for a WSFC file-share-witness node.
     AllowedValues:
     - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
     - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
