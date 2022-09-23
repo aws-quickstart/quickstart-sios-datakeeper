@@ -474,9 +474,9 @@ Parameters:
       - x1e.8xlarge
       - x1e.16xlarge
       - x1e.32xlarge
-    ConstraintDescription: Only EBS-optimized instance types allowed.
+    ConstraintDescription: Only EBS-optimized instance types are allowed.
     Default: i3.xlarge
-    Description: Amazon EC2 instance type for the first WSFC node.
+    Description: Amazon EC2 instance type for the first WSFC node. If you're concerned about performance, SIOS recommends r3.xlarge or larger.
     Type: String
   WSFCNode1NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -536,9 +536,9 @@ Parameters:
       - x1e.8xlarge
       - x1e.16xlarge
       - x1e.32xlarge
-    ConstraintDescription: Only EBS-optimized instance types allowed.
+    ConstraintDescription: Only EBS-optimized instance types are allowed.
     Default: i3.xlarge
-    Description: Amazon EC2 instance type for the second WSFC node.
+    Description: Amazon EC2 instance type for the second WSFC node. If you're concerned about performance, SIOS recommends r3.xlarge or larger.
     Type: String
   WSFCNode2NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -599,7 +599,7 @@ Parameters:
       - x1e.16xlarge
       - x1e.32xlarge
     Default: i3.xlarge
-    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS-optimized types, but a file-share-witness host can be any available instance type.
+    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS-optimized types, but a file-share-witness host can be any available instance type. If you're concerned about performance, SIOS recommends r3.xlarge or larger.
     Type: String
   WSFCNode3NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
