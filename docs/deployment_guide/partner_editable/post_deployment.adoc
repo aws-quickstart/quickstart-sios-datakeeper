@@ -9,38 +9,16 @@ The easiest way to determine whether SIOS DataKeeper Cluster Edition has been co
 . Connect to the Remote Desktop Gateway instance.
 . From that node, connect to the replication node using Remote Desktop Protocol (RDP).
 . Launch Failover Cluster Manager.
-. In the left pane, choose *Roles*, and verify that the MSSQLSERVER role is online.
-. In the *Roles* pane, open the context (right-click) menu for MSSQLSERVER, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
-. Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful and can be used as desired.
+. In the left pane, choose *Roles*, and verify that the `MSSQLSERVER` role is online.
+. In the *Roles* pane, open the context (right-click) menu for `MSSQLSERVER``, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
+. Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful.
 
-For more configuration details, refer to http://docs.us.sios.com/[SIOS Technical Documentation^].
+==== (Optional) Configure additional nodes
 
-=== Best practices for using DataKeeper on AWS
+If you add nodes to the cluster after you've deployed this Quick Start, configure each node manually. For details, refer to SIOS http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[Relocation of Intent Log^].
 
-==== AWS services
+== Resources
 
-SIOS recommends following AWS best practices for creating and using IAM roles and policies, IAM user credentials and roles, and access-key rotation. For more information, refer to the following:
-
-* https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_forservice.html[What is IAM?^]
-* https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html[Creating IAM policies^]
-* https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_sign-in.html[How IAM users sign in to AWS^]
-* https://aws.amazon.com/blogs/security/how-to-rotate-access-keys-for-iam-users[How to Rotate Access Keys for IAM Users^]
-
-==== SIOS recommendations
-
-//TODO Dave, Please review this whole section for anything we should move to the "Predeployment steps" section. For example, people need to determine instance size BEFORE they deploy. Please rephrase in terms of steps (actions).
-
-//TODO Dave, Not everyone will read this guide. :) Which recommendations should we add to parameter descriptions in the template? For example, WSFCNode1InstanceType, etc.? Or ADServer1InstanceType, etc.?
-
-For customers seeking optimal performance, SIOS has some recommendations specific to the Windows operating system and the AWS Cloud configurations.
-
-The primary component of SIOS DataKeeper is an upper filter volume driver. This driver tracks and processes every request sent to a source volume and therefore incurs some overhead for all volume operations. When properly configured in a cloud environment, this overhead should be no more than 10-20 percent.
-
-* Instance size - Replication performance relies on several factors. While CPU usage is minimal, RAM utilization depends entirely on network performance, peak active workload, volume read-write latency, and the number of concurrent mirrors under load. With these considerations in mind, SIOS recommends using instance sizes that have at least medium network performance, enabling Amazon EBS optimization by default and providing at least one instance for storage volume. The r3.xlarge instance size is the smallest recommended instance size if performance is a concern. If performance is not an issue, SIOS DataKeeper can be installed on any instance size that is currently available.
-
-* https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html[Amazon EBS optimization^] - This feature is required for best performance. It is turned on by default in the Quick Start deployment.
-* Instance storage - Several features of SIOS DataKeeper rely on very low latency volume access. Bitmap storage must be configured to reside on an instance storage volume. This is automatically configured during Quick Start deployment, but any nodes added to the cluster afterward will need http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[manual configuration^].
-
-* Volume properties - While a simple volume is all that is required for proper mirror operation, more advanced techniques can be used to minimize read/write latency. SIOS recommends creating identical https://techcommunity.microsoft.com/t5/Storage-at-Microsoft/Using-the-Storage-Pools-page-in-Server-Manager-to-create-storage/ba-p/424656[Storage Pools^] to support mirror volumes on both source and target systems. This Quick Start does not configure Storage Pools during deployment. Storage Spaces Direct is not compatible with SIOS DataKeeper, and should not be used.
-
-* Recovery Time Objective (RTO) and Recovery Point Objective (RPO) - SIOS DataKeeper does not add significantly to a typical cluster single-server outage failover RTO. Assuming appropriate instance sizes are utilized, resource contention is not an issue, SIOS DataKeeper is properly configured and in the mirroring state, and assuming trivial application recovery time, an RTO of <1 minute is possible. Realistically, an RTO of 2 –5 minutes should be expected unless the application being protected (Microsoft SQL Server, SAP, etc.) has an unusually large recovery time. Assuming the same conditions, RPO should be only a few milliseconds larger than the current network write latency between the source and target nodes. RPO can be measured with the http://docs.us.sios.com/dkce/8.6.4/en/topic/performance-monitor-counters#queuecurrentage[Queue Current Age performance-monitor counter^]. In many cases, the RPO will be measured in milliseconds, but factors like network congestion, abnormally high disk write activity, or slow write performance on the target server can impact RPO greatly. SIOS DataKeeper does not conflict with Amazon EBS snapshots, and it can be used in conjunction with them on the source system. However, restoring a source volume from snapshot is not trivial, and will require a full resync of all data protected by the applicable mirror before the above RPO guidelines are applicable again. To optimize RTO and RPO, follow the http://docs.us.sios.com/dkce/8.6.5/en/topic/high-speed-storage-best-practices[High-Speed Storage Best Practices^] for SIOS DataKeeper Cluster Edition.
+* http://docs.us.sios.com/[SIOS Technical Documentation^]
+* SIOS http://docs.us.sios.com/dkce/8.6.5/en/topic/high-speed-storage-best-practices[High-Speed Storage Best Practices^]
+* https://techcommunity.microsoft.com/t5/Storage-at-Microsoft/Using-the-Storage-Pools-page-in-Server-Manager-to-create-storage/ba-p/424656[Using the Storage Pools page in Server Manager to create storage spaces^]
