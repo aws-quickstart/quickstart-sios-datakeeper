@@ -77,7 +77,7 @@ Metadata:
           - ADServer2PrivateIP
           - DomainMemberSGID
       - Label:
-          default: (OPTIONAL) Self-managed Active Directory configuration
+          default: (Optional) Self-managed Active Directory configuration
         Parameters:
           - DomainAdminUser
           - ADServer1NetBIOSName
@@ -94,7 +94,7 @@ Metadata:
           - Volume1Type
           - Volume1Iops
       - Label:
-          default: Failover cluster configuration
+          default: Failover-cluster configuration
         Parameters:
           - OSVersion
           - ClusterName
@@ -134,7 +134,7 @@ Metadata:
       ADServer2PrivateIP:
         default: Private IP address of DNS Server in private subnet 2
       AMIType:
-        default: SIOS DataKeeper AMI version
+        default: AMI type
       ClusterName:
         default: Cluster name
       DomainAdminPassword:
@@ -144,13 +144,13 @@ Metadata:
       DomainDNSName:
         default: Domain DNS name
       DomainMemberSGID:
-        default: Security Group ID for AD domain members
+        default: Security group ID for AD domain members
       DomainNetBIOSName:
         default: Domain NetBIOS name
       KeyPairName:
-        default: Key pair name
+        default: Key-pair name
       OSVersion:
-        default: Cluster node operating system version
+        default: OS version for cluster nodes
       PrivateSubnet1ID:
         default: Private subnet 1 ID
       PrivateSubnet1CIDR:
@@ -160,9 +160,9 @@ Metadata:
       PrivateSubnet2CIDR:
         default: Private subnet 2 CIDR
       PrivateSubnet3ID:
-        default: (Optional) Private subnet 3 ID
+        default: Private subnet 3 ID
       PrivateSubnet3CIDR:
-        default: (Optional) Private subnet 3 CIDR
+        default: Private subnet 3 CIDR
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3BucketRegion:
@@ -182,7 +182,7 @@ Metadata:
       Volume1Iops:
         default: Data volume IOPS
       Volume1Size:
-        default: Data volume size (GiB)
+        default: Data volume size
       Volume1Type:
         default: Data volume type
       VPCID:
@@ -190,45 +190,45 @@ Metadata:
       VPCCIDR:
         default: SQL cluster VPC CIDR
       WSFCNode1InstanceType:
-        default: Instance type for cluster node 1
+        default: WSFC node 1 instance type
       WSFCNode1NetBIOSName:
-        default: Cluster node 1 NetBIOS name
+        default: WSFC node 1 NetBIOS name
       WSFCNode1PrivateIP1:
-        default: Cluster node 1 private IP address 1
+        default: WSFC node 1 private IP address 1
       WSFCNode1PrivateIP2:
-        default: Cluster node 1 private IP address 2
+        default: WSFC node 1 private IP address 2
       WSFCNode1PrivateIP3:
-        default: Cluster node 1 private IP address 3
+        default: WSFC node 1 private IP address 3
       WSFCNode2InstanceType:
-        default: Instance type for cluster node 2
+        default: WSFC node 2 instance type
       WSFCNode2NetBIOSName:
-        default: Cluster node 2 NetBIOS name
+        default: WSFC node 2 NetBIOS name
       WSFCNode2PrivateIP1:
-        default: Cluster node 2 private IP address 1
+        default: WSFC node 2 private IP address 1
       WSFCNode2PrivateIP2:
-        default: Cluster node 2 private IP address 2
+        default: WSFC node 2 private IP address 2
       WSFCNode2PrivateIP3:
-        default: Cluster node 2 private IP address 3
+        default: WSFC node 2 private IP address 3
       WSFCNode3InstanceType:
-        default: (Optional) Instance type for cluster node 3
+        default: WSFC node 3 instance type
       WSFCNode3NetBIOSName:
-        default: (Optional) Cluster node 3 NetBIOS name
+        default: WSFC node 3 NetBIOS name
       WSFCNode3PrivateIP1:
-        default: (Optional) Cluster node 3 private IP address 1
+        default: WSFC node 3 private IP address 1
       WSFCNode3PrivateIP2:
-        default: (Optional) Cluster node 3 private IP address 2
+        default: WSFC node 3 private IP address 2
       WSFCNode3PrivateIP3:
-        default: (Optional) Cluster node 3 private IP address 3
+        default: WSFC node 3 private IP address 3
       WSFCWitnessNetBIOSName:
-        default: (Optional) Cluster witness NetBIOS name
+        default: WSFC witness NetBIOS name
       WSFCWitnessInstanceType:
-        default: (Optional) Instance type for WSFC witness node
+        default: WSFC witness instance type
       WSFCWitnessAmiId:
-        default: (Optional) WSFC witness node AMI ID 
+        default: WSFC witness AMI ID
 Parameters:
   ActiveDirectoryId:
-    Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, leave this blank.
-    Default: '' 
+    Description: Enter the ID of the AWS Managed Microsoft AD. If you are using self-managed Active Directory, keep this blank.
+    Default: ''
     Type: String
   ADServer1NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -240,7 +240,7 @@ Parameters:
   ADServer1PrivateIP:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.0.10
-    Description: Fixed private IP for the first Active Directory server, located in Availability Zone 1.
+    Description: Fixed private IP address for the first Active Directory server, located in Availability Zone 1.
     Type: String
   ADServer2NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -252,7 +252,7 @@ Parameters:
   ADServer2PrivateIP:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.32.10
-    Description: Fixed private IP for the second Active Directory server, located in Availability Zone 2.
+    Description: Fixed private IP address for the second Active Directory server, located in Availability Zone 2.
     Type: String
   AMIType:
     AllowedValues:
@@ -261,7 +261,7 @@ Parameters:
     Default: PAYG
     Description: AMI type for the SIOS DataKeeper license.
     Type: String
-  ClusterName: 
+  ClusterName:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: WSFCCluster1
     Description: NetBIOS name of the WSFC cluster.
@@ -285,12 +285,12 @@ Parameters:
   DomainDNSName:
     AllowedPattern: '[a-zA-Z0-9]+\..+'
     Default: datakeeper.local
-    Description: Fully qualified domain name (FQDN) of the forest root domain (e.g., `example.com`).
+    Description: Fully qualified domain name (FQDN) of the forest root domain (e.g., example.com).
     MaxLength: '25'
     MinLength: '3'
     Type: String
   DomainMemberSGID:
-    Description: ID of the domain member security group (e.g., `sg-7f16e910`).
+    Description: ID of the domain member security group (e.g., sg-7f16e910).
     Type: AWS::EC2::SecurityGroup::Id
   DomainNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
@@ -300,7 +300,7 @@ Parameters:
     MinLength: '1'
     Type: String
   KeyPairName:
-    Description: Key pair name. Public/private key pairs allow you to securely connect to your instance after it launches.
+    Description: Public-private key pairs allow you to securely connect to your instance after it launches.
     Type: AWS::EC2::KeyPair::KeyName
   OSVersion:
     AllowedValues:
@@ -308,7 +308,7 @@ Parameters:
       - WS2016
       - WS2019
     Default: WS2012R2
-    Description: Windows Server OS version for cluster nodes.
+    Description: Version of Windows Server OS for cluster nodes.
     Type: String
   PrivateSubnet1CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -317,7 +317,7 @@ Parameters:
     Description: CIDR block for private subnet 1, located in Availability Zone 1.
     Type: String
   PrivateSubnet1ID:
-    Description: ID of private subnet 1 in Availability Zone 1 (e.g., `subnet-a0246dcd`).
+    Description: ID of private subnet 1 in Availability Zone 1 (e.g., subnet-a0246dcd).
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet2CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -326,7 +326,7 @@ Parameters:
     Description: CIDR block for private subnet 2, located in Availability Zone 2.
     Type: String
   PrivateSubnet2ID:
-    Description: ID of private subnet 2 in Availability Zone 2 (for example, `subnet-a0246dcd`).
+    Description: ID of private subnet 2 in Availability Zone 2 (e.g., subnet-a0246dcd).
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet3CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
@@ -335,46 +335,36 @@ Parameters:
     Description: (Optional) CIDR block for private subnet 3, located in Availability Zone 3.
     Type: String
   PrivateSubnet3ID:
-    Description: (Optional) ID of private subnet 3 in Availability Zone 3 (for example, `subnet-a0246dcd`).
+    Description: (Optional) ID of private subnet 3 in Availability Zone 3 (e.g., subnet-a0246dcd).
     Default: ''
     Type: String
   QSS3BucketName:
-    AllowedPattern: '^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$'
-    ConstraintDescription:
-      The Quick Start bucket name can include numbers, lowercase
-      letters, uppercase letters, and hyphens (-). It cannot start or end with a 
-      hyphen (-).
+    AllowedPattern: ^[0-9a-z]+([0-9a-z-\.]*[0-9a-z])*$
+    ConstraintDescription: >-
+      The S3 bucket name can include numbers, lowercase letters,
+      and hyphens (-), but it cannot start or end with a hyphen.
     Default: aws-quickstart
-    Description:
-      Name of the S3 bucket for your copy of the Quick Start assets. 
-      Keep the default name unless you are customizing the template. 
-      Changing the name updates code references to point to a new Quick 
-      Start location. This name can include numbers, lowercase letters, 
-      uppercase letters, and hyphens, but do not start or end with a hyphen (-). 
-      See https://aws-quickstart.github.io/option1.html.
+    Description: >-
+      Name of the S3 bucket for your copy of the deployment assets. Keep the default name unless you are customizing the template. Changing the name updates code references to point to a new location.
+    MinLength: 3
+    MaxLength: 63
     Type: String
   QSS3BucketRegion:
     Default: 'us-east-1'
-    Description: 'AWS Region where the Quick Start S3 bucket (QSS3BucketName) is 
-    hosted. Keep the default Region unless you are customizing the template. 
-    Changing this Region updates code references to point to a new Quick Start location. When using your own bucket, specify the Region. 
-    See https://aws-quickstart.github.io/option1.html.'
+    Description: >-
+      AWS Region where the S3 bucket (QSS3BucketName) is hosted. Keep
+      the default Region unless you are customizing the template. Changing the Region updates code references to point to a new location. When using your own bucket, specify the Region.
     Type: String
   QSS3KeyPrefix:
-    AllowedPattern: '^[0-9a-zA-Z-/]*$'
-    ConstraintDescription:
-      The Quick Start S3 key prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens (-), and forward slashes (/). The prefix should
-      end with a forward slash (/).
+    AllowedPattern: ^([0-9a-zA-Z!-_\.\*'\(\)/]+/)*$
+    ConstraintDescription: >-
+      The S3 key prefix can include numbers, lowercase letters, uppercase letters, hyphens (-), underscores (_), periods (.), asterisks (*), single quotes ('), open parenthesis ((), close parenthesis ()), and forward slashes (/). End the prefix with a forward slash.
     Default: quickstart-sios-datakeeper/
-    Description:
-      S3 key prefix that is used to simulate a directory for your copy of the 
-      Quick Start assets. Keep the default prefix unless you are customizing 
-      the template. Changing this prefix updates code references to point to 
-      a new Quick Start location. This prefix can include numbers, lowercase 
-      letters, uppercase letters, hyphens (-), and forward slashes (/). End with 
-      a forward slash. See https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html 
-      and https://aws-quickstart.github.io/option1.html.
+    Description: >-
+      S3 key prefix that is used to simulate a folder for your copy of the
+      deployment assets. Keep the default prefix unless you are customizing
+      the template. Changing the prefix updates code references to point to
+      a new location.
     Type: String
   SIOSLicenseKeyFtpURL:
     Default: 'override'
@@ -387,7 +377,7 @@ Parameters:
       - '2017'
       - '2019'
     Default: '2017'
-    Description: Version of MS SQL Server to install. Choose `None` if you don't want to install SQL Server.
+    Description: Version of MS SQL Server to install. Choose "None" if you don't want to install SQL Server.
     Type: String
   SQLServiceAccount:
     AllowedPattern: '[a-zA-Z0-9]*'
@@ -399,7 +389,7 @@ Parameters:
   SQLServiceAccountPassword:
     AllowedPattern: (?=^(?![\s\S]))|(?=^.{6,255}$)((?=.*\d)(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[^A-Za-z0-9])(?=.*[a-z])|(?=.*[^A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z])|(?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9]))^.*
     Default: ''
-    Description: Password for the SQL Server account. Must be at least eight characters containing letters, numbers, and symbols. Leave blank if you don't want to install SQL Server.
+    Description: Password for the SQL Server account. Must be at least 8 characters containing letters, numbers, and symbols. Keep blank if you don't want to install SQL Server.
     MaxLength: '32'
     MinLength: '0'
     NoEcho: 'true'
@@ -410,26 +400,26 @@ Parameters:
       - witness
       - full
     Default: none
-    Description: Choose `full` or `witness` to enable a deployment with three Availability Zones. The third zone can be used for the witness, or it can be a full WSFC cluster node.
+    Description: Choose "full" or "witness" to enable a deployment with three Availability Zones. The third Availability Zone can be used for the witness, or it can be a full WSFC cluster node.
     Type: String
   VPCID:
-    Description: ID of the VPC (e.g., `vpc-0343606e`).
+    Description: ID of the VPC (e.g., vpc-0343606e).
     Type: AWS::EC2::VPC::Id
   VPCCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form `x.x.x.x/16-28`.
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28.
     Default: 10.0.0.0/16
     Description: CIDR block for the VPC.
     Type: String
   Volume1Iops:
     Default: 1000
-    Description: IOPS for the SQL data drive. (Only used when data volume type is `io1`.)
+    Description: IOPS for the SQL data drive. (Used only when data volume type is io1.)
     MaxValue: 20000
     MinValue: 100
     Type: Number
   Volume1Size:
     Default: 100
-    Description: Volume size for the SQL data drive.
+    Description: Volume size (in GiB) for the SQL data drive.
     MaxValue: 16000
     MinValue: 100
     Type: Number
@@ -443,7 +433,7 @@ Parameters:
   WSFCWitnessAmiId:
     Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
     Default: '/aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base'
-    Description: AMI ID for WSFC witness
+    Description: AMI ID for a WSFC file-share-witness node.
     AllowedValues:
     - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
     - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
@@ -498,17 +488,17 @@ Parameters:
   WSFCNode1PrivateIP1:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.0.100
-    Description: Primary private IP for the first WSFC node, located in Availability Zone 1.
+    Description: Primary private IP address for the first WSFC node, located in Availability Zone 1.
     Type: String
   WSFCNode1PrivateIP2:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.0.101
-    Description: Secondary private IP for WSFC cluster on the first WSFC node.
+    Description: Secondary private IP address for WSFC cluster on the first WSFC node.
     Type: String
   WSFCNode1PrivateIP3:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.0.102
-    Description: Third private IP for SQL Server network name on the first WSFC node.
+    Description: Third private IP address for SQL Server network name on the first WSFC node.
     Type: String
   WSFCNode2InstanceType:
     AllowedValues:
@@ -560,17 +550,17 @@ Parameters:
   WSFCNode2PrivateIP1:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.32.100
-    Description: Primary private IP for the second WSFC node, located in Availability Zone 2.
+    Description: Primary private IP address for the second WSFC node, located in Availability Zone 2.
     Type: String
   WSFCNode2PrivateIP2:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.32.101
-    Description: Secondary private IP for the WSFC cluster on the second WSFC node.
+    Description: Secondary private IP address for the WSFC cluster on the second WSFC node.
     Type: String
   WSFCNode2PrivateIP3:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.32.102
-    Description: Third private IP for the SQL Server network name on the second WSFC node.
+    Description: Third private IP address for the SQL Server network name on the second WSFC node.
     Type: String
   WSFCNode3InstanceType:
     AllowedValues:
@@ -609,34 +599,34 @@ Parameters:
       - x1e.16xlarge
       - x1e.32xlarge
     Default: i3.xlarge
-    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS optimized types, but a file share witness host can be any available instance type.
+    Description: (Optional) Amazon EC2 instance type for the third WSFC node. Full cluster nodes must be EBS-optimized types, but a file-share-witness host can be any available instance type.
     Type: String
   WSFCNode3NetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: WSFCNode3
-    Description: (Optional when `ThirdAZ` is set to 'full') NetBIOS name of the second WSFC node (up to 15 characters).
+    Description: (Optional when ThirdAZ is set to "full") NetBIOS name of the second WSFC node (up to 15 characters).
     MaxLength: 15
     MinLength: 1
     Type: String
   WSFCNode3PrivateIP1:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.64.100
-    Description: (Optional when `ThirdAZ` is set to 'witness' or 'full') Primary private IP for the second WSFC node, located in Availability Zone 2.
+    Description: (Optional when ThirdAZ is set to "witness" or "full") Primary private IP address for the second WSFC node, located in Availability Zone 2.
     Type: String
   WSFCNode3PrivateIP2:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.64.101
-    Description: (Optional when `ThirdAZ` is set to 'full') Secondary private IP for the WSFC cluster on the third WSFC node.
+    Description: (Optional when ThirdAZ is set to "full") Secondary private IP address for the WSFC cluster on the third WSFC node.
     Type: String
   WSFCNode3PrivateIP3:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$
     Default: 10.0.64.102
-    Description:  (Optional when `ThirdAZ` is set to 'full') Third private IP for the SQL Server network name on the third WSFC node.
+    Description:  (Optional when ThirdAZ is set to "full") Third private IP address for the SQL Server network name on the third WSFC node.
     Type: String
   WSFCWitnessNetBIOSName:
     AllowedPattern: '[a-zA-Z0-9]+'
     Default: WSFCWitness
-    Description: (Optional when `ThirdAZ` is set to 'witness') NetBIOS name of the second WSFC node (up to 15 characters).
+    Description: (Optional when ThirdAZ is set to "witness") NetBIOS name of the second WSFC node (up to 15 characters).
     MaxLength: 15
     MinLength: 1
     Type: String
@@ -653,7 +643,7 @@ Parameters:
       - m4.large
       - m5.large
     Default: t3.micro
-    Description: Amazon EC2 instance type for a WSFC file share witness.
+    Description: Amazon EC2 instance type for a WSFC file-share-witness node.
     Type: String
 Conditions:
   Vol1IsIo1: !Equals [!Ref Volume1Type, 'io1']
@@ -803,7 +793,7 @@ Mappings:
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
-    Properties: 
+    Properties:
       LogGroupName: !Sub /aws/Quick_Start/${AWS::StackName}
       RetentionInDays: 30
   ADAdminSecrets:
@@ -833,11 +823,11 @@ Resources:
            type: String
           ActiveDirectoryConfig:
            default: Managed
-           description: Both refer to the quickstart-microsoft-activedirectory submodule. 'Legacy' refers to scenario 1. 'Managed' refers to scenario 3.
+           description: Both refer to the quickstart-microsoft-activedirectory submodule. "Legacy" refers to scenario 1. "Managed" refers to scenario 3.
            type: String
           ActiveDirectoryId:
            default: ''
-           description: AWS Managed Active Directory ID
+           description: AWS Managed Microsoft AD ID
            type: String
           AdminSecrets:
            description: "AWS Secrets Parameter Name that has Password and User name for a domain administrator."
@@ -846,9 +836,9 @@ Resources:
            default: SIOSDC1
            description: NetBIOS name of the first Active Directory server (up to 15 characters)
            type: String
-          ADServer1PrivateIP: 
+          ADServer1PrivateIP:
            default: 10.0.0.10
-           description: Fixed private IP for the first Active Directory server located in Availability Zone 1
+           description: Fixed private address for the first Active Directory server located in Availability Zone 1.
            type: String
           ADServer2NetBIOSName:
            default: SIOSDC2
@@ -856,41 +846,41 @@ Resources:
            type: String
           ADServer2PrivateIP:
            default: 10.0.32.10
-           description: Fixed private IP for the second Active Directory server located in Availability Zone 2
+           description: Fixed private IP address for the second Active Directory server located in Availability Zone 2.
            type: String
-          ClusterName: 
+          ClusterName:
            default: WSFCCluster1
-           description: NetBIOS name of the WSFC Cluster
+           description: NetBIOS name of the WSFC cluster
            type: String
-          DomainDNSName: 
+          DomainDNSName:
            default: datakeeper.local
-           description: Fully qualified domain name (FQDN) e.g. example.com
+           description: Fully qualified domain name (FQDN) e.g., example.com
            type: String
-          DomainNetBIOSName: 
+          DomainNetBIOSName:
            default: DATAKEEPER
-           description: NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE
+           description: NetBIOS name of the domain (up to 15 characters) for users of earlier versions of Windows e.g. EXAMPLE.
            type: String
           FSxDNSName:
            default: ''
-           description: Windows Remote PowerShell DNS name for FSx File Share used with AWS Managed AD deployment
+           description: Windows Remote PowerShell DNS name for Amazon FSx file share used with AWS Managed Microsoft AD deployment.
            type: String
-          OSVersion: 
+          OSVersion:
            default: WS2012R2
-           description: Windows Server OS version to use for cluster nodes.
+           description: Version of the Windows Server OS to use for cluster nodes.
            type: String
           PrivateSubnet1CIDR:
            default: 10.0.0.0/19
            description: CIDR block for private subnet 1 located in Availability Zone 1.
            type: String
-          PrivateSubnet2CIDR: 
+          PrivateSubnet2CIDR:
            default: 10.0.32.0/19
            description: CIDR block for private subnet 2 located in Availability Zone 2.
            type: String
-          PrivateSubnet3CIDR: 
+          PrivateSubnet3CIDR:
            default: 10.0.64.0/19
            description: CIDR block for private subnet 2 located in Availability Zone 2.
            type: String
-          SIOSLicenseKeyFtpURL: 
+          SIOSLicenseKeyFtpURL:
            default: 'override'
            description: URL used to obtain license key for SIOS DataKeeper software.
            type: String
@@ -903,55 +893,55 @@ Resources:
            type: String
           ThirdAZ:
            default: none
-           description: "Purpose of Third Availability Zone"
+           description: "Purpose of third Availability Zone"
            type: "String"
           WSFCNode1NetBIOSName:
            default: WSFCNode1
-           description: NetBIOS name of the first WSFC Node (up to 15 characters)
+           description: NetBIOS name of the first WSFC node (up to 15 characters)
            type: String
           WSFCNode1PrivateIP1:
            default: 10.0.0.100
-           description: Primary private IP for the first WSFC Node located in Availability Zone 1
+           description: Primary private IP address for the first WSFC node located in Availability Zone 1.
            type: String
           WSFCNode1PrivateIP2:
            default: 10.0.0.101
-           description: Secondary private IP for WSFC cluster on first WSFC Node
+           description: Secondary private IP address for WSFC cluster on first WSFC node.
            type: String
-          WSFCNode1PrivateIP3: 
+          WSFCNode1PrivateIP3:
            default: 10.0.0.102
-           description: Third private IP for SQL Server Network Name on first WSFC Node
+           description: Third private IP address for SQL Server network name on first WSFC node.
            type: String
-          WSFCNode2NetBIOSName: 
+          WSFCNode2NetBIOSName:
            default: WSFCNode2
-           description: NetBIOS name of the second WSFC Node (up to 15 characters)
+           description: NetBIOS name of the second WSFC node (up to 15 characters).
            type: String
           WSFCNode2PrivateIP1:
            default: 10.0.32.100
-           description: Primary private IP for the second WSFC Node located in Availability Zone 2
+           description: Primary private IP address for the second WSFC Node located in Availability Zone 2
            type: String
-          WSFCNode2PrivateIP2: 
+          WSFCNode2PrivateIP2:
            default: 10.0.32.101
-           description: Secondary private IP for WSFC cluster on second WSFC Node
+           description: Secondary private IP address for WSFC cluster on second WSFC node.
            type: String
           WSFCNode2PrivateIP3:
            default: 10.0.32.102
-           description: Third private IP for SQL Server Network Name on second WSFC Node
+           description: Third private IP address for SQL Server network name on second WSFC node.
            type: String
-          WSFCNode3NetBIOSName: 
+          WSFCNode3NetBIOSName:
            default: WSFCNode3
-           description: NetBIOS name of the third WSFC Node (up to 15 characters) - WSFCNode3 or WSFCWitness
+           description: NetBIOS name of the third WSFC node (up to 15 characters) - WSFCNode3 or WSFCWitness.
            type: String
           WSFCNode3PrivateIP1:
            default: 10.0.64.100
-           description: Primary private IP for the third WSFC Node located in Availability Zone 3
+           description: Primary private IP address for the third WSFC Node located in Availability Zone 3.
            type: String
-          WSFCNode3PrivateIP2: 
+          WSFCNode3PrivateIP2:
            default: 10.0.64.101
-           description: Secondary private IP for WSFC cluster on third WSFC Node
+           description: Secondary private IP address for WSFC cluster on third WSFC node.
            type: String
           WSFCNode3PrivateIP3:
            default: 10.0.64.102
-           description: Third private IP for SQL Server Network Name on third WSFC Node
+           description: Third private IP address for SQL Server network name on third WSFC node.
            type: String
           WSFCNodeNames:
            default: ["WSFCNode1","WSFCNode2"]
@@ -988,7 +978,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{WSFCNodeNames}}' ]
             - Name: tag:aws:cloudformation:stack-name
@@ -1005,7 +995,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{WSFCNode1NetBIOSName}}' ]
             - Name: tag:aws:cloudformation:stack-name
@@ -1022,7 +1012,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{WSFCNode2NetBIOSName}}' ]
             - Name: tag:aws:cloudformation:stack-name
@@ -1047,14 +1037,14 @@ Resources:
             - NextStep: updateSSMAgent
               Variable: '{{ThirdAZ}}'
               StringEquals: none
-        # START Self-Managed Third Node exists branch1 - {{WSFCNode3NetBIOSName}} holds Node3 or Witness NetBIOSName 
+        # START Self-Managed Third Node exists branch1 - {{WSFCNode3NetBIOSName}} holds Node3 or Witness NetBIOSName
         - name: wsfcnode3InstanceId
           action: aws:executeAwsApi
           onFailure: step:signalfailure
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{WSFCNode3NetBIOSName}}' ]
             - Name: tag:aws:cloudformation:stack-name
@@ -1090,7 +1080,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{ADServer1NetBIOSName}}' ]
             - Name: instance-state-name
@@ -1105,7 +1095,7 @@ Resources:
           inputs:
             Service: ec2
             Api: DescribeInstances
-            Filters:  
+            Filters:
             - Name: tag:Name
               Values: [ '{{ADServer2NetBIOSName}}' ]
             - Name: instance-state-name
@@ -1121,7 +1111,7 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
@@ -1151,14 +1141,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1176,14 +1166,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Install-WMF51.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1196,13 +1186,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    Install-WindowsFeature -Name DSC-Service
                    Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 2048
@@ -1217,13 +1207,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/New-SelfSignedCertificateEx.ps1 -LocalFile C:\cfn\scripts\New-SelfSignedCertificateEx.ps1
         - name: InstallDSCModules2012R2
@@ -1238,14 +1228,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/install-dsc-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1263,14 +1253,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/LCM-Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1280,26 +1270,26 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/EnableCredSsp.ps1 -LocalFile C:\cfn\scripts\EnableCredSsp.ps1
         - name: EnableCredSSPReboot
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    $CredSSPEnabled = Test-Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation'
                    if ($CredSSPEnabled -eq $false) {
@@ -1312,13 +1302,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - New-AWSQuickStartResourceSignal -Stack {{StackName}} -Resource SSMWaitCondition -Region {{global:REGION}}
         - name: SetDns
           action: aws:runCommand
@@ -1332,14 +1322,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/Set-Dns.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1362,13 +1352,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}scripts/DriveLetterMappingConfig.json -LocalFile C:\ProgramData\Amazon\EC2-Windows\Launch\Config\DriveLetterMappingConfig.json
         - name: InitializeDisk
@@ -1376,13 +1366,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    C:\ProgramData\Amazon\EC2-Windows\Launch\Scripts\InitializeDisks.ps1
         - name: ManagedADBranch2
@@ -1398,7 +1388,7 @@ Resources:
           nextStep: OpenWSFCPorts
           inputs:
             DocumentName: AWS-JoinDirectoryServiceDomain
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
@@ -1419,14 +1409,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DomainJoin.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1436,13 +1426,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
@@ -1465,14 +1455,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/OpenWSFCPorts.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1496,14 +1486,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1520,14 +1510,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/CreateJob.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1547,14 +1537,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/CreateMirror.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1585,13 +1575,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{dc1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                   $sharePath = 'C:\witness'
                   if (-Not(Test-Path -Path $sharePath)) {
@@ -1603,21 +1593,21 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode3InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/install-fsw-modules.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1634,14 +1624,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WSFCFileShare.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1651,13 +1641,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{dc1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                   repadmin /syncall /A /e /P
         - name: InvokeADReplicationDC2
@@ -1665,13 +1655,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{dc2InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                   repadmin /syncall /A /e /P
         # END Self-Managed AD branch2
@@ -1703,14 +1693,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1720,14 +1710,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ( -Not ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') ) {
@@ -1735,7 +1725,7 @@ Resources:
                            exit 3010
                        } else {'Next Step'}
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
         - name: ThirdAZWitnessBranch2
@@ -1758,14 +1748,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Set-Folder-Permissions.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1789,14 +1779,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1806,14 +1796,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1821,7 +1811,7 @@ Resources:
                            exit 3010
                        } else {'Next Step'}
                    }
-                   
+
                    Start-DscConfiguration 'C:\AWSQuickstart\WSFCNode1Config' -Wait -Verbose -Force
                    DscStatusCheck
         - name: Node2configureWSFCSQL
@@ -1836,14 +1826,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1853,14 +1843,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode2InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1892,14 +1882,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1910,14 +1900,14 @@ Resources:
           nextStep: WSFCQuorumConfig
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode3InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1942,13 +1932,13 @@ Resources:
             Parameters:
               sourceType: S3
               sourceInfo:
-                !Sub 
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Node1Config.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -1958,14 +1948,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -1980,14 +1970,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode1InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -2009,14 +1999,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2026,14 +2016,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode2InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -2065,14 +2055,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/AdditionalNodeConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2082,14 +2072,14 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnode3InstanceId.InstanceId}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
-                - |     
+              commands:
+                - |
                    function DscStatusCheck () {
                        $LCMState = (Get-DscLocalConfigurationManager).LCMState
                        if ($LCMState -eq 'PendingConfiguration' -Or $LCMState -eq 'PendingReboot') {
@@ -2112,14 +2102,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WSFCQuorumConfig.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2151,14 +2141,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WaitForCluster.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2175,14 +2165,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/Configure-MAD-Permissions.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2199,14 +2189,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/RegisterClusterVolume.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2231,14 +2221,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/InstallSQLEE.ps1"}'
-                  - S3Bucket: !If 
+                  - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2255,14 +2245,14 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/InstallSQLEE-AddNode.ps1"}'
-                  - S3Bucket: !If 
+                  - S3Bucket: !If
                       - UsingDefaultBucket
                       - !Sub '${QSS3BucketName}-${AWS::Region}'
                       - !Ref QSS3BucketName
-                    S3Region: !If 
+                    S3Region: !If
                       - UsingDefaultBucket
                       - !Ref AWS::Region
                       - !Ref QSS3BucketRegion
@@ -2279,8 +2269,8 @@ Resources:
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
               sourceType: S3
-              sourceInfo: 
-                !Sub 
+              sourceInfo:
+                !Sub
                   - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/WaitForClusterGroup.ps1"}'
                   - S3Bucket: !If
                       - UsingDefaultBucket
@@ -2297,26 +2287,26 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - Copy-S3Object -Bucket {{QSS3BucketName}} -key {{QSS3KeyPrefix}}submodules/quickstart-microsoft-utilities/scripts/DisableCredSsp.ps1 -LocalFile C:\cfn\scripts\DisableCredSsp.ps1
         - name: DisableCredSSPReboot
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - |
                   $CredSSPEnabled = (Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation' -Name AllowFreshCredentials -ErrorAction SilentlyContinue).AllowFreshCredentials
                   if ($CredSSPEnabled -eq 1) {
@@ -2329,13 +2319,13 @@ Resources:
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunPowerShellScript
-            InstanceIds: 
+            InstanceIds:
               - '{{wsfcnodesInstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
             Parameters:
-              commands: 
+              commands:
                 - Remove-Item -Path C:\AWSQuickstart\ -recurse
         # Determines if CFN Needs to be Signaled or if Work flow should just end
         - name: CFNSignalEnd
@@ -2343,7 +2333,7 @@ Resources:
           inputs:
             Choices:
             - NextStep: signalsuccess
-              Not: 
+              Not:
                 Variable: '{{StackName}}'
                 StringEquals: ''
             - NextStep: sleepend
@@ -2424,7 +2414,7 @@ Resources:
             Statement:
               - Action:
                   - s3:GetObject
-                Resource: 
+                Resource:
                   - !Sub 'arn:${AWS::Partition}:s3:::aws-ssm-${AWS::Region}/*'
                   - !Sub 'arn:${AWS::Partition}:s3:::aws-windows-downloads-${AWS::Region}/*'
                   - !Sub 'arn:${AWS::Partition}:s3:::amazon-ssm-${AWS::Region}/*'
@@ -2440,7 +2430,7 @@ Resources:
                 Action:
                   - secretsmanager:GetSecretValue
                   - secretsmanager:DescribeSecret
-                Resource: 
+                Resource:
                   - !Ref 'SQLSecrets'
                   - !Ref 'ADAdminSecrets'
               - Effect: Allow
@@ -2527,7 +2517,7 @@ Resources:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       VpcId: !Ref VPCID
-      GroupDescription: Security Group for FSx for Windows File Storage Access
+      GroupDescription: Security group for Amazon FSx file-storage access
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 53
@@ -2886,7 +2876,7 @@ Resources:
             - ';"DomainNetBIOSName"='
             - !Sub '"${DomainNetBIOSName}"'
             - ';"FSxDNSName"='
-            - !Sub 
+            - !Sub
               - '"${FSxDNSName}"'
               - FSxDNSName: !If
                 - NeedsFSxWitness
@@ -2925,7 +2915,7 @@ Resources:
             - ';"WSFCNode2PrivateIP3"='
             - !Sub '"${WSFCNode2PrivateIP3}"'
             - ';"WSFCNode3NetBIOSName"='
-            - !Sub 
+            - !Sub
               - '"${WSFCNode3Name}"'
               - WSFCNode3Name: !If
                 - NeedsWitnessNode
@@ -3003,17 +2993,17 @@ Resources:
       Device: /dev/xvdb
       InstanceId: !Ref WSFCNode3
       VolumeId: !Ref WSFCNode3Volume1
-  SSMWaitHandle: 
+  SSMWaitHandle:
     Type: AWS::CloudFormation::WaitConditionHandle
-  SSMWaitCondition: 
+  SSMWaitCondition:
     Type: AWS::CloudFormation::WaitCondition
     CreationPolicy:
       ResourceSignal:
         Timeout: PT300M
         Count: 1
     DependsOn: WSFCNode2
-    Properties: 
-      Handle: 
+    Properties:
+      Handle:
         Ref: SSMWaitHandle
       Timeout: '18000'
       Count: 1
