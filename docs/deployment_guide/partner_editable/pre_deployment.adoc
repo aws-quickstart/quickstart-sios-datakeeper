@@ -12,6 +12,9 @@ This Quick Start requires a subscription to the AMI for {partner-product-short-n
   A confirmation page loads, and an email confirmation is sent to the account owner. For detailed subscription instructions, refer to the https://aws.amazon.com/marketplace/help/200799470[AWS Marketplace documentation^].
 
 . When the subscription process is complete, exit out of AWS Marketplace without further action. *Do not* provision the software from AWS Marketplace—the Quick Start deploys the AMI for you.
-endif::marketplace_subscription[]
 
-//TODO Dave, Does line 15 above—endif::marketplace_subscription[]—belong here?
+=== Determine your EC2 instance size
+
+Replication performance relies on several factors. While CPU usage is minimal, RAM utilization depends on network performance, peak active workload, volume read-write latency, and the number of concurrent mirrors under load. With these considerations in mind, SIOS recommends using EC2 instance sizes that have at least medium network performance. These instances enable Amazon EBS optimization by default and provide at least one instance for storage volume.
+
+So if you're concerned about performance, SIOS recommends that you choose r3.xlarge instances or larger for the parameters `WSFCNode1InstanceType`, `WSFCNode2InstanceType`, and (if used) `WSFCNode3InstanceType` when you deploy this Quick Start.
