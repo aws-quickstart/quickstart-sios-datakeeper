@@ -13,7 +13,7 @@ The easiest way to determine whether SIOS DataKeeper Cluster Edition has been co
 . In the *Roles* pane, open the context (right-click) menu for `MSSQLSERVER``, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
 . Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful.
 
-==== (Optional) Configure additional nodes
+=== (Optional) Configure additional nodes
 
 If you add nodes to the cluster after you've deployed this Quick Start, configure each node manually. For details, refer to SIOS http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[Relocation of Intent Log^].
 
