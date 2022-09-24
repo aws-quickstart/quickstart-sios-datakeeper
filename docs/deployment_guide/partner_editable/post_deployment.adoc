@@ -10,7 +10,7 @@ The easiest way to determine whether SIOS DataKeeper Cluster Edition has been co
 . From that node, connect to the replication node using Remote Desktop Protocol (RDP).
 . Launch Failover Cluster Manager.
 . In the left pane, choose *Roles*, and verify that the `MSSQLSERVER` role is online.
-. In the *Roles* pane, open the context (right-click) menu for `MSSQLSERVER``, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
+. In the *Roles* pane, open the context (right-click) menu for `MSSQLSERVER`, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
 . Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful.
 
 === (Optional) Configure additional nodes
