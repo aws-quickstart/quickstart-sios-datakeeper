@@ -5,7 +5,7 @@ AWS Cloud.
 
 [#architecture1]
 .Quick Start architecture for {partner-product-short-name} on AWS
-image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[Architecture]
+image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[Architecture, 80%]
 
 As shown in <<architecture1>>, the Quick Start sets up the following:
 
