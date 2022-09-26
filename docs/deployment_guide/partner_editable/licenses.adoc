@@ -1,0 +1,14 @@
+This Quick Start uses Amazon Machine Images (AMIs) from the http://aws.amazon.com/marketplace/[AWS Marketplace^]. It
+supports two licensing options:
+
+* https://aws.amazon.com/marketplace/pp/prodview-hjmfysqc6xhem?qid=1627657774268&sr=0-1&ref_=srh_res_product_title[Pay as you go (PAYG)^] — Use this consumption-based option to pay an hourly fee
+determined by usage. Current prices are listed on the AWS Marketplace page and billed
+to your AWS account. This option doesn't require a license for SIOS DataKeeper.
+
+* https://aws.amazon.com/marketplace/pp/prodview-n6qfra7iykmri[Bring your own license (BYOL)^] — Use this option if you have a current license for SIOS
+DataKeeper Cluster Edition (which requires a run-time license for each server). You
+can deploy the Quick Start without first signing up for a license, but you must have a
+license to start and run SIOS DataKeeper Cluster Edition. You can contact SIOS to
+request a http://us.sios.com/contact-us/[run-time license^] or a http://us.sios.com/SAN-SANless-clusters/free-trial-evaluation-san-sanless-clusters[14-day free trial license^].
+
+There is no cost to use this Quick Start, but you will be billed for any AWS services or resources that this Quick Start deploys. For more information, refer to the https://fwd.aws/rA69w?[AWS Quick Start General Information Guide^].

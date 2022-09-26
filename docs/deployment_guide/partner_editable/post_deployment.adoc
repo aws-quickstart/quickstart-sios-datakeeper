@@ -1,0 +1,24 @@
+// Include any postdeployment steps here, such as steps necessary to test that the deployment was successful. If there are no postdeployment steps, leave this file empty.
+
+== Postdeployment steps
+
+=== Test the deployment
+
+The easiest way to determine whether SIOS DataKeeper Cluster Edition has been correctly deployed and configured is to launch Failover Cluster Manager on one of the replication nodes and switch over resources.
+
+. Connect to the Remote Desktop Gateway instance.
+. From that node, connect to the replication node using Remote Desktop Protocol (RDP).
+. Launch Failover Cluster Manager.
+. In the left pane, choose *Roles*, and verify that the `MSSQLSERVER` role is online.
+. In the *Roles* pane, open the context (right-click) menu for `MSSQLSERVER`, and then choose *Move*, *Select Node*, and the other replication node as the destination node. The role should come online within two minutes.
+. Move the role back to the primary replication node. If the role comes online without any issues on either node, the deployment was successful.
+
+=== (Optional) Configure additional nodes
+
+If you add nodes to the cluster after you've deployed this Quick Start, configure each node manually. For details, refer to SIOS http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[Relocation of Intent Log^].
+
+== Resources
+
+* http://docs.us.sios.com/[SIOS Technical Documentation^]
+* SIOS http://docs.us.sios.com/dkce/8.6.5/en/topic/high-speed-storage-best-practices[High-Speed Storage Best Practices^]
+* https://techcommunity.microsoft.com/t5/Storage-at-Microsoft/Using-the-Storage-Pools-page-in-Server-Manager-to-create-storage/ba-p/424656[Using the Storage Pools page in Server Manager to create storage spaces^]
