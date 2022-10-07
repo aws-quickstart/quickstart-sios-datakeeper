@@ -1,0 +1,14 @@
+:quickstart-project-name: quickstart-sios-datakeeper
+:quickstart-github-org: aws-quickstart
+:partner-product-name: SIOS DataKeeper Cluster Edition
+:partner-product-short-name: DataKeeper
+:partner-company-name: SIOS Technology Corp.
+:doc-month: September
+:doc-year: 2022
+:partner-contributors: Heath Carroll, {partner-company-name}
+// :other-contributors: Akua Mansa, Trek10
+//:aws-contributors: Janine Singh, AWS IoT Partner team
+:aws-ia-contributors: Dave May, AWS Integration & Automation team
+:deployment_time: 45 minutes
+:default_deployment_region: us-east-1
+// :private_repo:

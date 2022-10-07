@@ -1,0 +1,8 @@
+For troubleshooting common Quick Start issues, refer to the https://fwd.aws/rA69w?[AWS Quick Start General Information Guide^] and https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html[Troubleshooting CloudFormation^].
+
+For troubleshooting common SIOS deployment issues, refer to the following:
+
+* http://docs.us.sios.com/WindowsSPS/8.5/LK4Wsrc/Output/DKCE/Output/DKCETechDoc/Content/Troubleshooting.htm[Troubleshooting^] in the SIOS technical documentation
+* https://support.us.sios.com/aspx/SupportHome[SIOS Support^]
+
+You can also email mailto:evalsupport@us.sios.com[SIOS presales support] during an evaluation period.

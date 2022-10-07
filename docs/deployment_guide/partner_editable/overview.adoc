@@ -1,0 +1,1 @@
+This guide covers the information you need to deploy the https://us.sios.com/products/sios-datakeeper/[{partner-product-name}^] Quick Start in the AWS Cloud.
