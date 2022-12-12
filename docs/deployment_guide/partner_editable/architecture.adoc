@@ -1,13 +1,13 @@
 :xrefstyle: short
 
-Deploying this Quick Start with default parameters builds the following {partner-product-short-name} environment in the
+Deploying this Partner Solution with default parameters builds the following {partner-product-short-name} environment in the
 AWS Cloud.
 
 [#architecture1]
-.Quick Start architecture for {partner-product-short-name} on AWS
+.Partner Solution architecture for {partner-product-short-name} on AWS
 image::../docs/deployment_guide/images/sios-datakeeper-architecture-diagram.png[Architecture, 80%]
 
-As shown in <<architecture1>>, the Quick Start sets up the following:
+As shown in <<architecture1>>, the Partner Solution sets up the following:
 
 * A highly available architecture that spans two (optionally three) Availability Zones.*
 * A virtual private cloud (VPC) configured with public and private subnets, according to AWS
@@ -22,4 +22,4 @@ internet access for resources in the private subnets.*
 * AWS Secrets Manager to store credentials.
 * An AWS Systems Manager automation document to automate the deployment.
 
-[.small]#* The template that deploys the Quick Start into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#
+[.small]#* The template that deploys the Partner Solution into an existing VPC skips the components marked by asterisks and prompts you for your existing VPC configuration.#

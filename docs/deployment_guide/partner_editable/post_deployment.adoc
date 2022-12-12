@@ -15,7 +15,7 @@ The easiest way to determine whether SIOS DataKeeper Cluster Edition has been co
 
 === (Optional) Configure additional nodes
 
-If you add nodes to the cluster after you've deployed this Quick Start, configure each node manually. For details, refer to SIOS http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[Relocation of Intent Log^].
+If you add nodes to the cluster after you've deployed this Partner Solution, configure each node manually. For details, refer to SIOS http://docs.us.sios.com/dkce/8.6.4/en/topic/relocation-of-intent-log[Relocation of Intent Log^].
 
 == Resources
 
