@@ -2955,6 +2955,7 @@ Resources:
   WSFCNode1Volume1:
     Type: AWS::EC2::Volume
     Properties:
+      Encrypted: true
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode1.AvailabilityZone
@@ -2962,6 +2963,7 @@ Resources:
   WSFCNode2Volume1:
     Type: AWS::EC2::Volume
     Properties:
+      Encrypted: true
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode2.AvailabilityZone
@@ -2970,6 +2972,7 @@ Resources:
     Condition: ThirdAzIsFullNode
     Type: AWS::EC2::Volume
     Properties:
+      Encrypted: true
       Size: !Ref Volume1Size
       VolumeType: !Ref Volume1Type
       AvailabilityZone: !GetAtt WSFCNode3.AvailabilityZone
