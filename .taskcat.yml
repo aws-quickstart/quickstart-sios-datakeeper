@@ -23,7 +23,7 @@ general:
       KeyPairName: $[taskcat_getkeypair]
       QSS3BucketName: $[taskcat_autobucket]
       QSS3BucketRegion: $[taskcat_current_region]
-      RDGWCIDR: 0.0.0.0/0
+      RDGWCIDR: 10.0.0.0/16
 tests:
   ws2012r2-payg-nosql-mad-none:
     template: templates/sios-datakeeper-main.template.yaml
