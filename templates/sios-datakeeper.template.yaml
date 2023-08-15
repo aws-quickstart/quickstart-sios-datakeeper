@@ -435,9 +435,10 @@ Parameters:
     Type: Number
   Volume1Type:
     AllowedValues:
+      - gp3
       - gp2
       - io1
-    Default: gp2
+    Default: gp3
     Description: Volume type for the SQL data drive.
     Type: String
   WSFCWitnessAmiId:
@@ -2681,7 +2682,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 100
-            VolumeType: gp2
+            VolumeType: gp3
       KeyName: !Ref KeyPairName
       UserData: !Base64
         Fn::Join:
@@ -2743,7 +2744,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
@@ -2808,7 +2809,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
@@ -2872,7 +2873,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
