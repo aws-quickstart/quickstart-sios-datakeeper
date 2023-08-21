@@ -285,7 +285,7 @@ Parameters:
       - WS2016
       - WS2019
       - WS2022
-    Default: WS2019
+    Default: WS2022
     Description: Version of Windows Server OS for cluster nodes.
     Type: String
   DomainAdminPassword:

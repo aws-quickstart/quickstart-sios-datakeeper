@@ -317,7 +317,8 @@ Parameters:
       - WS2012R2
       - WS2016
       - WS2019
-    Default: WS2012R2
+      - WS2022
+    Default: WS2022
     Description: Version of Windows Server OS for cluster nodes.
     Type: String
   PrivateSubnet1CIDR:
@@ -449,6 +450,7 @@ Parameters:
     - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
     - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
     - /aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base
+    - /aws/service/ami-windows-latest/Windows_Server-2022-English-Full-Base
   WSFCNode1InstanceType:
     AllowedValues:
       - m3.xlarge
@@ -688,6 +690,8 @@ Mappings:
       Code: SDKCEWIN2016BYOL
     WS2019:
       Code: SDKCEWIN2019BYOL
+    WS2022:
+      Code: SDKCEWIN2022BYOL
   PAYGNameMap:
     WS2012R2:
       Code: SDKCEWIN2012R2
@@ -695,6 +699,8 @@ Mappings:
       Code: SDKCEWIN2016
     WS2019:
       Code: SDKCEWIN2019
+    WS2022:
+      Code: SDKCEWIN2022
   AWSAMIRegionMap:
     ap-northeast-2:
       SDKCEWIN2012R2: ami-027b185d10edaf8ad
