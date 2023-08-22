@@ -284,8 +284,7 @@ Parameters:
       - WS2012R2
       - WS2016
       - WS2019
-      - WS2022
-    Default: WS2022
+    Default: WS2019
     Description: Version of Windows Server OS for cluster nodes.
     Type: String
   DomainAdminPassword:
@@ -699,7 +698,6 @@ Mappings:
       WS2012R2: /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
       WS2016: /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
       WS2019: /aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base
-      WS2022: /aws/service/ami-windows-latest/Windows_Server-2022-English-Full-Base
 Conditions:
   IsTwoAz: !Equals [!Ref ThirdAZ, none]
   UseAWSDirectoryServiceEE: !Equals
