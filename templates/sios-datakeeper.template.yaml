@@ -18,16 +18,6 @@ Metadata:
     Order: "2"
   AWSAMIRegionMap:
     Filters:
-      SDKCEWIN2022:
-        name: SIOS DataKeeper v8* on 2022*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
-        product-code: dgaggj9xjz7lxfto3aih26aa4
-      SDKCEWIN2022BYOL:
-        name: SIOS DataKeeper v8* on 2022 BYOL*
-        owner-alias: aws-marketplace
-        product-code.type: marketplace
-        product-code: dw2ar1dpog8lorldwt78qlt1s
       SDKCEWIN2019:
         name: SIOS DataKeeper v8* on 2019*
         owner-alias: aws-marketplace
@@ -317,8 +307,7 @@ Parameters:
       - WS2012R2
       - WS2016
       - WS2019
-      - WS2022
-    Default: WS2022
+    Default: WS2019
     Description: Version of Windows Server OS for cluster nodes.
     Type: String
   PrivateSubnet1CIDR:
@@ -450,7 +439,6 @@ Parameters:
     - /aws/service/ami-windows-latest/Windows_Server-2012-R2_RTM-English-64Bit-Base
     - /aws/service/ami-windows-latest/Windows_Server-2016-English-Full-Base
     - /aws/service/ami-windows-latest/Windows_Server-2019-English-Full-Base
-    - /aws/service/ami-windows-latest/Windows_Server-2022-English-Full-Base
   WSFCNode1InstanceType:
     AllowedValues:
       - m3.xlarge
@@ -690,8 +678,6 @@ Mappings:
       Code: SDKCEWIN2016BYOL
     WS2019:
       Code: SDKCEWIN2019BYOL
-    WS2022:
-      Code: SDKCEWIN2022BYOL
   PAYGNameMap:
     WS2012R2:
       Code: SDKCEWIN2012R2
@@ -699,8 +685,6 @@ Mappings:
       Code: SDKCEWIN2016
     WS2019:
       Code: SDKCEWIN2019
-    WS2022:
-      Code: SDKCEWIN2022
   AWSAMIRegionMap:
     ap-northeast-2:
       SDKCEWIN2012R2: ami-027b185d10edaf8ad
@@ -709,8 +693,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0c3f7f46d80fdd669
       SDKCEWIN2019: ami-062faaa8d357fb89b
       SDKCEWIN2019BYOL: ami-005f66ba7d9aad148
-      SDKCEWIN2022: ami-0134ceb40a645be4c
-      SDKCEWIN2022BYOL: ami-0a5e4fdc1d38d2a0f
     ap-south-1:
       SDKCEWIN2012R2: ami-0e210ad2e1cb206ef
       SDKCEWIN2012R2BYOL: ami-0314854fe2675f37b
@@ -718,8 +700,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-03febf94482787911
       SDKCEWIN2019: ami-0905692e934e978a6
       SDKCEWIN2019BYOL: ami-02fa941baca2f8332
-      SDKCEWIN2022: ami-0393036752447d0a0
-      SDKCEWIN2022BYOL: ami-0db7c2175af574dfc
     ap-southeast-1:
       SDKCEWIN2012R2: ami-0797051282f601f2d
       SDKCEWIN2012R2BYOL: ami-008dafcb7df5fc6f7
@@ -727,8 +707,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0545802d9d2d095dc
       SDKCEWIN2019: ami-0663b265ba328e941
       SDKCEWIN2019BYOL: ami-0495f526cbd94c5d7
-      SDKCEWIN2022: ami-0b2c896e78e02176d
-      SDKCEWIN2022BYOL: ami-0575816aed8019b5f
     ap-southeast-2:
       SDKCEWIN2012R2: ami-08d076f5af13f393c
       SDKCEWIN2012R2BYOL: ami-028c952435f6b353e
@@ -736,8 +714,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0a15d4ce3da2781e6
       SDKCEWIN2019: ami-054b6323b341b5ba3
       SDKCEWIN2019BYOL: ami-019d68463c6dbe040
-      SDKCEWIN2022: ami-050470adf98c42e87
-      SDKCEWIN2022BYOL: ami-0255467fdc30dd944
     ca-central-1:
       SDKCEWIN2012R2: ami-0b2fff802a442eea4
       SDKCEWIN2012R2BYOL: ami-06b59737d361ac0ce
@@ -745,8 +721,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-06ec062a3b36e745a
       SDKCEWIN2019: ami-0a11c5a8ea485315a
       SDKCEWIN2019BYOL: ami-0933bd0b44f1bcdf3
-      SDKCEWIN2022: ami-07557aa077faa992a
-      SDKCEWIN2022BYOL: ami-0676f14536647e958
     eu-central-1:
       SDKCEWIN2012R2: ami-033d5b83c36ce921a
       SDKCEWIN2012R2BYOL: ami-08aebb2ce57278edc
@@ -754,8 +728,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-06769da912ea34f33
       SDKCEWIN2019: ami-08b4ef188e047a0e5
       SDKCEWIN2019BYOL: ami-0b8b84ea5a0788d5d
-      SDKCEWIN2022: ami-07a99bae02fb61edb
-      SDKCEWIN2022BYOL: ami-0e52ac4be0dc32fe2
     eu-north-1:
       SDKCEWIN2012R2: ami-075609becea2619bd
       SDKCEWIN2012R2BYOL: ami-08beebe0f394beced
@@ -763,8 +735,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0c864cc7aea09b62c
       SDKCEWIN2019: ami-042e65be3fbdb0653
       SDKCEWIN2019BYOL: ami-0ffdf69fabfbe8f93
-      SDKCEWIN2022: ami-012c438b23bea6682
-      SDKCEWIN2022BYOL: ami-025d29ee379551e96
     eu-west-1:
       SDKCEWIN2012R2: ami-0a84e777b9c75427a
       SDKCEWIN2012R2BYOL: ami-00b0917c0ef507bea
@@ -772,8 +742,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-02342d1141eb71b74
       SDKCEWIN2019: ami-039c7661a8e9f2047
       SDKCEWIN2019BYOL: ami-0ec41b10cc17e1f52
-      SDKCEWIN2022: ami-0f031098f691187e2
-      SDKCEWIN2022BYOL: ami-0b5d0a8556f2c2f87
     eu-west-2:
       SDKCEWIN2012R2: ami-03b79f079f8a3e42b
       SDKCEWIN2012R2BYOL: ami-01299dfa29faba39f
@@ -781,8 +749,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-070778610eddacc86
       SDKCEWIN2019: ami-03f1b821be3258a17
       SDKCEWIN2019BYOL: ami-0d3ff5b4e0cbf652b
-      SDKCEWIN2022: ami-026800d3f740822b6
-      SDKCEWIN2022BYOL: ami-08b151a23339bf73c
     eu-west-3:
       SDKCEWIN2012R2: ami-04374760335727a0d
       SDKCEWIN2012R2BYOL: ami-08f3bae91951eb7d3
@@ -790,8 +756,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-039219ac52dcc7679
       SDKCEWIN2019: ami-059546eaf9d88af40
       SDKCEWIN2019BYOL: ami-0281c51ecfb36e2da
-      SDKCEWIN2022: ami-05ca6564785a90103
-      SDKCEWIN2022BYOL: ami-0433c54a1b524db43
     sa-east-1:
       SDKCEWIN2012R2: ami-06a20d58f2f7f4439
       SDKCEWIN2012R2BYOL: ami-03d2446bc24105e75
@@ -799,8 +763,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-073e59c8d7d66cf11
       SDKCEWIN2019: ami-0f7da045733e2438e
       SDKCEWIN2019BYOL: ami-0defa8e6e2084c38d
-      SDKCEWIN2022: ami-0a51253cde9741c59
-      SDKCEWIN2022BYOL: ami-0c9b5d70f9f09014a
     us-east-1:
       SDKCEWIN2012R2: ami-0edadd10f56b4affd
       SDKCEWIN2012R2BYOL: ami-0cb50e0e67c11bde1
@@ -808,8 +770,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0e051ecae19934ecf
       SDKCEWIN2019: ami-05ab9fcfd76cefdaa
       SDKCEWIN2019BYOL: ami-084b3815edb07da23
-      SDKCEWIN2022: ami-09040e2616d6eaf78
-      SDKCEWIN2022BYOL: ami-0475f6634fd470ef0
     us-east-2:
       SDKCEWIN2012R2: ami-0392d26b6ced314e1
       SDKCEWIN2012R2BYOL: ami-00c0dddbd2fccdbc6
@@ -817,8 +777,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-0d77aaf34b42dc68f
       SDKCEWIN2019: ami-037e166788e840fca
       SDKCEWIN2019BYOL: ami-0a3d0e1d8ca57c345
-      SDKCEWIN2022: ami-008edce691df5950e
-      SDKCEWIN2022BYOL: ami-06810cccdcd95d38d
     us-west-1:
       SDKCEWIN2012R2: ami-00fd9d875eb525a36
       SDKCEWIN2012R2BYOL: ami-0a58fd616052c5779
@@ -826,8 +784,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-024a97094d171a3e4
       SDKCEWIN2019: ami-07714a7814057c37e
       SDKCEWIN2019BYOL: ami-0618a8a99ed3e31ff
-      SDKCEWIN2022: ami-0aa8b5ba979c1c5e9
-      SDKCEWIN2022BYOL: ami-0d451c30b4415af31
     us-west-2:
       SDKCEWIN2012R2: ami-062d43d7a7f92e1e5
       SDKCEWIN2012R2BYOL: ami-0c572a4f852d72883
@@ -835,8 +791,6 @@ Mappings:
       SDKCEWIN2016BYOL: ami-061ab77e7df0a41d0
       SDKCEWIN2019: ami-050f24416877f7ec6
       SDKCEWIN2019BYOL: ami-096206a1274ee7727
-      SDKCEWIN2022: ami-05d199d2d9d8cb9af
-      SDKCEWIN2022BYOL: ami-05030895d0cbc9103
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup

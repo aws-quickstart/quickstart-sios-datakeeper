@@ -772,7 +772,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 100
-            VolumeType: gp3
+            VolumeType: gp2
       SecurityGroupIds:
         - !Ref 'DomainControllersSG'
       PrivateIpAddress: !Ref 'ADServer1PrivateIP'
