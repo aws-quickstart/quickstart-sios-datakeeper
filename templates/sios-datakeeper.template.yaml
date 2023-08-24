@@ -651,7 +651,7 @@ Conditions:
   UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
   UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
-  TwoNodeDeployment: !Equals [!Ref ThirdAZ, 'none']
+  ThirdAzIsNone: !Equals [!Ref ThirdAZ, 'none']
   ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
   ThirdAzIsFullNode: !Equals [!Ref ThirdAZ, 'full']
   NeedsWitnessNode: !And
@@ -660,6 +660,9 @@ Conditions:
   NeedsFSxWitness: !And
     - !Condition UsingAWSManagedAD
     - !Condition ThirdAzIsWitness
+  TwoNodeDeployment: !Or
+    - !Condition ThirdAzIsNone
+    - !Condition NeedsWitnessNode
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -2932,12 +2935,7 @@ Resources:
             - !If
               - TwoNodeDeployment
               - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}"'
-              - !Sub
-                - '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3Name}"'
-                - WSFCNode3Name: !If
-                  - NeedsWitnessNode
-                  - !Sub ${WSFCWitnessNetBIOSName}
-                  - !Sub ${WSFCNode3NetBIOSName}
+              - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3NetBIOSName}"'
             - ';"QSS3BucketName"='
             - !Sub '"${QSS3BucketName}"'
             - ';"QSS3BucketRegion"='
