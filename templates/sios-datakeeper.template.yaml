@@ -651,7 +651,7 @@ Conditions:
   UsingSelfManagedAD: !Equals [!Ref ActiveDirectoryId, '']
   UsingAWSManagedAD: !Not [!Equals [!Ref ActiveDirectoryId, '']]
   ByolAmiCondition: !Not [!Equals [!Ref AMIType, 'PAYG']]
-  ThirdAzIsNone: !Equals [!Ref ThirdAZ, 'none']
+  TwoNodeDeployment: !Equals [!Ref ThirdAZ, 'none']
   ThirdAzIsWitness: !Equals [!Ref ThirdAZ, 'witness']
   ThirdAzIsFullNode: !Equals [!Ref ThirdAZ, 'full']
   NeedsWitnessNode: !And
@@ -660,9 +660,6 @@ Conditions:
   NeedsFSxWitness: !And
     - !Condition UsingAWSManagedAD
     - !Condition ThirdAzIsWitness
-  TwoNodeDeployment: !Or
-    - !Condition ThirdAzIsNone
-    - !Condition NeedsWitnessNode
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Rules:
   SubnetsInVPC:
@@ -1478,13 +1475,71 @@ Resources:
             - NextStep: CreateJob
               Variable: '{{AMIType}}'
               StringEquals: PAYG
-        - name: DownloadDKCELicense
+        - name: DownloadDKCELicenseNode1
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
+              - '{{wsfcnode1InstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo:
+                !Sub
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL "{{SIOSLicenseKeyFtpURL}}"
+        - name: DownloadDKCELicenseNode2
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode2InstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo:
+                !Sub
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL "{{SIOSLicenseKeyFtpURL}}"
+        - name: ThirdAZFullBranch1
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: CreateJob
+              Variable: '{{ThirdAZ}}'
+              StringEquals: none
+            - NextStep: CreateJob
+              Variable: '{{ThirdAZ}}'
+              StringEquals: witness
+        - name: DownloadDKCELicenseNode3
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode3InstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -2935,7 +2990,12 @@ Resources:
             - !If
               - TwoNodeDeployment
               - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}"'
-              - !Sub '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3NetBIOSName}"'
+              - !Sub
+                - '"${WSFCNode1NetBIOSName}","${WSFCNode2NetBIOSName}","${WSFCNode3Name}"'
+                - WSFCNode3Name: !If
+                  - NeedsWitnessNode
+                  - !Sub ${WSFCWitnessNetBIOSName}
+                  - !Sub ${WSFCNode3NetBIOSName}
             - ';"QSS3BucketName"='
             - !Sub '"${QSS3BucketName}"'
             - ';"QSS3BucketRegion"='
