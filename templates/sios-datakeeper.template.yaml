@@ -307,7 +307,7 @@ Parameters:
       - WS2012R2
       - WS2016
       - WS2019
-    Default: WS2012R2
+    Default: WS2019
     Description: Version of Windows Server OS for cluster nodes.
     Type: String
   PrivateSubnet1CIDR:
@@ -425,9 +425,10 @@ Parameters:
     Type: Number
   Volume1Type:
     AllowedValues:
+      - gp3
       - gp2
       - io1
-    Default: gp2
+    Default: gp3
     Description: Volume type for the SQL data drive.
     Type: String
   WSFCWitnessAmiId:
@@ -686,110 +687,110 @@ Mappings:
       Code: SDKCEWIN2019
   AWSAMIRegionMap:
     ap-northeast-2:
-      SDKCEWIN2012R2: ami-06900e8a563f173ae
-      SDKCEWIN2012R2BYOL: ami-07ce0495ca8a3a2b9
-      SDKCEWIN2016: ami-09d66ac24fe9ae06d
-      SDKCEWIN2016BYOL: ami-0cb18d1a987eacd0f
-      SDKCEWIN2019: ami-0bdf04daeaced7d57
-      SDKCEWIN2019BYOL: ami-03b6d4dc60ba61f43
+      SDKCEWIN2012R2: ami-027b185d10edaf8ad
+      SDKCEWIN2012R2BYOL: ami-0fc0966a6e2caf61b
+      SDKCEWIN2016: ami-02d2dab7f9a5180ab
+      SDKCEWIN2016BYOL: ami-0c3f7f46d80fdd669
+      SDKCEWIN2019: ami-062faaa8d357fb89b
+      SDKCEWIN2019BYOL: ami-005f66ba7d9aad148
     ap-south-1:
-      SDKCEWIN2012R2: ami-0f6298649f96ca2b1
-      SDKCEWIN2012R2BYOL: ami-0aec17e30a2814fa3
-      SDKCEWIN2016: ami-07702bf89e2c277ee
-      SDKCEWIN2016BYOL: ami-0c97091964cbb9912
-      SDKCEWIN2019: ami-002c56d9c7efbccb2
-      SDKCEWIN2019BYOL: ami-0c4c95030de2702ae
+      SDKCEWIN2012R2: ami-0e210ad2e1cb206ef
+      SDKCEWIN2012R2BYOL: ami-0314854fe2675f37b
+      SDKCEWIN2016: ami-04da3fa852fb8c796
+      SDKCEWIN2016BYOL: ami-03febf94482787911
+      SDKCEWIN2019: ami-0905692e934e978a6
+      SDKCEWIN2019BYOL: ami-02fa941baca2f8332
     ap-southeast-1:
-      SDKCEWIN2012R2: ami-07f8cf83eedffa066
-      SDKCEWIN2012R2BYOL: ami-07761ad9642729485
-      SDKCEWIN2016: ami-073290dd086e19e38
-      SDKCEWIN2016BYOL: ami-093fd4ca392438bde
-      SDKCEWIN2019: ami-0756d1980fbb25249
-      SDKCEWIN2019BYOL: ami-0f434840a8b2e86d7
+      SDKCEWIN2012R2: ami-0797051282f601f2d
+      SDKCEWIN2012R2BYOL: ami-008dafcb7df5fc6f7
+      SDKCEWIN2016: ami-0f1748005d3242ddc
+      SDKCEWIN2016BYOL: ami-0545802d9d2d095dc
+      SDKCEWIN2019: ami-0663b265ba328e941
+      SDKCEWIN2019BYOL: ami-0495f526cbd94c5d7
     ap-southeast-2:
-      SDKCEWIN2012R2: ami-029edcdc554bc1eea
-      SDKCEWIN2012R2BYOL: ami-0ffcf4097909911e6
-      SDKCEWIN2016: ami-0d43260c6e07fcd9e
-      SDKCEWIN2016BYOL: ami-0e804016940ba694a
-      SDKCEWIN2019: ami-0832d840e73dee727
-      SDKCEWIN2019BYOL: ami-007481c8709f1cd1e
+      SDKCEWIN2012R2: ami-08d076f5af13f393c
+      SDKCEWIN2012R2BYOL: ami-028c952435f6b353e
+      SDKCEWIN2016: ami-0649761bc7208ffce
+      SDKCEWIN2016BYOL: ami-0a15d4ce3da2781e6
+      SDKCEWIN2019: ami-054b6323b341b5ba3
+      SDKCEWIN2019BYOL: ami-019d68463c6dbe040
     ca-central-1:
-      SDKCEWIN2012R2: ami-0e762aff7b64efd27
-      SDKCEWIN2012R2BYOL: ami-0027aba694a03fbaa
-      SDKCEWIN2016: ami-075aebccca2baaf7b
-      SDKCEWIN2016BYOL: ami-0206615596a1c3589
-      SDKCEWIN2019: ami-07700004e4e805136
-      SDKCEWIN2019BYOL: ami-03f89be8e9a9e91dd
+      SDKCEWIN2012R2: ami-0b2fff802a442eea4
+      SDKCEWIN2012R2BYOL: ami-06b59737d361ac0ce
+      SDKCEWIN2016: ami-0efd02f9f772ade84
+      SDKCEWIN2016BYOL: ami-06ec062a3b36e745a
+      SDKCEWIN2019: ami-0a11c5a8ea485315a
+      SDKCEWIN2019BYOL: ami-0933bd0b44f1bcdf3
     eu-central-1:
-      SDKCEWIN2012R2: ami-095989f6ef8efa312
-      SDKCEWIN2012R2BYOL: ami-0d37006563984e7bf
-      SDKCEWIN2016: ami-055e8150cafb922d4
-      SDKCEWIN2016BYOL: ami-0ecd9eef3815ad3fe
-      SDKCEWIN2019: ami-0f4644bb72be4b4a2
-      SDKCEWIN2019BYOL: ami-0d0c078fe8367bcd6
+      SDKCEWIN2012R2: ami-033d5b83c36ce921a
+      SDKCEWIN2012R2BYOL: ami-08aebb2ce57278edc
+      SDKCEWIN2016: ami-09618ff63efa23ade
+      SDKCEWIN2016BYOL: ami-06769da912ea34f33
+      SDKCEWIN2019: ami-08b4ef188e047a0e5
+      SDKCEWIN2019BYOL: ami-0b8b84ea5a0788d5d
     eu-north-1:
-      SDKCEWIN2012R2: ami-0e63924f98985bfdf
-      SDKCEWIN2012R2BYOL: ami-00dbfd4afed7c5ffb
-      SDKCEWIN2016: ami-026815028ba218589
-      SDKCEWIN2016BYOL: ami-0d573706cf2c4079b
-      SDKCEWIN2019: ami-0948238f399f133d1
-      SDKCEWIN2019BYOL: ami-0422792f027cebc1e
+      SDKCEWIN2012R2: ami-075609becea2619bd
+      SDKCEWIN2012R2BYOL: ami-08beebe0f394beced
+      SDKCEWIN2016: ami-02b89b9d7bee75b7d
+      SDKCEWIN2016BYOL: ami-0c864cc7aea09b62c
+      SDKCEWIN2019: ami-042e65be3fbdb0653
+      SDKCEWIN2019BYOL: ami-0ffdf69fabfbe8f93
     eu-west-1:
-      SDKCEWIN2012R2: ami-07a0598a32228f7d3
-      SDKCEWIN2012R2BYOL: ami-08b4724dab4f3ba38
-      SDKCEWIN2016: ami-04f08af03efba43e1
-      SDKCEWIN2016BYOL: ami-08f8f4fc16c161194
-      SDKCEWIN2019: ami-09915b4796a446b76
-      SDKCEWIN2019BYOL: ami-00c3c898c3d0611a4
+      SDKCEWIN2012R2: ami-0a84e777b9c75427a
+      SDKCEWIN2012R2BYOL: ami-00b0917c0ef507bea
+      SDKCEWIN2016: ami-0bbd40b3c6b951b18
+      SDKCEWIN2016BYOL: ami-02342d1141eb71b74
+      SDKCEWIN2019: ami-039c7661a8e9f2047
+      SDKCEWIN2019BYOL: ami-0ec41b10cc17e1f52
     eu-west-2:
-      SDKCEWIN2012R2: ami-071f1c23c8195a786
-      SDKCEWIN2012R2BYOL: ami-00e36959ef7e0617d
-      SDKCEWIN2016: ami-0ec21178fd7ce57e6
-      SDKCEWIN2016BYOL: ami-066d9c97fb36113ee
-      SDKCEWIN2019: ami-022fcee66865ed51e
-      SDKCEWIN2019BYOL: ami-0a960485c9815d0f8
+      SDKCEWIN2012R2: ami-03b79f079f8a3e42b
+      SDKCEWIN2012R2BYOL: ami-01299dfa29faba39f
+      SDKCEWIN2016: ami-0b79c4a44813c25b8
+      SDKCEWIN2016BYOL: ami-070778610eddacc86
+      SDKCEWIN2019: ami-03f1b821be3258a17
+      SDKCEWIN2019BYOL: ami-0d3ff5b4e0cbf652b
     eu-west-3:
-      SDKCEWIN2012R2: ami-0fa9828deac779811
-      SDKCEWIN2012R2BYOL: ami-0e59a64d5721b2397
-      SDKCEWIN2016: ami-0fbf9807ba01f6ec7
-      SDKCEWIN2016BYOL: ami-046d11058b1619a8f
-      SDKCEWIN2019: ami-0b4367819ceefddd0
-      SDKCEWIN2019BYOL: ami-0ae1e10f67257fb53
+      SDKCEWIN2012R2: ami-04374760335727a0d
+      SDKCEWIN2012R2BYOL: ami-08f3bae91951eb7d3
+      SDKCEWIN2016: ami-07852496d3aae0e6a
+      SDKCEWIN2016BYOL: ami-039219ac52dcc7679
+      SDKCEWIN2019: ami-059546eaf9d88af40
+      SDKCEWIN2019BYOL: ami-0281c51ecfb36e2da
     sa-east-1:
-      SDKCEWIN2012R2: ami-05a6b3b2e94d8b9c7
-      SDKCEWIN2012R2BYOL: ami-0155a0cfa9a02f7da
-      SDKCEWIN2016: ami-0f48dee3a3eb119da
-      SDKCEWIN2016BYOL: ami-0fd87755991359e7a
-      SDKCEWIN2019: ami-0c623e9d7f0889183
-      SDKCEWIN2019BYOL: ami-07e82a57374b8bd4b
+      SDKCEWIN2012R2: ami-06a20d58f2f7f4439
+      SDKCEWIN2012R2BYOL: ami-03d2446bc24105e75
+      SDKCEWIN2016: ami-0f502dfc7fb6127eb
+      SDKCEWIN2016BYOL: ami-073e59c8d7d66cf11
+      SDKCEWIN2019: ami-0f7da045733e2438e
+      SDKCEWIN2019BYOL: ami-0defa8e6e2084c38d
     us-east-1:
-      SDKCEWIN2012R2: ami-07f6aa3091bfeb928
-      SDKCEWIN2012R2BYOL: ami-0ebff275384135ed3
-      SDKCEWIN2016: ami-049e08b7f640e2735
-      SDKCEWIN2016BYOL: ami-0a9e50e0712dbca78
-      SDKCEWIN2019: ami-06081f4dcf2d87ee6
-      SDKCEWIN2019BYOL: ami-08026bf654cdddb63
+      SDKCEWIN2012R2: ami-0edadd10f56b4affd
+      SDKCEWIN2012R2BYOL: ami-0cb50e0e67c11bde1
+      SDKCEWIN2016: ami-0d9d5e0dfc80debfb
+      SDKCEWIN2016BYOL: ami-0e051ecae19934ecf
+      SDKCEWIN2019: ami-05ab9fcfd76cefdaa
+      SDKCEWIN2019BYOL: ami-084b3815edb07da23
     us-east-2:
-      SDKCEWIN2012R2: ami-00366254063505b43
-      SDKCEWIN2012R2BYOL: ami-044382e3b21475837
-      SDKCEWIN2016: ami-0f88a9b9f3cc3377a
-      SDKCEWIN2016BYOL: ami-098c09d54b8e9c8ba
-      SDKCEWIN2019: ami-0b9a3d410864c6ed9
-      SDKCEWIN2019BYOL: ami-0b6cffee167411bce
+      SDKCEWIN2012R2: ami-0392d26b6ced314e1
+      SDKCEWIN2012R2BYOL: ami-00c0dddbd2fccdbc6
+      SDKCEWIN2016: ami-00982f1449d2fb93b
+      SDKCEWIN2016BYOL: ami-0d77aaf34b42dc68f
+      SDKCEWIN2019: ami-037e166788e840fca
+      SDKCEWIN2019BYOL: ami-0a3d0e1d8ca57c345
     us-west-1:
-      SDKCEWIN2012R2: ami-02b9d7b282d04cc53
-      SDKCEWIN2012R2BYOL: ami-092ae131a6d5a33f8
-      SDKCEWIN2016: ami-05374d81f3ff41b49
-      SDKCEWIN2016BYOL: ami-04207612b15090934
-      SDKCEWIN2019: ami-0dfa49c85e8257650
-      SDKCEWIN2019BYOL: ami-0ce1c0b6b4e1d1e45
+      SDKCEWIN2012R2: ami-00fd9d875eb525a36
+      SDKCEWIN2012R2BYOL: ami-0a58fd616052c5779
+      SDKCEWIN2016: ami-011e13c774550e28b
+      SDKCEWIN2016BYOL: ami-024a97094d171a3e4
+      SDKCEWIN2019: ami-07714a7814057c37e
+      SDKCEWIN2019BYOL: ami-0618a8a99ed3e31ff
     us-west-2:
-      SDKCEWIN2012R2: ami-0c60961e199ac6d4e
-      SDKCEWIN2012R2BYOL: ami-0ee18ff309384e3ad
-      SDKCEWIN2016: ami-006e9dbbe8b9c9a1a
-      SDKCEWIN2016BYOL: ami-0727dcc56f59d2d83
-      SDKCEWIN2019: ami-0013adaaa78c29378
-      SDKCEWIN2019BYOL: ami-0329158b32510f09b
+      SDKCEWIN2012R2: ami-062d43d7a7f92e1e5
+      SDKCEWIN2012R2BYOL: ami-0c572a4f852d72883
+      SDKCEWIN2016: ami-0de47666d948bb685
+      SDKCEWIN2016BYOL: ami-061ab77e7df0a41d0
+      SDKCEWIN2019: ami-050f24416877f7ec6
+      SDKCEWIN2019BYOL: ami-096206a1274ee7727
 Resources:
   QuickStartLogs:
     Type: AWS::Logs::LogGroup
@@ -1474,13 +1475,71 @@ Resources:
             - NextStep: CreateJob
               Variable: '{{AMIType}}'
               StringEquals: PAYG
-        - name: DownloadDKCELicense
+        - name: DownloadDKCELicenseNode1
           action: aws:runCommand
           onFailure: step:signalfailure
           inputs:
             DocumentName: AWS-RunRemoteScript
             InstanceIds:
-              - '{{wsfcnodesInstanceId.InstanceIds}}'
+              - '{{wsfcnode1InstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo:
+                !Sub
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL "{{SIOSLicenseKeyFtpURL}}"
+        - name: DownloadDKCELicenseNode2
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode2InstanceId.InstanceIds}}'
+            CloudWatchOutputConfig:
+              CloudWatchOutputEnabled: 'true'
+              CloudWatchLogGroupName: !Ref QuickStartLogs
+            Parameters:
+              sourceType: S3
+              sourceInfo:
+                !Sub
+                  - '{"path": "https://${S3Bucket}.s3.${S3Region}.{{URLSuffix}}/{{QSS3KeyPrefix}}scripts/DownloadDKCELicense.ps1"}'
+                  - S3Bucket: !If
+                      - UsingDefaultBucket
+                      - !Sub '${QSS3BucketName}-${AWS::Region}'
+                      - !Ref QSS3BucketName
+                    S3Region: !If
+                      - UsingDefaultBucket
+                      - !Ref AWS::Region
+                      - !Ref QSS3BucketRegion
+              commandLine: ./DownloadDKCELicense.ps1 -SIOSLicenseKeyFtpURL "{{SIOSLicenseKeyFtpURL}}"
+        - name: ThirdAZFullBranch1
+          action: aws:branch
+          inputs:
+            Choices:
+            - NextStep: CreateJob
+              Variable: '{{ThirdAZ}}'
+              StringEquals: none
+            - NextStep: CreateJob
+              Variable: '{{ThirdAZ}}'
+              StringEquals: witness
+        - name: DownloadDKCELicenseNode3
+          action: aws:runCommand
+          onFailure: step:signalfailure
+          inputs:
+            DocumentName: AWS-RunRemoteScript
+            InstanceIds:
+              - '{{wsfcnode3InstanceId.InstanceIds}}'
             CloudWatchOutputConfig:
               CloudWatchOutputEnabled: 'true'
               CloudWatchLogGroupName: !Ref QuickStartLogs
@@ -2641,7 +2700,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 100
-            VolumeType: gp2
+            VolumeType: gp3
       KeyName: !Ref KeyPairName
       UserData: !Base64
         Fn::Join:
@@ -2703,7 +2762,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
@@ -2768,7 +2827,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName
@@ -2832,7 +2891,7 @@ Resources:
         - DeviceName: /dev/sda1
           Ebs:
             VolumeSize: 127
-            VolumeType: gp2
+            VolumeType: gp3
         - DeviceName: /dev/xvdca
           VirtualName: ephemeral0
       KeyName: !Ref KeyPairName

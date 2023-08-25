@@ -476,9 +476,10 @@ Parameters:
     Type: Number
   Volume1Type:
     AllowedValues:
+      - gp3
       - gp2
       - io1
-    Default: gp2
+    Default: gp3
     Description: Volume type for the SQL data drive.
     Type: String
   WSFCNode1InstanceType:
